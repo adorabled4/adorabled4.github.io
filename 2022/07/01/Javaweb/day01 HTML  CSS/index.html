@@ -19,15 +19,15 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"dhx_.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"dhx_.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="第一节 单一架构回顾我们从现在的JavaWeb阶段到后面学习SSM框架阶段都是在学习单一架构项目开发的技术。而在JavaWeb阶段由于重点是探讨如何实现Web开发，所以必须学习一部分前端开发的技术。本节就是让大家明确我们现在要学习的内容在整个架构体系中处于什么位置。 1、单一架构技术体系 2、视图层严格来说视图分成两层：  前端技术：HTML&#x2F;CSS&#x2F;JavaScript 服务">
+  <meta name="description" content="第一节 单一架构回顾我们从现在的JavaWeb阶段到后面学习SSM框架阶段都是在学习单一架构项目开发的技术。而在JavaWeb阶段由于重点是探讨如何实现Web开发，所以必须学习一部分前端开发的技术。本节就是让大家明确我们现在要学习的内容在整个架构体系中处于什么位置。 1、单一架构技术体系">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HTML&amp;CSS入门">
 <meta property="og:url" content="http://dhx_.com/2022/07/01/Javaweb/day01%20HTML%20%20CSS/index.html">
 <meta property="og:site_name" content="dhx_&#39;blog">
-<meta property="og:description" content="第一节 单一架构回顾我们从现在的JavaWeb阶段到后面学习SSM框架阶段都是在学习单一架构项目开发的技术。而在JavaWeb阶段由于重点是探讨如何实现Web开发，所以必须学习一部分前端开发的技术。本节就是让大家明确我们现在要学习的内容在整个架构体系中处于什么位置。 1、单一架构技术体系 2、视图层严格来说视图分成两层：  前端技术：HTML&#x2F;CSS&#x2F;JavaScript 服务">
+<meta property="og:description" content="第一节 单一架构回顾我们从现在的JavaWeb阶段到后面学习SSM框架阶段都是在学习单一架构项目开发的技术。而在JavaWeb阶段由于重点是探讨如何实现Web开发，所以必须学习一部分前端开发的技术。本节就是让大家明确我们现在要学习的内容在整个架构体系中处于什么位置。 1、单一架构技术体系">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://heavy_code_industry.gitee.io/code_heavy_industry/assets/img/img001.679a73a9.png">
 <meta property="og:image" content="https://heavy_code_industry.gitee.io/code_heavy_industry/assets/img/img002.9ee16606.png">
@@ -72,7 +72,7 @@
 <meta property="og:image" content="data:image/png;base64,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">
 <meta property="og:image" content="data:image/png;base64,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">
 <meta property="article:published_time" content="2022-07-01T03:11:00.000Z">
-<meta property="article:modified_time" content="2022-07-24T13:08:02.207Z">
+<meta property="article:modified_time" content="2022-07-26T07:52:28.795Z">
 <meta property="article:author" content="dhx_">
 <meta property="article:tag" content="Javaweb">
 <meta name="twitter:card" content="summary">
@@ -171,17 +171,17 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">11</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">5</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">50</span></a>
 
   </li>
   </ul>
@@ -242,7 +242,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-24 21:08:02" itemprop="dateModified" datetime="2022-07-24T21:08:02+08:00">2022-07-24</time>
+                <time title="修改时间：2022-07-26 15:52:28" itemprop="dateModified" datetime="2022-07-26T15:52:28+08:00">2022-07-26</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -267,6 +267,8 @@
       
         <h1 id="第一节-单一架构回顾"><a href="#第一节-单一架构回顾" class="headerlink" title="第一节 单一架构回顾"></a>第一节 单一架构回顾</h1><p>我们从现在的JavaWeb阶段到后面学习SSM框架阶段都是在学习单一架构项目开发的技术。而在JavaWeb阶段由于重点是探讨如何实现Web开发，所以必须学习一部分前端开发的技术。本节就是让大家明确我们现在要学习的内容在整个架构体系中处于什么位置。</p>
 <h2 id="1、单一架构技术体系"><a href="#1、单一架构技术体系" class="headerlink" title="1、单一架构技术体系"></a>1、单一架构技术体系</h2><p><img src="https://heavy_code_industry.gitee.io/code_heavy_industry/assets/img/img001.679a73a9.png" alt="./images"></p>
+<span id="more"></span>
+
 <h2 id="2、视图层"><a href="#2、视图层" class="headerlink" title="2、视图层"></a>2、视图层</h2><p>严格来说视图分成两层：</p>
 <ul>
 <li>前端技术：HTML&#x2F;CSS&#x2F;JavaScript</li>
@@ -794,7 +796,7 @@
 </div>
   <div class="links-of-author motion-element">
       <span class="links-of-author-item">
-        <a href="https://github.com/adorabled4" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;adorabled4" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+        <a href="https://github.com/adorabled4" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;adorabled4" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
       </span>
   </div>
 
@@ -826,9 +828,12 @@
   <span class="author" itemprop="copyrightHolder">dhx_</span>
 </div>
 
-<!--
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+<!--  删除底部的 由hexo 强力驱动
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>-->
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
         
 
