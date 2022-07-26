@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/cheems_sword_small.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.cat.net/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-center-circle.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"dhx_.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="1.再次学习Servlet的初始化方法 最初的做法是： 一个请求对应一个Servlet，这样存在的问题是&#x3D;&#x3D;servlet太多了&#x3D;&#x3D;  把一些列的请求都对应一个Servlet, IndexServlet&#x2F;AddServlet&#x2F;EditServlet&#x2F;DelServlet&#x2F;UpdateServlet -&gt;  合并成&#x3D;&#x3D;FruitSer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="servlet&amp;&amp;MVC">
+<meta property="og:url" content="http://dhx_.com/2022/07/07/Javaweb/day07%20day08%20Servlet-MVC-Filter/index.html">
+<meta property="og:site_name" content="dhx_&#39;blog">
+<meta property="og:description" content="1.再次学习Servlet的初始化方法 最初的做法是： 一个请求对应一个Servlet，这样存在的问题是&#x3D;&#x3D;servlet太多了&#x3D;&#x3D;  把一些列的请求都对应一个Servlet, IndexServlet&#x2F;AddServlet&#x2F;EditServlet&#x2F;DelServlet&#x2F;UpdateServlet -&gt;  合并成&#x3D;&#x3D;FruitSer">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-07T03:11:00.000Z">
+<meta property="article:modified_time" content="2022-07-24T13:08:13.987Z">
+<meta property="article:author" content="dhx_">
+<meta property="article:tag" content="Javaweb">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://dhx_.com/2022/07/07/Javaweb/day07%20day08%20Servlet-MVC-Filter/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>servlet&&MVC | dhx_'blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">dhx_'blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">一点浩然气，千里快哉风！</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dhx_.com/2022/07/07/Javaweb/day07%20day08%20Servlet-MVC-Filter/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avater.png">
+      <meta itemprop="name" content="dhx_">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dhx_'blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          servlet&&MVC
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-07-07 11:11:00" itemprop="dateCreated datePublished" datetime="2022-07-07T11:11:00+08:00">2022-07-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-07-24 21:08:13" itemprop="dateModified" datetime="2022-07-24T21:08:13+08:00">2022-07-24</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javaweb/" itemprop="url" rel="index"><span itemprop="name">javaweb</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="1-再次学习Servlet的初始化方法"><a href="#1-再次学习Servlet的初始化方法" class="headerlink" title="1.再次学习Servlet的初始化方法"></a>1.再次学习Servlet的初始化方法</h1><ul>
+<li>最初的做法是： 一个请求对应一个Servlet，这样存在的问题是&#x3D;&#x3D;servlet太多了&#x3D;&#x3D;</li>
+</ul>
+<p>把一些列的请求都对应一个<code>Servlet, IndexServlet/AddServlet/EditServlet/DelServlet/UpdateServlet</code> -&gt; </p>
+<p>合并成&#x3D;&#x3D;FruitServlet&#x3D;&#x3D;<br>通过一个operate的值来决定调用FruitServlet中的哪一个方法<br>使用的是switch-case</p>
+<p>在上一个版本中，Servlet中充斥着大量的switch-case，试想一下，随着我们的项目的业务规模扩大，那么会有很多的Servlet，也就意味着会有很多的switch-case，这是一种代码冗余</p>
+<p>因此，我们在servlet中使用了反射技术，我们规定operate的值和方法名一致，那么接收到operate的值是什么就表明我们需要调用对应的方法进行响应，如果找不到对应的方法，则抛异常</p>
+<p>在上一个版本中我们使用了反射技术，但是其实还是存在一定的问题：每一个servlet中都有类似的反射技术的代码。因此继续抽取，设计了中央控制器类：</p>
+<p>&#x3D;&#x3D;DispatcherServlet&#x3D;&#x3D;<br>DispatcherServlet这个类的工作分为两大部分：</p>
+<ol>
+<li><p>根据url定位到能够处理这个请求的controller组件：<br>  1. 从url中提取servletPath : <code>/fruit.do -&gt; fruit</code><br>  2. 根据fruit找到对应的组件:FruitController ， 这个对应的依据我们存储在applicationContext.xml中<br>         <code>&lt;bean id=&quot;fruit&quot; class=&quot;com.atguigu.fruit.controllers.FruitController/&gt;</code>通过DOM技术我们去解析XML文件，在中央控制器中形成一个beanMap容器，用来存放所有的Controller组件<br>  4. 根据获取到的operate的值定位到我们FruitController中需要调用的方法</p>
+</li>
+<li><p>调用Controller组件中的方法：</p>
+<ol>
+<li><p>获取参数<br>获取即将要调用的方法的参数签名信息: <code>Parameter[] parameters = method.getParameters();</code><br>通过parameter.getName()获取参数的名称；<br>准备了<code>Object[] parameterValues</code> 这个数组用来存放对应参数的参数值<br>另外，我们需要考虑参数的类型问题，需要做类型转化的工作。通过parameter.getType()获取参数的类型</p>
+</li>
+<li><p>执行方法<br><code>Object returnObj = method.invoke(controllerBean , parameterValues);</code></p>
+</li>
+<li><p>视图处理</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span> <span class="number">1.</span> <span class="type">String</span> <span class="variable">returnStr</span> <span class="operator">=</span> (String)returnObj;</span><br><span class="line">      <span class="keyword">if</span>(returnStr.startWith(<span class="string">&quot;redirect:&quot;</span>))&#123;</span><br><span class="line">       ....</span><br><span class="line">      &#125;<span class="keyword">else</span> <span class="keyword">if</span>..... </span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+</ol>
+<h2 id="x3D-x3D-Servlet的初始化方法-x3D-x3D"><a href="#x3D-x3D-Servlet的初始化方法-x3D-x3D" class="headerlink" title="&#x3D;&#x3D;Servlet的初始化方法&#x3D;&#x3D;"></a>&#x3D;&#x3D;Servlet的初始化方法&#x3D;&#x3D;</h2><blockquote>
+<p>Servlet生命周期：实例化、初始化、服务、销毁</p>
+</blockquote>
+<p>Servlet中的初始化方法有两个：</p>
+<p><code>init() , init(config)</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//其中带参数的方法代码如下：</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">init</span><span class="params">(ServletConfig config)</span> <span class="keyword">throws</span> ServletException &#123;</span><br><span class="line">  <span class="built_in">this</span>.config = config ;</span><br><span class="line">  init();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//另外一个无参的init方法如下：</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">init</span><span class="params">()</span> <span class="keyword">throws</span> ServletException&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>如果我们想要在Servlet初始化时做一些准备工作，那么我们可以重写init方法<br>我们可以通过如下步骤去获取初始化设置的数据</p>
+</blockquote>
+<ul>
+<li>获取config对象：ServletConfig config &#x3D; getServletConfig();</li>
+<li>获取初始化参数值： config.getInitParameter(key);</li>
+</ul>
+<p><u>在web.xml文件中配置Servlet</u></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">servlet</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>Demo01Servlet<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>com.atguigu.servlet.Demo01Servlet<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">init-param</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>hello<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>world<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">init-param</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>uname<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>jim<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>Demo01Servlet<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/demo01<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>&#x3D;&#x3D;也可以通过注解的方式进行配置&#x3D;&#x3D;：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@WebServlet(urlPatterns = &#123;&quot;/demo01&quot;&#125; ,</span></span><br><span class="line"><span class="meta"> initParams = &#123;</span></span><br><span class="line"><span class="meta">     @WebInitParam(name=&quot;hello&quot;,value=&quot;world&quot;),</span></span><br><span class="line"><span class="meta">     @WebInitParam(name=&quot;uname&quot;,value=&quot;jim&quot;)</span></span><br><span class="line"><span class="meta"> &#125;)</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="2、学习Servlet中的ServletContext和-lt-context-param-gt"><a href="#2、学习Servlet中的ServletContext和-lt-context-param-gt" class="headerlink" title="2、学习Servlet中的ServletContext和&lt;context-param&gt;"></a>2、学习Servlet中的<code>ServletContext</code>和<code>&lt;context-param&gt;</code></h1><h2 id="1、获取ServletContext"><a href="#1、获取ServletContext" class="headerlink" title="1、获取ServletContext"></a>1、获取ServletContext</h2><p>在初始化方法中： ServletContxt servletContext &#x3D; getServletContext();<br>在服务方法中也可以通过request对象获取，也可以通过session获取：<br>request.getServletContext(); session.getServletContext()</p>
+<h2 id="2、获取初始化值："><a href="#2、获取初始化值：" class="headerlink" title="2、获取初始化值："></a>2、获取初始化值：</h2><p>servletContext.getInitParameter();</p>
+<h1 id="3、什么是业务层-MVC"><a href="#3、什么是业务层-MVC" class="headerlink" title="3、什么是业务层(MVC)"></a>3、什么是业务层(MVC)</h1><ol>
+<li><p>Model1和Model2</p>
+<ul>
+<li><p>MVC : Model（模型）、View（视图）、Controller（控制器）<br>视图层：用于做数据展示以及和用户交互的一个界面<br>控制层：能够接受客户端的请求，具体的业务功能还是需要借助于模型组件来完成<br>模型层：模型分为很多种：有比较简单的pojo&#x2F;vo(value object)，有业务模型组件，有数据访问层组件</p>
+</li>
+<li><p>pojo&#x2F;vo : 值对象</p>
+<p>DAO ： 数据访问对象 (访问数据库)</p>
+<p>BO ： 业务对象</p>
+</li>
+</ul>
+</li>
+<li><p>区分业务对象和数据访问对象：</p>
+<ol>
+<li>DAO中的方法都是单精度方法或者称之为细粒度方法。什么叫单精度？一个方法只考虑一个操作，比如添加，那就是insert操作、查询那就是select操作….</li>
+<li>BO中的方法属于业务方法，也实际的业务是比较复杂的，因此业务方法的粒度是比较粗的</li>
+<li>注册这个功能属于业务功能，也就是说注册这个方法属于业务方法。那么这个业务方法中包含了多个DAO方法。也就是说注册这个业务功能需要通过多个DAO方法的组合调用，从而完成注册功能的开发。<ul>
+<li>注册：<ol>
+<li>检查用户名是否已经被注册 - DAO中的select操作</li>
+<li>向用户表新增一条新用户记录 - DAO中的insert操作</li>
+<li>向用户积分表新增一条记录（新用户默认初始化积分100分） - DAO中的insert操作</li>
+<li>向系统消息表新增一条记录（某某某新用户注册了，需要根据通讯录信息向他的联系人推送消息） - DAO中的insert操作</li>
+<li>向系统日志表新增一条记录（某用户在某IP在某年某月某日某时某分某秒某毫秒注册） - DAO中的insert操作</li>
+<li>…………</li>
+</ol>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p>在库存系统中添加业务层组件</p>
+</li>
+</ol>
+<h1 id="4、IOC"><a href="#4、IOC" class="headerlink" title="4、IOC"></a>4、IOC</h1><h2 id="1、耦合-x2F-依赖"><a href="#1、耦合-x2F-依赖" class="headerlink" title="1、耦合&#x2F;依赖"></a>1、耦合&#x2F;依赖</h2><blockquote>
+<p>依赖指的是某某某离不开某某某</p>
+</blockquote>
+<p>在软件系统中，层与层之间是存在依赖的。我们也称之为&#x3D;&#x3D;耦合&#x3D;&#x3D;。<br><u>我们系统架构或者是设计的一个原则是： 高内聚低耦合。</u><br>层内部的组成应该是高度聚合的，而层与层之间的关系应该是低耦合的，最理想的情况0耦合（就是没有耦合）</p>
+<h2 id="2、IOC-控制反转-x2F-DI-依赖注入"><a href="#2、IOC-控制反转-x2F-DI-依赖注入" class="headerlink" title="2、IOC - 控制反转 &#x2F; DI - 依赖注入"></a>2、IOC - 控制反转 &#x2F; DI - 依赖注入</h2><ul>
+<li><p>控制反转</p>
+<ol>
+<li><p>之前在Servlet中，我们创建service对象 ，<code>FruitService fruitService = new FruitServiceImpl();</code> 这句话</p>
+<ul>
+<li>如果出现在servlet中的某个方法内部，那么这个<code>fruitService</code>的作用域（生命周期）应该就是这个方法级别；</li>
+<li>如果这句话出现在servlet的类中，也就是说<code>fruitService</code>是一个成员变量，那么这个<code>fruitService</code>的作用域（生命周期）应该就是这个servlet实例级别</li>
+</ul>
+</li>
+<li><p>之后我们在applicationContext.xml中定义了这个fruitService。<br>  然后通过解析XML，产生<code>fruitService</code>实例，存放在<code>beanMap</code>中，这个<code>beanMap</code>在一个<code>BeanFactory</code>中。<br>因此，我们转移（改变）了之前的<code>service</code>实例、dao实例等等他们的生命周期。控制权从程序员转移到<code>BeanFactory</code>。这个现象我们称之为控制反转</p>
+</li>
+</ol>
+</li>
+<li><p>依赖注入</p>
+<ol>
+<li><p>之前我们在控制层出现代码：<code>FruitService fruitService = new FruitServiceImpl()；</code><br>那么，控制层和service层存在耦合。</p>
+</li>
+<li><p>之后，我们将代码修改成FruitService fruitService &#x3D; null ;<br>   然后，在配置文件中配置:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;fruit&quot;</span> <span class="attr">class</span>=<span class="string">&quot;FruitController&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;fruitService&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;fruitService&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+</ul>
+<h1 id="star-理解-star"><a href="#star-理解-star" class="headerlink" title=":star:理解:star:"></a>:star:理解:star:</h1><p>最先是DispatcherServlet （父类是<code>ViewBaseServlet extends HttpServlet    </code>） （调度器）<code>@WebServlet(&quot;*.do&quot;)</code> (会接收所有以.do结尾的请求)</p>
+<p>接收 来自浏览器的请求（默认是Get方式），</p>
+<p> :warning::warning::warning::warning::warning: 会先执行<code>init()</code>方法 初始化servlet </p>
+<blockquote>
+<p>可以在<code>init()</code>方法内执行一些准备操作，比如DispatcherServlet  的就是在这里通过初始化<code>beanFactory</code>对象，</p>
+<p><code> new ClassPathXmlApplicationContext();</code>读取&#x3D;&#x3D;applicationContext.xml&#x3D;&#x3D;的内容，方便下面直接通过<code>beanFactory</code>依据<code>servletPath</code>获取Controller</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">init</span><span class="params">()</span> <span class="keyword">throws</span> ServletException &#123;</span><br><span class="line">    <span class="built_in">super</span>.init();</span><br><span class="line">    beanFactory = <span class="keyword">new</span> <span class="title class_">ClassPathXmlApplicationContext</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此时进入Service方法:</p>
+<h3 id="Service内执行的内容"><a href="#Service内执行的内容" class="headerlink" title="Service内执行的内容"></a>Service内执行的内容</h3><ol>
+<li><p>获取operate 以及 fruit  (fruit 由 <code>/fruit.do</code>获得) </p>
+</li>
+<li><p>通过BeanFactory根据经过处理的<code>furit</code>获得FruitController对象</p>
+<p><code>Object controllerBeanObj = beanFactory.getBean(servletPath);</code>,</p>
+<ul>
+<li><p>因为通过 &#x3D;&#x3D;applicationContext.xml&#x3D;&#x3D;  的配置 ，fruit 对应 FruitController.java</p>
+</li>
+<li><p>applicationContext.xml </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;fruitDAO&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.atguigu.fruit.dao.impl.FruitDAOImpl&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;fruitService&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.atguigu.fruit.service.impl.FruitServiceImpl&quot;</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- property标签用来表示属性；name表示属性名；ref表示引用其他bean的id值(reference : 引用)--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;fruitDAO&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;fruitDAO&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;fruit&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.atguigu.fruit.controllers.FruitController&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;fruitService&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;fruitService&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>然后通过反射 <code>controllerBeanObj.getClass().getDeclaredMethods();</code> 获取 operate对应的 controller内的方法，</p>
+<blockquote>
+<p>此处注意要设置<code>method.setAccessible(true);</code></p>
+</blockquote>
+<p>另外，由于为了实现低耦合（层与层之间的关系不那么密切），fruitController 已经无法获得</p>
+<ul>
+<li><code>HttpServletRequest  request</code></li>
+<li><code>HttpServletResponse response</code></li>
+</ul>
+<p>因此 ，fruitcontroller内方法执行需要的参数必须直接在&#x3D;&#x3D;中央调度器DispatcherServlet  ：service&#x3D;&#x3D;方法内<u>&#x3D;&#x3D;直接传递具体的参数&#x3D;&#x3D;</u></p>
+<ul>
+<li><p>FruitController内的方法如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> String <span class="title function_">edit</span><span class="params">(Integer fid , HttpServletRequest request)</span></span><br><span class="line"><span class="keyword">private</span> String <span class="title function_">update</span><span class="params">(Integer fid ,String fname,Integer price,Integer fcount ,String remark )</span></span><br><span class="line"><span class="keyword">private</span> String <span class="title function_">del</span><span class="params">(Integer fid)</span></span><br><span class="line"><span class="keyword">private</span> String <span class="title function_">add</span><span class="params">(String fname , Integer price , Integer fcount , String remark )</span></span><br><span class="line"><span class="keyword">private</span> String <span class="title function_">index</span><span class="params">(String oper , String keyword , Integer pageNo , HttpServletRequest request )</span></span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>具体的参数传递的操作如下 (注意 操作执行的前提是&#x3D;&#x3D;匹配到了执行操作的方法&#x3D;&#x3D;)</p>
+<blockquote>
+<p>&#x3D;&#x3D;if(operate.equals(method.getName()))&#x3D;&#x3D;</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//if(operate.equals(method.getName()))</span></span><br><span class="line"><span class="comment">//&#123;</span></span><br><span class="line"><span class="comment">//1.统一获取请求参数</span></span><br><span class="line"><span class="comment">//1-1.获取当前方法的参数，返回参数数组</span></span><br><span class="line">Parameter[] parameters = method.getParameters();</span><br><span class="line"><span class="comment">//1-2.parameterValues 用来承载参数的值</span></span><br><span class="line">Object[] parameterValues = <span class="keyword">new</span> <span class="title class_">Object</span>[parameters.length];</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; parameters.length; i++) &#123;</span><br><span class="line">    <span class="type">Parameter</span> <span class="variable">parameter</span> <span class="operator">=</span> parameters[i];</span><br><span class="line">    <span class="type">String</span> <span class="variable">parameterName</span> <span class="operator">=</span> parameter.getName() ;</span><br><span class="line">    <span class="comment">//如果参数名是request,response,session 那么就不是通过请求中获取参数的方式了</span></span><br><span class="line">    <span class="keyword">if</span>(<span class="string">&quot;request&quot;</span>.equals(parameterName))&#123;</span><br><span class="line">        parameterValues[i] = request ;</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="string">&quot;response&quot;</span>.equals(parameterName))&#123;</span><br><span class="line">        parameterValues[i] = response ;</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="string">&quot;session&quot;</span>.equals(parameterName))&#123;</span><br><span class="line">        parameterValues[i] = request.getSession() ;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="comment">//从请求中获取参数值</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">parameterValue</span> <span class="operator">=</span> request.getParameter(parameterName);</span><br><span class="line">        <span class="type">String</span> <span class="variable">typeName</span> <span class="operator">=</span> parameter.getType().getName();</span><br><span class="line"></span><br><span class="line">        <span class="type">Object</span> <span class="variable">parameterObj</span> <span class="operator">=</span> parameterValue ;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(parameterObj!=<span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="string">&quot;java.lang.Integer&quot;</span>.equals(typeName)) &#123;</span><br><span class="line">                parameterObj = Integer.parseInt(parameterValue);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        parameterValues[i] = parameterObj ;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ol>
+<p><code>method.invoke(controllerBeanObj,parameterValues);</code>完成方法调用后，设计的 FruitController 的方法会返回需要执行的操作，</p>
+<p>​				<code>Object returnObj = method.invoke(controllerBeanObj,parameterValues);</code></p>
+<p>然后进行视图处理</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//3.视图处理</span></span><br><span class="line"><span class="type">String</span> <span class="variable">methodReturnStr</span> <span class="operator">=</span> (String)returnObj ;</span><br><span class="line"><span class="keyword">if</span>(methodReturnStr.startsWith(<span class="string">&quot;redirect:&quot;</span>))&#123;        <span class="comment">//比如：  redirect:fruit.do</span></span><br><span class="line">    <span class="type">String</span> <span class="variable">redirectStr</span> <span class="operator">=</span> methodReturnStr.substring(<span class="string">&quot;redirect:&quot;</span>.length());</span><br><span class="line">    response.sendRedirect(redirectStr);</span><br><span class="line"> <span class="comment">// 比如返回值是 redirect:fruit.do 就会 重定向，访问fruit.do （其实就是再次执行调度器的Service）</span></span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="built_in">super</span>.processTemplate(methodReturnStr,request,response);    <span class="comment">// 比如：  &quot;edit&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<p>顺序：</p>
+<ol>
+<li>DispacherServlet 的init ()  <ul>
+<li>先调用父类的init()</li>
+<li>然后<code>beanFactory = new ClassPathXmlApplicationContext();</code>通过<code>ClassPathXmlApplicationContext</code>的构造器读取&#x3D;&#x3D;applicationContext.xml&#x3D;&#x3D;配置文件，初始化<code>ClassPathXmlApplicationContext.beanMap</code></li>
+</ul>
+</li>
+<li>然后进入service 方法</li>
+<li>通过service方法执行Controller的需要操作的方法</li>
+<li>根据Controller执行的方法的返回值决定下一步</li>
+<li>继续第一步（客户端重定向） or  视图渲染（跳转页面）</li>
+</ol>
+<h1 id=""><a href="#" class="headerlink" title=""></a></h1>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Javaweb/" rel="tag"># Javaweb</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/07/05/Javaweb/day05%20thyem%20leaf/" rel="prev" title="MVC&&thymeleaf">
+      <i class="fa fa-chevron-left"></i> MVC&&thymeleaf
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/07/08/Javaweb/day08%20Filter-ThreadLocal-Listener/" rel="next" title="Filter&&Listener&&Threadlocal">
+      Filter&&Listener&&Threadlocal <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E5%86%8D%E6%AC%A1%E5%AD%A6%E4%B9%A0Servlet%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96%E6%96%B9%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">1.再次学习Servlet的初始化方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#x3D-x3D-Servlet%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96%E6%96%B9%E6%B3%95-x3D-x3D"><span class="nav-number">1.1.</span> <span class="nav-text">&#x3D;&#x3D;Servlet的初始化方法&#x3D;&#x3D;</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2%E3%80%81%E5%AD%A6%E4%B9%A0Servlet%E4%B8%AD%E7%9A%84ServletContext%E5%92%8C-lt-context-param-gt"><span class="nav-number">2.</span> <span class="nav-text">2、学习Servlet中的ServletContext和&lt;context-param&gt;</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E8%8E%B7%E5%8F%96ServletContext"><span class="nav-number">2.1.</span> <span class="nav-text">1、获取ServletContext</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81%E8%8E%B7%E5%8F%96%E5%88%9D%E5%A7%8B%E5%8C%96%E5%80%BC%EF%BC%9A"><span class="nav-number">2.2.</span> <span class="nav-text">2、获取初始化值：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AF%E4%B8%9A%E5%8A%A1%E5%B1%82-MVC"><span class="nav-number">3.</span> <span class="nav-text">3、什么是业务层(MVC)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4%E3%80%81IOC"><span class="nav-number">4.</span> <span class="nav-text">4、IOC</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E8%80%A6%E5%90%88-x2F-%E4%BE%9D%E8%B5%96"><span class="nav-number">4.1.</span> <span class="nav-text">1、耦合&#x2F;依赖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81IOC-%E6%8E%A7%E5%88%B6%E5%8F%8D%E8%BD%AC-x2F-DI-%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5"><span class="nav-number">4.2.</span> <span class="nav-text">2、IOC - 控制反转 &#x2F; DI - 依赖注入</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#star-%E7%90%86%E8%A7%A3-star"><span class="nav-number">5.</span> <span class="nav-text">:star:理解:star:</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Service%E5%86%85%E6%89%A7%E8%A1%8C%E7%9A%84%E5%86%85%E5%AE%B9"><span class="nav-number">5.0.1.</span> <span class="nav-text">Service内执行的内容</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">6.</span> <span class="nav-text"></span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="dhx_"
+      src="/images/avater.png">
+  <p class="site-author-name" itemprop="name">dhx_</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">50</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/adorabled4" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;adorabled4" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">dhx_</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>-->
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/cheems_sword_small.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.cat.net/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-center-circle.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"dhx_.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="1、Java 中浮点数的精度丢失问题以及解决方案在 Java 中写入new BigDecimal(0.1) 所创建的 BigDecimal 正好等于 0.1，但是它实际上等于 0.1000000000000000055511151231257827021181583404541015625。 Java 的浮点数只能用来进行科学计算或工程计算，在大多数的商业计算中，一般采用java.math.Big">
+<meta property="og:type" content="article">
+<meta property="og:title" content="琐碎知识点">
+<meta property="og:url" content="http://dhx_.com/2022/07/24/%E7%90%90%E7%A2%8E%E7%9F%A5%E8%AF%86%E7%82%B9/index.html">
+<meta property="og:site_name" content="dhx_&#39;blog">
+<meta property="og:description" content="1、Java 中浮点数的精度丢失问题以及解决方案在 Java 中写入new BigDecimal(0.1) 所创建的 BigDecimal 正好等于 0.1，但是它实际上等于 0.1000000000000000055511151231257827021181583404541015625。 Java 的浮点数只能用来进行科学计算或工程计算，在大多数的商业计算中，一般采用java.math.Big">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-24T05:45:39.000Z">
+<meta property="article:modified_time" content="2022-07-24T15:53:52.299Z">
+<meta property="article:author" content="dhx_">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://dhx_.com/2022/07/24/%E7%90%90%E7%A2%8E%E7%9F%A5%E8%AF%86%E7%82%B9/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>琐碎知识点 | dhx_'blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">dhx_'blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">一点浩然气，千里快哉风！</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dhx_.com/2022/07/24/%E7%90%90%E7%A2%8E%E7%9F%A5%E8%AF%86%E7%82%B9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avater.png">
+      <meta itemprop="name" content="dhx_">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dhx_'blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          琐碎知识点
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-07-24 13:45:39 / 修改时间：23:53:52" itemprop="dateCreated datePublished" datetime="2022-07-24T13:45:39+08:00">2022-07-24</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="1、Java-中浮点数的精度丢失问题以及解决方案"><a href="#1、Java-中浮点数的精度丢失问题以及解决方案" class="headerlink" title="1、Java 中浮点数的精度丢失问题以及解决方案"></a>1、<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/164568001">Java 中浮点数的精度丢失问题以及解决方案</a></h1><p>在 Java 中写入<code>new BigDecimal(0.1)</code> 所创建的 BigDecimal 正好等于 0.1，但是它实际上等于 0.1000000000000000055511151231257827021181583404541015625。</p>
+<p>Java 的浮点数只能用来进行科学计算或工程计算，在大多数的商业计算中，一般采用<strong>java.math.BigDecimal</strong> 类来进行精确计算</p>
+<span id="more"></span>
+
+<blockquote>
+<p>使用步骤：</p>
+</blockquote>
+<ol>
+<li>用 float 或者 double 变量构建 BigDecimal 对象。通常使用 BigDecimal 的构造方法或者静态方法的 valueOf() 方法把基本类型的变量构建成 BigDecimal 对象。</li>
+<li>通过调用 BigDecimal 的加，减，乘，除等相应的方法进行算术运算。</li>
+<li>把 BigDecimal 对象转换成 float，double，int 等类型。</li>
+</ol>
+<blockquote>
+<p><strong>BigDecimal 类</strong> 的构造函数：</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">BigDecimal(<span class="type">int</span> <span class="keyword">var</span>)  <span class="comment">//创建一个具有参数所指定整数值的对象。</span></span><br><span class="line">BigDecimal(<span class="type">double</span> <span class="keyword">var</span>) <span class="comment">//创建一个具有参数所指定双精度值的对象。</span></span><br><span class="line">BigDecimal(<span class="type">long</span> <span class="keyword">var</span>)  <span class="comment">//创建一个具有参数所指定长整数值的对象。</span></span><br><span class="line">BigDecimal(String <span class="keyword">var</span>) <span class="comment">//创建一个具有参数所指定以字符串表示的数值的对象。</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>BigDecimal 类</strong>的加，减，乘，除等相应的方法：</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">BigDecimal <span class="title function_">add</span><span class="params">(BigDecimal augend)</span>  <span class="comment">//加法运算</span></span><br><span class="line">BigDecimal <span class="title function_">subtract</span><span class="params">(BigDecimal subtrahend)</span> <span class="comment">//减法运算</span></span><br><span class="line">BigDecimal <span class="title function_">multiply</span><span class="params">(BigDecimal multiplicand)</span> <span class="comment">//乘法运算</span></span><br><span class="line">BigDecimal <span class="title function_">divide</span><span class="params">(BigDecimal divisor)</span> <span class="comment">//除法运算</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">testDouble</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">double</span> <span class="variable">d7</span> <span class="operator">=</span> <span class="number">303.1</span>;</span><br><span class="line">    <span class="type">double</span> <span class="variable">d8</span> <span class="operator">=</span> <span class="number">1000.0</span>;</span><br><span class="line">    <span class="type">BigDecimal</span> <span class="variable">b7</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BigDecimal</span>(Double.toString(d7));</span><br><span class="line">    <span class="type">BigDecimal</span> <span class="variable">b8</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BigDecimal</span>(Double.toString(d8));</span><br><span class="line">    System.out.println(b7.divide(b8).doubleValue());</span><br><span class="line">    <span class="comment">//0.3031</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">testToString</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">double</span> <span class="variable">d7</span> <span class="operator">=</span> <span class="number">303.1</span>;</span><br><span class="line">    <span class="type">double</span> <span class="variable">d8</span> <span class="operator">=</span> <span class="number">1000.0</span>;</span><br><span class="line">    <span class="type">BigDecimal</span> <span class="variable">b7</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BigDecimal</span>(d7);</span><br><span class="line">    <span class="type">BigDecimal</span> <span class="variable">b8</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BigDecimal</span>(d8);</span><br><span class="line">    System.out.println(b7.divide(b8).doubleValue());</span><br><span class="line">    <span class="comment">//0.30310000000000004</span></span><br><span class="line">&#125;</span><br><span class="line">										         ---<span class="number">0627</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>总结</strong></p>
+<p>（1）需要精确的表示两位小数时我们需要把他们转换为 BigDecimal 对象，然后再进行运算。<br>（2）使用 <strong>BigDecimal(double val)</strong> 构造函数时仍会存在精度丢失问题，建议使用 **BigDecimal(String val)**。																								</p>
+<h1 id="2、Java反射中getMethods-与getDeclaredMethods-区别"><a href="#2、Java反射中getMethods-与getDeclaredMethods-区别" class="headerlink" title="2、Java反射中getMethods()与getDeclaredMethods()区别"></a>2、Java反射中getMethods()与getDeclaredMethods()区别</h1><p>getMethods()获取的是所有public方法，包括：</p>
+<blockquote>
+<p>getMethods() 无法获取当前类中被声明为private的方法</p>
+</blockquote>
+<ul>
+<li>类自身声明的public方法、</li>
+<li>父类中的public方法、</li>
+<li>实现的接口方法。</li>
+</ul>
+<p>getDeclaredMethods()获取的是类中所有方法，<u>也就是源文件中有哪些方法</u>，就会获取到哪些，包括：</p>
+<ul>
+<li>类自身的方法、</li>
+<li><a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E9%87%8D%E5%86%99&spm=1001.2101.3001.7020">重写</a>的父类的方法、</li>
+<li>实现的接口方法。</li>
+</ul>
+<p>遇到的问题</p>
+<blockquote>
+<p>使用getMethods（） 方法无法获取到 Servlet中 被声明为&#x3D;&#x3D;private&#x3D;&#x3D; 的crud的方法,</p>
+<p>导致for循环遍历methods[] 无法匹配到 与operate 相同的method(), 例如 operate&#x3D;”del”  ,method(): del()</p>
+<p>出现&#x3D;&#x3D;throw new RuntimeException(“operate值非法”);&#x3D;&#x3D; 的问题</p>
+<p>将getMethods()改成 getDeclaredMethods() 即可</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">service</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> ServletException, IOException &#123;</span><br><span class="line">    <span class="comment">//设置编码</span></span><br><span class="line">    request.setCharacterEncoding(<span class="string">&quot;UTF-8&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="type">String</span> <span class="variable">operate</span> <span class="operator">=</span> request.getParameter(<span class="string">&quot;operate&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span>(StringUtil.isEmpty(operate))&#123;</span><br><span class="line">        operate = <span class="string">&quot;index&quot;</span> ;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//Method []methods=this.getClass().getMethods();</span></span><br><span class="line">    Method []methods=<span class="built_in">this</span>.getClass().getDeclaredMethods();</span><br><span class="line">。</span><br><span class="line">说白了</span><br><span class="line">    getMethods()会获取到：</span><br><span class="line">        <span class="number">1</span>、本类所有<span class="keyword">public</span>方法  （无法获取到 <span class="keyword">private</span>  ）、</span><br><span class="line">              因此  ，由于Servlet方法被声明为了<span class="keyword">private</span> ，如果使用getMethods() 是无法获取到Servlet方法的</span><br><span class="line">        <span class="number">2</span>、父类，以及父类的父类的<span class="keyword">public</span>方法</span><br><span class="line">        <span class="number">3</span>、实现的接口方法</span><br><span class="line">getDeclaredMethods()会获取到本类源码文件中所有能看到的方法   ，******************************用这个</span><br><span class="line">*/</span><br><span class="line">    <span class="keyword">for</span>(Method m:methods)</span><br><span class="line">    &#123;</span><br><span class="line">        String methodName=m.getName();</span><br><span class="line">        <span class="keyword">if</span>(methodName.equals(operate))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                m.invoke(<span class="built_in">this</span>,request,response);</span><br><span class="line">                <span class="keyword">return</span> ;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (IllegalAccessException | InvocationTargetException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(<span class="string">&quot;operate值非法&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+<h1 id="3、java-Stack-类"><a href="#3、java-Stack-类" class="headerlink" title="3、java Stack 类"></a>3、java Stack 类</h1><ul>
+<li>栈是Vector的一个子类，它实现了一个标准的后进先出的栈。</li>
+<li>堆栈只定义了默认构造函数，用来创建一个空栈。 堆栈除了包括由Vector定义的所有方法，也定义了自己的一些方法。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="left">序号</th>
+<th align="left">方法描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">1</td>
+<td align="left">boolean empty()  测试堆栈是否为空。</td>
+</tr>
+<tr>
+<td align="left">2</td>
+<td align="left">Object peek( ) 查看堆栈顶部的对象，但不从堆栈中移除它。</td>
+</tr>
+<tr>
+<td align="left">3</td>
+<td align="left">Object pop( ) 移除堆栈顶部的对象，并作为此函数的值返回该对象。</td>
+</tr>
+<tr>
+<td align="left">4</td>
+<td align="left">Object push(Object element) 把项压入堆栈顶部。</td>
+</tr>
+<tr>
+<td align="left">5</td>
+<td align="left">int search(Object element) 返回对象在堆栈中的位置，以 1 为基数。</td>
+</tr>
+</tbody></table>
+<h1 id="5、System-arraycopy"><a href="#5、System-arraycopy" class="headerlink" title="5、System.arraycopy()"></a>5、System.arraycopy()</h1><p>复制数组</p>
+<ul>
+<li>它是一个静态本地方法，由虚拟机实现，效率自然比用java一个个复制高。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">arraycopy</span><span class="params">(Object src,<span class="type">int</span> srcPos, Object dest,<span class="type">int</span> destPos, <span class="type">int</span> length)</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h3><ul>
+<li>Object src：the source array. 源数组</li>
+<li>int srcPos：starting position in the source array. 在源数组中，开始复制的位置</li>
+<li>Object dest：the destination array. 目标数组</li>
+<li>int destPos：starting position in the destination data. 在目标数组中，开始赋值的位置</li>
+<li>int length：the number of array elements to be copied. 被复制的数组元素的数量</li>
+</ul>
+<h4 id="一、深度复制和浅度复制的区别"><a href="#一、深度复制和浅度复制的区别" class="headerlink" title="一、深度复制和浅度复制的区别"></a>一、深度复制和浅度复制的区别</h4><p>​     Java数组的复制操作可以分为深度复制和浅度复制，简单来说深度复制，可以将对象的值和对象的内容复制;浅复制是指对对象引用的复制。</p>
+<h4 id="二、System-arraycopy-方法实现复制"><a href="#二、System-arraycopy-方法实现复制" class="headerlink" title="二、System.arraycopy()方法实现复制"></a>二、System.arraycopy()方法实现复制</h4><p>1、System中提供了一个native静态方法arraycopy(),可以使用这个方法来实现数组之间的复制。</p>
+<ul>
+<li><p>对于一维数组来说，这种复制属性值传递，修改副本不会影响原来的值。</p>
+</li>
+<li><p>对于二维或者一维数组中存放的是对象时，复制结果是一维的引用变量传递给副本的一维数组，修改副本时，会影响原来的数组。</p>
+</li>
+</ul>
+<blockquote>
+<p>一维数组非引用类型不会影响原来的值，</p>
+<p>二维数组或者 元素是引用类型的一维数组 复制的结果知识对对象引用的复制，会影响原来的数组</p>
+</blockquote>
+<h1 id="6、java队列（Queue）"><a href="#6、java队列（Queue）" class="headerlink" title="6、java队列（Queue）"></a>6、java队列（Queue）</h1><ul>
+<li>先进先出</li>
+</ul>
+<p>队列是一种特殊的线性表，它只允许在表的前端进行删除操作，而在表的后端进行插入操作。</p>
+<blockquote>
+<p> <strong>LinkedList类实现了Queue接口</strong>，因此我们可以把LinkedList当成Queue来用。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.LinkedList;</span><br><span class="line"><span class="keyword">import</span> java.util.Queue;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="comment">//add()和remove()方法在失败的时候会抛出异常(不推荐)</span></span><br><span class="line">        Queue&lt;String&gt; queue = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;String&gt;();</span><br><span class="line">        <span class="comment">//添加元素</span></span><br><span class="line">        queue.offer(<span class="string">&quot;a&quot;</span>);</span><br><span class="line">        queue.offer(<span class="string">&quot;b&quot;</span>);</span><br><span class="line">        queue.offer(<span class="string">&quot;c&quot;</span>);</span><br><span class="line">        queue.offer(<span class="string">&quot;d&quot;</span>);</span><br><span class="line">        queue.offer(<span class="string">&quot;e&quot;</span>);</span><br><span class="line">        <span class="keyword">for</span>(String q : queue)&#123;</span><br><span class="line">            System.out.println(q);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">&quot;===&quot;</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;poll=&quot;</span>+queue.poll()); <span class="comment">//返回第一个元素，并在队列中删除</span></span><br><span class="line">        <span class="keyword">for</span>(String q : queue)&#123;</span><br><span class="line">            System.out.println(q);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">&quot;===&quot;</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;element=&quot;</span>+queue.element()); <span class="comment">//返回第一个元素 </span></span><br><span class="line">        <span class="keyword">for</span>(String q : queue)&#123;</span><br><span class="line">            System.out.println(q);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">&quot;===&quot;</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;peek=&quot;</span>+queue.peek()); <span class="comment">//返回第一个元素 </span></span><br><span class="line">        <span class="keyword">for</span>(String q : queue)&#123;</span><br><span class="line">            System.out.println(q);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/java/" rel="tag"># java</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/07/23/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%89%91%E6%8C%87offer-%20java%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/" rel="prev" title="剑指offer java代码实现 （Buidling....）">
+      <i class="fa fa-chevron-left"></i> 剑指offer java代码实现 （Buidling....）
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/07/24/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/leetcode%E7%AC%94%E8%AE%B0/" rel="next" title="leetcode刷题笔记">
+      leetcode刷题笔记 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1%E3%80%81Java-%E4%B8%AD%E6%B5%AE%E7%82%B9%E6%95%B0%E7%9A%84%E7%B2%BE%E5%BA%A6%E4%B8%A2%E5%A4%B1%E9%97%AE%E9%A2%98%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">1.</span> <span class="nav-text">1、Java 中浮点数的精度丢失问题以及解决方案</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2%E3%80%81Java%E5%8F%8D%E5%B0%84%E4%B8%ADgetMethods-%E4%B8%8EgetDeclaredMethods-%E5%8C%BA%E5%88%AB"><span class="nav-number">2.</span> <span class="nav-text">2、Java反射中getMethods()与getDeclaredMethods()区别</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3%E3%80%81java-Stack-%E7%B1%BB"><span class="nav-number">3.</span> <span class="nav-text">3、java Stack 类</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5%E3%80%81System-arraycopy"><span class="nav-number">4.</span> <span class="nav-text">5、System.arraycopy()</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E6%95%B0"><span class="nav-number">4.0.1.</span> <span class="nav-text">参数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E6%B7%B1%E5%BA%A6%E5%A4%8D%E5%88%B6%E5%92%8C%E6%B5%85%E5%BA%A6%E5%A4%8D%E5%88%B6%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">4.0.1.1.</span> <span class="nav-text">一、深度复制和浅度复制的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8C%E3%80%81System-arraycopy-%E6%96%B9%E6%B3%95%E5%AE%9E%E7%8E%B0%E5%A4%8D%E5%88%B6"><span class="nav-number">4.0.1.2.</span> <span class="nav-text">二、System.arraycopy()方法实现复制</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6%E3%80%81java%E9%98%9F%E5%88%97%EF%BC%88Queue%EF%BC%89"><span class="nav-number">5.</span> <span class="nav-text">6、java队列（Queue）</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="dhx_"
+      src="/images/avater.png">
+  <p class="site-author-name" itemprop="name">dhx_</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">50</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/adorabled4" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;adorabled4" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">dhx_</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>-->
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

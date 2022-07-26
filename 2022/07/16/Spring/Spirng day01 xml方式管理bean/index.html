@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/cheems_sword_small.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.cat.net/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-center-circle.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"dhx_.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="spring IOC容器管理必须知道这些操作——基于XML方式Spring—IOC（控制反转）  一、IOC容器 1、什么是IOC（控制反转）  a）把对象创建和对象之间的调用过程，交给Spring进行管理  b）使用IOC目的：为了降低耦合度  2、IOC底层  a）xml解析、工厂模式、反射  3、Spring提供的IOC容器实现的两种方式（两个接口）  a）BeanFactory接口：IOC">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring IOC(1) IOC介绍&amp;基于XMl方式管理Bean">
+<meta property="og:url" content="http://dhx_.com/2022/07/16/Spring/Spirng%20day01%20xml%E6%96%B9%E5%BC%8F%E7%AE%A1%E7%90%86bean/index.html">
+<meta property="og:site_name" content="dhx_&#39;blog">
+<meta property="og:description" content="spring IOC容器管理必须知道这些操作——基于XML方式Spring—IOC（控制反转）  一、IOC容器 1、什么是IOC（控制反转）  a）把对象创建和对象之间的调用过程，交给Spring进行管理  b）使用IOC目的：为了降低耦合度  2、IOC底层  a）xml解析、工厂模式、反射  3、Spring提供的IOC容器实现的两种方式（两个接口）  a）BeanFactory接口：IOC">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//108232f78f35e5dde711c9e94782a8efce1b9d166124.jpg">
+<meta property="article:published_time" content="2022-07-16T03:00:00.000Z">
+<meta property="article:modified_time" content="2022-07-26T04:47:05.488Z">
+<meta property="article:author" content="dhx_">
+<meta property="article:tag" content="Spring">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//108232f78f35e5dde711c9e94782a8efce1b9d166124.jpg">
+
+<link rel="canonical" href="http://dhx_.com/2022/07/16/Spring/Spirng%20day01%20xml%E6%96%B9%E5%BC%8F%E7%AE%A1%E7%90%86bean/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Spring IOC(1) IOC介绍&基于XMl方式管理Bean | dhx_'blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">dhx_'blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">一点浩然气，千里快哉风！</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dhx_.com/2022/07/16/Spring/Spirng%20day01%20xml%E6%96%B9%E5%BC%8F%E7%AE%A1%E7%90%86bean/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avater.png">
+      <meta itemprop="name" content="dhx_">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dhx_'blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Spring IOC(1) IOC介绍&基于XMl方式管理Bean
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-07-16 11:00:00" itemprop="dateCreated datePublished" datetime="2022-07-16T11:00:00+08:00">2022-07-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-07-26 12:47:05" itemprop="dateModified" datetime="2022-07-26T12:47:05+08:00">2022-07-26</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Spring/" itemprop="url" rel="index"><span itemprop="name">Spring</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="spring-IOC容器管理必须知道这些操作——基于XML方式"><a href="#spring-IOC容器管理必须知道这些操作——基于XML方式" class="headerlink" title="spring IOC容器管理必须知道这些操作——基于XML方式"></a>spring IOC容器管理必须知道这些操作——基于XML方式</h1><h1 id="Spring—IOC（控制反转）"><a href="#Spring—IOC（控制反转）" class="headerlink" title="Spring—IOC（控制反转）"></a>Spring—<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=IOC&spm=1001.2101.3001.7020">IOC</a>（控制反转）</h1><p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//108232f78f35e5dde711c9e94782a8efce1b9d166124.jpg" alt="img"></p>
+<hr>
+<h1 id="一、IOC容器"><a href="#一、IOC容器" class="headerlink" title="一、IOC容器"></a>一、IOC容器</h1><p> <strong>1、什么是IOC（控制反转）</strong></p>
+<p> a）把对象创建和对象之间的调用过程，交给Spring进行管理</p>
+<p> b）使用IOC目的：为了降低<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E8%80%A6%E5%90%88%E5%BA%A6&spm=1001.2101.3001.7020">耦合度</a></p>
+<p> <strong>2、IOC底层</strong></p>
+<p> a）<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=xml&spm=1001.2101.3001.7020">xml</a>解析、工厂模式、反射</p>
+<p> <strong>3、Spring提供的IOC容器实现的两种方式（两个接口）</strong></p>
+<p> a）BeanFactory接口：IOC容器基本实现是Spring内部接口的使用接口，不提供给开发人员进行使用（加载配置文件时候不会创建对象，在获取对象时才会创建对象。）</p>
+<p> b）ApplicationContext接口：BeanFactory接口的子接口，提供更多更强大的功能，提供给开发人员使用（加载配置文件时候就会把在配置文件对象进行创建）推荐使用！</p>
+<p> <strong>4、ApplicationContext接口的实现类（具体根据API文档查看☺）</strong></p>
+<hr>
+<h1 id="二、IOC容器-Bean管理"><a href="#二、IOC容器-Bean管理" class="headerlink" title="二、IOC容器-Bean管理"></a>二、IOC容器-Bean管理</h1><h3 id="1、IOC操作Bean管理"><a href="#1、IOC操作Bean管理" class="headerlink" title="1、IOC操作Bean管理"></a><strong>1、IOC操作Bean管理</strong></h3><p> a）Bean管理就是两个操作：（1）Spring创建对象；（2）Spring注入属性</p>
+<h3 id="2、基于XML配置文件创建对象"><a href="#2、基于XML配置文件创建对象" class="headerlink" title="2、基于XML配置文件创建对象"></a><strong>2、基于XML配置文件创建对象</strong></h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--1 配置User对象创建--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;user&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.atguigu.spring5.User&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3、基于XML方式注入属性（DI：依赖注入（注入属性））"><a href="#3、基于XML方式注入属性（DI：依赖注入（注入属性））" class="headerlink" title="3、基于XML方式注入属性（DI：依赖注入（注入属性））"></a><strong>3、基于XML方式注入属性</strong>（DI：依赖注入（注入属性））</h3><h4 id="a）set方式注入"><a href="#a）set方式注入" class="headerlink" title="a）set方式注入"></a>a）set方式注入</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//（1）传统方式： 创建类，定义属性和对应的set方法</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Book</span> &#123;</span><br><span class="line">        <span class="comment">//创建属性</span></span><br><span class="line">        <span class="keyword">private</span> String bname;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//创建属性对应的set方法</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setBname</span><span class="params">(String bname)</span> &#123;</span><br><span class="line">            <span class="built_in">this</span>.bname = bname;</span><br><span class="line">        &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--（2）spring方式： set方法注入属性--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;book&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.atguigu.spring5.Book&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--使用property完成属性注入</span></span><br><span class="line"><span class="comment">        name：类里面属性名称</span></span><br><span class="line"><span class="comment">        value：向属性注入的值</span></span><br><span class="line"><span class="comment">    --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;bname&quot;</span> <span class="attr">value</span>=<span class="string">&quot;Hello&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;bauthor&quot;</span> <span class="attr">value</span>=<span class="string">&quot;World&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="b）有参构造函数注入"><a href="#b）有参构造函数注入" class="headerlink" title="b）有参构造函数注入"></a>b）有参构造函数注入</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//（1）传统方式：创建类，构建有参函数</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Orders</span> &#123;</span><br><span class="line">    <span class="comment">//属性</span></span><br><span class="line">    <span class="keyword">private</span> String oname;</span><br><span class="line">    <span class="keyword">private</span> String address;</span><br><span class="line">    <span class="comment">//有参数构造</span></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Orders</span><span class="params">(String oname,String address)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.oname = oname;</span><br><span class="line">        <span class="built_in">this</span>.address = address;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--（2）spring方式：有参数构造注入属性--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;orders&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.atguigu.spring5.Orders&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">name</span>=<span class="string">&quot;oname&quot;</span> <span class="attr">value</span>=<span class="string">&quot;Hello&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">constructor-arg</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">name</span>=<span class="string">&quot;address&quot;</span> <span class="attr">value</span>=<span class="string">&quot;China！&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">constructor-arg</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="c）p名称空间注入（了解即可）"><a href="#c）p名称空间注入（了解即可）" class="headerlink" title="c）p名称空间注入（了解即可）"></a>c）p名称空间注入（了解即可）</h4><p><u>p:要写在 <bean>标签里面</u></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--1、添加p名称空间在配置文件头部--&gt;</span></span><br><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:p</span>=<span class="string">&quot;http://www.springframework.org/schema/p&quot;</span>		&lt;!<span class="attr">--在这里添加一行p--</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--2、在bean标签进行属性注入（算是set方式注入的简化操作）--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;book&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.atguigu.spring5.Book&quot;</span> <span class="attr">p:bname</span>=<span class="string">&quot;very&quot;</span> <span class="attr">p:bauthor</span>=<span class="string">&quot;good&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4、注入空值和特殊符号"><a href="#4、注入空值和特殊符号" class="headerlink" title="4、注入空值和特殊符号"></a><strong>4、注入空值和特殊符号</strong></h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;book&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.atguigu.spring5.Book&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--（1）null值--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;address&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">null</span>/&gt;</span><span class="comment">&lt;!--属性里边添加一个null标签--&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">&lt;!--（2）特殊符号赋值--&gt;</span></span><br><span class="line">     <span class="comment">&lt;!--属性值包含特殊符号</span></span><br><span class="line"><span class="comment">       a 把&lt;&gt;进行转义 &amp;lt; &amp;gt;</span></span><br><span class="line"><span class="comment">       b 把带特殊符号内容写到CDATA</span></span><br><span class="line"><span class="comment">      --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;address&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">value</span>&gt;</span>&lt;![CDATA[&lt;&lt;南京&gt;&gt;]]&gt;<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="5、注入属性-外部bean"><a href="#5、注入属性-外部bean" class="headerlink" title="5、注入属性-外部bean"></a><strong>5、注入属性-外部bean</strong></h3><h4 id="a）创建两个类service和dao类"><a href="#a）创建两个类service和dao类" class="headerlink" title="a）创建两个类service和dao类"></a>a）创建两个类service和dao类</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserService</span> &#123;<span class="comment">//service类</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//创建UserDao类型属性，生成set方法</span></span><br><span class="line">    <span class="keyword">private</span> UserDao userDao;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setUserDao</span><span class="params">(UserDao userDao)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.userDao = userDao;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">add</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;service add...............&quot;</span>);</span><br><span class="line">        userDao.update();<span class="comment">//调用dao方法</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserDaoImpl</span> <span class="keyword">implements</span> <span class="title class_">UserDao</span> &#123;<span class="comment">//dao类</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">update</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;dao update...........&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="b）在spring配置文件中进行配置"><a href="#b）在spring配置文件中进行配置" class="headerlink" title="b）在spring配置文件中进行配置"></a>b）在spring配置文件中进行配置</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--1 service和dao对象创建--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;userService&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.atguigu.spring5.service.UserService&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--注入userDao对象</span></span><br><span class="line"><span class="comment">        name属性：类里面属性名称</span></span><br><span class="line"><span class="comment">        ref属性：创建userDao对象bean标签id值</span></span><br><span class="line"><span class="comment">    --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;userDao&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;userDaoImpl&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;userDaoImpl&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.atguigu.spring5.dao.UserDaoImpl&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="6、基于XML方式注入内部bean和级联赋值"><a href="#6、基于XML方式注入内部bean和级联赋值" class="headerlink" title="6、基于XML方式注入内部bean和级联赋值"></a><strong>6、基于XML方式注入内部bean和级联赋值</strong></h3><h4 id="a）注入属性-内部bean"><a href="#a）注入属性-内部bean" class="headerlink" title="a）注入属性-内部bean"></a>a）注入属性-内部bean</h4><blockquote>
+<p>（1）一对多关系：部门和员工<br>一个部门有多个员工，一个员工属于一个部门（部门是一，员工是多）<br>（2）在实体类之间表示一对多关系，员工表示所属部门，使用对象类型属性进行表示</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//部门类</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Dept</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> String dname;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setDname</span><span class="params">(String dname)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.dname = dname;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//员工类</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Emp</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> String ename;</span><br><span class="line">    <span class="keyword">private</span> String gender;</span><br><span class="line">    <span class="comment">//员工属于某一个部门，使用对象形式表示</span></span><br><span class="line">    <span class="keyword">private</span> Dept dept;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setDept</span><span class="params">(Dept dept)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.dept = dept;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setEname</span><span class="params">(String ename)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.ename = ename;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setGender</span><span class="params">(String gender)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.gender = gender;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>（3）在spring配置文件中配置</p>
+</blockquote>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--内部bean--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;emp&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.atguigu.spring5.bean.Emp&quot;</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--设置两个普通属性--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;ename&quot;</span> <span class="attr">value</span>=<span class="string">&quot;Andy&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;gender&quot;</span> <span class="attr">value</span>=<span class="string">&quot;女&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--设置对象类型属性--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;dept&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;dept&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.atguigu.spring5.bean.Dept&quot;</span>&gt;</span><span class="comment">&lt;!--内部bean赋值--&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;dname&quot;</span> <span class="attr">value</span>=<span class="string">&quot;宣传部门&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="b）注入属性-级联赋值"><a href="#b）注入属性-级联赋值" class="headerlink" title="b）注入属性-级联赋值"></a>b）注入属性-级联赋值</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--方式一：级联赋值--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;emp&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.atguigu.spring5.bean.Emp&quot;</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--设置两个普通属性--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;ename&quot;</span> <span class="attr">value</span>=<span class="string">&quot;Andy&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;gender&quot;</span> <span class="attr">value</span>=<span class="string">&quot;女&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--级联赋值--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;dept&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;dept&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;dept&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.atguigu.spring5.bean.Dept&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;dname&quot;</span> <span class="attr">value</span>=<span class="string">&quot;公关部门&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">1234567891011</span><br><span class="line"> //方式二：生成dept的get方法（get方法必须有！！）</span><br><span class="line">    public Dept getDept() &#123;</span><br><span class="line">        return dept;</span><br><span class="line">    &#125;</span><br><span class="line">1234</span><br><span class="line"> <span class="comment">&lt;!--级联赋值--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;emp&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.atguigu.spring5.bean.Emp&quot;</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--设置两个普通属性--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;ename&quot;</span> <span class="attr">value</span>=<span class="string">&quot;jams&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;gender&quot;</span> <span class="attr">value</span>=<span class="string">&quot;男&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--级联赋值--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;dept&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;dept&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;dept.dname&quot;</span> <span class="attr">value</span>=<span class="string">&quot;技术部门&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;dept&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.atguigu.spring5.bean.Dept&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="7、IOC-操作-Bean-管理——xml-注入集合属性"><a href="#7、IOC-操作-Bean-管理——xml-注入集合属性" class="headerlink" title="7、IOC 操作 Bean 管理——xml 注入集合属性"></a><strong>7、IOC 操作 Bean 管理——xml 注入集合属性</strong></h3><p>1、注入数组类型属性 </p>
+<p>2、注入 List 集合类型属性 </p>
+<p>3、注入 Map 集合类型属性</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//（1）创建类，定义数组、list、map、set 类型属性，生成对应 set 方法</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Stu</span> &#123;</span><br><span class="line">    <span class="comment">//1 数组类型属性</span></span><br><span class="line">    <span class="keyword">private</span> String[] courses;</span><br><span class="line">    <span class="comment">//2 list集合类型属性</span></span><br><span class="line">    <span class="keyword">private</span> List&lt;String&gt; list;</span><br><span class="line">    <span class="comment">//3 map集合类型属性</span></span><br><span class="line">    <span class="keyword">private</span> Map&lt;String,String&gt; maps;</span><br><span class="line">    <span class="comment">//4 set集合类型属性</span></span><br><span class="line">    <span class="keyword">private</span> Set&lt;String&gt; sets;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setSets</span><span class="params">(Set&lt;String&gt; sets)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.sets = sets;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setCourses</span><span class="params">(String[] courses)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.courses = courses;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setList</span><span class="params">(List&lt;String&gt; list)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.list = list;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setMaps</span><span class="params">(Map&lt;String, String&gt; maps)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.maps = maps;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="number">1234567891011121314151617181920212223</span></span><br><span class="line">&lt;!--（<span class="number">2</span>）在 spring 配置文件进行配置--&gt;</span><br><span class="line">    &lt;bean id=<span class="string">&quot;stu&quot;</span> class=<span class="string">&quot;com.atguigu.spring5.collectiontype.Stu&quot;</span>&gt;</span><br><span class="line">        &lt;!--数组类型属性注入--&gt;</span><br><span class="line">        &lt;property name=<span class="string">&quot;courses&quot;</span>&gt;</span><br><span class="line">            &lt;array&gt;</span><br><span class="line">                &lt;value&gt;java课程&lt;/value&gt;</span><br><span class="line">                &lt;value&gt;数据库课程&lt;/value&gt;</span><br><span class="line">            &lt;/array&gt;</span><br><span class="line">        &lt;/property&gt;</span><br><span class="line">        &lt;!--list类型属性注入--&gt;</span><br><span class="line">        &lt;property name=<span class="string">&quot;list&quot;</span>&gt;</span><br><span class="line">            &lt;list&gt;</span><br><span class="line">                &lt;value&gt;张三&lt;/value&gt;</span><br><span class="line">                &lt;value&gt;小三&lt;/value&gt;</span><br><span class="line">            &lt;/list&gt;</span><br><span class="line">        &lt;/property&gt;</span><br><span class="line">        &lt;!--map类型属性注入--&gt;</span><br><span class="line">        &lt;property name=<span class="string">&quot;maps&quot;</span>&gt;</span><br><span class="line">            &lt;map&gt;</span><br><span class="line">                &lt;entry key=<span class="string">&quot;JAVA&quot;</span> value=<span class="string">&quot;java&quot;</span>&gt;&lt;/entry&gt;</span><br><span class="line">                &lt;entry key=<span class="string">&quot;PHP&quot;</span> value=<span class="string">&quot;php&quot;</span>&gt;&lt;/entry&gt;</span><br><span class="line">            &lt;/map&gt;</span><br><span class="line">        &lt;/property&gt;</span><br><span class="line">        &lt;!--set类型属性注入--&gt;</span><br><span class="line">        &lt;property name=<span class="string">&quot;sets&quot;</span>&gt;</span><br><span class="line">            &lt;set&gt;</span><br><span class="line">                &lt;value&gt;MySQL&lt;/value&gt;</span><br><span class="line">                &lt;value&gt;Redis&lt;/value&gt;</span><br><span class="line">            &lt;/set&gt;</span><br><span class="line">        &lt;/property&gt;</span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="8、在集合里面设置对象类型值"><a href="#8、在集合里面设置对象类型值" class="headerlink" title="8、在集合里面设置对象类型值"></a><strong>8、在集合里面设置对象类型值</strong></h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">  <span class="comment">//学生所学多门课程</span></span><br><span class="line">    <span class="keyword">private</span> List&lt;Course&gt; courseList;<span class="comment">//创建集合</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setCourseList</span><span class="params">(List&lt;Course&gt; courseList)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.courseList = courseList;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="number">12345</span></span><br><span class="line">    &lt;!--创建多个course对象--&gt;</span><br><span class="line">    &lt;bean id=<span class="string">&quot;course1&quot;</span> class=<span class="string">&quot;com.atguigu.spring5.collectiontype.Course&quot;</span>&gt;</span><br><span class="line">        &lt;property name=<span class="string">&quot;cname&quot;</span> value=<span class="string">&quot;Spring5框架&quot;</span>&gt;&lt;/property&gt;</span><br><span class="line">    &lt;/bean&gt;</span><br><span class="line">    &lt;bean id=<span class="string">&quot;course2&quot;</span> class=<span class="string">&quot;com.atguigu.spring5.collectiontype.Course&quot;</span>&gt;</span><br><span class="line">        &lt;property name=<span class="string">&quot;cname&quot;</span> value=<span class="string">&quot;MyBatis框架&quot;</span>&gt;&lt;/property&gt;</span><br><span class="line">    &lt;/bean&gt;</span><br><span class="line">    </span><br><span class="line">   	&lt;!--注入list集合类型，值是对象--&gt;</span><br><span class="line">       &lt;property name=<span class="string">&quot;courseList&quot;</span>&gt;</span><br><span class="line">           &lt;list&gt;</span><br><span class="line">               &lt;ref bean=<span class="string">&quot;course1&quot;</span>&gt;&lt;/ref&gt;</span><br><span class="line">               &lt;ref bean=<span class="string">&quot;course2&quot;</span>&gt;&lt;/ref&gt;</span><br><span class="line">           &lt;/list&gt;</span><br><span class="line">       &lt;/property&gt;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--第一步：在 spring 配置文件中引入名称空间 util--&gt;</span></span><br><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:util</span>=<span class="string">&quot;http://www.springframework.org/schema/util&quot;</span> &lt;!<span class="attr">--添加util名称空间--</span>&gt;</span></span><br><span class="line">       xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd</span><br><span class="line">                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd&quot;&gt;  <span class="comment">&lt;!--添加util名称空间--&gt;</span></span><br><span class="line">    </span><br><span class="line"><span class="comment">&lt;!--第二步：使用 util 标签完成 list 集合注入提取--&gt;</span></span><br><span class="line"><span class="comment">&lt;!--把集合注入部分提取出来--&gt;</span></span><br><span class="line"> <span class="comment">&lt;!--1 提取list集合类型属性注入--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">util:list</span> <span class="attr">id</span>=<span class="string">&quot;bookList&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>易筋经<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>九阴真经<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>九阳神功<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">util:list</span>&gt;</span></span><br><span class="line"></span><br><span class="line"> <span class="comment">&lt;!--2 提取list集合类型属性注入使用--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;book&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.atguigu.spring5.collectiontype.Book&quot;</span> <span class="attr">scope</span>=<span class="string">&quot;prototype&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;list&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;bookList&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<p>[toc]</p>
+<p>- </p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Spring/" rel="tag"># Spring</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/07/15/%E7%90%90%E7%A2%8E%E7%9F%A5%E8%AF%86%E7%82%B9/java%E5%92%8Ccpp%E7%9A%84forEach%E5%BE%AA%E7%8E%AF%E7%9A%84%E5%8C%BA%E5%88%AB/" rel="prev" title="java和cpp的forEach循环的区别">
+      <i class="fa fa-chevron-left"></i> java和cpp的forEach循环的区别
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/07/16/Javaweb/Readme/" rel="next" title="javaweb用到的配置以及遇到的问题">
+      javaweb用到的配置以及遇到的问题 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#spring-IOC%E5%AE%B9%E5%99%A8%E7%AE%A1%E7%90%86%E5%BF%85%E9%A1%BB%E7%9F%A5%E9%81%93%E8%BF%99%E4%BA%9B%E6%93%8D%E4%BD%9C%E2%80%94%E2%80%94%E5%9F%BA%E4%BA%8EXML%E6%96%B9%E5%BC%8F"><span class="nav-number">1.</span> <span class="nav-text">spring IOC容器管理必须知道这些操作——基于XML方式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Spring%E2%80%94IOC%EF%BC%88%E6%8E%A7%E5%88%B6%E5%8F%8D%E8%BD%AC%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">Spring—IOC（控制反转）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E3%80%81IOC%E5%AE%B9%E5%99%A8"><span class="nav-number">3.</span> <span class="nav-text">一、IOC容器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E3%80%81IOC%E5%AE%B9%E5%99%A8-Bean%E7%AE%A1%E7%90%86"><span class="nav-number">4.</span> <span class="nav-text">二、IOC容器-Bean管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81IOC%E6%93%8D%E4%BD%9CBean%E7%AE%A1%E7%90%86"><span class="nav-number">4.0.1.</span> <span class="nav-text">1、IOC操作Bean管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81%E5%9F%BA%E4%BA%8EXML%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1"><span class="nav-number">4.0.2.</span> <span class="nav-text">2、基于XML配置文件创建对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E3%80%81%E5%9F%BA%E4%BA%8EXML%E6%96%B9%E5%BC%8F%E6%B3%A8%E5%85%A5%E5%B1%9E%E6%80%A7%EF%BC%88DI%EF%BC%9A%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%EF%BC%88%E6%B3%A8%E5%85%A5%E5%B1%9E%E6%80%A7%EF%BC%89%EF%BC%89"><span class="nav-number">4.0.3.</span> <span class="nav-text">3、基于XML方式注入属性（DI：依赖注入（注入属性））</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#a%EF%BC%89set%E6%96%B9%E5%BC%8F%E6%B3%A8%E5%85%A5"><span class="nav-number">4.0.3.1.</span> <span class="nav-text">a）set方式注入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#b%EF%BC%89%E6%9C%89%E5%8F%82%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E6%B3%A8%E5%85%A5"><span class="nav-number">4.0.3.2.</span> <span class="nav-text">b）有参构造函数注入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#c%EF%BC%89p%E5%90%8D%E7%A7%B0%E7%A9%BA%E9%97%B4%E6%B3%A8%E5%85%A5%EF%BC%88%E4%BA%86%E8%A7%A3%E5%8D%B3%E5%8F%AF%EF%BC%89"><span class="nav-number">4.0.3.3.</span> <span class="nav-text">c）p名称空间注入（了解即可）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E3%80%81%E6%B3%A8%E5%85%A5%E7%A9%BA%E5%80%BC%E5%92%8C%E7%89%B9%E6%AE%8A%E7%AC%A6%E5%8F%B7"><span class="nav-number">4.0.4.</span> <span class="nav-text">4、注入空值和特殊符号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5%E3%80%81%E6%B3%A8%E5%85%A5%E5%B1%9E%E6%80%A7-%E5%A4%96%E9%83%A8bean"><span class="nav-number">4.0.5.</span> <span class="nav-text">5、注入属性-外部bean</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#a%EF%BC%89%E5%88%9B%E5%BB%BA%E4%B8%A4%E4%B8%AA%E7%B1%BBservice%E5%92%8Cdao%E7%B1%BB"><span class="nav-number">4.0.5.1.</span> <span class="nav-text">a）创建两个类service和dao类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#b%EF%BC%89%E5%9C%A8spring%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E4%B8%AD%E8%BF%9B%E8%A1%8C%E9%85%8D%E7%BD%AE"><span class="nav-number">4.0.5.2.</span> <span class="nav-text">b）在spring配置文件中进行配置</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6%E3%80%81%E5%9F%BA%E4%BA%8EXML%E6%96%B9%E5%BC%8F%E6%B3%A8%E5%85%A5%E5%86%85%E9%83%A8bean%E5%92%8C%E7%BA%A7%E8%81%94%E8%B5%8B%E5%80%BC"><span class="nav-number">4.0.6.</span> <span class="nav-text">6、基于XML方式注入内部bean和级联赋值</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#a%EF%BC%89%E6%B3%A8%E5%85%A5%E5%B1%9E%E6%80%A7-%E5%86%85%E9%83%A8bean"><span class="nav-number">4.0.6.1.</span> <span class="nav-text">a）注入属性-内部bean</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#b%EF%BC%89%E6%B3%A8%E5%85%A5%E5%B1%9E%E6%80%A7-%E7%BA%A7%E8%81%94%E8%B5%8B%E5%80%BC"><span class="nav-number">4.0.6.2.</span> <span class="nav-text">b）注入属性-级联赋值</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7%E3%80%81IOC-%E6%93%8D%E4%BD%9C-Bean-%E7%AE%A1%E7%90%86%E2%80%94%E2%80%94xml-%E6%B3%A8%E5%85%A5%E9%9B%86%E5%90%88%E5%B1%9E%E6%80%A7"><span class="nav-number">4.0.7.</span> <span class="nav-text">7、IOC 操作 Bean 管理——xml 注入集合属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8%E3%80%81%E5%9C%A8%E9%9B%86%E5%90%88%E9%87%8C%E9%9D%A2%E8%AE%BE%E7%BD%AE%E5%AF%B9%E8%B1%A1%E7%B1%BB%E5%9E%8B%E5%80%BC"><span class="nav-number">4.0.8.</span> <span class="nav-text">8、在集合里面设置对象类型值</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="dhx_"
+      src="/images/avater.png">
+  <p class="site-author-name" itemprop="name">dhx_</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">50</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/adorabled4" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;adorabled4" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">dhx_</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>-->
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
