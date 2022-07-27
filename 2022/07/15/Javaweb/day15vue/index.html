@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/cheems_sword_small.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.cat.net/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-center-circle.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"dhx_.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="&amp;#123;&amp;#123;msg&amp;#125;&amp;#125;相当于innerText v-bind:attr 绑定属性值。例如，v-bind:value - 绑定value值简写：    :value v-model 双向绑定v-model:value   , 简写  v-model v-if , v-else , v-showv-if和v-else之间不能有其他的节点v-show是通过样式表disp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vue.js简介">
+<meta property="og:url" content="http://dhx_.com/2022/07/15/Javaweb/day15vue/index.html">
+<meta property="og:site_name" content="dhx_&#39;blog">
+<meta property="og:description" content="&amp;#123;&amp;#123;msg&amp;#125;&amp;#125;相当于innerText v-bind:attr 绑定属性值。例如，v-bind:value - 绑定value值简写：    :value v-model 双向绑定v-model:value   , 简写  v-model v-if , v-else , v-showv-if和v-else之间不能有其他的节点v-show是通过样式表disp">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://heavy_code_industry.gitee.io/code_heavy_industry/assets/img/img001.40fbb122.jpg">
+<meta property="og:image" content="data:image/png;base64,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">
+<meta property="og:image" content="https://heavy_code_industry.gitee.io/code_heavy_industry/assets/img/img002.6ac79f5c.png">
+<meta property="og:image" content="https://heavy_code_industry.gitee.io/code_heavy_industry/assets/img/img003.00b9a1dc.png">
+<meta property="og:image" content="https://heavy_code_industry.gitee.io/code_heavy_industry/assets/img/img004.78bf4590.png">
+<meta property="og:image" content="https://heavy_code_industry.gitee.io/code_heavy_industry/assets/img/img005.4a4da09f.png">
+<meta property="og:image" content="https://heavy_code_industry.gitee.io/code_heavy_industry/assets/img/img006.90e107f0.png">
+<meta property="og:image" content="data:image/png;base64,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">
+<meta property="og:image" content="data:image/png;base64,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">
+<meta property="og:image" content="https://heavy_code_industry.gitee.io/code_heavy_industry/assets/img/img002.6ac79f5c.png">
+<meta property="og:image" content="e:/Typora/image/01.Axios示例.png">
+<meta property="article:published_time" content="2022-07-15T03:11:00.000Z">
+<meta property="article:modified_time" content="2022-07-27T07:06:27.444Z">
+<meta property="article:author" content="dhx_">
+<meta property="article:tag" content="Javaweb">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://heavy_code_industry.gitee.io/code_heavy_industry/assets/img/img001.40fbb122.jpg">
+
+<link rel="canonical" href="http://dhx_.com/2022/07/15/Javaweb/day15vue/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>vue.js简介 | dhx_'blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">dhx_'blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">一点浩然气，千里快哉风！</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">13</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">6</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">55</span></a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dhx_.com/2022/07/15/Javaweb/day15vue/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avater.png">
+      <meta itemprop="name" content="dhx_">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dhx_'blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          vue.js简介
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-07-15 11:11:00" itemprop="dateCreated datePublished" datetime="2022-07-15T11:11:00+08:00">2022-07-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-07-27 15:06:27" itemprop="dateModified" datetime="2022-07-27T15:06:27+08:00">2022-07-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javaweb/" itemprop="url" rel="index"><span itemprop="name">javaweb</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <ol>
+<li><code>&#123;&#123;msg&#125;&#125;</code>相当于innerText</li>
+<li>v-bind:attr 绑定属性值。例如，v-bind:value - 绑定value值<br>简写：    :value</li>
+<li>v-model 双向绑定<br>v-model:value   , 简写  v-model</li>
+<li>v-if , v-else , v-show<br>v-if和v-else之间不能有其他的节点<br>v-show是通过样式表display来控制节点是否显示</li>
+<li>v-for 迭代<br>v-for&#x3D;{fruit in fruitList}</li>
+<li>v-on 绑定事件</li>
+<li>其他：<ul>
+<li>trim:去除首尾空格 , split() , join()</li>
+<li>watch表示侦听属性</li>
+<li>生命周期</li>
+</ul>
+</li>
+</ol>
+<span id="more"></span>
+
+<h1 id="第一节-Vue-js简介"><a href="#第一节-Vue-js简介" class="headerlink" title="第一节 Vue.js简介"></a>第一节 Vue.js简介</h1><h2 id="1、框架"><a href="#1、框架" class="headerlink" title="#1、框架"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse01.html#_1%E3%80%81%E6%A1%86%E6%9E%B6">#</a>1、框架</h2><p>任何编程语言在最初的时候都是没有框架的，后来随着在实际开发过程中不断总结<strong>『经验』</strong>，积累<strong>『最佳实践』</strong>，慢慢的人们发现很多<strong>『特定场景』</strong>下的<strong>『特定问题』</strong>总是可以<strong>『套用固定解决方案』</strong>。</p>
+<p>于是有人把成熟的<strong>『固定解决方案』</strong>收集起来，整合在一起，就成了<strong>『框架』</strong>。</p>
+<p>在使用框架的过程中，我们往往只需要告诉框架<strong>『做什么（声明）』</strong>，而不需要关心框架<strong>『怎么做（编程）』</strong>。</p>
+<p>对于Java程序来说，我们使用框架就是导入那些封装了<strong>『固定解决方案』</strong>的jar包，然后通过<strong>『配置文件』</strong>告诉框架做什么，就能够大大简化编码，提高开发效率。我们使用过的junit其实就是一款单元测试框架。</p>
+<p>而对于JavaScript程序来说，我们使用框架就是导入那些封装了<strong>『固定解决方案』</strong>的<strong>『js文件』</strong>，然后在框架的基础上编码。</p>
+<blockquote>
+<p>用洗衣服来类比框架：</p>
+<p>典型应用场景：洗衣服</p>
+<p>输入数据：衣服、洗衣液、水</p>
+<p>不使用框架：手洗</p>
+<p>使用框架：使用洗衣机，对人来说，只需要按键，具体操作是洗衣机完成的。人只是告诉洗衣机做什么，具体的操作是洗衣机完成的。</p>
+</blockquote>
+<p>实际开发中使用框架时，我们也主要是告诉框架要做什么，具体操作是框架完成的。</p>
+<h2 id="2、Vue-js"><a href="#2、Vue-js" class="headerlink" title="#2、Vue.js"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse01.html#_2%E3%80%81vue-js">#</a>2、Vue.js</h2><h3 id="①Vue-js的作者"><a href="#①Vue-js的作者" class="headerlink" title="#①Vue.js的作者"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse01.html#_1vue-js%E7%9A%84%E4%BD%9C%E8%80%85">#</a>①Vue.js的作者</h3><p>在为AngularJS工作之后，Vue的作者<strong>尤雨溪</strong>开Vue.js。他声称自己的思路是提取Angular中自己喜欢的部分，构建出一款相当轻量的框架。</p>
+<p><img src="https://heavy_code_industry.gitee.io/code_heavy_industry/assets/img/img001.40fbb122.jpg" alt="./images"></p>
+<p>Vue最早发布于2014年2月。作者在Hacker News、Echo JS与 Reddit的JavaScript版块发布了最早的版本。一天之内，Vue 就登上了这三个网站的首页。</p>
+<p>Vue是Github上最受欢迎的开源项目之一。同时，在JavaScript框架&#x2F;函数库中， Vue所获得的星标数已超过React，并高于Backbone.js、Angular 2、jQuery等项目。</p>
+<h3 id="②Vue-js的官网介绍"><a href="#②Vue-js的官网介绍" class="headerlink" title="#②Vue.js的官网介绍"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse01.html#_2vue-js%E7%9A%84%E5%AE%98%E7%BD%91%E4%BB%8B%E7%BB%8D">#</a>②Vue.js的官网介绍</h3><p>Vue (读音 &#x2F;vjuː&#x2F;，类似于<strong>view</strong>) 是一套用于构建用户界面的<strong>渐进式框架</strong>。与其它大型框架不同的是，Vue 被设计为可以自底向上逐层应用。Vue 的核心库只关注视图层，不仅易于上手，还便于与第三方库或既有项目整合。另一方面，当与<a target="_blank" rel="noopener" href="https://cn.vuejs.org/v2/guide/single-file-components.html">现代化的工具链 (opens new window)</a>以及各种<a target="_blank" rel="noopener" href="https://github.com/vuejs/awesome-vue#libraries--plugins">支持类库 (opens new window)</a>结合使用时，Vue 也完全能够为复杂的单页应用提供驱动。</p>
+<p><a target="_blank" rel="noopener" href="https://cn.vuejs.org/">Vue.js官网网址</a></p>
+<h1 id="第二节-准备Vue-js环境"><a href="#第二节-准备Vue-js环境" class="headerlink" title="第二节 准备Vue.js环境"></a>第二节 准备Vue.js环境</h1><h2 id="1、开发中的最佳实践"><a href="#1、开发中的最佳实践" class="headerlink" title="#1、开发中的最佳实践"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse02.html#_1%E3%80%81%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5">#</a>1、开发中的最佳实践</h2><p>『最佳实践』是实际开发中，针对特定问题提炼出来的最好的解决方案。把『最佳实践』抽取出来，封装到各自编程语言的程序包中，就是框架的基础。</p>
+<ul>
+<li>Java语言的程序包：jar包</li>
+<li>JavaScript语言的程序包：外部js文件</li>
+</ul>
+<p>对于Java程序来说，框架&#x3D;jar包+配置文件。对于Vue来说，导入<strong>Vue的外部js文件</strong>就能够使用Vue框架了。</p>
+<h2 id="2、Vue框架的js文件获取"><a href="#2、Vue框架的js文件获取" class="headerlink" title="#2、Vue框架的js文件获取"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse02.html#_2%E3%80%81vue%E6%A1%86%E6%9E%B6%E7%9A%84js%E6%96%87%E4%BB%B6%E8%8E%B7%E5%8F%96">#</a>2、Vue框架的js文件获取</h2><p>官网提供的下载地址：<a target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/npm/vue/dist/vue.js">https://cdn.jsdelivr.net/npm/vue/dist/vue.js</a></p>
+<h2 id="3、本地创建vue-js文件"><a href="#3、本地创建vue-js文件" class="headerlink" title="#3、本地创建vue.js文件"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse02.html#_3%E3%80%81%E6%9C%AC%E5%9C%B0%E5%88%9B%E5%BB%BAvue-js%E6%96%87%E4%BB%B6">#</a>3、本地创建vue.js文件</h2><p>第一步：在HBuilderX中创建工程</p>
+<p>第二步：在工程目录下创建script目录用来存放vue.js文件</p>
+<p>第三步：创建空vue.js文件</p>
+<p><img src="data:image/png;base64,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" alt="./images"></p>
+<p>第四步：将官网提供的vue.js文件的内容复制粘贴到本地vue.js文件中</p>
+<h2 id="4、创建HTML文档并引入vue-js"><a href="#4、创建HTML文档并引入vue-js" class="headerlink" title="#4、创建HTML文档并引入vue.js"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse02.html#_4%E3%80%81%E5%88%9B%E5%BB%BAhtml%E6%96%87%E6%A1%A3%E5%B9%B6%E5%BC%95%E5%85%A5vue-js">#</a>4、创建HTML文档并引入vue.js</h2><p><img src="https://heavy_code_industry.gitee.io/code_heavy_industry/assets/img/img002.6ac79f5c.png" alt="./images"></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;utf-8&quot;</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;/pro03-vue/script/vue.js&quot;</span> <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span> <span class="attr">charset</span>=<span class="string">&quot;utf-8&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span>&gt;</span></span><br><span class="line">		</span><br><span class="line">	<span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="第三节-Vue-js基本语法：声明式渲染"><a href="#第三节-Vue-js基本语法：声明式渲染" class="headerlink" title="第三节 Vue.js基本语法：声明式渲染"></a>第三节 Vue.js基本语法：声明式渲染</h1><h2 id="1、概念"><a href="#1、概念" class="headerlink" title="#1、概念"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse03.html#_1%E3%80%81%E6%A6%82%E5%BF%B5">#</a>1、概念</h2><h3 id="①声明式"><a href="#①声明式" class="headerlink" title="#①声明式"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse03.html#_1%E5%A3%B0%E6%98%8E%E5%BC%8F">#</a>①声明式</h3><p><strong>『声明式』</strong>是相对于<strong>『编程式』</strong>而言的。</p>
+<ul>
+<li>声明式：告诉框架做什么，具体操作由框架完成</li>
+<li>编程式：自己编写代码完成具体操作</li>
+</ul>
+<h3 id="②渲染"><a href="#②渲染" class="headerlink" title="#②渲染"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse03.html#_2%E6%B8%B2%E6%9F%93">#</a>②渲染</h3><p><img src="https://heavy_code_industry.gitee.io/code_heavy_industry/assets/img/img003.00b9a1dc.png" alt="./images"></p>
+<p>上图含义解释：</p>
+<ul>
+<li>蓝色方框：HTML标签</li>
+<li>红色圆形：动态、尚未确定的数据</li>
+<li>蓝色圆形：经过程序运算以后，计算得到的具体的，可以直接在页面上显示的数据、</li>
+<li>渲染：程序计算动态数据得到具体数据的过程</li>
+</ul>
+<h2 id="2、demo"><a href="#2、demo" class="headerlink" title="#2、demo"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse03.html#_2%E3%80%81demo">#</a>2、demo</h2><h3 id="①HTML代码"><a href="#①HTML代码" class="headerlink" title="#①HTML代码"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse03.html#_1html%E4%BB%A3%E7%A0%81">#</a>①HTML代码</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 使用&#123;&#123;&#125;&#125;格式，指定要被渲染的数据 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app&quot;</span>&gt;</span>&#123;&#123;message&#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>1<br>2</p>
+<h3 id="②vue代码"><a href="#②vue代码" class="headerlink" title="#②vue代码"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse03.html#_2vue%E4%BB%A3%E7%A0%81">#</a>②vue代码</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1.创建一个JSON对象，作为new Vue时要使用的参数</span></span><br><span class="line"><span class="keyword">var</span> argumentJson = &#123;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// el用于指定Vue对象要关联的HTML元素。el就是element的缩写</span></span><br><span class="line">	<span class="comment">// 通过id属性值指定HTML元素时，语法格式是：#id</span></span><br><span class="line">	<span class="string">&quot;el&quot;</span>:<span class="string">&quot;#app&quot;</span>,</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// data属性设置了Vue对象中保存的数据</span></span><br><span class="line">	<span class="string">&quot;data&quot;</span>:&#123;</span><br><span class="line">		<span class="string">&quot;message&quot;</span>:<span class="string">&quot;Hello Vue!&quot;</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2.创建Vue对象，传入上面准备好的参数</span></span><br><span class="line"><span class="keyword">var</span> app = <span class="keyword">new</span> <span class="title class_">Vue</span>(argumentJson);</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="https://heavy_code_industry.gitee.io/code_heavy_industry/assets/img/img004.78bf4590.png" alt="./images"></p>
+<h2 id="3、查看声明式渲染的响应式效果"><a href="#3、查看声明式渲染的响应式效果" class="headerlink" title="#3、查看声明式渲染的响应式效果"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse03.html#_3%E3%80%81%E6%9F%A5%E7%9C%8B%E5%A3%B0%E6%98%8E%E5%BC%8F%E6%B8%B2%E6%9F%93%E7%9A%84%E5%93%8D%E5%BA%94%E5%BC%8F%E6%95%88%E6%9E%9C">#</a>3、查看声明式渲染的响应式效果</h2><p><img src="https://heavy_code_industry.gitee.io/code_heavy_industry/assets/img/img005.4a4da09f.png" alt="./images"></p>
+<p>通过验证Vue对象的『响应式』效果，我们看到Vue对象和页面上的HTML标签确实是始终保持着关联的关系，同时看到Vue在背后确实是做了大量的工作。</p>
+<h1 id="第四节-Vue-js基本语法：绑定元素属性"><a href="#第四节-Vue-js基本语法：绑定元素属性" class="headerlink" title="第四节 Vue.js基本语法：绑定元素属性"></a>第四节 Vue.js基本语法：绑定元素属性</h1><h2 id="1、基本语法"><a href="#1、基本语法" class="headerlink" title="#1、基本语法"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse04.html#_1%E3%80%81%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95">#</a>1、基本语法</h2><p>v-bind:HTML标签的原始属性名</p>
+<h2 id="2、demo-1"><a href="#2、demo-1" class="headerlink" title="#2、demo"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse04.html#_2%E3%80%81demo">#</a>2、demo</h2><h3 id="①HTML代码-1"><a href="#①HTML代码-1" class="headerlink" title="#①HTML代码"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse04.html#_1html%E4%BB%A3%E7%A0%81">#</a>①HTML代码</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app&quot;</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- v-bind:value表示将value属性交给Vue来进行管理，也就是绑定到Vue对象 --&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- vueValue是一个用来渲染属性值的表达式，相当于标签体中加&#123;&#123;&#125;&#125;的表达式 --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">v-bind:value</span>=<span class="string">&quot;vueValue&quot;</span> /&gt;</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment">&lt;!-- 同样的表达式，在标签体内通过&#123;&#123;&#125;&#125;告诉Vue这里需要渲染； --&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- 在HTML标签的属性中，通过v-bind:属性名=&quot;表达式&quot;的方式告诉Vue这里要渲染 --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">p</span>&gt;</span>&#123;&#123;vueValue&#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="②Vue代码"><a href="#②Vue代码" class="headerlink" title="#②Vue代码"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse04.html#_2vue%E4%BB%A3%E7%A0%81">#</a>②Vue代码</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建Vue对象，挂载#app这个div标签</span></span><br><span class="line"><span class="keyword">var</span> app = <span class="keyword">new</span> <span class="title class_">Vue</span>(&#123;</span><br><span class="line">	<span class="string">&quot;el&quot;</span>:<span class="string">&quot;#app&quot;</span>,</span><br><span class="line">	<span class="string">&quot;data&quot;</span>:&#123;</span><br><span class="line">		<span class="string">&quot;vueValue&quot;</span>:<span class="string">&quot;太阳当空照&quot;</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="3、小结"><a href="#3、小结" class="headerlink" title="#3、小结"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse04.html#_3%E3%80%81%E5%B0%8F%E7%BB%93">#</a>3、小结</h2><p>本质上，v-bind:属性名&#x3D;”表达式”它们都是<strong>用Vue对象来渲染页面</strong>。只不过：</p>
+<ul>
+<li>文本标签体：使用形式</li>
+<li>属性：使用v-bind:属性名&#x3D;”表达式”形式</li>
+</ul>
+<h1 id="第五节-Vue-js基本语法：双向数据绑定"><a href="#第五节-Vue-js基本语法：双向数据绑定" class="headerlink" title="第五节 Vue.js基本语法：双向数据绑定"></a>第五节 Vue.js基本语法：双向数据绑定</h1><h2 id="1、提出问题"><a href="#1、提出问题" class="headerlink" title="#1、提出问题"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse05.html#_1%E3%80%81%E6%8F%90%E5%87%BA%E9%97%AE%E9%A2%98">#</a>1、提出问题</h2><p><img src="https://heavy_code_industry.gitee.io/code_heavy_industry/assets/img/img006.90e107f0.png" alt="./images"></p>
+<p>而使用了双向绑定后，就可以实现：页面上数据被修改后，Vue对象中的数据属性也跟着被修改。</p>
+<h2 id="2、demo-2"><a href="#2、demo-2" class="headerlink" title="#2、demo"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse05.html#_2%E3%80%81demo">#</a>2、demo</h2><h3 id="①HTML代码-2"><a href="#①HTML代码-2" class="headerlink" title="#①HTML代码"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse05.html#_1html%E4%BB%A3%E7%A0%81">#</a>①HTML代码</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app&quot;</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- v-bind:属性名 效果是从Vue对象渲染到页面 --&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- v-model:属性名 效果不仅是从Vue对象渲染到页面，而且能够在页面上数据修改后反向修改Vue对象中的数据属性 --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">v-model:value</span>=<span class="string">&quot;vueValue&quot;</span> /&gt;</span></span><br><span class="line">	</span><br><span class="line">	<span class="tag">&lt;<span class="name">p</span>&gt;</span>&#123;&#123;vueValue&#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="②Vue代码-1"><a href="#②Vue代码-1" class="headerlink" title="#②Vue代码"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse05.html#_2vue%E4%BB%A3%E7%A0%81">#</a>②Vue代码</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建Vue对象，挂载#app这个div标签</span></span><br><span class="line"><span class="keyword">var</span> app = <span class="keyword">new</span> <span class="title class_">Vue</span>(&#123;</span><br><span class="line">	<span class="string">&quot;el&quot;</span>:<span class="string">&quot;#app&quot;</span>,</span><br><span class="line">	<span class="string">&quot;data&quot;</span>:&#123;</span><br><span class="line">		<span class="string">&quot;vueValue&quot;</span>:<span class="string">&quot;太阳当空照&quot;</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="③页面效果"><a href="#③页面效果" class="headerlink" title="#③页面效果"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse05.html#_3%E9%A1%B5%E9%9D%A2%E6%95%88%E6%9E%9C">#</a>③页面效果</h3><p>p标签内的数据能够和文本框中的数据实现同步修改：</p>
+<p><img src="data:image/png;base64,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" alt="./images"></p>
+<h2 id="3、去除前后空格"><a href="#3、去除前后空格" class="headerlink" title="#3、去除前后空格"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse05.html#_3%E3%80%81%E5%8E%BB%E9%99%A4%E5%89%8D%E5%90%8E%E7%A9%BA%E6%A0%BC">#</a>3、去除前后空格</h2><h3 id="①-value可以省略"><a href="#①-value可以省略" class="headerlink" title="#①:value可以省略"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse05.html#_1-value%E5%8F%AF%E4%BB%A5%E7%9C%81%E7%95%A5">#</a>①:value可以省略</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">v-model</span>=<span class="string">&quot;vueValue&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="②-trim修饰符"><a href="#②-trim修饰符" class="headerlink" title="#②.trim修饰符"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse05.html#_2-trim%E4%BF%AE%E9%A5%B0%E7%AC%A6">#</a>②.trim修饰符</h3><p>实际开发中，要考虑到用户在输入数据时，有可能会包含前后空格。而这些前后的空格对我们程序运行来说都是干扰因素，要去掉。在v-model后面加上.trim修饰符即可实现。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">v-model.trim</span>=<span class="string">&quot;vueValue&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>Vue会帮助我们在文本框失去焦点时自动去除前后空格。</p>
+<h1 id="第六节-Vue-js基本语法：条件渲染"><a href="#第六节-Vue-js基本语法：条件渲染" class="headerlink" title="第六节 Vue.js基本语法：条件渲染"></a>第六节 Vue.js基本语法：条件渲染</h1><p>根据Vue对象中，数据属性的值来判断是否对HTML页面内容进行渲染。</p>
+<h2 id="1、v-if"><a href="#1、v-if" class="headerlink" title="#1、v-if"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse06.html#_1%E3%80%81v-if">#</a>1、v-if</h2><blockquote>
+<p>if 和 else 之间不能有其他的标签</p>
+</blockquote>
+<h3 id="①HTML代码-3"><a href="#①HTML代码-3" class="headerlink" title="#①HTML代码"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse06.html#_1html%E4%BB%A3%E7%A0%81">#</a>①HTML代码</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">h3</span>&gt;</span>if<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">img</span> <span class="attr">v-if</span>=<span class="string">&quot;flag&quot;</span> <span class="attr">src</span>=<span class="string">&quot;/pro03-vue/./images/one.jpg&quot;</span> /&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">img</span> <span class="attr">v-if</span>=<span class="string">&quot;!flag&quot;</span> <span class="attr">src</span>=<span class="string">&quot;/pro03-vue/./images/two.jpg&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="②Vue代码-2"><a href="#②Vue代码-2" class="headerlink" title="#②Vue代码"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse06.html#_2vue%E4%BB%A3%E7%A0%81">#</a>②Vue代码</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> app = <span class="keyword">new</span> <span class="title class_">Vue</span>(&#123;</span><br><span class="line">	<span class="string">&quot;el&quot;</span>:<span class="string">&quot;#app&quot;</span>,</span><br><span class="line">	<span class="string">&quot;data&quot;</span>:&#123;</span><br><span class="line">		<span class="string">&quot;flag&quot;</span>:<span class="literal">true</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="2、v-if和v-else"><a href="#2、v-if和v-else" class="headerlink" title="#2、v-if和v-else"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse06.html#_2%E3%80%81v-if%E5%92%8Cv-else">#</a>2、v-if和v-else</h2><h3 id="①HTML代码-4"><a href="#①HTML代码-4" class="headerlink" title="#①HTML代码"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse06.html#_1html%E4%BB%A3%E7%A0%81-2">#</a>①HTML代码</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app02&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">h3</span>&gt;</span>if/else<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">img</span> <span class="attr">v-if</span>=<span class="string">&quot;flag&quot;</span> <span class="attr">src</span>=<span class="string">&quot;/pro03-vue/./images/one.jpg&quot;</span> /&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">img</span> <span class="attr">v-else</span>=<span class="string">&quot;flag&quot;</span> <span class="attr">src</span>=<span class="string">&quot;/pro03-vue/./images/two.jpg&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="②Vue代码-3"><a href="#②Vue代码-3" class="headerlink" title="#②Vue代码"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse06.html#_2vue%E4%BB%A3%E7%A0%81-2">#</a>②Vue代码</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> app02 = <span class="keyword">new</span> <span class="title class_">Vue</span>(&#123;</span><br><span class="line">	<span class="string">&quot;el&quot;</span>:<span class="string">&quot;#app02&quot;</span>,</span><br><span class="line">	<span class="string">&quot;data&quot;</span>:&#123;</span><br><span class="line">		<span class="string">&quot;flag&quot;</span>:<span class="literal">true</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="3、v-show"><a href="#3、v-show" class="headerlink" title="#3、v-show"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse06.html#_3%E3%80%81v-show">#</a>3、v-show</h2><h3 id="①HTML代码-5"><a href="#①HTML代码-5" class="headerlink" title="#①HTML代码"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse06.html#_1html%E4%BB%A3%E7%A0%81-3">#</a>①HTML代码</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app03&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">h3</span>&gt;</span>v-show<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">img</span> <span class="attr">v-show</span>=<span class="string">&quot;flag&quot;</span> <span class="attr">src</span>=<span class="string">&quot;/pro03-vue/./images/mi.jpg&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="②Vue代码-4"><a href="#②Vue代码-4" class="headerlink" title="#②Vue代码"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse06.html#_2vue%E4%BB%A3%E7%A0%81-3">#</a>②Vue代码</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> app03 = <span class="keyword">new</span> <span class="title class_">Vue</span>(&#123;</span><br><span class="line">	<span class="string">&quot;el&quot;</span>:<span class="string">&quot;#app03&quot;</span>,</span><br><span class="line">	<span class="string">&quot;data&quot;</span>:&#123;</span><br><span class="line">		<span class="string">&quot;flag&quot;</span>:<span class="literal">true</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="第二节-准备Vue-js环境-1"><a href="#第二节-准备Vue-js环境-1" class="headerlink" title="第二节 准备Vue.js环境"></a>第二节 准备Vue.js环境</h1><h2 id="1、开发中的最佳实践-1"><a href="#1、开发中的最佳实践-1" class="headerlink" title="#1、开发中的最佳实践"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse02.html#_1%E3%80%81%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5">#</a>1、开发中的最佳实践</h2><p>『最佳实践』是实际开发中，针对特定问题提炼出来的最好的解决方案。把『最佳实践』抽取出来，封装到各自编程语言的程序包中，就是框架的基础。</p>
+<ul>
+<li>Java语言的程序包：jar包</li>
+<li>JavaScript语言的程序包：外部js文件</li>
+</ul>
+<p>对于Java程序来说，框架&#x3D;jar包+配置文件。对于Vue来说，导入<strong>Vue的外部js文件</strong>就能够使用Vue框架了。</p>
+<h2 id="2、Vue框架的js文件获取-1"><a href="#2、Vue框架的js文件获取-1" class="headerlink" title="#2、Vue框架的js文件获取"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse02.html#_2%E3%80%81vue%E6%A1%86%E6%9E%B6%E7%9A%84js%E6%96%87%E4%BB%B6%E8%8E%B7%E5%8F%96">#</a>2、Vue框架的js文件获取</h2><p>官网提供的下载地址：<a target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/npm/vue/dist/vue.js">https://cdn.jsdelivr.net/npm/vue/dist/vue.js</a></p>
+<h2 id="3、本地创建vue-js文件-1"><a href="#3、本地创建vue-js文件-1" class="headerlink" title="#3、本地创建vue.js文件"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse02.html#_3%E3%80%81%E6%9C%AC%E5%9C%B0%E5%88%9B%E5%BB%BAvue-js%E6%96%87%E4%BB%B6">#</a>3、本地创建vue.js文件</h2><p>第一步：在HBuilderX中创建工程</p>
+<p>第二步：在工程目录下创建script目录用来存放vue.js文件</p>
+<p>第三步：创建空vue.js文件</p>
+<p><img src="data:image/png;base64,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" alt="./images"></p>
+<p>第四步：将官网提供的vue.js文件的内容复制粘贴到本地vue.js文件中</p>
+<h2 id="4、创建HTML文档并引入vue-js-1"><a href="#4、创建HTML文档并引入vue-js-1" class="headerlink" title="#4、创建HTML文档并引入vue.js"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse02.html#_4%E3%80%81%E5%88%9B%E5%BB%BAhtml%E6%96%87%E6%A1%A3%E5%B9%B6%E5%BC%95%E5%85%A5vue-js">#</a>4、创建HTML文档并引入vue.js</h2><p><img src="https://heavy_code_industry.gitee.io/code_heavy_industry/assets/img/img002.6ac79f5c.png" alt="./images"></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;utf-8&quot;</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;/pro03-vue/script/vue.js&quot;</span> <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span> <span class="attr">charset</span>=<span class="string">&quot;utf-8&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span>&gt;</span></span><br><span class="line">		</span><br><span class="line">	<span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="第八节-Vue-js基本语法：事件驱动"><a href="#第八节-Vue-js基本语法：事件驱动" class="headerlink" title="第八节 Vue.js基本语法：事件驱动"></a>第八节 Vue.js基本语法：事件驱动</h1><h2 id="1、demo：字符串顺序反转"><a href="#1、demo：字符串顺序反转" class="headerlink" title="#1、demo：字符串顺序反转"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse08.html#_1%E3%80%81demo-%E5%AD%97%E7%AC%A6%E4%B8%B2%E9%A1%BA%E5%BA%8F%E5%8F%8D%E8%BD%AC">#</a>1、demo：字符串顺序反转</h2><h3 id="①HTML代码-6"><a href="#①HTML代码-6" class="headerlink" title="#①HTML代码"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse08.html#_1html%E4%BB%A3%E7%A0%81">#</a>①HTML代码</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">p</span>&gt;</span>&#123;&#123;message&#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment">&lt;!-- v-on:事件类型=&quot;事件响应函数的函数名&quot; --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">button</span> <span class="attr">v-on:click</span>=<span class="string">&quot;reverseMessage&quot;</span>&gt;</span>Click me,reverse message<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="②Vue代码-5"><a href="#②Vue代码-5" class="headerlink" title="#②Vue代码"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse08.html#_2vue%E4%BB%A3%E7%A0%81">#</a>②Vue代码</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> app = <span class="keyword">new</span> <span class="title class_">Vue</span>(&#123;</span><br><span class="line">	<span class="string">&quot;el&quot;</span>:<span class="string">&quot;#app&quot;</span>,</span><br><span class="line">	<span class="string">&quot;data&quot;</span>:&#123;</span><br><span class="line">		<span class="string">&quot;message&quot;</span>:<span class="string">&quot;Hello Vue!&quot;</span>				</span><br><span class="line">	&#125;,</span><br><span class="line">	<span class="string">&quot;methods&quot;</span>:&#123;</span><br><span class="line">		<span class="string">&quot;reverseMessage&quot;</span>:<span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">			<span class="variable language_">this</span>.<span class="property">message</span> = <span class="variable language_">this</span>.<span class="property">message</span>.<span class="title function_">split</span>(<span class="string">&quot;&quot;</span>).<span class="title function_">reverse</span>().<span class="title function_">join</span>(<span class="string">&quot;&quot;</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="2、demo：获取鼠标移动时的坐标信息"><a href="#2、demo：获取鼠标移动时的坐标信息" class="headerlink" title="#2、demo：获取鼠标移动时的坐标信息"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse08.html#_2%E3%80%81demo-%E8%8E%B7%E5%8F%96%E9%BC%A0%E6%A0%87%E7%A7%BB%E5%8A%A8%E6%97%B6%E7%9A%84%E5%9D%90%E6%A0%87%E4%BF%A1%E6%81%AF">#</a>2、demo：获取鼠标移动时的坐标信息</h2><h3 id="①HTML代码-7"><a href="#①HTML代码-7" class="headerlink" title="#①HTML代码"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse08.html#_1html%E4%BB%A3%E7%A0%81-2">#</a>①HTML代码</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;area&quot;</span> <span class="attr">v-on:mousemove</span>=<span class="string">&quot;recordPosition&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">p</span> <span class="attr">id</span>=<span class="string">&quot;showPosition&quot;</span>&gt;</span>&#123;&#123;position&#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="②Vue代码-6"><a href="#②Vue代码-6" class="headerlink" title="#②Vue代码"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse08.html#_2vue%E4%BB%A3%E7%A0%81-2">#</a>②Vue代码</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> app = <span class="keyword">new</span> <span class="title class_">Vue</span>(&#123;</span><br><span class="line">	<span class="string">&quot;el&quot;</span>:<span class="string">&quot;#app&quot;</span>,</span><br><span class="line">	<span class="string">&quot;data&quot;</span>:&#123;</span><br><span class="line">		<span class="string">&quot;position&quot;</span>:<span class="string">&quot;暂时没有获取到鼠标的位置信息&quot;</span></span><br><span class="line">	&#125;,</span><br><span class="line">	<span class="string">&quot;methods&quot;</span>:&#123;</span><br><span class="line">		<span class="string">&quot;recordPosition&quot;</span>:<span class="keyword">function</span>(<span class="params">event</span>)&#123;</span><br><span class="line">			<span class="variable language_">this</span>.<span class="property">position</span> = event.<span class="property">clientX</span> + <span class="string">&quot; &quot;</span> + event.<span class="property">clientY</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="第九节-Vue-js基本语法：侦听属性"><a href="#第九节-Vue-js基本语法：侦听属性" class="headerlink" title="第九节 Vue.js基本语法：侦听属性"></a>第九节 Vue.js基本语法：侦听属性</h1><h2 id="1、提出需求"><a href="#1、提出需求" class="headerlink" title="#1、提出需求"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse09.html#_1%E3%80%81%E6%8F%90%E5%87%BA%E9%9C%80%E6%B1%82">#</a>1、提出需求</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">p</span>&gt;</span>尊姓：&#123;&#123;firstName&#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">p</span>&gt;</span>大名：&#123;&#123;lastName&#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">	尊姓：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">v-model</span>=<span class="string">&quot;firstName&quot;</span> /&gt;</span><span class="tag">&lt;<span class="name">br</span>/&gt;</span></span><br><span class="line">	大名：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">v-model</span>=<span class="string">&quot;lastName&quot;</span> /&gt;</span><span class="tag">&lt;<span class="name">br</span>/&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">p</span>&gt;</span>全名：&#123;&#123;fullName&#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>在上面代码的基础上，我们希望firstName或lastName属性发生变化时，修改fullName属性。此时需要对firstName或lastName属性进行<strong>『侦听』</strong>。</p>
+<p>具体来说，所谓<strong>『侦听』</strong>就是对message属性进行监控，当firstName或lastName属性的值发生变化时，调用我们准备好的函数。</p>
+<h2 id="2、Vue代码"><a href="#2、Vue代码" class="headerlink" title="#2、Vue代码"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse09.html#_2%E3%80%81vue%E4%BB%A3%E7%A0%81">#</a>2、Vue代码</h2><p>在watch属性中声明对firstName和lastName属性进行<strong>『侦听』</strong>的函数：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> app = <span class="keyword">new</span> <span class="title class_">Vue</span>(&#123;</span><br><span class="line">	<span class="string">&quot;el&quot;</span>:<span class="string">&quot;#app&quot;</span>,</span><br><span class="line">	<span class="string">&quot;data&quot;</span>:&#123;</span><br><span class="line">		<span class="string">&quot;firstName&quot;</span>:<span class="string">&quot;jim&quot;</span>,</span><br><span class="line">		<span class="string">&quot;lastName&quot;</span>:<span class="string">&quot;green&quot;</span>,</span><br><span class="line">		<span class="string">&quot;fullName&quot;</span>:<span class="string">&quot;jim green&quot;</span></span><br><span class="line">	&#125;,</span><br><span class="line">	<span class="string">&quot;watch&quot;</span>:&#123;</span><br><span class="line">		<span class="string">&quot;firstName&quot;</span>:<span class="keyword">function</span>(<span class="params">inputValue</span>)&#123;</span><br><span class="line">			<span class="variable language_">this</span>.<span class="property">fullName</span> = inputValue + <span class="string">&quot; &quot;</span> + <span class="variable language_">this</span>.<span class="property">lastName</span>;</span><br><span class="line">		&#125;,</span><br><span class="line">		<span class="string">&quot;lastName&quot;</span>:<span class="keyword">function</span>(<span class="params">inputValue</span>)&#123;</span><br><span class="line">			<span class="variable language_">this</span>.<span class="property">fullName</span> = <span class="variable language_">this</span>.<span class="property">firstName</span> + <span class="string">&quot; &quot;</span> + inputValue;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="第十节-Vue-js基本语法：简化写法"><a href="#第十节-Vue-js基本语法：简化写法" class="headerlink" title="第十节 Vue.js基本语法：简化写法"></a>第十节 Vue.js基本语法：简化写法</h1><h2 id="1、v-bind的简化写法"><a href="#1、v-bind的简化写法" class="headerlink" title="#1、v-bind的简化写法"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse10.html#_1%E3%80%81v-bind%E7%9A%84%E7%AE%80%E5%8C%96%E5%86%99%E6%B3%95">#</a>1、v-bind的简化写法</h2><p>正常写法：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">v-bind:value</span>=<span class="string">&quot;message&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>简化以后：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">:value</span>=<span class="string">&quot;message&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="2、v-on的简化写法"><a href="#2、v-on的简化写法" class="headerlink" title="#2、v-on的简化写法"></a><a target="_blank" rel="noopener" href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter04/verse10.html#_2%E3%80%81v-on%E7%9A%84%E7%AE%80%E5%8C%96%E5%86%99%E6%B3%95">#</a>2、v-on的简化写法</h2><p>正常写法：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">v-on:click</span>=<span class="string">&quot;sayHello&quot;</span>&gt;</span>SayHello<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>1</p>
+<p>简化以后：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">&quot;sayHello&quot;</span>&gt;</span>SayHello<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="Axios示例"><a href="#Axios示例" class="headerlink" title="Axios示例"></a>Axios示例</h1><p><img src="E:\Typora\image\01.Axios示例.png" alt="01.Axios示例"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Javaweb/" rel="tag"># Javaweb</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/07/14/Javaweb/day14Ajax/" rel="prev" title="Ajax简介">
+      <i class="fa fa-chevron-left"></i> Ajax简介
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/07/15/%E7%90%90%E7%A2%8E%E7%9F%A5%E8%AF%86%E7%82%B9/java%E5%92%8Ccpp%E7%9A%84forEach%E5%BE%AA%E7%8E%AF%E7%9A%84%E5%8C%BA%E5%88%AB/" rel="next" title="java和cpp的forEach循环的区别">
+      java和cpp的forEach循环的区别 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E8%8A%82-Vue-js%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">第一节 Vue.js简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E6%A1%86%E6%9E%B6"><span class="nav-number">1.1.</span> <span class="nav-text">1、框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81Vue-js"><span class="nav-number">1.2.</span> <span class="nav-text">2、Vue.js</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A0Vue-js%E7%9A%84%E4%BD%9C%E8%80%85"><span class="nav-number">1.2.1.</span> <span class="nav-text">①Vue.js的作者</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A1Vue-js%E7%9A%84%E5%AE%98%E7%BD%91%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.2.2.</span> <span class="nav-text">②Vue.js的官网介绍</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E8%8A%82-%E5%87%86%E5%A4%87Vue-js%E7%8E%AF%E5%A2%83"><span class="nav-number">2.</span> <span class="nav-text">第二节 准备Vue.js环境</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="nav-number">2.1.</span> <span class="nav-text">1、开发中的最佳实践</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81Vue%E6%A1%86%E6%9E%B6%E7%9A%84js%E6%96%87%E4%BB%B6%E8%8E%B7%E5%8F%96"><span class="nav-number">2.2.</span> <span class="nav-text">2、Vue框架的js文件获取</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81%E6%9C%AC%E5%9C%B0%E5%88%9B%E5%BB%BAvue-js%E6%96%87%E4%BB%B6"><span class="nav-number">2.3.</span> <span class="nav-text">3、本地创建vue.js文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4%E3%80%81%E5%88%9B%E5%BB%BAHTML%E6%96%87%E6%A1%A3%E5%B9%B6%E5%BC%95%E5%85%A5vue-js"><span class="nav-number">2.4.</span> <span class="nav-text">4、创建HTML文档并引入vue.js</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E8%8A%82-Vue-js%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95%EF%BC%9A%E5%A3%B0%E6%98%8E%E5%BC%8F%E6%B8%B2%E6%9F%93"><span class="nav-number">3.</span> <span class="nav-text">第三节 Vue.js基本语法：声明式渲染</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E6%A6%82%E5%BF%B5"><span class="nav-number">3.1.</span> <span class="nav-text">1、概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A0%E5%A3%B0%E6%98%8E%E5%BC%8F"><span class="nav-number">3.1.1.</span> <span class="nav-text">①声明式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A1%E6%B8%B2%E6%9F%93"><span class="nav-number">3.1.2.</span> <span class="nav-text">②渲染</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81demo"><span class="nav-number">3.2.</span> <span class="nav-text">2、demo</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A0HTML%E4%BB%A3%E7%A0%81"><span class="nav-number">3.2.1.</span> <span class="nav-text">①HTML代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A1vue%E4%BB%A3%E7%A0%81"><span class="nav-number">3.2.2.</span> <span class="nav-text">②vue代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81%E6%9F%A5%E7%9C%8B%E5%A3%B0%E6%98%8E%E5%BC%8F%E6%B8%B2%E6%9F%93%E7%9A%84%E5%93%8D%E5%BA%94%E5%BC%8F%E6%95%88%E6%9E%9C"><span class="nav-number">3.3.</span> <span class="nav-text">3、查看声明式渲染的响应式效果</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E8%8A%82-Vue-js%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95%EF%BC%9A%E7%BB%91%E5%AE%9A%E5%85%83%E7%B4%A0%E5%B1%9E%E6%80%A7"><span class="nav-number">4.</span> <span class="nav-text">第四节 Vue.js基本语法：绑定元素属性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95"><span class="nav-number">4.1.</span> <span class="nav-text">1、基本语法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81demo-1"><span class="nav-number">4.2.</span> <span class="nav-text">2、demo</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A0HTML%E4%BB%A3%E7%A0%81-1"><span class="nav-number">4.2.1.</span> <span class="nav-text">①HTML代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A1Vue%E4%BB%A3%E7%A0%81"><span class="nav-number">4.2.2.</span> <span class="nav-text">②Vue代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81%E5%B0%8F%E7%BB%93"><span class="nav-number">4.3.</span> <span class="nav-text">3、小结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%BA%94%E8%8A%82-Vue-js%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95%EF%BC%9A%E5%8F%8C%E5%90%91%E6%95%B0%E6%8D%AE%E7%BB%91%E5%AE%9A"><span class="nav-number">5.</span> <span class="nav-text">第五节 Vue.js基本语法：双向数据绑定</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E6%8F%90%E5%87%BA%E9%97%AE%E9%A2%98"><span class="nav-number">5.1.</span> <span class="nav-text">1、提出问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81demo-2"><span class="nav-number">5.2.</span> <span class="nav-text">2、demo</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A0HTML%E4%BB%A3%E7%A0%81-2"><span class="nav-number">5.2.1.</span> <span class="nav-text">①HTML代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A1Vue%E4%BB%A3%E7%A0%81-1"><span class="nav-number">5.2.2.</span> <span class="nav-text">②Vue代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A2%E9%A1%B5%E9%9D%A2%E6%95%88%E6%9E%9C"><span class="nav-number">5.2.3.</span> <span class="nav-text">③页面效果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81%E5%8E%BB%E9%99%A4%E5%89%8D%E5%90%8E%E7%A9%BA%E6%A0%BC"><span class="nav-number">5.3.</span> <span class="nav-text">3、去除前后空格</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A0-value%E5%8F%AF%E4%BB%A5%E7%9C%81%E7%95%A5"><span class="nav-number">5.3.1.</span> <span class="nav-text">①:value可以省略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A1-trim%E4%BF%AE%E9%A5%B0%E7%AC%A6"><span class="nav-number">5.3.2.</span> <span class="nav-text">②.trim修饰符</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E5%85%AD%E8%8A%82-Vue-js%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95%EF%BC%9A%E6%9D%A1%E4%BB%B6%E6%B8%B2%E6%9F%93"><span class="nav-number">6.</span> <span class="nav-text">第六节 Vue.js基本语法：条件渲染</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81v-if"><span class="nav-number">6.1.</span> <span class="nav-text">1、v-if</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A0HTML%E4%BB%A3%E7%A0%81-3"><span class="nav-number">6.1.1.</span> <span class="nav-text">①HTML代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A1Vue%E4%BB%A3%E7%A0%81-2"><span class="nav-number">6.1.2.</span> <span class="nav-text">②Vue代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81v-if%E5%92%8Cv-else"><span class="nav-number">6.2.</span> <span class="nav-text">2、v-if和v-else</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A0HTML%E4%BB%A3%E7%A0%81-4"><span class="nav-number">6.2.1.</span> <span class="nav-text">①HTML代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A1Vue%E4%BB%A3%E7%A0%81-3"><span class="nav-number">6.2.2.</span> <span class="nav-text">②Vue代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81v-show"><span class="nav-number">6.3.</span> <span class="nav-text">3、v-show</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A0HTML%E4%BB%A3%E7%A0%81-5"><span class="nav-number">6.3.1.</span> <span class="nav-text">①HTML代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A1Vue%E4%BB%A3%E7%A0%81-4"><span class="nav-number">6.3.2.</span> <span class="nav-text">②Vue代码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E8%8A%82-%E5%87%86%E5%A4%87Vue-js%E7%8E%AF%E5%A2%83-1"><span class="nav-number">7.</span> <span class="nav-text">第二节 准备Vue.js环境</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5-1"><span class="nav-number">7.1.</span> <span class="nav-text">1、开发中的最佳实践</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81Vue%E6%A1%86%E6%9E%B6%E7%9A%84js%E6%96%87%E4%BB%B6%E8%8E%B7%E5%8F%96-1"><span class="nav-number">7.2.</span> <span class="nav-text">2、Vue框架的js文件获取</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81%E6%9C%AC%E5%9C%B0%E5%88%9B%E5%BB%BAvue-js%E6%96%87%E4%BB%B6-1"><span class="nav-number">7.3.</span> <span class="nav-text">3、本地创建vue.js文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4%E3%80%81%E5%88%9B%E5%BB%BAHTML%E6%96%87%E6%A1%A3%E5%B9%B6%E5%BC%95%E5%85%A5vue-js-1"><span class="nav-number">7.4.</span> <span class="nav-text">4、创建HTML文档并引入vue.js</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E5%85%AB%E8%8A%82-Vue-js%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95%EF%BC%9A%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8"><span class="nav-number">8.</span> <span class="nav-text">第八节 Vue.js基本语法：事件驱动</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81demo%EF%BC%9A%E5%AD%97%E7%AC%A6%E4%B8%B2%E9%A1%BA%E5%BA%8F%E5%8F%8D%E8%BD%AC"><span class="nav-number">8.1.</span> <span class="nav-text">1、demo：字符串顺序反转</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A0HTML%E4%BB%A3%E7%A0%81-6"><span class="nav-number">8.1.1.</span> <span class="nav-text">①HTML代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A1Vue%E4%BB%A3%E7%A0%81-5"><span class="nav-number">8.1.2.</span> <span class="nav-text">②Vue代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81demo%EF%BC%9A%E8%8E%B7%E5%8F%96%E9%BC%A0%E6%A0%87%E7%A7%BB%E5%8A%A8%E6%97%B6%E7%9A%84%E5%9D%90%E6%A0%87%E4%BF%A1%E6%81%AF"><span class="nav-number">8.2.</span> <span class="nav-text">2、demo：获取鼠标移动时的坐标信息</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A0HTML%E4%BB%A3%E7%A0%81-7"><span class="nav-number">8.2.1.</span> <span class="nav-text">①HTML代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A1Vue%E4%BB%A3%E7%A0%81-6"><span class="nav-number">8.2.2.</span> <span class="nav-text">②Vue代码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%B9%9D%E8%8A%82-Vue-js%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95%EF%BC%9A%E4%BE%A6%E5%90%AC%E5%B1%9E%E6%80%A7"><span class="nav-number">9.</span> <span class="nav-text">第九节 Vue.js基本语法：侦听属性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E6%8F%90%E5%87%BA%E9%9C%80%E6%B1%82"><span class="nav-number">9.1.</span> <span class="nav-text">1、提出需求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81Vue%E4%BB%A3%E7%A0%81"><span class="nav-number">9.2.</span> <span class="nav-text">2、Vue代码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E5%8D%81%E8%8A%82-Vue-js%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95%EF%BC%9A%E7%AE%80%E5%8C%96%E5%86%99%E6%B3%95"><span class="nav-number">10.</span> <span class="nav-text">第十节 Vue.js基本语法：简化写法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81v-bind%E7%9A%84%E7%AE%80%E5%8C%96%E5%86%99%E6%B3%95"><span class="nav-number">10.1.</span> <span class="nav-text">1、v-bind的简化写法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81v-on%E7%9A%84%E7%AE%80%E5%8C%96%E5%86%99%E6%B3%95"><span class="nav-number">10.2.</span> <span class="nav-text">2、v-on的简化写法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Axios%E7%A4%BA%E4%BE%8B"><span class="nav-number">11.</span> <span class="nav-text">Axios示例</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="dhx_"
+      src="/images/avater.png">
+  <p class="site-author-name" itemprop="name">dhx_</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">55</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/adorabled4" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;adorabled4" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">dhx_</span>
+</div>
+
+<!--  删除底部的 由hexo 强力驱动
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>-->
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
