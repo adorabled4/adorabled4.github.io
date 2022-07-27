@@ -22,15 +22,15 @@
     var CONFIG = {"hostname":"dhx_.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="MySQL day021、关于查询结果集的去重？12345678910111213141516171819202122232425262728293031323334353637383940&#x2F;&#x2F; select job from emp group by job;mysql&gt; select distinct job from emp; &#x2F;&#x2F; distinct关键字去除重复记录。+-------">
+  <meta name="description" content="MySQL day021、关于查询结果集的去重？">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MySQL_day02">
 <meta property="og:url" content="http://dhx_.com/2022/06/27/MySQL/Day02/index.html">
 <meta property="og:site_name" content="dhx_&#39;blog">
-<meta property="og:description" content="MySQL day021、关于查询结果集的去重？12345678910111213141516171819202122232425262728293031323334353637383940&#x2F;&#x2F; select job from emp group by job;mysql&gt; select distinct job from emp; &#x2F;&#x2F; distinct关键字去除重复记录。+-------">
+<meta property="og:description" content="MySQL day021、关于查询结果集的去重？">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-06-27T05:45:39.000Z">
-<meta property="article:modified_time" content="2022-07-24T13:07:37.235Z">
+<meta property="article:modified_time" content="2022-07-27T16:10:48.809Z">
 <meta property="article:author" content="dhx_">
 <meta property="article:tag" content="MySQL入门">
 <meta name="twitter:card" content="summary">
@@ -128,17 +128,17 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">13</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">17</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">6</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">55</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">58</span></a>
 
   </li>
   </ul>
@@ -199,7 +199,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-24 21:07:37" itemprop="dateModified" datetime="2022-07-24T21:07:37+08:00">2022-07-24</time>
+                <time title="修改时间：2022-07-28 00:10:48" itemprop="dateModified" datetime="2022-07-28T00:10:48+08:00">2022-07-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -222,7 +222,9 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="MySQL-day02"><a href="#MySQL-day02" class="headerlink" title="MySQL day02"></a>MySQL day02</h1><h2 id="1、关于查询结果集的去重？"><a href="#1、关于查询结果集的去重？" class="headerlink" title="1、关于查询结果集的去重？"></a>1、关于查询结果集的去重？</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// select job from emp group by job;</span></span><br><span class="line">mysql&gt; select distinct job from emp; <span class="comment">// distinct关键字去除重复记录。</span></span><br><span class="line">+-----------+</span><br><span class="line">| job       |</span><br><span class="line">+-----------+</span><br><span class="line">| CLERK     |</span><br><span class="line">| SALESMAN  |</span><br><span class="line">| MANAGER   |</span><br><span class="line">| ANALYST   |</span><br><span class="line">| PRESIDENT |</span><br><span class="line">+-----------+	</span><br><span class="line"></span><br><span class="line">mysql&gt; select ename,distinct job from emp;</span><br><span class="line">以上的sql语句是错误的。</span><br><span class="line">记住：distinct只能出现在所有字段的最前面。</span><br><span class="line"></span><br><span class="line">mysql&gt; select distinct deptno,job from emp;</span><br><span class="line">+--------+-----------+</span><br><span class="line">| deptno | job       |</span><br><span class="line">+--------+-----------+</span><br><span class="line">|     <span class="number">20</span> | CLERK     |</span><br><span class="line">|     <span class="number">30</span> | SALESMAN  |</span><br><span class="line">|     <span class="number">20</span> | MANAGER   |</span><br><span class="line">|     <span class="number">30</span> | MANAGER   |</span><br><span class="line">|     <span class="number">10</span> | MANAGER   |</span><br><span class="line">|     <span class="number">20</span> | ANALYST   |</span><br><span class="line">|     <span class="number">10</span> | PRESIDENT |</span><br><span class="line">|     <span class="number">30</span> | CLERK     |</span><br><span class="line">|     <span class="number">10</span> | CLERK     |</span><br><span class="line">+--------+-----------+</span><br><span class="line"></span><br><span class="line">案例：统计岗位的数量？</span><br><span class="line">select <span class="title function_">count</span><span class="params">(distinct job)</span> from emp;</span><br><span class="line"></span><br><span class="line">+---------------------+</span><br><span class="line">| count(distinct job) |</span><br><span class="line">+---------------------+</span><br><span class="line">|                   <span class="number">5</span> |</span><br><span class="line">+---------------------+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+        <h1 id="MySQL-day02"><a href="#MySQL-day02" class="headerlink" title="MySQL day02"></a>MySQL day02</h1><h2 id="1、关于查询结果集的去重？"><a href="#1、关于查询结果集的去重？" class="headerlink" title="1、关于查询结果集的去重？"></a>1、关于查询结果集的去重？</h2><span id="more"></span>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// select job from emp group by job;</span></span><br><span class="line">mysql&gt; select distinct job from emp; <span class="comment">// distinct关键字去除重复记录。</span></span><br><span class="line">+-----------+</span><br><span class="line">| job       |</span><br><span class="line">+-----------+</span><br><span class="line">| CLERK     |</span><br><span class="line">| SALESMAN  |</span><br><span class="line">| MANAGER   |</span><br><span class="line">| ANALYST   |</span><br><span class="line">| PRESIDENT |</span><br><span class="line">+-----------+	</span><br><span class="line"></span><br><span class="line">mysql&gt; select ename,distinct job from emp;</span><br><span class="line">以上的sql语句是错误的。</span><br><span class="line">记住：distinct只能出现在所有字段的最前面。</span><br><span class="line"></span><br><span class="line">mysql&gt; select distinct deptno,job from emp;</span><br><span class="line">+--------+-----------+</span><br><span class="line">| deptno | job       |</span><br><span class="line">+--------+-----------+</span><br><span class="line">|     <span class="number">20</span> | CLERK     |</span><br><span class="line">|     <span class="number">30</span> | SALESMAN  |</span><br><span class="line">|     <span class="number">20</span> | MANAGER   |</span><br><span class="line">|     <span class="number">30</span> | MANAGER   |</span><br><span class="line">|     <span class="number">10</span> | MANAGER   |</span><br><span class="line">|     <span class="number">20</span> | ANALYST   |</span><br><span class="line">|     <span class="number">10</span> | PRESIDENT |</span><br><span class="line">|     <span class="number">30</span> | CLERK     |</span><br><span class="line">|     <span class="number">10</span> | CLERK     |</span><br><span class="line">+--------+-----------+</span><br><span class="line"></span><br><span class="line">案例：统计岗位的数量？</span><br><span class="line">select <span class="title function_">count</span><span class="params">(distinct job)</span> from emp;</span><br><span class="line"></span><br><span class="line">+---------------------+</span><br><span class="line">| count(distinct job) |</span><br><span class="line">+---------------------+</span><br><span class="line">|                   <span class="number">5</span> |</span><br><span class="line">+---------------------+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <h2 id="2、连接查询"><a href="#2、连接查询" class="headerlink" title="2、连接查询"></a>2、连接查询</h2><h3 id="2-1、什么是连接查询？"><a href="#2-1、什么是连接查询？" class="headerlink" title="2.1、什么是连接查询？"></a>2.1、什么是连接查询？</h3><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">在实际开发中，大部分的情况下都不是从单表中查询数据，一般都是多张表联合查询取出最终的结果。</span><br><span class="line">在实际开发中，一般一个业务都会对应多张表，比如：学生和班级，起码两张表。</span><br><span class="line"><span class="section">stuno		stuname			classno		classname</span></span><br><span class="line"><span class="section">-----------------------------------------------------------------------------------</span></span><br><span class="line">1			zs					1				北京大兴区亦庄经济技术开发区第二中学高三1班</span><br><span class="line">2			ls					1				北京大兴区亦庄经济技术开发区第二中学高三1班</span><br><span class="line"><span class="code">	...</span></span><br><span class="line"><span class="code">	学生和班级信息存储到一张表中，结果就像上面一样，数据会存在大量的重复，导致数据的冗余。</span></span><br></pre></td></tr></table></figure>
 
@@ -538,20 +540,20 @@ create table t_user(
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">55</span>
+          <span class="site-state-item-count">58</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-count">17</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

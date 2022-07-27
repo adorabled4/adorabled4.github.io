@@ -24,7 +24,7 @@
 
   <meta name="description" content="617合并二叉树给你两棵二叉树： root1 和 root2 。 想象一下，当你将其中一棵覆盖到另一棵之上时，两棵树上的一些节点将会重叠（而另一些不会）。你需要将这两棵树合并成一棵新二叉树。合并的规则是：如果两个节点重叠，那么将这两个节点的值相加作为合并后节点的新值；否则，不为 null 的节点将直接作为新二叉树的节点。返回合并后的二叉树。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="leetcode刷题笔记">
+<meta property="og:title" content="树论">
 <meta property="og:url" content="http://dhx_.com/2022/07/24/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/leetcode%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="dhx_&#39;blog">
 <meta property="og:description" content="617合并二叉树给你两棵二叉树： root1 和 root2 。 想象一下，当你将其中一棵覆盖到另一棵之上时，两棵树上的一些节点将会重叠（而另一些不会）。你需要将这两棵树合并成一棵新二叉树。合并的规则是：如果两个节点重叠，那么将这两个节点的值相加作为合并后节点的新值；否则，不为 null 的节点将直接作为新二叉树的节点。返回合并后的二叉树。">
@@ -34,16 +34,14 @@
 <meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//108220200325140028968.png">
 <meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//108220200325140303723.png">
 <meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082image-20220724232928296.png">
-<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082image-20220725102723575.png">
-<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082image-20220725103034375.png">
 <meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082image-20220725212445744.png">
 <meta property="og:image" content="https://pic.leetcode-cn.com/725e473003c35e3be67ac6177cc6744fa04b0466795b5e69c7d673f626206b86-file_1583293748397">
 <meta property="article:published_time" content="2022-07-24T15:33:12.000Z">
-<meta property="article:modified_time" content="2022-07-26T13:35:53.717Z">
+<meta property="article:modified_time" content="2022-07-27T16:10:28.451Z">
 <meta property="article:author" content="dhx_">
 <meta property="article:tag" content="java">
 <meta property="article:tag" content="Leetcode">
-<meta property="article:tag" content="算法">
+<meta property="article:tag" content="树论">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082eNyXd">
 
@@ -60,7 +58,7 @@
   };
 </script>
 
-  <title>leetcode刷题笔记 | dhx_'blog</title>
+  <title>树论 | dhx_'blog</title>
   
 
 
@@ -140,17 +138,17 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">13</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">17</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">6</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">55</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">58</span></a>
 
   </li>
   </ul>
@@ -194,7 +192,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          leetcode刷题笔记
+          树论
         </h1>
 
         <div class="post-meta">
@@ -211,7 +209,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-26 21:35:53" itemprop="dateModified" datetime="2022-07-26T21:35:53+08:00">2022-07-26</time>
+                <time title="修改时间：2022-07-28 00:10:28" itemprop="dateModified" datetime="2022-07-28T00:10:28+08:00">2022-07-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -264,47 +262,11 @@
 <p>然后再多次进行相同的操作，知道递归到叶子节点 ，然后返回         <code>while(root==null) return;</code></p>
 </blockquote>
 <p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082image-20220724232928296.png" alt="image-20220724232928296"></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">connect</span> &#123;</span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">Node</span> &#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="type">int</span> val;</span><br><span class="line">        <span class="keyword">public</span> Node left;</span><br><span class="line">        <span class="keyword">public</span> Node right;</span><br><span class="line">        <span class="keyword">public</span> Node next;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="title function_">Node</span><span class="params">()</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="title function_">Node</span><span class="params">(<span class="type">int</span> _val)</span> &#123;</span><br><span class="line">            val = _val;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="title function_">Node</span><span class="params">(<span class="type">int</span> _val, Node _left, Node _right, Node _next)</span> &#123;</span><br><span class="line">            val = _val;</span><br><span class="line">            left = _left;</span><br><span class="line">            right = _right;</span><br><span class="line">            next = _next;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">public</span> Node <span class="title function_">connect</span><span class="params">(Node root)</span> &#123;</span><br><span class="line">        dfs(root);</span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">dfs</span><span class="params">(Node root)</span>&#123;</span><br><span class="line">        <span class="keyword">while</span>(root==<span class="literal">null</span>) <span class="keyword">return</span>;</span><br><span class="line">        Node left=root.left;</span><br><span class="line">        Node right=root.right;</span><br><span class="line">        <span class="keyword">while</span>(left!=<span class="literal">null</span>)&#123; <span class="comment">// 左孩子 节点不断深入往右走  ， 右孩子 节点往左走， 当两个走到底，也就挨着了</span></span><br><span class="line">            left=left.right;</span><br><span class="line">            right=right.left;</span><br><span class="line">            left.next=right;</span><br><span class="line">        &#125;</span><br><span class="line">        dfs(root.left);</span><br><span class="line">        dfs(root.right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">connect</span> &#123;</span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">Node</span> &#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="type">int</span> val;</span><br><span class="line">        <span class="keyword">public</span> Node left;</span><br><span class="line">        <span class="keyword">public</span> Node right;</span><br><span class="line">        <span class="keyword">public</span> Node next;</span><br><span class="line">        <span class="keyword">public</span> <span class="title function_">Node</span><span class="params">()</span> &#123;&#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="title function_">Node</span><span class="params">(<span class="type">int</span> _val)</span> &#123;</span><br><span class="line">            val = _val;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="title function_">Node</span><span class="params">(<span class="type">int</span> _val, Node _left, Node _right, Node _next)</span> &#123;</span><br><span class="line">            val = _val;</span><br><span class="line">            left = _left;</span><br><span class="line">            right = _right;</span><br><span class="line">            next = _next;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">public</span> Node <span class="title function_">connect</span><span class="params">(Node root)</span> &#123;</span><br><span class="line">        dfs(root);</span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">dfs</span><span class="params">(Node root)</span>&#123;</span><br><span class="line">        <span class="keyword">while</span>(root==<span class="literal">null</span>) <span class="keyword">return</span>;</span><br><span class="line">        Node left=root.left;</span><br><span class="line">        Node right=root.right;</span><br><span class="line">        <span class="keyword">while</span>(left!=<span class="literal">null</span>)&#123; </span><br><span class="line"><span class="comment">// 左孩子 节点不断深入往右走  ， 右孩子 节点往左走， 当两个走到底，也就挨着了</span></span><br><span class="line">            left=left.right;</span><br><span class="line">            right=right.left;</span><br><span class="line">            left.next=right;</span><br><span class="line">        &#125;</span><br><span class="line">        dfs(root.left);</span><br><span class="line">        dfs(root.right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
 
 
-
-<h2 id="1-两数之和"><a href="#1-两数之和" class="headerlink" title="1. 两数之和"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/two-sum/">1. 两数之和</a></h2><p>给定一个整数数组 <code>nums</code> 和一个整数目标值 <code>target</code>，请你在该数组中找出 <strong>和为目标值</strong> <em><code>target</code></em> 的那 <strong>两个</strong> 整数，并返回它们的数组下标。</p>
-<p>你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。</p>
-<p>你可以按任意顺序返回答案</p>
-<blockquote>
-<p>暴力 or HashMap</p>
-<p>HashMap&lt;Integer,Integer&gt;   k 是 值， v 是数组的下标</p>
-<p>哈希查找的时间复杂度为 O(1)，所以可以利用 HashMap降低时间复杂度</p>
-<p>遍历当前数组 ， 判断是否存在<code>target-nums[i]</code> 的 key 值</p>
-<p>由于不能返回相同的坐标，因此必须先 判断，再 put</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span>[] twoSum(<span class="type">int</span>[]nums,<span class="type">int</span> target)&#123;</span><br><span class="line">    Map&lt;Integer,Integer&gt; map=<span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;nums.length;i++)&#123;</span><br><span class="line">        map.put(nums[i],i);</span><br><span class="line">        <span class="keyword">if</span>(map.containsKey(target-nums[i]))</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;i,map.get(target-nums[i])&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="2-两数相加"><a href="#2-两数相加" class="headerlink" title="2. 两数相加"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/add-two-numbers/">2. 两数相加</a></h2><p>给你两个 <strong>非空</strong> 的链表，表示两个非负的整数。它们每位数字都是按照 <strong>逆序</strong> 的方式存储的，并且每个节点只能存储 <strong>一位</strong> 数字。</p>
-<p>请你将两个数相加，并以相同形式返回一个表示和的链表。</p>
-<p>你可以假设除了数字 0 之外，这两个数都不会以 0 开头。</p>
-<ul>
-<li>题目的大概意思就是链表的val 都是逆序的， 并且最后返回的链表也要是逆序的</li>
-</ul>
-<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082image-20220725102723575.png" alt="image-20220725102723575" style="zoom:67%;" />
-
-
-
-
-
-<blockquote>
-<p>暴力解法</p>
-<p>先遍历链表 ，获取val ，用String 存储</p>
-<p>然后通过将String 转换成数字相加，然后再利用<code>split</code>方法，得到res 的每个位数的值</p>
-<p>​		—–需要注意的是相加的过程中 ， 用int ， long 都会导致溢出，最后使用<code>BitInteger</code>， 有一个测试用例的长度 有30+</p>
-<p>得到每一位的值之后在创建新的链表返回即可；</p>
-</blockquote>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082image-20220725103034375.png" alt="image-20220725103034375"></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.math.BigInteger;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> * public class ListNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     ListNode next;</span></span><br><span class="line"><span class="comment"> *     ListNode() &#123;&#125;</span></span><br><span class="line"><span class="comment"> *     ListNode(int val) &#123; this.val = val; &#125;</span></span><br><span class="line"><span class="comment"> *     ListNode(int val, ListNode next) &#123; this.val = val; this.next = next; &#125;</span></span><br><span class="line"><span class="comment"> * &#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> ListNode <span class="title function_">addTwoNumbers</span><span class="params">(ListNode l1, ListNode l2)</span> &#123;</span><br><span class="line">        StringBuffer s1=<span class="keyword">new</span> <span class="title class_">StringBuffer</span>(<span class="string">&quot;&quot;</span>);</span><br><span class="line">        StringBuffer s2=<span class="keyword">new</span> <span class="title class_">StringBuffer</span>(<span class="string">&quot;&quot;</span>);</span><br><span class="line">        <span class="comment">// 获取 每一个节点的val</span></span><br><span class="line">        <span class="keyword">while</span>(l1!=<span class="literal">null</span>)&#123;</span><br><span class="line">            s1.append(l1.val);</span><br><span class="line">            l1=l1.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span>(l2!=<span class="literal">null</span>)&#123;</span><br><span class="line">            s2.append(l2.val);</span><br><span class="line">            l2=l2.next;</span><br><span class="line">        &#125;</span><br><span class="line">        s1=s1.reverse();</span><br><span class="line">        s2=s2.reverse();</span><br><span class="line">        BigInteger num1=<span class="keyword">new</span> <span class="title class_">BigInteger</span>(s1.toString());</span><br><span class="line">        BigInteger num2=<span class="keyword">new</span> <span class="title class_">BigInteger</span>(s2.toString());</span><br><span class="line">        BigInteger value=num1.add(num2);</span><br><span class="line">        StringBuffer v=<span class="keyword">new</span> <span class="title class_">StringBuffer</span>(value.toString());</span><br><span class="line">        v.reverse();</span><br><span class="line">        String[] split = v.toString().split(<span class="string">&quot;&quot;</span>);</span><br><span class="line">        <span class="type">int</span> size=split.length;  <span class="comment">// 记录 每一个节点的val</span></span><br><span class="line">        <span class="type">int</span> cnt=<span class="number">0</span>;</span><br><span class="line">        ListNode head=<span class="keyword">new</span> <span class="title class_">ListNode</span>(Integer.parseInt(split[cnt++])); <span class="comment">//头结点</span></span><br><span class="line">        ListNode res=head;</span><br><span class="line">        <span class="keyword">while</span>(--size&gt;<span class="number">0</span>)&#123; <span class="comment">// 创建链表</span></span><br><span class="line">            head.next=<span class="keyword">new</span> <span class="title class_">ListNode</span>(Integer.parseInt(split[cnt++]));</span><br><span class="line">            head=head.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span>  res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
 
@@ -339,7 +301,7 @@
           <div class="post-tags">
               <a href="/tags/java/" rel="tag"># java</a>
               <a href="/tags/Leetcode/" rel="tag"># Leetcode</a>
-              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
+              <a href="/tags/%E6%A0%91%E8%AE%BA/" rel="tag"># 树论</a>
           </div>
 
         
@@ -348,8 +310,8 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2022/07/24/%E7%90%90%E7%A2%8E%E7%9F%A5%E8%AF%86%E7%82%B9/" rel="prev" title="琐碎知识点">
-      <i class="fa fa-chevron-left"></i> 琐碎知识点
+    <a href="/2022/07/24/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%93%88%E5%B8%8C/" rel="prev" title="哈希表">
+      <i class="fa fa-chevron-left"></i> 哈希表
     </a></div>
       <div class="post-nav-item">
     <a href="/2022/07/25/SpringMVC/day1/" rel="next" title="SpringMVC（1）环境搭建&&@RequestMapping注解&&springmvc获取请求参数">
@@ -413,7 +375,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#617%E5%90%88%E5%B9%B6%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="nav-number">1.</span> <span class="nav-text">617合并二叉树</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%8C%E7%BE%8E%E4%BA%8C%E5%8F%89%E6%A0%91-Perfect-Binary-Tree"><span class="nav-number">1.0.1.</span> <span class="nav-text">完美二叉树 (Perfect Binary Tree)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%8C%E5%85%A8%E4%BA%8C%E5%8F%89%E6%A0%91-Complete-Binary-Tree"><span class="nav-number">1.0.2.</span> <span class="nav-text">完全二叉树 (Complete Binary Tree)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%8C%E6%BB%A1%E4%BA%8C%E5%8F%89%E6%A0%91-%EF%BC%88Full-Binary-Tree%EF%BC%89"><span class="nav-number">1.0.3.</span> <span class="nav-text">完满二叉树 （Full Binary Tree）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#116-%E5%A1%AB%E5%85%85%E6%AF%8F%E4%B8%AA%E8%8A%82%E7%82%B9%E7%9A%84%E4%B8%8B%E4%B8%80%E4%B8%AA%E5%8F%B3%E4%BE%A7%E8%8A%82%E7%82%B9%E6%8C%87%E9%92%88"><span class="nav-number">2.</span> <span class="nav-text">116. 填充每个节点的下一个右侧节点指针</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C"><span class="nav-number">3.</span> <span class="nav-text">1. 两数之和</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E4%B8%A4%E6%95%B0%E7%9B%B8%E5%8A%A0"><span class="nav-number">4.</span> <span class="nav-text">2. 两数相加</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#542-01-%E7%9F%A9%E9%98%B5"><span class="nav-number">5.</span> <span class="nav-text">542. 01 矩阵</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#617%E5%90%88%E5%B9%B6%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="nav-number">1.</span> <span class="nav-text">617合并二叉树</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%8C%E7%BE%8E%E4%BA%8C%E5%8F%89%E6%A0%91-Perfect-Binary-Tree"><span class="nav-number">1.0.1.</span> <span class="nav-text">完美二叉树 (Perfect Binary Tree)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%8C%E5%85%A8%E4%BA%8C%E5%8F%89%E6%A0%91-Complete-Binary-Tree"><span class="nav-number">1.0.2.</span> <span class="nav-text">完全二叉树 (Complete Binary Tree)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%8C%E6%BB%A1%E4%BA%8C%E5%8F%89%E6%A0%91-%EF%BC%88Full-Binary-Tree%EF%BC%89"><span class="nav-number">1.0.3.</span> <span class="nav-text">完满二叉树 （Full Binary Tree）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#116-%E5%A1%AB%E5%85%85%E6%AF%8F%E4%B8%AA%E8%8A%82%E7%82%B9%E7%9A%84%E4%B8%8B%E4%B8%80%E4%B8%AA%E5%8F%B3%E4%BE%A7%E8%8A%82%E7%82%B9%E6%8C%87%E9%92%88"><span class="nav-number">2.</span> <span class="nav-text">116. 填充每个节点的下一个右侧节点指针</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#542-01-%E7%9F%A9%E9%98%B5"><span class="nav-number">3.</span> <span class="nav-text">542. 01 矩阵</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -429,20 +391,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">55</span>
+          <span class="site-state-item-count">58</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-count">17</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
