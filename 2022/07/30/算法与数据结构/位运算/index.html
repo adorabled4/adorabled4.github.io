@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/cheems_sword_small.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.cat.net/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-center-circle.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"dhx_.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="位运算位运算概述从现代计算机中所有的数据都以二进制的形式存储在设备中。即0、1两种状态，计算机对二进制进行的运算（+、-、*、&#x2F;） 都叫位运算">
+<meta property="og:type" content="article">
+<meta property="og:title" content="位运算">
+<meta property="og:url" content="http://dhx_.com/2022/07/30/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E4%BD%8D%E8%BF%90%E7%AE%97/index.html">
+<meta property="og:site_name" content="dhx_&#39;blog">
+<meta property="og:description" content="位运算位运算概述从现代计算机中所有的数据都以二进制的形式存储在设备中。即0、1两种状态，计算机对二进制进行的运算（+、-、*、&#x2F;） 都叫位运算">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200627183328798.png">
+<meta property="article:published_time" content="2022-07-30T12:56:19.000Z">
+<meta property="article:modified_time" content="2022-07-30T13:16:19.448Z">
+<meta property="article:author" content="dhx_">
+<meta property="article:tag" content="Leetcode">
+<meta property="article:tag" content="位运算">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20200627183328798.png">
+
+<link rel="canonical" href="http://dhx_.com/2022/07/30/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E4%BD%8D%E8%BF%90%E7%AE%97/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>位运算 | dhx_'blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">dhx_'blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">一点浩然气，千里快哉风！</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">19</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">63</span></a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dhx_.com/2022/07/30/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E4%BD%8D%E8%BF%90%E7%AE%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avater.png">
+      <meta itemprop="name" content="dhx_">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dhx_'blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          位运算
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-07-30 20:56:19 / 修改时间：21:16:19" itemprop="dateCreated datePublished" datetime="2022-07-30T20:56:19+08:00">2022-07-30</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">算法与数据结构</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="位运算"><a href="#位运算" class="headerlink" title="位运算"></a>位运算</h1><h2 id="位运算概述"><a href="#位运算概述" class="headerlink" title="位运算概述"></a>位运算概述</h2><p>从现代计算机中所有的数据都以二进制的形式存储在设备中。即0、1两种状态，计算机对二进制进行的运算（+、-、*、&#x2F;）</p>
+<p>都叫位运算</p>
+<span id="more"></span>
+
+<h2 id="位取反"><a href="#位取反" class="headerlink" title="位取反(~)"></a>位取反(~)</h2><p>位取反即之前<a target="_blank" rel="noopener" href="https://www.cnblogs.com/zzerx/p/15042367.html#%E8%B4%9F%E6%95%B0%E8%BD%AC%E4%BA%8C%E8%BF%9B%E5%88%B6">负数转二进制</a>所用的方式，即<strong>0变1，1变0</strong>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">10001100</span></span><br><span class="line"><span class="number">01110011</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="位与-amp"><a href="#位与-amp" class="headerlink" title="位与(&amp;)"></a>位与(&amp;)</h2><p>位与即如果两个位进行比较<strong>两位同时为1，结果才为1，否则结果为0</strong>。<br>例如: <code>125 &amp; 7</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">           <span class="number">125</span>   &amp;    <span class="number">7</span></span><br><span class="line"> 二进制: <span class="number">01111101</span> &amp; <span class="number">00000111</span></span><br><span class="line"> </span><br><span class="line">位与比较:    </span><br><span class="line"><span class="number">0</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">0</span> <span class="number">1</span></span><br><span class="line">---------------</span><br><span class="line"><span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span></span><br><span class="line">| | | | | | | |</span><br><span class="line">× × × × × √ × √</span><br><span class="line">| | | | | | | |</span><br><span class="line"><span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">1</span> <span class="number">0</span> <span class="number">1</span></span><br><span class="line"> </span><br><span class="line">结果: <span class="number">125</span>&amp;<span class="number">7</span> = <span class="number">0000</span> <span class="number">0111</span> = <span class="number">5</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="位或"><a href="#位或" class="headerlink" title="位或(|)"></a>位或(|)</h2><p>位或即如果两个位进行比较<strong>两位同时为0，结果才为0，否则结果为1</strong>。<br>例如: <code>125 | 7</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">           <span class="number">125</span>   |    <span class="number">7</span></span><br><span class="line"> 二进制: <span class="number">01111101</span> | <span class="number">00000111</span></span><br><span class="line"> </span><br><span class="line">位或比较:    </span><br><span class="line"><span class="number">0</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">0</span> <span class="number">1</span></span><br><span class="line">---------------</span><br><span class="line"><span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span></span><br><span class="line">| | | | | | | |</span><br><span class="line">√ × × × × × × ×</span><br><span class="line">| | | | | | | |</span><br><span class="line"><span class="number">0</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span></span><br><span class="line"> </span><br><span class="line">结果: <span class="number">125</span>|<span class="number">7</span> = <span class="number">0111</span> <span class="number">1111</span> = <span class="number">7</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="异或"><a href="#异或" class="headerlink" title="异或(^)"></a>异或(^)</h2><p>位异或即如果两个位进行比较<strong>相同取0，不同取1</strong>。</p>
+<blockquote>
+<p> x^x&#x3D;0</p>
+</blockquote>
+<p>例如: <code>125 ^ 7</code>(java中^代表异或)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">           <span class="number">125</span>   ^    <span class="number">7</span></span><br><span class="line"> 二进制: <span class="number">01111101</span> ^ <span class="number">00000111</span></span><br><span class="line"> </span><br><span class="line">位异或比较:    </span><br><span class="line"><span class="number">0</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">0</span> <span class="number">1</span></span><br><span class="line">---------------</span><br><span class="line"><span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span></span><br><span class="line">| | | | | | | |</span><br><span class="line">√ × × × × √ × √</span><br><span class="line">| | | | | | | |</span><br><span class="line"><span class="number">0</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">0</span> <span class="number">1</span> <span class="number">0</span></span><br><span class="line"> </span><br><span class="line">结果: <span class="number">125</span>^<span class="number">7</span> = <span class="number">0111</span> <span class="number">1010</span> = <span class="number">122</span></span><br></pre></td></tr></table></figure>
+
+<p>异或的几条性质:</p>
+<ol>
+<li>交换律</li>
+<li>结合律 (a^b)^c &#x3D;&#x3D; a^(b^c)</li>
+<li>对于任何数x，都有 x^x&#x3D;0，x^0&#x3D;x</li>
+<li>自反性: a^ b^ b&#x3D; a ^ 0&#x3D;a;</li>
+</ol>
+<p>编程算法中的作用:<strong>交换两个数</strong>(利用性质)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">Swap</span><span class="params">(<span class="type">int</span>  &amp;a,  <span class="type">int</span>  &amp;b)</span>&#123;  </span><br><span class="line">  <span class="keyword">if</span>  (a  !=  b)&#123;  </span><br><span class="line">    a  ^=  b; <span class="comment">//a=a^b</span></span><br><span class="line">    b  ^=  a; <span class="comment">//b=b^(a^b) = (b^b)^a = a </span></span><br><span class="line">    a  ^=  b; <span class="comment">//a=(a^b)^a = (a^a)^b = b</span></span><br><span class="line">        &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="136-只出现一次的数字"><a href="#136-只出现一次的数字" class="headerlink" title="136. 只出现一次的数字"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/single-number/">136. 只出现一次的数字</a></h3><p>给定一个<strong>非空</strong>整数数组，除了某个元素只出现一次以外，其余每个元素均出现两次。找出那个只出现了一次的元素。</p>
+<blockquote>
+<p>利用<strong>相同的数字异或的结果为0</strong> 以及 <strong>任何数字异或0都是它本身的性质 ,</strong></p>
+<p>将数组中所有的数字 ^ 然后返回即可得到结果</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">singleNumber</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;</span><br><span class="line">        <span class="type">int</span> res=nums[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;nums.length;i++)&#123;</span><br><span class="line">            res^=nums[i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span>  res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="右移-gt-gt"><a href="#右移-gt-gt" class="headerlink" title="右移(&gt;&gt;)"></a>右移(&gt;&gt;)</h2><p>将一个数的各二进制位全部右移若干位，正数左补0，负数左补1，右边丢弃。<br><code>125&gt;&gt;3</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">           <span class="number">125</span>   &gt;&gt;    <span class="number">3</span></span><br><span class="line">右移:    </span><br><span class="line"><span class="number">0</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">0</span> <span class="number">1</span></span><br><span class="line">---------------</span><br><span class="line"><span class="number">0</span> <span class="number">0</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">0</span> |<span class="number">1</span>     &gt;&gt; <span class="number">1</span></span><br><span class="line"><span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> |<span class="number">0</span> <span class="number">1</span>   &gt;&gt; <span class="number">2</span></span><br><span class="line"><span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> |<span class="number">1</span> <span class="number">0</span> <span class="number">1</span>   &gt;&gt; <span class="number">3</span></span><br><span class="line">^ ^ ^ </span><br><span class="line">正数补<span class="number">0</span>负数补<span class="number">1</span></span><br><span class="line">结果: <span class="number">125</span>&gt;&gt;<span class="number">3</span> = <span class="number">0000</span> <span class="number">1111</span> = <span class="number">15</span></span><br><span class="line">等价与 <span class="number">125</span>/<span class="number">2</span>的<span class="number">3</span>次方的商</span><br></pre></td></tr></table></figure>
+
+<h2 id="左移-lt-lt"><a href="#左移-lt-lt" class="headerlink" title="左移(&lt;&lt;)"></a>左移(&lt;&lt;)</h2><p>同样的，左移则是<strong>将一个运算对象的各二进制位全部左移若干位（左边的二进制位丢弃，右边补0）。</strong><br><code>125&gt;&gt;3</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">           <span class="number">125</span>   &gt;&gt;    <span class="number">3</span></span><br><span class="line">右移:    </span><br><span class="line">      <span class="number">0</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">0</span> <span class="number">1</span></span><br><span class="line">      ---------------</span><br><span class="line">    <span class="number">0</span>|<span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">0</span> <span class="number">1</span> <span class="number">0</span>  &lt;&lt; <span class="number">1</span></span><br><span class="line">  <span class="number">0</span> <span class="number">1</span>|<span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">0</span> <span class="number">1</span> <span class="number">0</span> <span class="number">0</span>  &lt;&lt; <span class="number">2</span></span><br><span class="line"><span class="number">0</span> <span class="number">1</span> <span class="number">1</span>|<span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">0</span> <span class="number">1</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span>  &lt;&lt; <span class="number">3</span></span><br><span class="line">                ^ ^ ^</span><br><span class="line">                 补<span class="number">0</span></span><br><span class="line">结果: <span class="number">125</span>&lt;&lt;<span class="number">3</span> = <span class="number">1110</span> <span class="number">1000</span> = -<span class="number">24</span>(八位)       </span><br><span class="line">      <span class="number">125</span>&lt;&lt;<span class="number">3</span> = <span class="number">1110</span> <span class="number">1000</span> = <span class="number">1000</span>(十六位)</span><br><span class="line">相当:<span class="number">125</span>*<span class="number">2</span>的<span class="number">3</span>次方(若左移时舍弃的高位不包含<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="无符号右移-gt-gt-gt"><a href="#无符号右移-gt-gt-gt" class="headerlink" title="无符号右移(&gt;&gt;&gt;)"></a>无符号右移(&gt;&gt;&gt;)</h2><p>无符号右移则始终补0，不考虑正负数。</p>
+<h3 id="‘-gt-gt-‘与’-gt-gt-gt-‘的区别"><a href="#‘-gt-gt-‘与’-gt-gt-gt-‘的区别" class="headerlink" title="‘ &gt;&gt; ‘与’ &gt;&gt;&gt; ‘的区别"></a>‘ &gt;&gt; ‘与’ &gt;&gt;&gt; ‘的区别</h3><ul>
+<li><p>&gt;&gt;运算符可以将int和long视为32位和64位无符号整数类型</p>
+</li>
+<li><p>&gt;&gt;&gt;也是找到两个(大)整数的<strong>舍入平均值</strong>的安全有效方法：</p>
+<table>
+<thead>
+<tr>
+<th>1</th>
+<th>int mid &#x3D; (low + high) &gt;&gt;&gt; 1;</th>
+</tr>
+</thead>
+</table>
+<p>如果整数high和low接近最大的机器整数，则以上内容是正确的，但</p>
+<table>
+<thead>
+<tr>
+<th>1</th>
+<th>int mid &#x3D; (low + high) &#x2F; 2;</th>
+</tr>
+</thead>
+</table>
+<p>可能由于溢出而得到错误的结果。</p>
+<p>这是一个示例用法，它修复了天真的二进制搜索中的错误。</p>
+</li>
+<li><p><strong>区别</strong>：</p>
+<ul>
+<li>&gt;&gt;&gt; 负数高位补 0；</li>
+<li>&gt;&gt; 负数高位补1；</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/20200627183328798.png" alt="在这里插入图片描述"></p>
+<p>总结:</p>
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>描述</th>
+<th>运算规则</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>~</td>
+<td>反</td>
+<td>1变0，0变1</td>
+</tr>
+<tr>
+<td>&amp;</td>
+<td>与</td>
+<td>两个位都为1时，结果才为1</td>
+</tr>
+<tr>
+<td>|</td>
+<td>或</td>
+<td>两个位都为0时，结果才为0</td>
+</tr>
+<tr>
+<td>^</td>
+<td>异或</td>
+<td>两个位相同为0，相异为1</td>
+</tr>
+<tr>
+<td>&gt;&gt;</td>
+<td>右移</td>
+<td>各二进位全部左移若干位，高位丢弃，低位补0</td>
+</tr>
+<tr>
+<td>&lt;&lt;</td>
+<td>左移</td>
+<td>各二进位全部右移若干位，对无符号数，高位补0，有符号数，各编译器处理方法不一样，有的补符号位（算术右移），有的补0（逻辑右移）</td>
+</tr>
+</tbody></table>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Leetcode/" rel="tag"># Leetcode</a>
+              <a href="/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/" rel="tag"># 位运算</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/07/30/SSM/SSM%E6%95%B4%E5%90%88/" rel="prev" title="SSM整合">
+      <i class="fa fa-chevron-left"></i> SSM整合
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%8D%E8%BF%90%E7%AE%97"><span class="nav-number">1.</span> <span class="nav-text">位运算</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%8D%E8%BF%90%E7%AE%97%E6%A6%82%E8%BF%B0"><span class="nav-number">1.1.</span> <span class="nav-text">位运算概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%8D%E5%8F%96%E5%8F%8D"><span class="nav-number">1.2.</span> <span class="nav-text">位取反(~)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%8D%E4%B8%8E-amp"><span class="nav-number">1.3.</span> <span class="nav-text">位与(&amp;)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%8D%E6%88%96"><span class="nav-number">1.4.</span> <span class="nav-text">位或(|)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%82%E6%88%96"><span class="nav-number">1.5.</span> <span class="nav-text">异或(^)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#136-%E5%8F%AA%E5%87%BA%E7%8E%B0%E4%B8%80%E6%AC%A1%E7%9A%84%E6%95%B0%E5%AD%97"><span class="nav-number">1.5.1.</span> <span class="nav-text">136. 只出现一次的数字</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%B3%E7%A7%BB-gt-gt"><span class="nav-number">1.6.</span> <span class="nav-text">右移(&gt;&gt;)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B7%A6%E7%A7%BB-lt-lt"><span class="nav-number">1.7.</span> <span class="nav-text">左移(&lt;&lt;)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%A0%E7%AC%A6%E5%8F%B7%E5%8F%B3%E7%A7%BB-gt-gt-gt"><span class="nav-number">1.8.</span> <span class="nav-text">无符号右移(&gt;&gt;&gt;)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%80%98-gt-gt-%E2%80%98%E4%B8%8E%E2%80%99-gt-gt-gt-%E2%80%98%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.8.1.</span> <span class="nav-text">‘ &gt;&gt; ‘与’ &gt;&gt;&gt; ‘的区别</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="dhx_"
+      src="/images/avater.png">
+  <p class="site-author-name" itemprop="name">dhx_</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">63</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/adorabled4" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;adorabled4" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter08/" title="https:&#x2F;&#x2F;heavy_code_industry.gitee.io&#x2F;code_heavy_industry&#x2F;pro001-javaweb&#x2F;lecture&#x2F;chapter08&#x2F;" rel="noopener" target="_blank">thymeleaf教程</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://leetcode.cn/problemset/all/" title="https:&#x2F;&#x2F;leetcode.cn&#x2F;problemset&#x2F;all&#x2F;" rel="noopener" target="_blank">leetcode</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.bilibili.com/" title="https:&#x2F;&#x2F;www.bilibili.com&#x2F;" rel="noopener" target="_blank">bilibili</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">dhx_</span>
+</div>
+
+<!--  删除底部的 由hexo 强力驱动
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>-->
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
