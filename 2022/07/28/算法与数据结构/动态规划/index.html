@@ -29,12 +29,14 @@
 <meta property="og:site_name" content="dhx_&#39;blog">
 <meta property="og:description" content="动态规划 如果一个问题，可以把所有可能的答案穷举出来，并且穷举出来后，发现存在重叠子问题，就可以考虑使用动态规划。   比如一些求最值的场景，如最长递增子序列、最小编辑距离、背包问题、凑零钱问题等等，都是动态规划的经典应用场景。">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082image-20220731223914479.png">
 <meta property="article:published_time" content="2022-07-28T15:33:12.000Z">
-<meta property="article:modified_time" content="2022-07-29T01:12:39.657Z">
+<meta property="article:modified_time" content="2022-07-31T15:24:35.032Z">
 <meta property="article:author" content="dhx_">
 <meta property="article:tag" content="Leetcode">
 <meta property="article:tag" content="动态规划">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082image-20220731223914479.png">
 
 <link rel="canonical" href="http://dhx_.com/2022/07/28/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
 
@@ -139,7 +141,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">63</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">64</span></a>
 
   </li>
   </ul>
@@ -200,7 +202,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-29 09:12:39" itemprop="dateModified" datetime="2022-07-29T09:12:39+08:00">2022-07-29</time>
+                <time title="修改时间：2022-07-31 23:24:35" itemprop="dateModified" datetime="2022-07-31T23:24:35+08:00">2022-07-31</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -304,6 +306,72 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.math.BigInteger;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">rob</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;</span><br><span class="line">     <span class="comment">// 子问题：</span></span><br><span class="line">    <span class="comment">// f(k) = 偷 [0..k) 房间中的最大金额</span></span><br><span class="line">    <span class="comment">// f(0) = 0</span></span><br><span class="line">    <span class="comment">// f(1) = nums[0]</span></span><br><span class="line">    <span class="comment">// f(k) = max&#123; rob(k-1), nums[k-1] + rob(k-2) &#125;</span></span><br><span class="line">        <span class="type">int</span> n=nums.length;</span><br><span class="line">        <span class="type">int</span> []dp=<span class="keyword">new</span> <span class="title class_">int</span> [n+<span class="number">1</span>];</span><br><span class="line">        dp[<span class="number">0</span>]=<span class="number">0</span>;</span><br><span class="line">        dp[<span class="number">1</span>]=nums[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">2</span>;i&lt;=n;i++)&#123;</span><br><span class="line">            dp[i]=Math.max(dp[i-<span class="number">1</span>],dp[i-<span class="number">2</span>]+nums[i-<span class="number">1</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[n];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
+
+
+
+<h2 id="120-三角形最小路径和"><a href="#120-三角形最小路径和" class="headerlink" title="120. 三角形最小路径和"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/triangle/">120. 三角形最小路径和</a></h2><p>难度中等1077</p>
+<p>给定一个三角形 <code>triangle</code> ，找出自顶向下的最小路径和。</p>
+<p>每一步只能移动到下一行中相邻的结点上。<strong>相邻的结点</strong> 在这里指的是 <strong>下标</strong> 与 <strong>上一层结点下标</strong> 相同或者等于 <strong>上一层结点下标 + 1</strong> 的两个结点。也就是说，如果正位于当前行的下标 <code>i</code> ，那么下一步可以移动到下一行的下标 <code>i</code> 或 <code>i + 1</code> 。</p>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082image-20220731223914479.png" alt="image-20220731223914479" style="zoom:67%;" />
+
+<blockquote>
+<p>说白了就是找到从定点到底边的连线的最小sum</p>
+<p>规则:</p>
+<ul>
+<li>只能走相邻的点</li>
+</ul>
+</blockquote>
+<ul>
+<li><p>dp思路 ,<strong>自底向上</strong> , 	</p>
+<ul>
+<li><p>定义<code>f (i , j )</code> 为第 <code>(i, j )</code>点到底边的最小距离</p>
+</li>
+<li><p>状态转移方程:</p>
+<ul>
+<li><p><code> f(i,j)=Math.min(f( i+1,j) ,f(i+1, j+1) +triangle[i][j]</code>  </p>
+<blockquote>
+<p><code>f( i+1,j) ,f(i+1, j+1)</code> 是 下一行的左右邻居</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">   2</span><br><span class="line">  3 4</span><br><span class="line"> 6 5 0</span><br><span class="line">4 1 8 1</span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>自顶向上, <code>dp[i][j]</code> 表示的是 这个位置的坐标与下一行的较小的那个邻居的和 </p>
+<ul>
+<li>由于三角形的最底层没有下一行,因此需要多 <code>new [n+1]</code></li>
+</ul>
+<p><code>dp[][]</code>:</p>
+<blockquote>
+<p>4 1 8 1</p>
+<p>7 2 1</p>
+<p>2 5</p>
+<p>4</p>
+</blockquote>
+<p>每一个元素 的和 都是 最小值的理想情况,随着 层数的减小,元素个数不断减小 ,<br>直到 第一层 , <code>dp[0][0]</code>只有两个可以选择的值, 此时<code>dp[0][0]</code>也就是最小值</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">minimumTotal</span><span class="params">(List&lt;List&lt;Integer&gt;&gt; triangle)</span> &#123;  <span class="comment">//这个 list 就是个二维数组</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span>triangle.size(); <span class="comment">// 表示行数</span></span><br><span class="line">        <span class="type">int</span> [][]dp =<span class="keyword">new</span> <span class="title class_">int</span>[n+<span class="number">1</span>][n+<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=n-<span class="number">1</span>;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt;=i ; j++) &#123;</span><br><span class="line">                dp[i][j]=Math.min(dp[i+<span class="number">1</span>][j],dp[i+<span class="number">1</span>][j+<span class="number">1</span>]) + triangle.get(i).get(j);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[<span class="number">0</span>][<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li><p>一维数组优化版本</p>
+</li>
+<li><p>由于许多层的数据只会使用一次,因此直接让后面的数据覆盖没用的数据, 节省空间</p>
+</li>
+</ul>
+<blockquote>
+<p>如果改为一维数组, 其实思路就是将 原来的二维数组的上面的行 直接在 下一行的位置赋值, 而且由于位置右移,<br>即使改变了前面的元素也不会影响后面的元素, 因此可以将二维数组优化为一维数组</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">minimumTotal</span><span class="params">(List&lt;List&lt;Integer&gt;&gt; triangle)</span> &#123;  <span class="comment">//这个 list 就是个二维数组</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span>triangle.size(); <span class="comment">// 表示行数</span></span><br><span class="line">        <span class="type">int</span> []dp =<span class="keyword">new</span> <span class="title class_">int</span>[n+<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=n-<span class="number">1</span>;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt;=i ; j++) &#123;</span><br><span class="line">                dp[j]=Math.min(dp[j],dp[j+<span class="number">1</span>]) + triangle.get(i).get(j);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
     </div>
 
     
@@ -387,7 +455,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92"><span class="nav-number">1.</span> <span class="nav-text">动态规划</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF"><span class="nav-number">1.0.1.</span> <span class="nav-text">解题思路</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#70-%E7%88%AC%E6%A5%BC%E6%A2%AF"><span class="nav-number">1.1.</span> <span class="nav-text">70. 爬楼梯</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-I-%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0%E5%88%97"><span class="nav-number">1.2.</span> <span class="nav-text">10- I. 斐波那契数列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-II-%E9%9D%92%E8%9B%99%E8%B7%B3%E5%8F%B0%E9%98%B6%E9%97%AE%E9%A2%98"><span class="nav-number">1.3.</span> <span class="nav-text">10- II. 青蛙跳台阶问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#198-%E6%89%93%E5%AE%B6%E5%8A%AB%E8%88%8D"><span class="nav-number">1.4.</span> <span class="nav-text">198. 打家劫舍</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92"><span class="nav-number">1.</span> <span class="nav-text">动态规划</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF"><span class="nav-number">1.0.1.</span> <span class="nav-text">解题思路</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#70-%E7%88%AC%E6%A5%BC%E6%A2%AF"><span class="nav-number">1.1.</span> <span class="nav-text">70. 爬楼梯</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-I-%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0%E5%88%97"><span class="nav-number">1.2.</span> <span class="nav-text">10- I. 斐波那契数列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-II-%E9%9D%92%E8%9B%99%E8%B7%B3%E5%8F%B0%E9%98%B6%E9%97%AE%E9%A2%98"><span class="nav-number">1.3.</span> <span class="nav-text">10- II. 青蛙跳台阶问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#198-%E6%89%93%E5%AE%B6%E5%8A%AB%E8%88%8D"><span class="nav-number">1.4.</span> <span class="nav-text">198. 打家劫舍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#120-%E4%B8%89%E8%A7%92%E5%BD%A2%E6%9C%80%E5%B0%8F%E8%B7%AF%E5%BE%84%E5%92%8C"><span class="nav-number">1.5.</span> <span class="nav-text">120. 三角形最小路径和</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -403,7 +471,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">63</span>
+          <span class="site-state-item-count">64</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
