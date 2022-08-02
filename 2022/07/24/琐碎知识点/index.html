@@ -31,7 +31,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082image-20220726155905046.png">
 <meta property="article:published_time" content="2022-07-24T05:45:39.000Z">
-<meta property="article:modified_time" content="2022-07-26T07:59:32.502Z">
+<meta property="article:modified_time" content="2022-08-02T06:45:43.315Z">
 <meta property="article:author" content="dhx_">
 <meta property="article:tag" content="java">
 <meta name="twitter:card" content="summary">
@@ -201,7 +201,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-26 15:59:32" itemprop="dateModified" datetime="2022-07-26T15:59:32+08:00">2022-07-26</time>
+                <time title="修改时间：2022-08-02 14:45:43" itemprop="dateModified" datetime="2022-08-02T14:45:43+08:00">2022-08-02</time>
               </span>
 
           
@@ -346,6 +346,32 @@
 
 
 
+
+<h1 id="7、java中的list为空（size-x3D-x3D-0）与list为null的区别"><a href="#7、java中的list为空（size-x3D-x3D-0）与list为null的区别" class="headerlink" title="7、java中的list为空（size&#x3D;&#x3D;0）与list为null的区别"></a>7、java中的list为空（size&#x3D;&#x3D;0）与list为null的区别</h1><ul>
+<li><p><strong>举个例子</strong>，我有一个空着的水杯（list），而你没有，那你是null，我的size为0。你想装水就需要自己去买个水杯（new <a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=ArrayList&spm=1001.2101.3001.7020">ArrayList</a>();），\</p>
+<p>但是我就可以直接装水（list.add(水)）。你要是没有杯子直接倒水，水就流出去(<code>NullPointerException</code>)。</p>
+</li>
+</ul>
+<p>isEmpty() 或者(list.size() &#x3D;&#x3D; 0)用于判断List内容是否为空，即表里一个元素也没有， 但是使用isEmpty()和size()的前提是，list是一个空集合，而不是null，所以为了避免异常，建议在使用或赋值list集合之前，做一次空集合创建处理，进行内存空间分配，</p>
+<blockquote>
+<p>实测isEmpty速度要比size慢</p>
+</blockquote>
+<ul>
+<li><strong>null</strong><br>list&#x3D;&#x3D;null，其实就是没有为这个list 分配空间 , 如果直接使用就会<code>NullPointerException</code></li>
+</ul>
+<p>例子:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">test</span><span class="params">()</span>&#123;</span><br><span class="line">    List&lt;Integer&gt; list1=List.of();</span><br><span class="line">    List&lt;Integer&gt; list2=<span class="literal">null</span>;</span><br><span class="line">    System.out.println(list1.get(<span class="number">0</span>));</span><br><span class="line">    System.out.println(list2.get(<span class="number">0</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>直接运行 <ul>
+<li><code>list1.get(0)</code>的异常是<code>java.lang.ArrayIndexOutOfBoundsException: Index 0 out of bounds for length 0</code></li>
+<li><code>list2.get(0)</code>的异常是<code>java.lang.NullPointerException</code></li>
+</ul>
+</li>
+</ul>
+
     </div>
 
     
@@ -428,7 +454,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1%E3%80%81Java-%E4%B8%AD%E6%B5%AE%E7%82%B9%E6%95%B0%E7%9A%84%E7%B2%BE%E5%BA%A6%E4%B8%A2%E5%A4%B1%E9%97%AE%E9%A2%98%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-text">1、Java 中浮点数的精度丢失问题以及解决方案</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2%E3%80%81Java%E5%8F%8D%E5%B0%84%E4%B8%ADgetMethods-%E4%B8%8EgetDeclaredMethods-%E5%8C%BA%E5%88%AB"><span class="nav-text">2、Java反射中getMethods()与getDeclaredMethods()区别</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3%E3%80%81java-Stack-%E7%B1%BB"><span class="nav-text">3、java Stack 类</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5%E3%80%81System-arraycopy"><span class="nav-text">5、System.arraycopy()</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E6%95%B0"><span class="nav-text">参数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E6%B7%B1%E5%BA%A6%E5%A4%8D%E5%88%B6%E5%92%8C%E6%B5%85%E5%BA%A6%E5%A4%8D%E5%88%B6%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-text">一、深度复制和浅度复制的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8C%E3%80%81System-arraycopy-%E6%96%B9%E6%B3%95%E5%AE%9E%E7%8E%B0%E5%A4%8D%E5%88%B6"><span class="nav-text">二、System.arraycopy()方法实现复制</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6%E3%80%81java%E9%98%9F%E5%88%97%EF%BC%88Queue%EF%BC%89"><span class="nav-text">6、java队列（Queue）</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1%E3%80%81Java-%E4%B8%AD%E6%B5%AE%E7%82%B9%E6%95%B0%E7%9A%84%E7%B2%BE%E5%BA%A6%E4%B8%A2%E5%A4%B1%E9%97%AE%E9%A2%98%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-text">1、Java 中浮点数的精度丢失问题以及解决方案</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2%E3%80%81Java%E5%8F%8D%E5%B0%84%E4%B8%ADgetMethods-%E4%B8%8EgetDeclaredMethods-%E5%8C%BA%E5%88%AB"><span class="nav-text">2、Java反射中getMethods()与getDeclaredMethods()区别</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3%E3%80%81java-Stack-%E7%B1%BB"><span class="nav-text">3、java Stack 类</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5%E3%80%81System-arraycopy"><span class="nav-text">5、System.arraycopy()</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E6%95%B0"><span class="nav-text">参数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E6%B7%B1%E5%BA%A6%E5%A4%8D%E5%88%B6%E5%92%8C%E6%B5%85%E5%BA%A6%E5%A4%8D%E5%88%B6%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-text">一、深度复制和浅度复制的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8C%E3%80%81System-arraycopy-%E6%96%B9%E6%B3%95%E5%AE%9E%E7%8E%B0%E5%A4%8D%E5%88%B6"><span class="nav-text">二、System.arraycopy()方法实现复制</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6%E3%80%81java%E9%98%9F%E5%88%97%EF%BC%88Queue%EF%BC%89"><span class="nav-text">6、java队列（Queue）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7%E3%80%81java%E4%B8%AD%E7%9A%84list%E4%B8%BA%E7%A9%BA%EF%BC%88size-x3D-x3D-0%EF%BC%89%E4%B8%8Elist%E4%B8%BAnull%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-text">7、java中的list为空（size&#x3D;&#x3D;0）与list为null的区别</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
