@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/cheems_sword_small.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.cat.net/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-center-circle.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"dhx_.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="图的概念相关术语图是由节点和连接节点之间的边组成的，与连线的长度，节点的位置没有关系。一个图是一个三元组&lt;V(G), E(G), F&gt;，其中V是一个非空的节点集合，E是边集合，F是从边集合E到节点序偶(无序偶或有序偶)集合上的函数。若图中边总是两个节点的关联，则图可简记为G&#x3D;&lt;G, E&gt;。树可以是空树但图不能是空图。图的结点集不能为空但边集可以为空。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="动态规划">
+<meta property="og:url" content="http://dhx_.com/2022/08/16/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91%E4%B8%8E%E5%9B%BE/index.html">
+<meta property="og:site_name" content="dhx_&#39;blog">
+<meta property="og:description" content="图的概念相关术语图是由节点和连接节点之间的边组成的，与连线的长度，节点的位置没有关系。一个图是一个三元组&lt;V(G), E(G), F&gt;，其中V是一个非空的节点集合，E是边集合，F是从边集合E到节点序偶(无序偶或有序偶)集合上的函数。若图中边总是两个节点的关联，则图可简记为G&#x3D;&lt;G, E&gt;。树可以是空树但图不能是空图。图的结点集不能为空但边集可以为空。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-915f847811d144bca858fad6102f8d7d_720w.jpg">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-4ce0dcdc7434fb621e37cc4b57da38cd_720w.jpg">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-855ae185d1495f1bcd97e2134fac50a7_720w.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-fc227181afecbc96c9a5b1a44ca2ef62_720w.jpg">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-651b58ba9fc4234aaa755af159912827_r.jpg">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-23e5f253050da658eb25108051b8a98b_720w.jpg">
+<meta property="og:image" content="https://pic3.zhimg.com/v2-e02fdd73aaea2511d6c3af5b75b11d2e_r.jpg">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-bbbcb688c1e2ef1d335c4cb4e4d8de44_720w.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-7d31b65bf58ab3a43ad83d716d0d7207_r.jpg">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-88390642e96b699ca805d486cfdaeea2_720w.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-0e402f89e7767f169ea635d61e4cf530_r.jpg">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-6c1e822fac7f8bf2de8f0bf0d8be92aa_720w.jpg">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-c251a186854297b6b9da88aafb865738_720w.jpg">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-6a13ca89607e69b4ab730e7526619c03_720w.jpg">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-915f847811d144bca858fad6102f8d7d_720w.jpg">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-ff4d8cd47a1ce4fb41b8eacfa1defa07_r.jpg">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-3ee79d582bab9dcae6fac39a63a5f18f_r.jpg">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-39f65acbe858e896e2f7a55d1f837df4_r.jpg">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-e4dbd58f7a9e86e12931a1568fe30b01_r.jpg">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-85b96aeacb2ce5496955b7e7dfebf819_r.jpg">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-205828c4cd555a31b583487bbecb87c9_r.jpg">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-d0f37d76a9c6ae3a6e285b605ecc0ddb_r.jpg">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-60507f7f1aefb421fce8aa1e3b7edbf7_720w.jpg">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-c618a236af59ddb9540b9fb84f4e0e69_720w.jpg">
+<meta property="article:published_time" content="2022-08-16T07:50:29.000Z">
+<meta property="article:modified_time" content="2022-08-16T07:54:25.004Z">
+<meta property="article:author" content="dhx_">
+<meta property="article:tag" content="树论">
+<meta property="article:tag" content="图论">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-915f847811d144bca858fad6102f8d7d_720w.jpg">
+
+<link rel="canonical" href="http://dhx_.com/2022/08/16/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91%E4%B8%8E%E5%9B%BE/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>动态规划 | dhx_'blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">dhx_'blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">一点浩然气，千里快哉风！</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">23</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">8</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">70</span></a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dhx_.com/2022/08/16/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91%E4%B8%8E%E5%9B%BE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avater.png">
+      <meta itemprop="name" content="dhx_">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dhx_'blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          动态规划
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-08-16 15:50:29 / 修改时间：15:54:25" itemprop="dateCreated datePublished" datetime="2022-08-16T15:50:29+08:00">2022-08-16</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">算法与数据结构</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="图的概念"><a href="#图的概念" class="headerlink" title="图的概念"></a>图的概念</h2><h3 id="相关术语"><a href="#相关术语" class="headerlink" title="相关术语"></a>相关术语</h3><p>图是由节点和连接节点之间的边组成的，与连线的长度，节点的位置没有关系。一个图是一个三元组&lt;V(G), E(G), F&gt;，其中V是一个非空的节点集合，E是边集合，F是从边集合E到节点序偶(无序偶或有序偶)集合上的函数。若图中边总是两个节点的关联，则图可简记为G&#x3D;&lt;G, E&gt;。树可以是空树但图不能是空图。图的结点集不能为空但边集可以为空。</p>
+<span id="more"></span>
+
+<ul>
+<li><strong>无向图</strong>：若图中所有边都是无向边，则图是无向图；</li>
+<li><strong>有向图</strong>：若所有边都是有向边，则图是有向图；</li>
+<li><strong>混合图</strong>：若图中既有无向边又有无向边则图为混合图；</li>
+<li><strong>多重图</strong>：还有平行边的任何一个图称为多重图</li>
+<li><strong>简单图</strong>：不含平行边和环的图称为简单图</li>
+<li><strong>平凡图</strong>：仅由一个孤立节点构成的图为平凡图；</li>
+<li><strong>零图</strong>：仅由孤立节点组成的图为零图；</li>
+<li><strong>完全图</strong>：图中每一对节点之间都有边相连则称为完全图</li>
+<li><strong>补图</strong>：给定一个图G，由图中<strong>所有节点</strong>和所有能使G称为完全图的<strong>添加边</strong>组成的图称为G相当于完全图的补图，简称G的补图。</li>
+<li><strong>子图</strong>：G&#x3D;&lt;V,E&gt;，G’&#x3D;&lt;V’, E’&gt;，<ul>
+<li>其中V’,E’分别是V，E的子集，则G’是G的子图</li>
+<li><em><strong>注意！</strong></em>图G’ &#x3D; &lt;V’, E’&gt;是图G&#x3D;&lt;V,E&gt;的子图，若另一子图G’’&#x3D;&lt;V’’, E’’&gt;使得E’’&#x3D;E-E’，且V’’中仅包含E’’的边所关联的结点。则称 G’’是子图G’的相对于图G的补图。</li>
+</ul>
+</li>
+<li><strong>生成子图</strong>：G的子图包含G的所有结点则该子图为G的生成子图</li>
+<li><strong>同构图</strong>：图G&#x3D;&lt;V,E&gt;及G’&#x3D;&lt;V’,E’&gt;，若存在一一对应关系g，使得v-&gt;v’，e&#x3D;(vi, vj) -&gt; e’ &#x3D; (g(vi), g(vj))，则称G于G’同构记作G<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/543187296/edit#">\simeq</a>G’.两个图同构的充要条件是两个图的结点和边分别存在一一对应，且保持关联关系</li>
+<li><strong>孤立节点</strong>：图中不与任何节点邻接的节点</li>
+<li><strong>邻接节点</strong>：两个节点之间有边相连则这两个节点称为邻接点</li>
+<li><strong>邻接边</strong>：连接同一节点的两条边称为邻接边</li>
+<li>**环(回路)**：邻接同一节点的一条边</li>
+<li><strong>度</strong>：节点连接的边数记为节点的度</li>
+<li><strong>出度</strong>：指出节点的边数量</li>
+<li><strong>入度</strong>：指向节点的边数量</li>
+</ul>
+<h3 id="定理"><a href="#定理" class="headerlink" title="定理"></a><strong>定理</strong></h3><ol>
+<li>节点度数总和等于边数的二倍</li>
+<li>度数为奇数的节点必定是偶数</li>
+<li>所有节点入度和等于所有节点出度和</li>
+<li>n个节点的无向完全图 边数为<code>n(n-1)/2</code></li>
+</ol>
+<h2 id="路"><a href="#路" class="headerlink" title="路"></a>路</h2><p>给定图G&#x3D;&lt;V, E&gt;，设v0, v1, …vn是图中的结点，e1, e2,…en是图中的边，ei是关联结点vi-1和vi的边，则交替序列v0e1v1e2…envn为连接v0到vn的路。</p>
+<p><strong>路径长度</strong>：路中边的数目记为路径长度</p>
+<p><strong>回路</strong>：路径初始结点和终结结点相同的路</p>
+<p><strong>通路</strong>：一条路中所有的结点都不相同则该路称为通路</p>
+<p><strong>迹</strong>：一条路中所有的边都不相同则该路称为迹</p>
+<p><strong>圈</strong>：回路中除了起始和终止结点相同其他都不同的路</p>
+<p><strong>无向图</strong></p>
+<p><strong>连通</strong>：无向图中，两个结点之间存在一条路则称节点间连通</p>
+<p><strong>连通图</strong>：图G中只有一个连通分支</p>
+<p><strong>点割集</strong>：假设无向图G&#x3D;&lt;V,E&gt;为无向图，点集V1是V的子集。若删除V1的所有结点后，所得子图不连通，但是删除V1的任何真子集后所得子图是连通图则成V1是G的一个点割集。</p>
+<p><strong>割点</strong>：若点割集只有一个结点，则该结点为割点</p>
+<p><strong>点连通度</strong>：为产生一个不连通图需要在原图(非完全图)中删除结点的最小数目</p>
+<p><strong>边割集</strong>：假设无向图G&#x3D;&lt;V,E&gt;为无向图，点集E1是E的子集。若删除E1的所有边后，所得子图不连通，但是删除E1的任何真子集后所得子图是连通图则成E1是G的一个边割集。</p>
+<p><strong>割边</strong>：若边割集只有一个边，则该边为割边，也叫桥</p>
+<p><strong>边连通度</strong>：为产生一个不连通图需要在原图(非平凡图)中删除边的最小数目</p>
+<p><strong>有向图</strong></p>
+<p><strong>可达</strong>：有向图中，结点u到结点v之间有一条路，称结点u到v可达</p>
+<p><strong>距离</strong>：有向图中可达的结点间最短的路径长度(无向图亦适用)</p>
+<p><strong>直径</strong>：图中节点对之间距离最大的长度</p>
+<p><strong>单侧连通</strong>：有向图中任何一对结点间至少有一个结点到另一个结点是可达的</p>
+<p><strong>强连通</strong>：任何一对结点之间相互可达，则图强连通</p>
+<p><strong>弱连通</strong>：有向图G去掉边的方向后得到的无向图是联通的则该图是弱连通</p>
+<p><strong>强分图</strong>：有向图中具有强连通性质的最大子图称为强分图</p>
+<p><strong>弱分图</strong>：有向图中具有弱连通性质的最大子图称为弱分图</p>
+<p><strong>单侧分图</strong>：有向图中具有单侧连通性质的最大子图称为单侧分图</p>
+<p><strong>定理一、</strong>在具有n个结点的图中，若vi到vj存在一条路，则vi到vj必存在一条长度不大于n-1的路</p>
+<p><strong>定理二、</strong>图是强连通则必是单侧连通；是单侧连通则必是弱连通。</p>
+<p><strong>定理三、</strong>一个有向图是强连通的，当且仅当图中有一个回路，它至少包含每个结点一次</p>
+<p><strong>定理四、</strong>有向图中，每个结点位于且只位于一个强分图中</p>
+<h2 id="图的代数表示"><a href="#图的代数表示" class="headerlink" title="图的代数表示"></a>图的代数表示</h2><h3 id="邻接矩阵"><a href="#邻接矩阵" class="headerlink" title="邻接矩阵"></a><strong>邻接矩阵</strong></h3><p>图的邻接矩阵表示通过使用|V|*|V|大小的方阵表示，矩阵每个元素表示结点的邻接关系。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-915f847811d144bca858fad6102f8d7d_720w.jpg" alt="img"></p>
+<p>简单无向图的邻接矩阵是对称的。第i行值为1的元素数目等于结点i的出度，第j列值为1的元素数目是结点j的入度。</p>
+<p><strong>定理一、</strong>A为图的邻接矩阵，A^n中第i行第j列的元素等于结点i和结点j之间长度为n的路的数目</p>
+<h3 id="可达矩阵"><a href="#可达矩阵" class="headerlink" title="可达矩阵"></a><strong>可达矩阵</strong></h3><p>对于一个简单有向图G，假设图中节点已排序，则方阵P为图G的可达矩阵</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-4ce0dcdc7434fb621e37cc4b57da38cd_720w.jpg" alt="img"></p>
+<p>可达矩阵表明图中任意两个结点之间是否存在一条路。可达矩阵的计算通过邻接矩阵A计算。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-855ae185d1495f1bcd97e2134fac50a7_720w.png" alt="img"></p>
+<p>将B中不为零的元素替换为1，得到的矩阵就是可达矩阵。</p>
+<h3 id="完全关联矩阵"><a href="#完全关联矩阵" class="headerlink" title="完全关联矩阵"></a><strong>完全关联矩阵</strong></h3><p>给定图G，v1,v2,…vn和e1,e2,…eq分别为G中的点和边，则M为图的完全关联矩阵</p>
+<p><strong>无向图</strong></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-fc227181afecbc96c9a5b1a44ca2ef62_720w.jpg" alt="img"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-651b58ba9fc4234aaa755af159912827_r.jpg" alt="img"></p>
+<p><strong>有向图</strong></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-23e5f253050da658eb25108051b8a98b_720w.jpg" alt="img"></p>
+<p><img src="https://pic3.zhimg.com/v2-e02fdd73aaea2511d6c3af5b75b11d2e_r.jpg" alt="img"></p>
+<p>完全关联矩阵中两行相加(相当于两个结点合并)</p>
+<p>1）有向图中是两行分量的普通加法运算</p>
+<p>2）无向图中是对应分量加法模2运算</p>
+<h3 id="拉普拉斯矩阵"><a href="#拉普拉斯矩阵" class="headerlink" title="拉普拉斯矩阵"></a><strong>拉普拉斯矩阵</strong></h3><p>对于具有n个节点的简单无向图，该图拉普拉斯矩阵L定义为</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-bbbcb688c1e2ef1d335c4cb4e4d8de44_720w.png" alt="img"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-7d31b65bf58ab3a43ad83d716d0d7207_r.jpg" alt="img"></p>
+<p>D为图的度矩阵，是一个n*n的对角矩阵，diag(v)是v的度</p>
+<h3 id="对称归一化拉普拉斯矩阵"><a href="#对称归一化拉普拉斯矩阵" class="headerlink" title="对称归一化拉普拉斯矩阵"></a><strong>对称归一化拉普拉斯矩阵</strong></h3><p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-88390642e96b699ca805d486cfdaeea2_720w.png" alt="img"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-0e402f89e7767f169ea635d61e4cf530_r.jpg" alt="img"></p>
+<h3 id="随机游走归一化拉普拉斯矩阵"><a href="#随机游走归一化拉普拉斯矩阵" class="headerlink" title="随机游走归一化拉普拉斯矩阵"></a><strong>随机游走归一化拉普拉斯矩阵</strong></h3><p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-6c1e822fac7f8bf2de8f0bf0d8be92aa_720w.jpg" alt="img"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-c251a186854297b6b9da88aafb865738_720w.jpg" alt="img"></p>
+<p><strong>定理：</strong></p>
+<p>a. 拉普拉斯矩阵半正定</p>
+<p>b. 拉普拉斯矩阵特征值非负</p>
+<p>c. 最小非零特征值是图的代数连通度</p>
+<p>d.特征值为0的数目是连通分量数目</p>
+<p>e.对称归一化的拉普拉斯矩阵的特征值[0,2]</p>
+<h2 id="欧拉图与汉密尔顿图"><a href="#欧拉图与汉密尔顿图" class="headerlink" title="欧拉图与汉密尔顿图"></a>欧拉图与汉密尔顿图</h2><p><strong>欧拉路径</strong>：无孤立结点图中，每个边恰好只被访问一次(有向图中欧拉路叫单向欧拉路)</p>
+<p><strong>欧拉回路</strong>：一条回路，图中每条边访问且只访问一次</p>
+<p><strong>欧拉图</strong>：具有欧拉回路的图称作欧拉图</p>
+<p><strong>哈密尔顿路径</strong>：每个结点恰好只被访问一次</p>
+<p><strong>哈密尔顿回路</strong>：一条回路，每个结点恰好只被访问一次</p>
+<p><strong>哈密尔顿图</strong>：具有哈密尔顿回路的图称作哈密尔顿图</p>
+<p><strong>闭包</strong>：图G有n个结点，若将图G中度数之和至少是n的非邻接结点连接起来得图G’，对图G’重复上述步骤，直到不再有这样得结点对存在为止后得到得图称为原图G的闭包</p>
+<p><strong>定理一、</strong>无向图G具有一条欧拉路，当且仅当G是连通的，且有零个或两个奇数度结点</p>
+<p><strong>推论一、</strong>无向图G具有一条欧拉回路，当且仅当G是连通的，且所有结点度数全为偶数</p>
+<p><strong>定理二、</strong>图G有汉密尔顿回路，则结点集V的每个非空子集S均有G-S的连通分支数小于等于|S|</p>
+<p><strong>定理三、</strong>图G具有n个结点的简单图，若图中每一对结点度数之和大于等于n-1，则在G中存在一条汉密尔顿路</p>
+<p><strong>定理四、</strong>图G具有n个结点的简单图，若图中每一对结点度数之和大于等于n，则在G中存在一条汉密尔顿回路</p>
+<p><strong>定理五</strong>、当且仅当一个简单图的闭包是汉密尔顿图时，该简单图是汉密尔顿图</p>
+<h2 id="平面图"><a href="#平面图" class="headerlink" title="平面图"></a>平面图</h2><p><strong>平面图</strong>：图G是一个无向图，若把G的所有结点和边画在平面上，且使得任何两条边除了端点外没有其它交点，称该图是一个平面图</p>
+<p><strong>面</strong>：G是一连通平面图，图中边包围的区域内没有结点和边，该区域叫G的一个面</p>
+<p><strong>边界</strong>：包围面的边构成的回路叫该面的边界</p>
+<p><strong>2度结点内同构</strong>：若两个图同构或者通过反复插入或删除度为2的结点后同构，则称两个图在2度结点内同构</p>
+<p><strong>定理一、</strong>一个有限平面图，面的次数之和等于其边数的两倍</p>
+<p><strong>定理二、</strong>欧拉定理，一个连通的平面图，v个结点e条边和r个面，欧拉公式：v-e+r&#x3D;2</p>
+<p><strong>定理三、</strong>G是一个有v个结点e条边的连通简单平面图，若v&gt;&#x3D;3,则e&lt;&#x3D;3v-6</p>
+<h2 id="对偶与着色"><a href="#对偶与着色" class="headerlink" title="对偶与着色"></a>对偶与着色</h2><p><strong>对偶图：</strong>给定平面图G&#x3D;&lt;V, E&gt;，它具有面F1, F2,…Fn，若图G*&#x3D;&lt;V*, E*&gt;满足一下条件则陈G*是G的对偶图。</p>
+<p>a. 图G任意一个面Fi，内部有且仅有一个结点v<em>i属于V</em></p>
+<p>b. 图G的面Fi, Fj公共边界ek，存在且仅存在一条边e<em>k，使e</em>k&#x3D;(v<em>i, v</em>j)，且e*k与ek相交</p>
+<p>c. 当且仅当ek只是一个面Fi的边界时，v<em>i存在一个环e</em>k和ek相交。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-6a13ca89607e69b4ab730e7526619c03_720w.jpg" alt="img"></p>
+<p><strong>自对偶图：</strong>图G的对偶图同构于G，则G是自对偶图</p>
+<p>着色：给定一平面图，对每个结点着色使相邻结点颜色不同。着色用了n种颜色则图称为n色的。</p>
+<p>韦尔奇。鲍威尔法对图着色：</p>
+<p>a. 将图G种结点按照度数递增次序进行排列</p>
+<p>b. 用第一种颜色对第一点着色，并按照排列次序，对前面着色不相邻的结点着相同颜色</p>
+<p>c. 用第二种颜色对未着色点重复b操作，第三种颜色继续此法，直到所有结点都着上</p>
+<p><strong>定理一、</strong>对于n个结点的完全图Kn，着色数为n</p>
+<p><strong>定理二、</strong>一个至少具有三个结点的连通平面图，则G中必有一个结点u使得deg(u)&lt;&#x3D;5</p>
+<p><strong>定理三、</strong>任意平面图最多是5色的</p>
+<h2 id="数与生成树"><a href="#数与生成树" class="headerlink" title="数与生成树"></a>数与生成树</h2><p><strong>树</strong>：连通无回路的无向图</p>
+<p><strong>森林</strong>：无回路的无向图，其每个连通分图是树</p>
+<p><strong>树叶</strong>：树种度为1的结点</p>
+<p><strong>分支点</strong>：树中度数大于1的结点</p>
+<p><strong>生成树</strong>：图的生成子图是棵树，则该树是图的生成树</p>
+<p><strong>最小生成树</strong>：图中所有生成树中树权(所有边权和)最小的生成树</p>
+<p><strong>弦</strong>：图G中不在生成树中的边称作弦</p>
+<p><strong>补</strong>：弦的集合</p>
+<p><strong>最小生成树算法：</strong></p>
+<p>a) Kruskal算法(边)</p>
+<ol>
+<li>对图中边按照权值升序排序</li>
+<li>选取权值最小的边，判断加入该边后生成的树是否产生回路，若没有就加入，若有则舍弃</li>
+<li>重复步骤2，直到所有点都加入</li>
+</ol>
+<p>b)Prim算法(点)</p>
+<ol>
+<li>定义一个顶点集合S和边集合E，初始都为空</li>
+<li>选取任意顶点X加入S</li>
+<li>选取权值最小的边(X,Y)，X在S中Y不在S中，将Y并如S，边并入E</li>
+<li>重复步骤３直到所有点都加入S</li>
+</ol>
+<p><strong>定理一、</strong>任一棵树至少有两片树叶</p>
+<p><strong>定理二、</strong>连通图至少有一棵生成树</p>
+<p><strong>定理三、</strong>一条回路和任何一棵生成树的补至少有一条公共边</p>
+<p><strong>定理四、</strong>一个边割集和任何生成树至少有一条公共边</p>
+<h2 id="根树"><a href="#根树" class="headerlink" title="根树"></a>根树</h2><p><strong>有向树</strong>：当有向图不考虑边方向时是一棵树，该有向图称为有向树</p>
+<p><strong>根树</strong>：有向树种只有一个结点入度为0，其余结点入度为1。其中入度为0的结点叫根，出度为0的结点叫叶</p>
+<p><strong>m叉树</strong>：根树中每个结点出度小于等于m</p>
+<p><strong>完全m叉树</strong>：根树中每个结点出度恰好等于m或0</p>
+<p><strong>正则m叉树</strong>：所有树叶层次相同</p>
+<p><strong>通路长度</strong>：从树根到该结点的通路中的边数。分支点的通路长度称为内部通路长度，树叶的通路长度称为外部通路长度</p>
+<p><strong>最优树</strong>：同最小生成树</p>
+<p><strong>定理一、</strong>有完全m叉树，树叶数为t，分支点数为i，则(m-1)i &#x3D; t-1</p>
+<p><strong>定理二、</strong>完全二叉树有n个分支点，且内部通路长度总和为I，外部通路长度总和为E则E&#x3D;I+2n</p>
+<h2 id="图的存储"><a href="#图的存储" class="headerlink" title="图的存储"></a>图的存储</h2><h3 id="邻接矩阵-1"><a href="#邻接矩阵-1" class="headerlink" title="邻接矩阵"></a><strong>邻接矩阵</strong></h3><p>图的邻接矩阵通过使用|V|*|V|大小的方阵表示，矩阵每个元素表示结点的邻接关系。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-915f847811d144bca858fad6102f8d7d_720w.jpg" alt="img"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-ff4d8cd47a1ce4fb41b8eacfa1defa07_r.jpg" alt="img"></p>
+<p>简单无向图的邻接矩阵是对称的。第i行值为1的元素数目等于结点i的出度，第j列值为1的元素数目是结点j的入度。对于带权图，则矩阵的元素表示边的权重。</p>
+<h3 id="邻接表"><a href="#邻接表" class="headerlink" title="邻接表"></a><strong>邻接表</strong></h3><p>图的邻接矩阵的空间复杂度巨大，通常是稀疏的。对于无向图可以采用压缩矩阵的方式存储但是对于有向图会存在大量空间浪费，因此人们设计了邻接表的方式存储。</p>
+<p>邻接表方式主要由顺序存储和链表存储两种方式构成。图中所有结点采用顺序存储方式，对于每个结点对应一条边表(单链表)，表示该结点邻接的所有结点，对于有向图而言，边表则是有向边指向的所有结点。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-3ee79d582bab9dcae6fac39a63a5f18f_r.jpg" alt="img"></p>
+<p>邻接表中有两个基本数据结构，顶点表结点和边表结点。顶点表结点主要存放节点的属性信息和指向第一个表边结点的指针信息。边表结点存放着边另一头结点的Id等信息(代表一条边)和指向下一个边表结点的指针。值得注意的是，同一个图，对应邻接表不一定唯一。因为根据构造顺序的不同，结果不同。</p>
+<h3 id="十字链表"><a href="#十字链表" class="headerlink" title="十字链表"></a><strong>十字链表</strong></h3><p>邻接表表示有向图时，每个结点对应的边表表示结点的出度信息，无法表示入度信息。可以采用逆邻接矩阵的方式表示出度信息但不能表示入度信息，因此，考虑将邻接表与逆邻接表结合同时表示有向图的出入度信息，得到十字链表的表示方式。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-39f65acbe858e896e2f7a55d1f837df4_r.jpg" alt="img"></p>
+<p>十字链表是邻接表的加强版，是在邻接表的基础上同时考虑出入度信息。十字链表同样包含两个数据结构即顶点表结点和边表结点。顶点表结点包含三个部分分别是结点的属性信息，出度域和入度域。出度域指向该结点的所有出边构成的边表，入度域指向以该结点为终点的所有边结点构成的边表。边结点上包含着该有向边的头尾所连的结点和同头同尾的指针域，这样，弧头相同的会连在同一链表上，弧尾相同的会连在同一链表上。十字链表中有多少结点，结点表就有多少项，有多少边，边表就有多少项。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-e4dbd58f7a9e86e12931a1568fe30b01_r.jpg" alt="img"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-85b96aeacb2ce5496955b7e7dfebf819_r.jpg" alt="img"></p>
+<h3 id="邻接多重表"><a href="#邻接多重表" class="headerlink" title="邻接多重表"></a><strong>邻接多重表</strong></h3><p>邻接表表示无向图时会存在大量边信息的冗余，因为邻接表中每条边用两个结点表示的。为了降低冗余，邻接多重表用一个边结点表示边来降低冗余。具体结构如图，其中边结点存放着该边两端的结点标号，ilink指向下一条依附于顶点ivex的边；jlink指向下一条依附于顶点jvex的边。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-205828c4cd555a31b583487bbecb87c9_r.jpg" alt="img"></p>
+<h3 id="稀疏存储"><a href="#稀疏存储" class="headerlink" title="稀疏存储"></a><strong>稀疏存储</strong></h3><p>按照图中边的数量可以分为稠密图和稀疏图。实际中大部分图是稀疏图，如果采用邻接矩阵存储稀疏图往往造成极大的空间浪费，因为很多元素为0，没有意义。因此需要考虑其他高效的存储方式。</p>
+<p><strong>1）COO(coordinate format)</strong></p>
+<p>COO格式将稀疏矩阵中非零元素以坐标的方式存储。分别用长度为n的三个数组表示非零元素对应的行坐标，列坐标，元素值。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-d0f37d76a9c6ae3a6e285b605ecc0ddb_r.jpg" alt="img"></p>
+<p><strong>2）CSR(compressed sparse row format)</strong></p>
+<p>CSR格式要求矩阵元素按照行顺序存储，每一行中的元素可以乱序存储。因此，每一行不需要考虑行索引，只需要记录每行元素的起始位置即可。</p>
+<p><strong>row index：</strong>数组中第i个元素表示原始矩阵中第i行在value矩阵中的起始位置，第i+1个元素表示第i行在value数组中的结束位置但不包含该位置。</p>
+<p><strong>column index：</strong>数组第i个元素表示value[i]对应的列索引</p>
+<p><strong>value：</strong>矩阵中非零元素的值</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-60507f7f1aefb421fce8aa1e3b7edbf7_720w.jpg" alt="img"></p>
+<p><strong>3）CSC(compressed sparse column format)</strong></p>
+<p>与CSR类似，CSC格式采用按照列顺序存储。</p>
+<p><strong>col index：</strong>数组中第i个元素表示原始矩阵中第i列在value矩阵中的起始位置，第i+1个元素表示第i列在value数组中的结束位置但不包含该位置。</p>
+<p><strong>row index：</strong>数组第i个元素表示value[i]对应的行索引</p>
+<p><strong>value：</strong>矩阵中非零元素的值</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-c618a236af59ddb9540b9fb84f4e0e69_720w.jpg" alt="img"></p>
+<p><strong>4）稀疏矩阵的压缩存储还包括三元组，行单链表，十字链表。</strong></p>
+<p>三元组存储类似于COO将每个元素的按照(行索引，列索引，值)的方式存储，所有元素按照行的存储顺序构成单链表。</p>
+<p>行单链表的每个元素也是按照三元组的方式存储的，只不过将每一行的元素单独构成一个链表</p>
+<p>十字链表参考上文。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%A0%91%E8%AE%BA/" rel="tag"># 树论</a>
+              <a href="/tags/%E5%9B%BE%E8%AE%BA/" rel="tag"># 图论</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/08/12/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80%E5%8B%8B%E7%AB%A0/" rel="prev" title="算法基础-java代码实现">
+      <i class="fa fa-chevron-left"></i> 算法基础-java代码实现
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="nav-text">图的概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E6%9C%AF%E8%AF%AD"><span class="nav-text">相关术语</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E7%90%86"><span class="nav-text">定理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B7%AF"><span class="nav-text">路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E7%9A%84%E4%BB%A3%E6%95%B0%E8%A1%A8%E7%A4%BA"><span class="nav-text">图的代数表示</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%82%BB%E6%8E%A5%E7%9F%A9%E9%98%B5"><span class="nav-text">邻接矩阵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AF%E8%BE%BE%E7%9F%A9%E9%98%B5"><span class="nav-text">可达矩阵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%8C%E5%85%A8%E5%85%B3%E8%81%94%E7%9F%A9%E9%98%B5"><span class="nav-text">完全关联矩阵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8B%89%E6%99%AE%E6%8B%89%E6%96%AF%E7%9F%A9%E9%98%B5"><span class="nav-text">拉普拉斯矩阵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E7%A7%B0%E5%BD%92%E4%B8%80%E5%8C%96%E6%8B%89%E6%99%AE%E6%8B%89%E6%96%AF%E7%9F%A9%E9%98%B5"><span class="nav-text">对称归一化拉普拉斯矩阵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9A%8F%E6%9C%BA%E6%B8%B8%E8%B5%B0%E5%BD%92%E4%B8%80%E5%8C%96%E6%8B%89%E6%99%AE%E6%8B%89%E6%96%AF%E7%9F%A9%E9%98%B5"><span class="nav-text">随机游走归一化拉普拉斯矩阵</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AC%A7%E6%8B%89%E5%9B%BE%E4%B8%8E%E6%B1%89%E5%AF%86%E5%B0%94%E9%A1%BF%E5%9B%BE"><span class="nav-text">欧拉图与汉密尔顿图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B9%B3%E9%9D%A2%E5%9B%BE"><span class="nav-text">平面图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E5%81%B6%E4%B8%8E%E7%9D%80%E8%89%B2"><span class="nav-text">对偶与着色</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E4%B8%8E%E7%94%9F%E6%88%90%E6%A0%91"><span class="nav-text">数与生成树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%B9%E6%A0%91"><span class="nav-text">根树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E7%9A%84%E5%AD%98%E5%82%A8"><span class="nav-text">图的存储</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%82%BB%E6%8E%A5%E7%9F%A9%E9%98%B5-1"><span class="nav-text">邻接矩阵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%82%BB%E6%8E%A5%E8%A1%A8"><span class="nav-text">邻接表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%81%E5%AD%97%E9%93%BE%E8%A1%A8"><span class="nav-text">十字链表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%82%BB%E6%8E%A5%E5%A4%9A%E9%87%8D%E8%A1%A8"><span class="nav-text">邻接多重表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A8%80%E7%96%8F%E5%AD%98%E5%82%A8"><span class="nav-text">稀疏存储</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="dhx_"
+      src="/images/avater.png">
+  <p class="site-author-name" itemprop="name">dhx_</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">70</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/adorabled4" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;adorabled4" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter08/" title="https:&#x2F;&#x2F;heavy_code_industry.gitee.io&#x2F;code_heavy_industry&#x2F;pro001-javaweb&#x2F;lecture&#x2F;chapter08&#x2F;" rel="noopener" target="_blank">thymeleaf教程</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://leetcode.cn/problemset/all/" title="https:&#x2F;&#x2F;leetcode.cn&#x2F;problemset&#x2F;all&#x2F;" rel="noopener" target="_blank">leetcode</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.bilibili.com/" title="https:&#x2F;&#x2F;www.bilibili.com&#x2F;" rel="noopener" target="_blank">bilibili</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">dhx_</span>
+</div>
+
+<!--  删除底部的 由hexo 强力驱动
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>-->
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

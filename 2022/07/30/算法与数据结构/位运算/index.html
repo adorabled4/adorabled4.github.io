@@ -31,7 +31,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20200627183328798.png">
 <meta property="article:published_time" content="2022-07-30T12:56:19.000Z">
-<meta property="article:modified_time" content="2022-07-30T13:16:19.448Z">
+<meta property="article:modified_time" content="2022-08-11T00:49:57.566Z">
 <meta property="article:author" content="dhx_">
 <meta property="article:tag" content="Leetcode">
 <meta property="article:tag" content="位运算">
@@ -131,7 +131,7 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">20</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">23</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -141,7 +141,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">64</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">70</span></a>
 
   </li>
   </ul>
@@ -194,10 +194,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-07-30 20:56:19 / 修改时间：21:16:19" itemprop="dateCreated datePublished" datetime="2022-07-30T20:56:19+08:00">2022-07-30</time>
+              <time title="创建时间：2022-07-30 20:56:19" itemprop="dateCreated datePublished" datetime="2022-07-30T20:56:19+08:00">2022-07-30</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-08-11 08:49:57" itemprop="dateModified" datetime="2022-08-11T08:49:57+08:00">2022-08-11</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -228,6 +234,27 @@
 
 <h2 id="位与-amp"><a href="#位与-amp" class="headerlink" title="位与(&amp;)"></a>位与(&amp;)</h2><p>位与即如果两个位进行比较<strong>两位同时为1，结果才为1，否则结果为0</strong>。<br>例如: <code>125 &amp; 7</code></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">           <span class="number">125</span>   &amp;    <span class="number">7</span></span><br><span class="line"> 二进制: <span class="number">01111101</span> &amp; <span class="number">00000111</span></span><br><span class="line"> </span><br><span class="line">位与比较:    </span><br><span class="line"><span class="number">0</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">0</span> <span class="number">1</span></span><br><span class="line">---------------</span><br><span class="line"><span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span></span><br><span class="line">| | | | | | | |</span><br><span class="line">× × × × × √ × √</span><br><span class="line">| | | | | | | |</span><br><span class="line"><span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">1</span> <span class="number">0</span> <span class="number">1</span></span><br><span class="line"> </span><br><span class="line">结果: <span class="number">125</span>&amp;<span class="number">7</span> = <span class="number">0000</span> <span class="number">0111</span> = <span class="number">5</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="剑指-Offer-65-不用加减乘除做加法"><a href="#剑指-Offer-65-不用加减乘除做加法" class="headerlink" title="剑指 Offer 65. 不用加减乘除做加法"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/bu-yong-jia-jian-cheng-chu-zuo-jia-fa-lcof/">剑指 Offer 65. 不用加减乘除做加法</a></h3><p>写一个函数，求两个整数之和，要求在函数体内不得使用 “+”、“-”、“*”、“&#x2F;” 四则运算符号。</p>
+<ul>
+<li>利用<code>^</code> 以及<code>&amp;</code>, 巧妙的进行相加</li>
+</ul>
+<blockquote>
+<p>首先 ,我们有两个数字, </p>
+<ul>
+<li>需要先获取 非进位的和 n (n&#x3D; a^b)</li>
+<li>然后获取进位的和 : p (p&#x3D;a&amp;b&lt;&lt;1)                     </li>
+<li>然后我们  通过  <code>n=  n^p</code> 就得到了和 ( 进位和 + 非进位和)</li>
+</ul>
+<p> <code>9 :  1001</code><br><code>26:  11010</code><br> <code>n:   10011</code><br> <code>p:   10000</code><br> <code>n:   00011 </code> , 可见, 如果仅仅是 <code>n^p</code> 可能存在新的进位的情况 ,<br>此时我们继续使用 p 来记录 n&amp;p&lt;&lt;1 的结果  ,<br> <code>p: 100000</code><br><strong>这里需要用到一个新的数字(<code>temp</code>)来储存 <code>n&amp;p&lt;&lt;1</code> 的结果, 因为如果先 异或再 &amp; , 就会导致先相加, 再&amp;, 相当于重复计算了</strong><br>然后继续执行上一步类似的操作 也就是 n&#x3D; n^p<br><code>n:100011 : 35</code> 得到正确结果</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">add</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span> &#123;</span><br><span class="line">        <span class="type">int</span> n=a;</span><br><span class="line">        <span class="type">int</span> p=b; <span class="comment">//存储上一轮的 进位和结果</span></span><br><span class="line">        <span class="keyword">while</span>(p!=<span class="number">0</span>)&#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">temp</span> <span class="operator">=</span> (n&amp;p)&lt;&lt;<span class="number">1</span>;<span class="comment">// 存储上一轮的进位和结果  ,如果还有进位那么就继续执行操作</span></span><br><span class="line">            n=n^p; <span class="comment">// 进位和+ 非进位和</span></span><br><span class="line">            p=temp; <span class="comment">//如果还有进位那么就继续执行操作</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> n;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
 
 <h2 id="位或"><a href="#位或" class="headerlink" title="位或(|)"></a>位或(|)</h2><p>位或即如果两个位进行比较<strong>两位同时为0，结果才为0，否则结果为1</strong>。<br>例如: <code>125 | 7</code></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">           <span class="number">125</span>   |    <span class="number">7</span></span><br><span class="line"> 二进制: <span class="number">01111101</span> | <span class="number">00000111</span></span><br><span class="line"> </span><br><span class="line">位或比较:    </span><br><span class="line"><span class="number">0</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">0</span> <span class="number">1</span></span><br><span class="line">---------------</span><br><span class="line"><span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span></span><br><span class="line">| | | | | | | |</span><br><span class="line">√ × × × × × × ×</span><br><span class="line">| | | | | | | |</span><br><span class="line"><span class="number">0</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span></span><br><span class="line"> </span><br><span class="line">结果: <span class="number">125</span>|<span class="number">7</span> = <span class="number">0111</span> <span class="number">1111</span> = <span class="number">7</span></span><br></pre></td></tr></table></figure>
@@ -419,7 +446,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%8D%E8%BF%90%E7%AE%97"><span class="nav-text">位运算</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%8D%E8%BF%90%E7%AE%97%E6%A6%82%E8%BF%B0"><span class="nav-text">位运算概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%8D%E5%8F%96%E5%8F%8D"><span class="nav-text">位取反(~)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%8D%E4%B8%8E-amp"><span class="nav-text">位与(&amp;)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%8D%E6%88%96"><span class="nav-text">位或(|)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%82%E6%88%96"><span class="nav-text">异或(^)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#136-%E5%8F%AA%E5%87%BA%E7%8E%B0%E4%B8%80%E6%AC%A1%E7%9A%84%E6%95%B0%E5%AD%97"><span class="nav-text">136. 只出现一次的数字</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%B3%E7%A7%BB-gt-gt"><span class="nav-text">右移(&gt;&gt;)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B7%A6%E7%A7%BB-lt-lt"><span class="nav-text">左移(&lt;&lt;)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%A0%E7%AC%A6%E5%8F%B7%E5%8F%B3%E7%A7%BB-gt-gt-gt"><span class="nav-text">无符号右移(&gt;&gt;&gt;)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%80%98-gt-gt-%E2%80%98%E4%B8%8E%E2%80%99-gt-gt-gt-%E2%80%98%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-text">‘ &gt;&gt; ‘与’ &gt;&gt;&gt; ‘的区别</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%8D%E8%BF%90%E7%AE%97"><span class="nav-text">位运算</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%8D%E8%BF%90%E7%AE%97%E6%A6%82%E8%BF%B0"><span class="nav-text">位运算概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%8D%E5%8F%96%E5%8F%8D"><span class="nav-text">位取反(~)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%8D%E4%B8%8E-amp"><span class="nav-text">位与(&amp;)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%91%E6%8C%87-Offer-65-%E4%B8%8D%E7%94%A8%E5%8A%A0%E5%87%8F%E4%B9%98%E9%99%A4%E5%81%9A%E5%8A%A0%E6%B3%95"><span class="nav-text">剑指 Offer 65. 不用加减乘除做加法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%8D%E6%88%96"><span class="nav-text">位或(|)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%82%E6%88%96"><span class="nav-text">异或(^)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#136-%E5%8F%AA%E5%87%BA%E7%8E%B0%E4%B8%80%E6%AC%A1%E7%9A%84%E6%95%B0%E5%AD%97"><span class="nav-text">136. 只出现一次的数字</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%B3%E7%A7%BB-gt-gt"><span class="nav-text">右移(&gt;&gt;)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B7%A6%E7%A7%BB-lt-lt"><span class="nav-text">左移(&lt;&lt;)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%A0%E7%AC%A6%E5%8F%B7%E5%8F%B3%E7%A7%BB-gt-gt-gt"><span class="nav-text">无符号右移(&gt;&gt;&gt;)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%80%98-gt-gt-%E2%80%98%E4%B8%8E%E2%80%99-gt-gt-gt-%E2%80%98%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-text">‘ &gt;&gt; ‘与’ &gt;&gt;&gt; ‘的区别</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -435,7 +462,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">64</span>
+          <span class="site-state-item-count">70</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -448,7 +475,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
