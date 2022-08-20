@@ -1,883 +1,609 @@
 <!DOCTYPE html>
+
+
 <html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.2.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/cheems_sword_small.ico">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  
 
-<link rel="stylesheet" href="/css/main.css">
+    <head>
+      <meta charset="utf-8" />
+        
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title> dhx_&#39;blog</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="/images/cheems_sword_small.ico" />
+       
+<link rel="stylesheet" href="/dist/main.css">
 
-<link rel="stylesheet" href="https://fonts.cat.net/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
-  <link rel="stylesheet" href="/lib/pace/pace-theme-center-circle.min.css">
-  <script src="/lib/pace/pace.min.js"></script>
+      
+<link rel="stylesheet" href="/css/fonts/remixicon.css">
 
-<script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"dhx_.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.staticfile.org/pace/1.2.4/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+      </style>
+    </head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      
+<section class="cover">
+    
+      
+      <a class="forkMe" href="https://github.com/adorabled4"
+        target="_blank"><img width="149" height="149" src="/images/forkme.png"
+          class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1"></a>
+    
+  <div class="cover-frame">
+    <div class="bg-box">
+      <img src="/images/cover2.jpg" alt="image frame" />
+    </div>
+    <div class="cover-inner text-center text-white">
+      <h1><a href="/">dhx_&#39;blog</a></h1>
+      <div id="subtitle-box">
+        
+        <span id="subtitle"></span>
+        
+      </div>
+      <div>
+        
+      </div>
+    </div>
+  </div>
+  <div class="cover-learn-more">
+    <a href="javascript:void(0)" class="anchor"><i class="ri-arrow-down-line"></i></a>
+  </div>
+</section>
+
+
+
+<script src="https://cdn.staticfile.org/typed.js/2.0.12/typed.min.js"></script>
+
+
+<!-- Subtitle -->
+
+  <script>
+    try {
+      var typed = new Typed("#subtitle", {
+        strings: ['阅剑, 知其主', '人支配习惯，而不是习惯支配人。', '当你身陷低谷, 那就表明你只能往上走了'],
+        startDelay: 0,
+        typeSpeed: 200,
+        loop: true,
+        backSpeed: 100,
+        showCursor: true
+      });
+    } catch (err) {
+      console.log(err)
+    }
   </script>
-
-  <meta property="og:type" content="website">
-<meta property="og:title" content="dhx_&#39;blog">
-<meta property="og:url" content="http://dhx_.com/page/3/index.html">
-<meta property="og:site_name" content="dhx_&#39;blog">
-<meta property="og:locale" content="zh_CN">
-<meta property="article:author" content="dhx_">
-<meta name="twitter:card" content="summary">
-
-<link rel="canonical" href="http://dhx_.com/page/3/">
-
-
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : true,
-    isPost : false,
-    lang   : 'zh-CN'
-  };
-</script>
-
-  <title>dhx_'blog</title>
   
+<div id="main">
+  <section class="outer">
+  
+  
+  <article class="articles">
+    
+    
+    
+    
+    <article
+  id="post-MySQL/MySQL练习题"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/06/29/MySQL/MySQL%E7%BB%83%E4%B9%A0%E9%A2%98/"
+    >MySQL习题</a> 
+</h2>
+ 
 
-
-
-
-
-
-  <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
-
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
-    </div>
-  </div>
-
-  <div class="site-meta">
-
-    <a href="/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">dhx_'blog</h1>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-      <p class="site-subtitle" itemprop="description">一点浩然气，千里快哉风！</p>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-    </div>
-  </div>
-</div>
-
-
-
-
-<nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
-
-  </li>
-        <li class="menu-item menu-item-about">
-
-    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
-
-  </li>
-        <li class="menu-item menu-item-tags">
-
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">23</span></a>
-
-  </li>
-        <li class="menu-item menu-item-categories">
-
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">8</span></a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">70</span></a>
-
-  </li>
-  </ul>
-</nav>
-
-
-
-
-</div>
+      
     </header>
-
-    
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
+     
+    <div class="article-meta">
+      <a href="/2022/06/29/MySQL/MySQL%E7%BB%83%E4%B9%A0%E9%A2%98/" class="article-date">
+  <time datetime="2022-06-29T05:45:39.000Z" itemprop="datePublished">2022-06-29</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
   </div>
-
-
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-
-          <div class="content index posts-expand">
-            
+   
+    </div>
       
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dhx_.com/2022/06/29/MySQL/MySQL%E7%BB%83%E4%B9%A0%E9%A2%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avater.png">
-      <meta itemprop="name" content="dhx_">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dhx_'blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/06/29/MySQL/MySQL%E7%BB%83%E4%B9%A0%E9%A2%98/" class="post-title-link" itemprop="url">MySQL习题</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-06-29 13:45:39" itemprop="dateCreated datePublished" datetime="2022-06-29T13:45:39+08:00">2022-06-29</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-28 00:11:05" itemprop="dateModified" datetime="2022-07-28T00:11:05+08:00">2022-07-28</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="MySQL课后习题"><a href="#MySQL课后习题" class="headerlink" title="MySQL课后习题"></a>MySQL课后习题</h1><hr>
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="MySQL课后习题"><a href="#MySQL课后习题" class="headerlink" title="MySQL课后习题"></a>MySQL课后习题</h1><hr>
 <ul>
 <li>:star:   &#x3D;&#x3D;标记为注意点&#x3D;&#x3D;</li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/06/29/MySQL/MySQL%E7%BB%83%E4%B9%A0%E9%A2%98/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+</ul> 
+      <a class="article-more-link" href="/2022/06/29/MySQL/MySQL%E7%BB%83%E4%B9%A0%E9%A2%98/"
+        >learn more...</a
+      >
+       
+      <!-- reward -->
       
     </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL%E5%85%A5%E9%97%A8/" rel="tag">MySQL入门</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+    
+</article>
 
     
+    <article
+  id="post-MySQL/MySQL"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
     
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/07/01/MySQL/MySQL/"
+    >MySQL总结</a> 
+</h2>
+ 
 
       
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dhx_.com/2022/07/01/MySQL/MySQL/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avater.png">
-      <meta itemprop="name" content="dhx_">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dhx_'blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/07/01/MySQL/MySQL/" class="post-title-link" itemprop="url">MySQL总结</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-07-01 13:55:39" itemprop="dateCreated datePublished" datetime="2022-07-01T13:55:39+08:00">2022-07-01</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-28 00:10:55" itemprop="dateModified" datetime="2022-07-28T00:10:55+08:00">2022-07-28</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/07/01/MySQL/MySQL/" class="article-date">
+  <time datetime="2022-07-01T05:55:39.000Z" itemprop="datePublished">2022-07-01</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+  </div>
+   
+    </div>
       
-          <h1 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h1><hr>
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h1><hr>
 <blockquote>
 <p>什么是数据库？什么是数据库管理系统？什么是SQL？他们之间的关系是什么？</p>
 </blockquote>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">数据库：</span><br><span class="line">	英文单词DataBase，简称DB。按照一定格式存储数据的一些文件的组合。</span><br><span class="line">	顾名思义：存储数据的仓库，实际上就是一堆文件。这些文件中存储了具有特定格式的数据。</span><br><span class="line">数据库管理系统：</span><br><span class="line">		DataBaseManagement，简称DBMS。</span><br><span class="line">		数据库管理系统是专门用来管理数据库中数据的，数据库管理系统可以对数据库当中的数据进行增删改查。</span><br><span class="line">常见的数据库管理系统：</span><br><span class="line">		MySQL、Oracle、MS SqlServer、DB2、sybase等....</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/07/01/MySQL/MySQL/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">数据库：</span><br><span class="line">	英文单词DataBase，简称DB。按照一定格式存储数据的一些文件的组合。</span><br><span class="line">	顾名思义：存储数据的仓库，实际上就是一堆文件。这些文件中存储了具有特定格式的数据。</span><br><span class="line">数据库管理系统：</span><br><span class="line">		DataBaseManagement，简称DBMS。</span><br><span class="line">		数据库管理系统是专门用来管理数据库中数据的，数据库管理系统可以对数据库当中的数据进行增删改查。</span><br><span class="line">常见的数据库管理系统：</span><br><span class="line">		MySQL、Oracle、MS SqlServer、DB2、sybase等....</span><br></pre></td></tr></table></figure> 
+      <a class="article-more-link" href="/2022/07/01/MySQL/MySQL/"
+        >learn more...</a
+      >
+       
+      <!-- reward -->
       
     </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL%E5%85%A5%E9%97%A8/" rel="tag">MySQL入门</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+    
+</article>
 
     
+    <article
+  id="post-MySQL/Day03"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
     
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/06/28/MySQL/Day03/"
+    >MySQL_day03</a> 
+</h2>
+ 
 
       
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dhx_.com/2022/06/28/MySQL/Day03/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avater.png">
-      <meta itemprop="name" content="dhx_">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dhx_'blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/06/28/MySQL/Day03/" class="post-title-link" itemprop="url">MySQL_day03</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-06-28 13:45:39" itemprop="dateCreated datePublished" datetime="2022-06-28T13:45:39+08:00">2022-06-28</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-28 00:10:51" itemprop="dateModified" datetime="2022-07-28T00:10:51+08:00">2022-07-28</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/06/28/MySQL/Day03/" class="article-date">
+  <time datetime="2022-06-28T05:45:39.000Z" itemprop="datePublished">2022-06-28</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+  </div>
+   
+    </div>
       
-          <h1 id="MySQL课堂笔记-day03-txt"><a href="#MySQL课堂笔记-day03-txt" class="headerlink" title="MySQL课堂笔记-day03.txt"></a>MySQL课堂笔记-day03.txt</h1><h2 id="1、约束"><a href="#1、约束" class="headerlink" title="1、约束"></a>1、约束</h2><h3 id="1-1、唯一性约束（unique）"><a href="#1-1、唯一性约束（unique）" class="headerlink" title="1.1、唯一性约束（unique）"></a>1.1、唯一性约束（<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=unique&spm=1001.2101.3001.7020">unique</a>）</h3>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/06/28/MySQL/Day03/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="MySQL课堂笔记-day03-txt"><a href="#MySQL课堂笔记-day03-txt" class="headerlink" title="MySQL课堂笔记-day03.txt"></a>MySQL课堂笔记-day03.txt</h1><h2 id="1、约束"><a href="#1、约束" class="headerlink" title="1、约束"></a>1、约束</h2><h3 id="1-1、唯一性约束（unique）"><a href="#1-1、唯一性约束（unique）" class="headerlink" title="1.1、唯一性约束（unique）"></a>1.1、唯一性约束（<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=unique&spm=1001.2101.3001.7020">unique</a>）</h3> 
+      <a class="article-more-link" href="/2022/06/28/MySQL/Day03/"
+        >learn more...</a
+      >
+       
+      <!-- reward -->
       
     </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL%E5%85%A5%E9%97%A8/" rel="tag">MySQL入门</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+    
+</article>
 
     
+    <article
+  id="post-MySQL/Day02"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
     
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/06/27/MySQL/Day02/"
+    >MySQL_day02</a> 
+</h2>
+ 
 
       
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dhx_.com/2022/06/27/MySQL/Day02/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avater.png">
-      <meta itemprop="name" content="dhx_">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dhx_'blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/06/27/MySQL/Day02/" class="post-title-link" itemprop="url">MySQL_day02</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-06-27 13:45:39" itemprop="dateCreated datePublished" datetime="2022-06-27T13:45:39+08:00">2022-06-27</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-28 00:10:48" itemprop="dateModified" datetime="2022-07-28T00:10:48+08:00">2022-07-28</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/06/27/MySQL/Day02/" class="article-date">
+  <time datetime="2022-06-27T05:45:39.000Z" itemprop="datePublished">2022-06-27</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+  </div>
+   
+    </div>
       
-          <h1 id="MySQL-day02"><a href="#MySQL-day02" class="headerlink" title="MySQL day02"></a>MySQL day02</h1><h2 id="1、关于查询结果集的去重？"><a href="#1、关于查询结果集的去重？" class="headerlink" title="1、关于查询结果集的去重？"></a>1、关于查询结果集的去重？</h2>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/06/27/MySQL/Day02/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="MySQL-day02"><a href="#MySQL-day02" class="headerlink" title="MySQL day02"></a>MySQL day02</h1><h2 id="1、关于查询结果集的去重？"><a href="#1、关于查询结果集的去重？" class="headerlink" title="1、关于查询结果集的去重？"></a>1、关于查询结果集的去重？</h2> 
+      <a class="article-more-link" href="/2022/06/27/MySQL/Day02/"
+        >learn more...</a
+      >
+       
+      <!-- reward -->
       
     </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL%E5%85%A5%E9%97%A8/" rel="tag">MySQL入门</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+    
+</article>
 
     
+    <article
+  id="post-MySQL/Day01"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
     
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/06/26/MySQL/Day01/"
+    >MySQL_day01</a> 
+</h2>
+ 
 
       
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dhx_.com/2022/06/26/MySQL/Day01/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avater.png">
-      <meta itemprop="name" content="dhx_">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dhx_'blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/06/26/MySQL/Day01/" class="post-title-link" itemprop="url">MySQL_day01</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-06-26 13:45:39" itemprop="dateCreated datePublished" datetime="2022-06-26T13:45:39+08:00">2022-06-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-28 00:10:46" itemprop="dateModified" datetime="2022-07-28T00:10:46+08:00">2022-07-28</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/06/26/MySQL/Day01/" class="article-date">
+  <time datetime="2022-06-26T05:45:39.000Z" itemprop="datePublished">2022-06-26</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+  </div>
+   
+    </div>
       
-          <h1 id="MySQL-day01"><a href="#MySQL-day01" class="headerlink" title="MySQL  day01"></a>MySQL  day01</h1><h2 id="1、sql、DB、DBMS分别是什么，他们之间的关系"><a href="#1、sql、DB、DBMS分别是什么，他们之间的关系" class="headerlink" title="1、sql、DB、DBMS分别是什么，他们之间的关系"></a>1、sql、DB、DBMS分别是什么，他们之间的关系</h2>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/06/26/MySQL/Day01/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="MySQL-day01"><a href="#MySQL-day01" class="headerlink" title="MySQL  day01"></a>MySQL  day01</h1><h2 id="1、sql、DB、DBMS分别是什么，他们之间的关系"><a href="#1、sql、DB、DBMS分别是什么，他们之间的关系" class="headerlink" title="1、sql、DB、DBMS分别是什么，他们之间的关系"></a>1、sql、DB、DBMS分别是什么，他们之间的关系</h2> 
+      <a class="article-more-link" href="/2022/06/26/MySQL/Day01/"
+        >learn more...</a
+      >
+       
+      <!-- reward -->
       
     </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL%E5%85%A5%E9%97%A8/" rel="tag">MySQL入门</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+    
+</article>
 
     
+    <article
+  id="post-算法与数据结构/链表"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
     
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/07/24/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E9%93%BE%E8%A1%A8/"
+    >链表</a> 
+</h2>
+ 
 
       
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dhx_.com/2022/07/24/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E9%93%BE%E8%A1%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avater.png">
-      <meta itemprop="name" content="dhx_">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dhx_'blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/07/24/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E9%93%BE%E8%A1%A8/" class="post-title-link" itemprop="url">链表</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-07-24 23:33:12" itemprop="dateCreated datePublished" datetime="2022-07-24T23:33:12+08:00">2022-07-24</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-28 00:10:23" itemprop="dateModified" datetime="2022-07-28T00:10:23+08:00">2022-07-28</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">算法与数据结构</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/07/24/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E9%93%BE%E8%A1%A8/" class="article-date">
+  <time datetime="2022-07-24T15:33:12.000Z" itemprop="datePublished">2022-07-24</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">算法与数据结构</a>
+  </div>
+   
+    </div>
       
-          <h2 id="18-删除链表的节点"><a href="#18-删除链表的节点" class="headerlink" title="18.删除链表的节点"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/shan-chu-lian-biao-de-jie-dian-lcof/">18.删除链表的节点</a></h2><p>给定单向链表的头指针和一个要删除的节点的值，定义一个函数删除该节点。</p>
-<p>返回删除后的链表的头节点。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/07/24/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E9%93%BE%E8%A1%A8/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h2 id="18-删除链表的节点"><a href="#18-删除链表的节点" class="headerlink" title="18.删除链表的节点"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/shan-chu-lian-biao-de-jie-dian-lcof/">18.删除链表的节点</a></h2><p>给定单向链表的头指针和一个要删除的节点的值，定义一个函数删除该节点。</p>
+<p>返回删除后的链表的头节点。</p> 
+      <a class="article-more-link" href="/2022/07/24/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E9%93%BE%E8%A1%A8/"
+        >learn more...</a
+      >
+       
+      <!-- reward -->
       
     </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Leetcode/" rel="tag">Leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%93%BE%E8%A1%A8/" rel="tag">链表</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+    
+</article>
 
     
+    <article
+  id="post-算法与数据结构/哈希"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
     
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/07/24/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%93%88%E5%B8%8C/"
+    >哈希表</a> 
+</h2>
+ 
 
       
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dhx_.com/2022/07/24/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%93%88%E5%B8%8C/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avater.png">
-      <meta itemprop="name" content="dhx_">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dhx_'blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/07/24/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%93%88%E5%B8%8C/" class="post-title-link" itemprop="url">哈希表</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-07-24 23:33:12" itemprop="dateCreated datePublished" datetime="2022-07-24T23:33:12+08:00">2022-07-24</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-28 00:10:19" itemprop="dateModified" datetime="2022-07-28T00:10:19+08:00">2022-07-28</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">算法与数据结构</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/07/24/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%93%88%E5%B8%8C/" class="article-date">
+  <time datetime="2022-07-24T15:33:12.000Z" itemprop="datePublished">2022-07-24</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">算法与数据结构</a>
+  </div>
+   
+    </div>
       
-          <h2 id="1-两数之和"><a href="#1-两数之和" class="headerlink" title="1. 两数之和"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/two-sum/">1. 两数之和</a></h2><p>给定一个整数数组 <code>nums</code> 和一个整数目标值 <code>target</code>，请你在该数组中找出 <strong>和为目标值</strong> <em><code>target</code></em> 的那 <strong>两个</strong> 整数，并返回它们的数组下标。</p>
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h2 id="1-两数之和"><a href="#1-两数之和" class="headerlink" title="1. 两数之和"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/two-sum/">1. 两数之和</a></h2><p>给定一个整数数组 <code>nums</code> 和一个整数目标值 <code>target</code>，请你在该数组中找出 <strong>和为目标值</strong> <em><code>target</code></em> 的那 <strong>两个</strong> 整数，并返回它们的数组下标。</p>
 <p>你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。</p>
-<p>你可以按任意顺序返回答案</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/07/24/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%93%88%E5%B8%8C/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+<p>你可以按任意顺序返回答案</p> 
+      <a class="article-more-link" href="/2022/07/24/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%93%88%E5%B8%8C/"
+        >learn more...</a
+      >
+       
+      <!-- reward -->
       
     </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Leetcode/" rel="tag">Leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%93%88%E5%B8%8C/" rel="tag">哈希</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+    
+</article>
 
     
+    <article
+  id="post-算法与数据结构/递归回溯"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
     
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/07/27/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E9%80%92%E5%BD%92%E5%9B%9E%E6%BA%AF/"
+    >递归回溯</a> 
+</h2>
+ 
 
       
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dhx_.com/2022/07/27/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E9%80%92%E5%BD%92%E5%9B%9E%E6%BA%AF/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avater.png">
-      <meta itemprop="name" content="dhx_">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dhx_'blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/07/27/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E9%80%92%E5%BD%92%E5%9B%9E%E6%BA%AF/" class="post-title-link" itemprop="url">递归回溯</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-07-27 23:33:12" itemprop="dateCreated datePublished" datetime="2022-07-27T23:33:12+08:00">2022-07-27</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-28 00:10:14" itemprop="dateModified" datetime="2022-07-28T00:10:14+08:00">2022-07-28</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">算法与数据结构</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/07/27/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E9%80%92%E5%BD%92%E5%9B%9E%E6%BA%AF/" class="article-date">
+  <time datetime="2022-07-27T15:33:12.000Z" itemprop="datePublished">2022-07-27</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">算法与数据结构</a>
+  </div>
+   
+    </div>
       
-          <h2 id="77-组合"><a href="#77-组合" class="headerlink" title="77. 组合"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/combinations/">77. 组合</a></h2><p>难度中等1063</p>
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h2 id="77-组合"><a href="#77-组合" class="headerlink" title="77. 组合"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/combinations/">77. 组合</a></h2><p>难度中等1063</p>
 <p>给定两个整数 <code>n</code> 和 <code>k</code>，返回范围 <code>[1, n]</code> 中所有可能的 <code>k</code> 个数的组合。</p>
-<p>你可以按 <strong>任何顺序</strong> 返回答案。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/07/27/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E9%80%92%E5%BD%92%E5%9B%9E%E6%BA%AF/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+<p>你可以按 <strong>任何顺序</strong> 返回答案。</p> 
+      <a class="article-more-link" href="/2022/07/27/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E9%80%92%E5%BD%92%E5%9B%9E%E6%BA%AF/"
+        >learn more...</a
+      >
+       
+      <!-- reward -->
       
     </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Leetcode/" rel="tag">Leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9B%9E%E6%BA%AF/" rel="tag">回溯</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%80%92%E5%BD%92/" rel="tag">递归</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+    
+</article>
 
     
+    <article
+  id="post-javaSe/0626"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
     
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/06/26/javaSe/0626/"
+    >JavaSe:java9 10 11新特性</a> 
+</h2>
+ 
 
       
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dhx_.com/2022/06/26/javaSe/0626/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avater.png">
-      <meta itemprop="name" content="dhx_">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dhx_'blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/06/26/javaSe/0626/" class="post-title-link" itemprop="url">JavaSe:java9 10 11新特性</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-06-26 00:00:00" itemprop="dateCreated datePublished" datetime="2022-06-26T00:00:00+08:00">2022-06-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-27 23:18:03" itemprop="dateModified" datetime="2022-07-27T23:18:03+08:00">2022-07-27</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/javaSe/" itemprop="url" rel="index"><span itemprop="name">javaSe</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/06/26/javaSe/0626/" class="article-date">
+  <time datetime="2022-06-25T16:00:00.000Z" itemprop="datePublished">2022-06-26</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javaSe/">javaSe</a>
+  </div>
+   
+    </div>
       
-          <h1 id="一、Java9中的新特性"><a href="#一、Java9中的新特性" class="headerlink" title="一、Java9中的新特性"></a>一、Java9中的新特性</h1><h2 id="1-1-JDK和JRE目录结构的改变"><a href="#1-1-JDK和JRE目录结构的改变" class="headerlink" title="1.1 JDK和JRE目录结构的改变"></a>1.1 JDK和JRE目录结构的改变</h2><p><img src="https://img-blog.csdnimg.cn/d2d76d9c8f9b45c6999aadb1a2edb0ea.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA55qu5Y2h5LmS5LmT5LmS5LmT5LiY,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"><img src="https://img-blog.csdnimg.cn/87ee511e0ec54506bf5508137396ac4f.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA55qu5Y2h5LmS5LmT5LmS5LmT5LiY,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="一、Java9中的新特性"><a href="#一、Java9中的新特性" class="headerlink" title="一、Java9中的新特性"></a>一、Java9中的新特性</h1><h2 id="1-1-JDK和JRE目录结构的改变"><a href="#1-1-JDK和JRE目录结构的改变" class="headerlink" title="1.1 JDK和JRE目录结构的改变"></a>1.1 JDK和JRE目录结构的改变</h2><p><img src="https://img-blog.csdnimg.cn/d2d76d9c8f9b45c6999aadb1a2edb0ea.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA55qu5Y2h5LmS5LmT5LmS5LmT5LiY,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"><img src="https://img-blog.csdnimg.cn/87ee511e0ec54506bf5508137396ac4f.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA55qu5Y2h5LmS5LmT5LmS5LmT5LiY,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
 <h2 id="1-2-模块化系统"><a href="#1-2-模块化系统" class="headerlink" title="1.2 模块化系统"></a>1.2 模块化系统</h2><h3 id="模块之间包的调用"><a href="#模块之间包的调用" class="headerlink" title="模块之间包的调用"></a>模块之间包的调用</h3><p>现有两个模块，结构如下<br><img src="https://img-blog.csdnimg.cn/67a64ec62dae4146b36ff13a63dedd4f.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA55qu5Y2h5LmS5LmT5LmS5LmT5LiY,size_12,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
 <p>现在希望在第一个块的MoudleTest中使用第二个模块中的Person类，直接使用是不行的，使用需要引入暴露和导入的概念<br>如图：<br>首先在第二个模块中的<code>src</code>下。新建 <code>moudle-info.java</code>文件<br>并指明向外暴露的包<br><img src="https://img-blog.csdnimg.cn/4ad097d1cb4c4e38aeefd89a2371dd6e.png" alt="在这里插入图片描述"></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> java9test &#123;</span><br><span class="line">    <span class="keyword">exports</span> guigu.moudletest20210918;</span><br><span class="line">&#125;</span><br><span class="line"><span class="number">123</span></span><br></pre></td></tr></table></figure>
@@ -1053,80 +779,59 @@
 <li>ZGC是一个是一个并发，基于region，压缩性的垃圾收集器，只有root扫描阶段会STW(stop the world)，因此GC停顿时间不会随着堆的增长和存活对象的增长而变长。</li>
 </ul>
 </blockquote>
-
+ 
+      <!-- reward -->
       
     </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+    
+</article>
 
     
+    <article
+  id="post-javaSe/0625"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
     
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/06/25/javaSe/0625/"
+    >JavaSe:java8新特性</a> 
+</h2>
+ 
 
       
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dhx_.com/2022/06/25/javaSe/0625/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avater.png">
-      <meta itemprop="name" content="dhx_">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dhx_'blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/06/25/javaSe/0625/" class="post-title-link" itemprop="url">JavaSe:java8新特性</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-06-25 00:00:00" itemprop="dateCreated datePublished" datetime="2022-06-25T00:00:00+08:00">2022-06-25</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-27 23:18:00" itemprop="dateModified" datetime="2022-07-27T23:18:00+08:00">2022-07-27</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/javaSe/" itemprop="url" rel="index"><span itemprop="name">javaSe</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/06/25/javaSe/0625/" class="article-date">
+  <time datetime="2022-06-24T16:00:00.000Z" itemprop="datePublished">2022-06-25</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javaSe/">javaSe</a>
+  </div>
+   
+    </div>
       
-          <h1 id="Java8-新特性"><a href="#Java8-新特性" class="headerlink" title="Java8 新特性"></a>Java8 新特性</h1><p>Java8（JDK8.0）较 JDK7.0 有很多变化或者说是优化，<strong>比如 interface 里可以有静态方法和默认方法，并且可以有方法体</strong>，这一点就颠覆了之前的认知；**<code>java.util.HashMap</code> 数据结构里增加了红黑树**；还有众所周知的 <strong>Lambda 表达式</strong>等等</p>
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="Java8-新特性"><a href="#Java8-新特性" class="headerlink" title="Java8 新特性"></a>Java8 新特性</h1><p>Java8（JDK8.0）较 JDK7.0 有很多变化或者说是优化，<strong>比如 interface 里可以有静态方法和默认方法，并且可以有方法体</strong>，这一点就颠覆了之前的认知；**<code>java.util.HashMap</code> 数据结构里增加了红黑树**；还有众所周知的 <strong>Lambda 表达式</strong>等等</p>
 <h2 id="一、Interface"><a href="#一、Interface" class="headerlink" title="一、Interface"></a>一、Interface</h2><p>interface 的设计初衷是面向抽象，提高扩展性。这也留有一点遗憾，Interface 修改的时候，实现它的类也必须跟着改。</p>
 <p>为了解决接口的修改与现有的实现不兼容的问题。新 interface 的方法可以用<code>default</code> 或 <code>static</code>修饰，这样就可以有方法体，实现类也不必重写此方法。</p>
 <p>一个 interface 中可以有多个方法被它们修饰，这 2 个修饰符的区别主要也是普通方法和静态方法的区别。</p>
@@ -1512,217 +1217,377 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//当前时区时间</span></span><br><span class="line"><span class="type">ZonedDateTime</span> <span class="variable">zonedDateTime</span> <span class="operator">=</span> ZonedDateTime.now();</span><br><span class="line">System.out.println(<span class="string">&quot;当前时区时间: &quot;</span> + zonedDateTime);</span><br><span class="line"></span><br><span class="line"><span class="comment">//东京时间</span></span><br><span class="line"><span class="type">ZoneId</span> <span class="variable">zoneId</span> <span class="operator">=</span> ZoneId.of(ZoneId.SHORT_IDS.get(<span class="string">&quot;JST&quot;</span>));</span><br><span class="line"><span class="type">ZonedDateTime</span> <span class="variable">tokyoTime</span> <span class="operator">=</span> zonedDateTime.withZoneSameInstant(zoneId);</span><br><span class="line">System.out.println(<span class="string">&quot;东京时间: &quot;</span> + tokyoTime);</span><br><span class="line"></span><br><span class="line"><span class="comment">// ZonedDateTime 转 LocalDateTime</span></span><br><span class="line"><span class="type">LocalDateTime</span> <span class="variable">localDateTime</span> <span class="operator">=</span> tokyoTime.toLocalDateTime();</span><br><span class="line">System.out.println(<span class="string">&quot;东京时间转当地时间: &quot;</span> + localDateTime);</span><br><span class="line"></span><br><span class="line"><span class="comment">//LocalDateTime 转 ZonedDateTime</span></span><br><span class="line"><span class="type">ZonedDateTime</span> <span class="variable">localZoned</span> <span class="operator">=</span> localDateTime.atZone(ZoneId.systemDefault());</span><br><span class="line">System.out.println(<span class="string">&quot;本地时区时间: &quot;</span> + localZoned);</span><br><span class="line"></span><br><span class="line"><span class="comment">//打印结果</span></span><br><span class="line">当前时区时间: <span class="number">2021</span>-<span class="number">01</span>-27T14:<span class="number">43</span>:<span class="number">58.735</span>+08:<span class="number">00</span>[Asia/Shanghai]</span><br><span class="line">东京时间: <span class="number">2021</span>-<span class="number">01</span>-27T15:<span class="number">43</span>:<span class="number">58.735</span>+09:<span class="number">00</span>[Asia/Tokyo]</span><br><span class="line">东京时间转当地时间: <span class="number">2021</span>-<span class="number">01</span>-27T15:<span class="number">43</span>:<span class="number">58.735</span></span><br><span class="line">当地时区时间: <span class="number">2021</span>-<span class="number">01</span>-27T15:<span class="number">53</span>:<span class="number">35.618</span>+08:<span class="number">00</span>[Asia/Shanghai]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <h3 id="8-小结"><a href="#8-小结" class="headerlink" title="8. 小结"></a>8. 小结</h3><p>通过上面比较新老 <code>Date</code> 的不同，当然只列出部分功能上的区别，更多功能还得自己去挖掘。总之 date-time-api 给日期操作带来了福利。在日常工作中遇到 date 类型的操作，第一考虑的是 date-time-api，实在解决不了再考虑老的 Date。</p>
-
+ 
+      <!-- reward -->
       
     </div>
-
     
+
+    <!-- copyright -->
     
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
 
-
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
-  </nav>
-
-
-
-          </div>
-          
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
-
-        </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
-        </li>
-      </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="dhx_"
-      src="/images/avater.png">
-  <p class="site-author-name" itemprop="name">dhx_</p>
-  <div class="site-description" itemprop="description"></div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
-          <span class="site-state-item-count">70</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-            <a href="/categories/">
-          
-        <span class="site-state-item-count">8</span>
-        <span class="site-state-item-name">分类</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-            <a href="/tags/">
-          
-        <span class="site-state-item-count">23</span>
-        <span class="site-state-item-name">标签</span></a>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author motion-element">
-      <span class="links-of-author-item">
-        <a href="https://github.com/adorabled4" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;adorabled4" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
-      </span>
-  </div>
-
-
-  <div class="links-of-blogroll motion-element">
-    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
-      Links
-    </div>
-    <ul class="links-of-blogroll-list">
-        <li class="links-of-blogroll-item">
-          <a href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter08/" title="https:&#x2F;&#x2F;heavy_code_industry.gitee.io&#x2F;code_heavy_industry&#x2F;pro001-javaweb&#x2F;lecture&#x2F;chapter08&#x2F;" rel="noopener" target="_blank">thymeleaf教程</a>
-        </li>
-        <li class="links-of-blogroll-item">
-          <a href="https://leetcode.cn/problemset/all/" title="https:&#x2F;&#x2F;leetcode.cn&#x2F;problemset&#x2F;all&#x2F;" rel="noopener" target="_blank">leetcode</a>
-        </li>
-        <li class="links-of-blogroll-item">
-          <a href="https://www.bilibili.com/" title="https:&#x2F;&#x2F;www.bilibili.com&#x2F;" rel="noopener" target="_blank">bilibili</a>
-        </li>
-    </ul>
-  </div>
-
-      </div>
-
-    </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
-
-
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
-
-<div class="copyright">
-  
-  &copy; 
-  <span itemprop="copyrightYear">2022</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">dhx_</span>
-</div>
-
-<!--  删除底部的 由hexo 强力驱动
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div>-->
-
-
-    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-        
-
-
-
-
-
-
-
-
-      </div>
     </footer>
   </div>
 
-  
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
+   
+    
+</article>
 
-<script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
-
-
-<script src="/js/schemes/pisces.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
+  </article>
   
 
   
+  <nav class="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/2/">上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/4/">下一页</a>
+  </nav>
+  
+</section>
+</div>
 
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2022
+        <i class="ri-heart-fill heart_icon"></i> dhx_
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/avater.png" alt="dhx_&#39;blog"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+<script src="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.staticfile.org/justifiedGallery/3.8.1/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.staticfile.org/clipboard.js/2.0.10/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    <div id="music">
+    
+    
+    
+    <iframe frameborder="no" border="1" marginwidth="0" marginheight="0" width="200" height="86"
+        src="//music.163.com/outchain/player?type=2&id=521415465&auto=1&height=66"></iframe>
+</div>
+
+<style>
+    #music {
+        position: fixed;
+        right: 15px;
+        bottom: 0;
+        z-index: 998;
+    }
+</style>
+    
+    
+
+  </div>
 </body>
+
 </html>

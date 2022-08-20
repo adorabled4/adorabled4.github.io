@@ -1,878 +1,547 @@
 <!DOCTYPE html>
+
+
 <html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.2.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/cheems_sword_small.ico">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
-
-<link rel="stylesheet" href="/css/main.css">
-
-<link rel="stylesheet" href="https://fonts.cat.net/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
-  <link rel="stylesheet" href="/lib/pace/pace-theme-center-circle.min.css">
-  <script src="/lib/pace/pace.min.js"></script>
-
-<script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"dhx_.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
-  </script>
-
-  <meta property="og:type" content="website">
-<meta property="og:title" content="dhx_&#39;blog">
-<meta property="og:url" content="http://dhx_.com/index.html">
-<meta property="og:site_name" content="dhx_&#39;blog">
-<meta property="og:locale" content="zh_CN">
-<meta property="article:author" content="dhx_">
-<meta name="twitter:card" content="summary">
-
-<link rel="canonical" href="http://dhx_.com/">
-
-
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : true,
-    isPost : false,
-    lang   : 'zh-CN'
-  };
-</script>
-
-  <title>dhx_'blog</title>
   
 
-
-
-
-
-
-  <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
-
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
-    </div>
-  </div>
-
-  <div class="site-meta">
-
-    <a href="/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">dhx_'blog</h1>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-      <p class="site-subtitle" itemprop="description">一点浩然气，千里快哉风！</p>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-    </div>
-  </div>
-</div>
-
-
-
-
-<nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
-
-  </li>
-        <li class="menu-item menu-item-about">
-
-    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
-
-  </li>
-        <li class="menu-item menu-item-tags">
-
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">23</span></a>
-
-  </li>
-        <li class="menu-item menu-item-categories">
-
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">8</span></a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">70</span></a>
-
-  </li>
-  </ul>
-</nav>
-
-
-
-
-</div>
-    </header>
-
-    
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
-
-
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-
-          <div class="content index posts-expand">
-            
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dhx_.com/2022/08/12/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80%E5%8B%8B%E7%AB%A0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avater.png">
-      <meta itemprop="name" content="dhx_">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dhx_'blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/08/12/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80%E5%8B%8B%E7%AB%A0/" class="post-title-link" itemprop="url">算法基础-java代码实现</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-08-12 17:49:47" itemprop="dateCreated datePublished" datetime="2022-08-12T17:49:47+08:00">2022-08-12</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-08-20 19:30:26" itemprop="dateModified" datetime="2022-08-20T19:30:26+08:00">2022-08-20</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">算法与数据结构</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220820113204544.png" alt="image-20220820113204544"></p>
-<h1 id="day01"><a href="#day01" class="headerlink" title="day01"></a>day01</h1><h2 id="34-在排序数组中查找元素的第一个和最后一个位置"><a href="#34-在排序数组中查找元素的第一个和最后一个位置" class="headerlink" title="34. 在排序数组中查找元素的第一个和最后一个位置"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/find-first-and-last-position-of-element-in-sorted-array/">34. 在排序数组中查找元素的第一个和最后一个位置</a></h2><p>难度中等1863</p>
-<p>给你一个按照非递减顺序排列的整数数组 <code>nums</code>，和一个目标值 <code>target</code>。请你找出给定目标值在数组中的开始位置和结束位置。</p>
-<p>如果数组中不存在目标值 <code>target</code>，返回 <code>[-1, -1]</code>。</p>
-<p>你必须设计并实现时间复杂度为 <code>O(log n)</code> 的算法解决此问题。</p>
-<blockquote>
-<p>二分, 找到<code>target</code>之后, 向两边继续循环, 查看是否还有<code>target</code></p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span>[] searchRange(<span class="type">int</span>[] nums, <span class="type">int</span> target) &#123;</span><br><span class="line">        <span class="type">int</span> []res=<span class="keyword">new</span> <span class="title class_">int</span>[]&#123;-<span class="number">1</span>,-<span class="number">1</span>&#125;;</span><br><span class="line">        <span class="type">int</span> l=<span class="number">0</span>,r=nums.length;</span><br><span class="line">        <span class="keyword">if</span>(nums.length==<span class="number">0</span>) <span class="keyword">return</span> res;</span><br><span class="line">        <span class="keyword">while</span>(l&lt;r)&#123;</span><br><span class="line">            <span class="type">int</span> mid=l+(r-l)/<span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span>(target&gt;nums[mid])&#123;</span><br><span class="line">                l=mid+<span class="number">1</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(target&lt;nums[mid])&#123;</span><br><span class="line">                r=mid;</span><br><span class="line">            &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="type">int</span> rightOp=mid;</span><br><span class="line">                res[<span class="number">0</span>]=mid;</span><br><span class="line">                res[<span class="number">1</span>]=mid;</span><br><span class="line">                <span class="keyword">while</span>(mid&gt;=<span class="number">0</span>&amp;&amp;nums[mid]==nums[res[<span class="number">0</span>]])&#123;</span><br><span class="line">                    res[<span class="number">0</span>]=mid;</span><br><span class="line">                    mid--;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">while</span>(rightOp&lt;nums.length&amp;&amp;nums[rightOp]==nums[res[<span class="number">1</span>]])&#123;</span><br><span class="line">                    res[<span class="number">1</span>]=rightOp;</span><br><span class="line">                    rightOp++;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="二分模板讲解"><a href="#二分模板讲解" class="headerlink" title="二分模板讲解"></a>二分模板讲解</h3><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/find-first-and-last-position-of-element-in-sorted-array/solution/tu-jie-er-fen-zui-qing-xi-yi-dong-de-jia-ddvc/">图解二分 | 最清晰易懂的讲解 | 一次性帮你解决二分边界问题【c++&#x2F;java版本】 - 在排序数组中查找元素的第一个和最后一个位置 - 力扣（LeetCode）</a></p>
-<h4 id="模板1"><a href="#模板1" class="headerlink" title="模板1"></a>模板1</h4><p>当我们将区间<code>[l, r] ,[l,r]</code>划分成<code>[l, mid] [l,mid]</code>和<code>[mid + 1, r]  [mid+1,r]</code>时，</p>
-<p>其更新操作是<code>r=mid</code>或者<code>l = mid + 1</code>，</p>
-<p>计算mid时不需要加1，即<code>mid = (l + r)/2</code>。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">bsearch_1</span><span class="params">(<span class="type">int</span> l, <span class="type">int</span> r)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">while</span> (l &lt; r)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> l+(r-l)/<span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (check(mid)) r = mid;</span><br><span class="line">        <span class="keyword">else</span> l = mid + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> l;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="模板2"><a href="#模板2" class="headerlink" title="模板2"></a>模板2</h4><p>当我们将区间 <code>[l, r][l,r] </code>划分成 <code>[l, mid - 1][l,mid−1] </code>和<code>[mid, r][mid,r] </code>时，<br>其更新操作是<code>r = mid - 1</code>或者<code>l=mid</code> ，</p>
-<p>此时为了防止死循环，计算mid时需要加1，即<code>mid = ( l + r + 1 ) /2</code>。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">bsearch_2</span><span class="params">(<span class="type">int</span> l, <span class="type">int</span> r)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">while</span> (l &lt; r)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> ( l + r + <span class="number">1</span> ) /<span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (check(mid)) l = mid;</span><br><span class="line">        <span class="keyword">else</span> r = mid - <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> l;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>为什么两个二分模板<code>mid</code>取值不同？</strong></p>
-<p>为什么两个二分模板midmid取值不同？</p>
-<p>对于第二个模板，当我们更新区间时，如果左边界ll更新为l &#x3D; midl&#x3D;mid，此时midmid的取值就应为mid &#x3D; (l + r + 1)&#x2F; 2mid&#x3D;(l+r+1)&#x2F;2。因为当右边界r &#x3D; l + 1r&#x3D;l+1时，此时mid &#x3D; (l + l + 1)&#x2F;2mid&#x3D;(l+l+1)&#x2F;2，下取整，midmid仍为ll，左边界再次更新为l &#x3D; mid &#x3D; ll&#x3D;mid&#x3D;l，相当于没有变化，whilewhile循环就会陷入死循环。因此，我们总结出来一个小技巧，当左边界要更新为l &#x3D; midl&#x3D;mid时，我们就令 mid &#x3D;(l + r + 1)&#x2F;2mid&#x3D;(l+r+1)&#x2F;2，上取整，此时就不会因为rr取特殊值r &#x3D; l + 1r&#x3D;l+1而陷入死循环了。</p>
-<p>而对于第一个模板，如果左边界ll更新为l &#x3D; mid + 1l&#x3D;mid+1，是不会出现这样的困扰的。因此，大家可以熟记这两个二分模板，基本上可以解决99%99以上的二分问题，再也不会被二分的边界取值所困扰了。</p>
-<p>什么时候用模板1？什么时候用模板2？</p>
-<p>假设初始时我们的二分区间为[l,r][l,r]，每次二分缩小区间时，如果左边界ll要更新为 l &#x3D; midl&#x3D;mid，此时我们就要使用模板2，让 mid &#x3D; (l + r + 1)&#x2F; 2mid&#x3D;(l+r+1)&#x2F;2，否则whilewhile会陷入死循环。如果左边界ll更新为l &#x3D; mid + 1l&#x3D;mid+1,此时我们就使用模板1，让mid &#x3D; (l + r)&#x2F;2mid&#x3D;(l+r)&#x2F;2。因此，模板1和模板2本质上是根据代码来区分的，而不是应用场景。如果写完之后发现是l &#x3D; midl&#x3D;mid，那么在计算midmid时需要加上11，否则如果写完之后发现是l &#x3D; mid + 1l&#x3D;mid+1，那么在计算midmid时不能加11。</p>
-<p>为什么模板要取while( l &lt; r)，而不是while( l &lt;&#x3D; r)？</p>
-<p>本质上取l &lt; rl&lt;r 和 l &lt;&#x3D; rl&lt;&#x3D;r是没有任何区别的，只是习惯问题，如果取l &lt;&#x3D; rl&lt;&#x3D;r，只需要修改对应的更新区间即可。</p>
-<p>while循环结束条件是l &gt;&#x3D; r，但为什么二分结束时我们优先取r而不是l?</p>
-<p>二分的whilewhile循环的结束条件是l &gt;&#x3D; rl&gt;&#x3D;r，所以在循环结束时ll有可能会大于rr，此时就可能导致越界，因此，基本上二分问题优先取rr都不会翻车。</p>
-<p>实现细节：</p>
-<p>二分查找时，首先要确定我们要查找的边界值，保证每次二分缩小区间时，边界值始终包含在内。<br>注意看下面的每张图，最后的答案就是红色箭头指出的位置，也是我们二分的边界值。如果不清楚每次二分时，区间是如何更新的，可以画出和下面类似的图，每次更新区间时，要保证边值始终包含在内，这样关于左右边界的更新就会一目了然。</p>
-<p><strong>第一次查找起始位置:</strong></p>
-<p>1、二分的范围，<code>l = 0</code>，<code> r = nums.size() - 1</code>，我们去二分查找&gt;&#x3D;target&gt;&#x3D;target的最左边界。</p>
-<p>2、当<code>nums[mid] &gt;= target</code>时，往左半区域找，<code>r = mid</code>r</p>
-<p>3、当<code>nums[mid] &lt; target</code>时， 往右半区域找，<code>l = mid + 1</code></p>
-<p>4、如果<code>nums[r] != target</code>，说明数组中不存在目标值 <code>target</code>，返回 <code>[-1, -1]</code>。否则我们就找到了第一个<code>&gt;=target</code>的位置L。</p>
-<p><strong>第二次查找结束位置：</strong></p>
-<p>1、二分的范围，l &#x3D; 0l&#x3D;0， r &#x3D; nums.size() - 1r&#x3D;nums.size()−1，我们去二分查找&lt;&#x3D;target&lt;&#x3D;target的最右边界。</p>
-<p>2、当<code>nums[mid] &lt;= target</code>时，往右半区域找，<code>l = mid</code>。</p>
-<p>3、当<code>nums[mid] &gt; target</code>时， 往左半区域找，<code>r = mid - 1</code>。</p>
-<p>4、找到了最后一个<code>&lt;=target</code>的位置RR，返回区间<code>[L,R]</code>即可。<br>时间复杂度分析： 两次二分查找的时间复杂度为 *O(logn)*。</p>
-<h2 id="33-搜索旋转排序数组"><a href="#33-搜索旋转排序数组" class="headerlink" title="33. 搜索旋转排序数组"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/search-in-rotated-sorted-array/">33. 搜索旋转排序数组</a></h2><p>难度中等2271</p>
-<p>整数数组 <code>nums</code> 按升序排列，数组中的值 <strong>互不相同</strong> 。</p>
-<p>在传递给函数之前，<code>nums</code> 在预先未知的某个下标 <code>k</code>（<code>0 &lt;= k &lt; nums.length</code>）上进行了 <strong>旋转</strong>，使数组变为 <code>[nums[k], nums[k+1], ..., nums[n-1], nums[0], nums[1], ..., nums[k-1]]</code>（下标 <strong>从 0 开始</strong> 计数）。例如， <code>[0,1,2,4,5,6,7]</code> 在下标 <code>3</code> 处经旋转后可能变为 <code>[4,5,6,7,0,1,2]</code> 。</p>
-<p>给你 <strong>旋转后</strong> 的数组 <code>nums</code> 和一个整数 <code>target</code> ，如果 <code>nums</code> 中存在这个目标值 <code>target</code> ，则返回它的下标，否则返回 <code>-1</code> 。</p>
-<p>你必须设计一个时间复杂度为 <code>O(log n)</code> 的算法解决此问题。</p>
-<blockquote>
-<p>这个题目的意思就是, </p>
-<ul>
-<li>给你一个原本有序的但是被旋转了一部分的数组, 也就是说数组是部分有序的</li>
-</ul>
-<p>需要用<em>O(logN)</em> 的算法完成这个题目</p>
-</blockquote>
-<ul>
-<li>原本理解错题意 , 但是也能过</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">search</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">        <span class="comment">//int []res=new int[nums.length];</span></span><br><span class="line">        <span class="type">int</span> k=-<span class="number">1</span>;</span><br><span class="line">        <span class="type">boolean</span> <span class="variable">isContains</span> <span class="operator">=</span><span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> a:nums)&#123;</span><br><span class="line">            k++;</span><br><span class="line">            <span class="keyword">if</span>(target==a)&#123;</span><br><span class="line">                isContains=<span class="literal">true</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//if(k!=-1) &#123;</span></span><br><span class="line">        <span class="comment">//System.arraycopy(res,0,nums,k,nums.length-k); // 赋值 k 开始的数字</span></span><br><span class="line">        <span class="comment">//System.arraycopy(res,nums.length-k,nums,0,k);  // 复制 0 开始的 前k个数字</span></span><br><span class="line">        <span class="comment">//&#125;</span></span><br><span class="line">        <span class="keyword">return</span> isContains==<span class="literal">true</span>?k:-<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">search</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">        <span class="type">int</span> k=-<span class="number">1</span>;</span><br><span class="line">        <span class="type">boolean</span> <span class="variable">isContains</span> <span class="operator">=</span><span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> a:nums)&#123;</span><br><span class="line">            k++;</span><br><span class="line">            <span class="keyword">if</span>(target==a)&#123;</span><br><span class="line">                isContains=<span class="literal">true</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> isContains==<span class="literal">true</span>?k:-<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>根据题意的<strong>二分解法</strong>:</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## [<span class="number">74.</span> 搜索二维矩阵](https:<span class="comment">//leetcode.cn/problems/search-a-2d-matrix/)</span></span><br><span class="line"></span><br><span class="line">难度中等<span class="number">700</span></span><br><span class="line"></span><br><span class="line">编写一个高效的算法来判断 `m x n` 矩阵中，是否存在一个目标值。该矩阵具有如下特性：</span><br><span class="line"></span><br><span class="line">- 每行中的整数从左到右按升序排列。</span><br><span class="line">- 每行的第一个整数大于前一行的最后一个整数。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">### 二分</span><br><span class="line"></span><br><span class="line">&gt; 思路:</span><br><span class="line">&gt;</span><br><span class="line">&gt; <span class="number">1.</span> 遍历矩阵的每一行的第一个元素, 如果遇到了比target 大的元素就去二分查找 上一行</span><br><span class="line">&gt;</span><br><span class="line">&gt;    - 感觉这个过程也可以优化成二分</span><br><span class="line">&gt;</span><br><span class="line">&gt; <span class="number">2.</span> 此时找到了最大值可能位于的 `line` , 那么只需要二分查找`target`即可</span><br><span class="line">&gt;</span><br><span class="line">&gt;    需要注意的是`line`的值:</span><br><span class="line">&gt;</span><br><span class="line">&gt;    <span class="number">1.</span> line ==-<span class="number">1</span></span><br><span class="line">&gt;       - 此时可能是`target`大于矩阵中的所有的元素, 也可能是最大值在**最后一行**</span><br><span class="line">&gt;    <span class="number">2.</span> line==<span class="number">0</span></span><br><span class="line">&gt;       - 此时可能是 矩阵的第一个元素就大于`target`</span><br><span class="line">&gt;       - 也可能是 矩阵的元素位于 **第一行中**</span><br><span class="line">&gt;    <span class="number">3.</span> line 位于中间的行</span><br><span class="line">&gt;       - 直接二分处理即可  , 如果没有找到直接` <span class="keyword">return</span> <span class="literal">false</span>`</span><br><span class="line">&gt;</span><br><span class="line">&gt; </span><br><span class="line"></span><br><span class="line">代码比较臃肿 , 但是效果还可以</span><br><span class="line">![image-<span class="number">20220820162244497</span>](https:<span class="comment">//xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220820162244497.png)</span></span><br><span class="line"></span><br><span class="line">```java</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">searchMatrix</span><span class="params">(<span class="type">int</span>[][] matrix, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">        <span class="type">int</span> line=-<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; matrix.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span>(matrix[i][<span class="number">0</span>]&gt;target)&#123;</span><br><span class="line">                line=i;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(matrix[i][<span class="number">0</span>]==target)&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(line==-<span class="number">1</span>)&#123;<span class="comment">// 对应 -1 可能有两种情况, 第一是 target大于所有的元素</span></span><br><span class="line">            <span class="comment">//第二种是 , 最大的元素在最后一行, </span></span><br><span class="line">            <span class="keyword">if</span>(target&gt;matrix[matrix.length-<span class="number">1</span>][matrix[<span class="number">0</span>].length-<span class="number">1</span>]) <span class="comment">//比最大值还大</span></span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="type">int</span>[]nums=matrix[matrix.length-<span class="number">1</span>];</span><br><span class="line">                <span class="type">int</span> l=<span class="number">0</span>,r=nums.length;</span><br><span class="line">                <span class="keyword">while</span>(l&lt;r)&#123;</span><br><span class="line">                    <span class="type">int</span> mid=l+ (r-l)/<span class="number">2</span>;</span><br><span class="line">                    <span class="keyword">if</span>(target&gt;nums[mid])&#123;</span><br><span class="line">                        l=mid+<span class="number">1</span>;</span><br><span class="line">                    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(target&lt;nums[mid])&#123;</span><br><span class="line">                        r=mid;</span><br><span class="line">                    &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(line==<span class="number">0</span>)&#123;</span><br><span class="line">            <span class="type">int</span>[]nums=matrix[line];</span><br><span class="line">            <span class="type">int</span> l=<span class="number">0</span>,r=nums.length;</span><br><span class="line">            <span class="keyword">while</span>(l&lt;r)&#123;</span><br><span class="line">                <span class="type">int</span> mid=l+ (r-l)/<span class="number">2</span>;</span><br><span class="line">                <span class="keyword">if</span>(target&gt;nums[mid])&#123;</span><br><span class="line">                    l=mid+<span class="number">1</span>;</span><br><span class="line">                &#125;<span class="keyword">else</span> <span class="keyword">if</span>(target&lt;nums[mid])&#123;</span><br><span class="line">                    r=mid;</span><br><span class="line">                &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span>[]nums=matrix[line-<span class="number">1</span>];</span><br><span class="line">        <span class="type">int</span> l=<span class="number">0</span>,r=nums.length;</span><br><span class="line">        <span class="keyword">while</span>(l&lt;r)&#123;</span><br><span class="line">            <span class="type">int</span> mid=l+ (r-l)/<span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span>(target&gt;nums[mid])&#123;</span><br><span class="line">                l=mid+<span class="number">1</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(target&lt;nums[mid])&#123;</span><br><span class="line">                r=mid;</span><br><span class="line">            &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>缩短一下写法:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">searchMatrix</span><span class="params">(<span class="type">int</span>[][] matrix, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span>(target&gt;matrix[matrix.length-<span class="number">1</span>][matrix[<span class="number">0</span>].length-<span class="number">1</span>]||target&lt;matrix[<span class="number">0</span>][<span class="number">0</span>]) <span class="comment">//比最大值还大 , 比最小值还小</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="type">int</span> line=-<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; matrix.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span>(matrix[i][<span class="number">0</span>]&gt;target)&#123;</span><br><span class="line">                line=i;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(matrix[i][<span class="number">0</span>]==target)  <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span> []nums;</span><br><span class="line">        <span class="keyword">if</span>(line==-<span class="number">1</span>) nums=matrix[matrix.length-<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">else</span> nums=line==<span class="number">0</span>?matrix[<span class="number">0</span>]:matrix[line-<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">return</span> binarySearch(nums,target);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">boolean</span> <span class="title function_">binarySearch</span><span class="params">(<span class="type">int</span>[]nums,<span class="type">int</span> target)</span>&#123;</span><br><span class="line">        <span class="type">int</span> l=<span class="number">0</span>,r=nums.length;</span><br><span class="line">        <span class="keyword">while</span>(l&lt;r)&#123;</span><br><span class="line">            <span class="type">int</span> mid=l+ (r-l)/<span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span>(target&gt;nums[mid])</span><br><span class="line">                l=mid+<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(target&lt;nums[mid])</span><br><span class="line">                r=mid;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="坐标轴法"><a href="#坐标轴法" class="headerlink" title="坐标轴法"></a>坐标轴法</h3><ul>
-<li><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/search-a-2d-matrix/solution/zuo-biao-zhou-fa-er-wei-shu-zu-zhong-de-nxfc8/">【坐标轴法】搜索二维矩阵 - 搜索二维矩阵 - 力扣（LeetCode）</a></li>
-</ul>
-<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220820164016979.png" alt="image-20220820164016979" style="zoom:80%;" />
-
-<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220820164025072.png" alt="image-20220820164025072" style="zoom:80%;" />
-
-
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">searchMatrix</span><span class="params">(<span class="type">int</span>[][] matrix, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">rows</span> <span class="operator">=</span> matrix.length - <span class="number">1</span>, columns = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (rows &gt;= <span class="number">0</span> &amp;&amp; columns &lt; matrix[<span class="number">0</span>].length) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">num</span> <span class="operator">=</span> matrix[rows][columns];</span><br><span class="line">            <span class="keyword">if</span> (num == target) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (num &gt; target) &#123;</span><br><span class="line">                rows--;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                columns++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h1 id="day02"><a href="#day02" class="headerlink" title="day02"></a>day02</h1><h2 id="153-寻找旋转排序数组中的最小值"><a href="#153-寻找旋转排序数组中的最小值" class="headerlink" title="153. 寻找旋转排序数组中的最小值"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/find-minimum-in-rotated-sorted-array/">153. 寻找旋转排序数组中的最小值</a></h2><p>难度中等812</p>
-<p>已知一个长度为 <code>n</code> 的数组，预先按照升序排列，经由 <code>1</code> 到 <code>n</code> 次 <strong>旋转</strong> 后，得到输入数组。例如，原数组 <code>nums = [0,1,2,4,5,6,7]</code> 在变化后可能得到：</p>
-<ul>
-<li>若旋转 <code>4</code> 次，则可以得到 <code>[4,5,6,7,0,1,2]</code></li>
-<li>若旋转 <code>7</code> 次，则可以得到 <code>[0,1,2,4,5,6,7]</code></li>
-</ul>
-<p>注意，数组 <code>[a[0], a[1], a[2], ..., a[n-1]]</code> <strong>旋转一次</strong> 的结果为数组 <code>[a[n-1], a[0], a[1], a[2], ..., a[n-2]]</code> 。</p>
-<p>给你一个元素值 <strong>互不相同</strong> 的数组 <code>nums</code> ，它原来是一个升序排列的数组，并按上述情形进行了多次旋转。请你找出并返回数组中的 <strong>最小元素</strong> 。</p>
-<p><strong>你必须设计一个时间复杂度为 <code>O(log n)</code> 的算法解决此问题。</strong></p>
-<ul>
-<li>直接遍历维护 <code>res</code></li>
-</ul>
-<blockquote>
-<p>这个题与day01 的 [33. 搜索旋转排序数组](## <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/search-in-rotated-sorted-array/">33. 搜索旋转排序数组</a>)类似, 都是在 旋转的排序数组中的二分查找</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<h1 id="Last"><a href="#Last" class="headerlink" title="Last"></a>Last</h1>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dhx_.com/2022/08/12/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E7%A8%8B%E5%BA%8F%E5%91%98%E9%9D%A2%E8%AF%95%E9%87%91%E5%85%B8%20-java%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avater.png">
-      <meta itemprop="name" content="dhx_">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dhx_'blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/08/12/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E7%A8%8B%E5%BA%8F%E5%91%98%E9%9D%A2%E8%AF%95%E9%87%91%E5%85%B8%20-java%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/" class="post-title-link" itemprop="url">程序员面试金典-java代码实现</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-08-12 17:49:47" itemprop="dateCreated datePublished" datetime="2022-08-12T17:49:47+08:00">2022-08-12</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-08-19 22:47:15" itemprop="dateModified" datetime="2022-08-19T22:47:15+08:00">2022-08-19</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">算法与数据结构</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="程序员面试金典-java代码实现"><a href="#程序员面试金典-java代码实现" class="headerlink" title="程序员面试金典-java代码实现"></a>程序员面试金典-java代码实现</h1><p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082b2dKx" alt="img"></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/08/12/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E7%A8%8B%E5%BA%8F%E5%91%98%E9%9D%A2%E8%AF%95%E9%87%91%E5%85%B8%20-java%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
+    <head>
+      <meta charset="utf-8" />
         
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title> dhx_&#39;blog</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="/images/cheems_sword_small.ico" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      
+<link rel="stylesheet" href="/css/fonts/remixicon.css">
+
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.staticfile.org/pace/1.2.4/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+      </style>
+    </head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      
+<section class="cover">
+    
+      
+      <a class="forkMe" href="https://github.com/adorabled4"
+        target="_blank"><img width="149" height="149" src="/images/forkme.png"
+          class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1"></a>
+    
+  <div class="cover-frame">
+    <div class="bg-box">
+      <img src="/images/cover2.jpg" alt="image frame" />
+    </div>
+    <div class="cover-inner text-center text-white">
+      <h1><a href="/">dhx_&#39;blog</a></h1>
+      <div id="subtitle-box">
+        
+        <span id="subtitle"></span>
+        
+      </div>
+      <div>
+        
+      </div>
+    </div>
+  </div>
+  <div class="cover-learn-more">
+    <a href="javascript:void(0)" class="anchor"><i class="ri-arrow-down-line"></i></a>
+  </div>
+</section>
+
+
+
+<script src="https://cdn.staticfile.org/typed.js/2.0.12/typed.min.js"></script>
+
+
+<!-- Subtitle -->
+
+  <script>
+    try {
+      var typed = new Typed("#subtitle", {
+        strings: ['阅剑, 知其主', '人支配习惯，而不是习惯支配人。', '当你身陷低谷, 那就表明你只能往上走了'],
+        startDelay: 0,
+        typeSpeed: 200,
+        loop: true,
+        backSpeed: 100,
+        showCursor: true
+      });
+    } catch (err) {
+      console.log(err)
+    }
+  </script>
+  
+<div id="main">
+  <section class="outer">
+  
+  
+  <article class="articles">
+    
+    
+    
+    
+    <article
+  id="post-算法与数据结构/算法基础勋章"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/08/12/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80%E5%8B%8B%E7%AB%A0/"
+    >算法基础-java代码实现</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/08/12/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80%E5%8B%8B%E7%AB%A0/" class="article-date">
+  <time datetime="2022-08-12T09:49:47.000Z" itemprop="datePublished">2022-08-12</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">算法与数据结构</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220820113204544.png" alt="image-20220820113204544"></p> 
+      <a class="article-more-link" href="/2022/08/12/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80%E5%8B%8B%E7%AB%A0/"
+        >learn more...</a
+      >
+       
+      <!-- reward -->
       
     </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Leetcode/" rel="tag">Leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+    
+</article>
 
     
+    <article
+  id="post-算法与数据结构/程序员面试金典 -java代码实现"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
     
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/08/12/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E7%A8%8B%E5%BA%8F%E5%91%98%E9%9D%A2%E8%AF%95%E9%87%91%E5%85%B8%20-java%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/"
+    >程序员面试金典-java代码实现</a> 
+</h2>
+ 
 
       
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dhx_.com/2022/07/23/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%89%91%E6%8C%87offer-%20java%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/">
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/08/12/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E7%A8%8B%E5%BA%8F%E5%91%98%E9%9D%A2%E8%AF%95%E9%87%91%E5%85%B8%20-java%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/" class="article-date">
+  <time datetime="2022-08-12T09:49:47.000Z" itemprop="datePublished">2022-08-12</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">算法与数据结构</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="程序员面试金典-java代码实现"><a href="#程序员面试金典-java代码实现" class="headerlink" title="程序员面试金典-java代码实现"></a>程序员面试金典-java代码实现</h1><p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082b2dKx" alt="img"></p> 
+      <a class="article-more-link" href="/2022/08/12/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E7%A8%8B%E5%BA%8F%E5%91%98%E9%9D%A2%E8%AF%95%E9%87%91%E5%85%B8%20-java%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/"
+        >learn more...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avater.png">
-      <meta itemprop="name" content="dhx_">
-      <meta itemprop="description" content="">
-    </span>
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Leetcode/" rel="tag">Leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%A8%8B%E5%BA%8F%E5%91%98%E9%9D%A2%E8%AF%95%E9%87%91%E5%85%B8/" rel="tag">程序员面试金典</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dhx_'blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/07/23/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%89%91%E6%8C%87offer-%20java%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/" class="post-title-link" itemprop="url">剑指offer java代码实现 （Buidling....）</a>
-        </h2>
+    </footer>
+  </div>
 
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-07-23 11:11:00" itemprop="dateCreated datePublished" datetime="2022-07-23T11:11:00+08:00">2022-07-23</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-08-17 19:59:31" itemprop="dateModified" datetime="2022-08-17T19:59:31+08:00">2022-08-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">算法与数据结构</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
+   
+    
+</article>
 
     
+    <article
+  id="post-算法与数据结构/剑指offer- java代码实现"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
     
-    
-    <div class="post-body" itemprop="articleBody">
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/07/23/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%89%91%E6%8C%87offer-%20java%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/"
+    >剑指offer java代码实现 （Buidling....）</a> 
+</h2>
+ 
 
       
-          <img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082image-20220726125055816.png" alt="image-20220726125055816" style="zoom: 50%;" />
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/07/23/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%89%91%E6%8C%87offer-%20java%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/" class="article-date">
+  <time datetime="2022-07-23T03:11:00.000Z" itemprop="datePublished">2022-07-23</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">算法与数据结构</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082image-20220726125055816.png" alt="image-20220726125055816" style="zoom: 50%;" />
 
 <blockquote>
 <p> 点击题目名称可以跳转到leetcode练习</p>
-</blockquote>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/07/23/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%89%91%E6%8C%87offer-%20java%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+</blockquote> 
+      <a class="article-more-link" href="/2022/07/23/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%89%91%E6%8C%87offer-%20java%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/"
+        >learn more...</a
+      >
+       
+      <!-- reward -->
       
     </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%91%E6%8C%87offer/" rel="tag">剑指offer</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+    
+</article>
 
     
+    <article
+  id="post-算法与数据结构/树与图"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
     
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/08/16/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91%E4%B8%8E%E5%9B%BE/"
+    >动态规划</a> 
+</h2>
+ 
 
       
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dhx_.com/2022/08/16/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91%E4%B8%8E%E5%9B%BE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avater.png">
-      <meta itemprop="name" content="dhx_">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dhx_'blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/08/16/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91%E4%B8%8E%E5%9B%BE/" class="post-title-link" itemprop="url">动态规划</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-08-16 15:50:29 / 修改时间：15:54:25" itemprop="dateCreated datePublished" datetime="2022-08-16T15:50:29+08:00">2022-08-16</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">算法与数据结构</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/08/16/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91%E4%B8%8E%E5%9B%BE/" class="article-date">
+  <time datetime="2022-08-16T07:50:29.000Z" itemprop="datePublished">2022-08-16</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">算法与数据结构</a>
+  </div>
+   
+    </div>
       
-          <h2 id="图的概念"><a href="#图的概念" class="headerlink" title="图的概念"></a>图的概念</h2><h3 id="相关术语"><a href="#相关术语" class="headerlink" title="相关术语"></a>相关术语</h3><p>图是由节点和连接节点之间的边组成的，与连线的长度，节点的位置没有关系。一个图是一个三元组&lt;V(G), E(G), F&gt;，其中V是一个非空的节点集合，E是边集合，F是从边集合E到节点序偶(无序偶或有序偶)集合上的函数。若图中边总是两个节点的关联，则图可简记为G&#x3D;&lt;G, E&gt;。树可以是空树但图不能是空图。图的结点集不能为空但边集可以为空。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/08/16/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91%E4%B8%8E%E5%9B%BE/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h2 id="图的概念"><a href="#图的概念" class="headerlink" title="图的概念"></a>图的概念</h2><h3 id="相关术语"><a href="#相关术语" class="headerlink" title="相关术语"></a>相关术语</h3><p>图是由节点和连接节点之间的边组成的，与连线的长度，节点的位置没有关系。一个图是一个三元组&lt;V(G), E(G), F&gt;，其中V是一个非空的节点集合，E是边集合，F是从边集合E到节点序偶(无序偶或有序偶)集合上的函数。若图中边总是两个节点的关联，则图可简记为G&#x3D;&lt;G, E&gt;。树可以是空树但图不能是空图。图的结点集不能为空但边集可以为空。</p> 
+      <a class="article-more-link" href="/2022/08/16/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91%E4%B8%8E%E5%9B%BE/"
+        >learn more...</a
+      >
+       
+      <!-- reward -->
       
     </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9B%BE%E8%AE%BA/" rel="tag">图论</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%91%E8%AE%BA/" rel="tag">树论</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+    
+</article>
 
     
+    <article
+  id="post-算法与数据结构/位运算"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
     
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/07/30/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E4%BD%8D%E8%BF%90%E7%AE%97/"
+    >位运算</a> 
+</h2>
+ 
 
       
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dhx_.com/2022/07/30/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E4%BD%8D%E8%BF%90%E7%AE%97/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avater.png">
-      <meta itemprop="name" content="dhx_">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dhx_'blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/07/30/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E4%BD%8D%E8%BF%90%E7%AE%97/" class="post-title-link" itemprop="url">位运算</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-07-30 20:56:19" itemprop="dateCreated datePublished" datetime="2022-07-30T20:56:19+08:00">2022-07-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-08-11 08:49:57" itemprop="dateModified" datetime="2022-08-11T08:49:57+08:00">2022-08-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">算法与数据结构</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/07/30/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E4%BD%8D%E8%BF%90%E7%AE%97/" class="article-date">
+  <time datetime="2022-07-30T12:56:19.000Z" itemprop="datePublished">2022-07-30</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">算法与数据结构</a>
+  </div>
+   
+    </div>
       
-          <h1 id="位运算"><a href="#位运算" class="headerlink" title="位运算"></a>位运算</h1><h2 id="位运算概述"><a href="#位运算概述" class="headerlink" title="位运算概述"></a>位运算概述</h2><p>从现代计算机中所有的数据都以二进制的形式存储在设备中。即0、1两种状态，计算机对二进制进行的运算（+、-、*、&#x2F;）</p>
-<p>都叫位运算</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/07/30/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E4%BD%8D%E8%BF%90%E7%AE%97/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="位运算"><a href="#位运算" class="headerlink" title="位运算"></a>位运算</h1><h2 id="位运算概述"><a href="#位运算概述" class="headerlink" title="位运算概述"></a>位运算概述</h2><p>从现代计算机中所有的数据都以二进制的形式存储在设备中。即0、1两种状态，计算机对二进制进行的运算（+、-、*、&#x2F;）</p>
+<p>都叫位运算</p> 
+      <a class="article-more-link" href="/2022/07/30/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E4%BD%8D%E8%BF%90%E7%AE%97/"
+        >learn more...</a
+      >
+       
+      <!-- reward -->
       
     </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Leetcode/" rel="tag">Leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/" rel="tag">位运算</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+    
+</article>
 
     
+    <article
+  id="post-算法与数据结构/leetcode笔记"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
     
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/07/24/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/leetcode%E7%AC%94%E8%AE%B0/"
+    >树论</a> 
+</h2>
+ 
 
       
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dhx_.com/2022/07/24/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/leetcode%E7%AC%94%E8%AE%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avater.png">
-      <meta itemprop="name" content="dhx_">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dhx_'blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/07/24/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/leetcode%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">树论</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-07-24 23:33:12" itemprop="dateCreated datePublished" datetime="2022-07-24T23:33:12+08:00">2022-07-24</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-08-09 14:58:30" itemprop="dateModified" datetime="2022-08-09T14:58:30+08:00">2022-08-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">算法与数据结构</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/07/24/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/leetcode%E7%AC%94%E8%AE%B0/" class="article-date">
+  <time datetime="2022-07-24T15:33:12.000Z" itemprop="datePublished">2022-07-24</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">算法与数据结构</a>
+  </div>
+   
+    </div>
       
-          <p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082eNyXd" alt="img"></p>
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082eNyXd" alt="img"></p>
 <h2 id="617合并二叉树"><a href="#617合并二叉树" class="headerlink" title="617合并二叉树"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/merge-two-binary-trees/">617合并二叉树</a></h2><p>给你两棵二叉树： <code>root1</code> 和 <code>root2</code> 。</p>
-<p>想象一下，当你将其中一棵覆盖到另一棵之上时，两棵树上的一些节点将会重叠（而另一些不会）。你需要将这两棵树合并成一棵新二叉树。合并的规则是：如果两个节点重叠，那么将这两个节点的值相加作为合并后节点的新值；否则，<strong>不为</strong> null 的节点将直接作为新二叉树的节点。返回合并后的二叉树。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/07/24/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/leetcode%E7%AC%94%E8%AE%B0/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+<p>想象一下，当你将其中一棵覆盖到另一棵之上时，两棵树上的一些节点将会重叠（而另一些不会）。你需要将这两棵树合并成一棵新二叉树。合并的规则是：如果两个节点重叠，那么将这两个节点的值相加作为合并后节点的新值；否则，<strong>不为</strong> null 的节点将直接作为新二叉树的节点。返回合并后的二叉树。</p> 
+      <a class="article-more-link" href="/2022/07/24/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/leetcode%E7%AC%94%E8%AE%B0/"
+        >learn more...</a
+      >
+       
+      <!-- reward -->
       
     </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Leetcode/" rel="tag">Leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%91%E8%AE%BA/" rel="tag">树论</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+    
+</article>
 
     
+    <article
+  id="post-琐碎知识点"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
     
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/07/24/%E7%90%90%E7%A2%8E%E7%9F%A5%E8%AF%86%E7%82%B9/"
+    >琐碎知识点</a> 
+</h2>
+ 
 
       
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dhx_.com/2022/07/24/%E7%90%90%E7%A2%8E%E7%9F%A5%E8%AF%86%E7%82%B9/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avater.png">
-      <meta itemprop="name" content="dhx_">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dhx_'blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/07/24/%E7%90%90%E7%A2%8E%E7%9F%A5%E8%AF%86%E7%82%B9/" class="post-title-link" itemprop="url">琐碎知识点</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-07-24 13:45:39" itemprop="dateCreated datePublished" datetime="2022-07-24T13:45:39+08:00">2022-07-24</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-08-09 14:37:14" itemprop="dateModified" datetime="2022-08-09T14:37:14+08:00">2022-08-09</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/07/24/%E7%90%90%E7%A2%8E%E7%9F%A5%E8%AF%86%E7%82%B9/" class="article-date">
+  <time datetime="2022-07-24T05:45:39.000Z" itemprop="datePublished">2022-07-24</time>
+</a>    
+    </div>
       
-          <img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082image-20220726155905046.png" alt="image-20220726155905046" style="zoom: 50%;" />
+    <div class="article-entry" itemprop="articleBody">
+       
+  <img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082image-20220726155905046.png" alt="image-20220726155905046" style="zoom: 50%;" />
 
 <h1 id="1、Java-中浮点数的精度丢失问题以及解决方案"><a href="#1、Java-中浮点数的精度丢失问题以及解决方案" class="headerlink" title="1、Java 中浮点数的精度丢失问题以及解决方案"></a>1、<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/164568001">Java 中浮点数的精度丢失问题以及解决方案</a></h1><p>在 Java 中写入<code>new BigDecimal(0.1)</code> 所创建的 BigDecimal 正好等于 0.1，但是它实际上等于 <code>0.1000000000000000055511151231257827021181583404541015625</code></p>
-<p>Java 的浮点数只能用来进行科学计算或工程计算，在大多数的商业计算中，一般采用<strong>java.math.BigDecimal</strong> 类来进行精确计算.</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/07/24/%E7%90%90%E7%A2%8E%E7%9F%A5%E8%AF%86%E7%82%B9/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+<p>Java 的浮点数只能用来进行科学计算或工程计算，在大多数的商业计算中，一般采用<strong>java.math.BigDecimal</strong> 类来进行精确计算.</p> 
+      <a class="article-more-link" href="/2022/07/24/%E7%90%90%E7%A2%8E%E7%9F%A5%E8%AF%86%E7%82%B9/"
+        >learn more...</a
+      >
+       
+      <!-- reward -->
       
     </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+    
+</article>
 
     
+    <article
+  id="post-算法与数据结构/队列"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
     
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/08/08/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E9%98%9F%E5%88%97/"
+    >队列</a> 
+</h2>
+ 
 
       
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dhx_.com/2022/08/08/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E9%98%9F%E5%88%97/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avater.png">
-      <meta itemprop="name" content="dhx_">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dhx_'blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/08/08/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E9%98%9F%E5%88%97/" class="post-title-link" itemprop="url">队列</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-08-08 22:34:55" itemprop="dateCreated datePublished" datetime="2022-08-08T22:34:55+08:00">2022-08-08</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-08-09 14:28:59" itemprop="dateModified" datetime="2022-08-09T14:28:59+08:00">2022-08-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">算法与数据结构</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/08/08/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E9%98%9F%E5%88%97/" class="article-date">
+  <time datetime="2022-08-08T14:34:55.000Z" itemprop="datePublished">2022-08-08</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">算法与数据结构</a>
+  </div>
+   
+    </div>
       
-          <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>开门见山:</p>
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>开门见山:</p>
 <p><strong>队列（queue）</strong>是一种**先进先出(FIFO)**的、操作受限的线性表</p>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/81018602">算法一看就懂之「 队列 」 - 知乎 (zhihu.com)</a></li>
@@ -1057,80 +726,59 @@
 
 
 
-<h4 id="剑指-Offer-59-I-滑动窗口的最大值-力扣（LeetCode）"><a href="#剑指-Offer-59-I-滑动窗口的最大值-力扣（LeetCode）" class="headerlink" title="剑指 Offer 59 - I. 滑动窗口的最大值 - 力扣（LeetCode）"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/hua-dong-chuang-kou-de-zui-da-zhi-lcof/">剑指 Offer 59 - I. 滑动窗口的最大值 - 力扣（LeetCode）</a></h4>
+<h4 id="剑指-Offer-59-I-滑动窗口的最大值-力扣（LeetCode）"><a href="#剑指-Offer-59-I-滑动窗口的最大值-力扣（LeetCode）" class="headerlink" title="剑指 Offer 59 - I. 滑动窗口的最大值 - 力扣（LeetCode）"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/hua-dong-chuang-kou-de-zui-da-zhi-lcof/">剑指 Offer 59 - I. 滑动窗口的最大值 - 力扣（LeetCode）</a></h4> 
+      <!-- reward -->
       
     </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Leetcode/" rel="tag">Leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%98%9F%E5%88%97/" rel="tag">队列</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+    
+</article>
 
     
+    <article
+  id="post-SpringBoot/day03"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
     
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/08/05/SpringBoot/day03/"
+    >springboot(3)</a> 
+</h2>
+ 
 
       
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dhx_.com/2022/08/05/SpringBoot/day03/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avater.png">
-      <meta itemprop="name" content="dhx_">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dhx_'blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/08/05/SpringBoot/day03/" class="post-title-link" itemprop="url">springboot(3)</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-08-05 12:52:46" itemprop="dateCreated datePublished" datetime="2022-08-05T12:52:46+08:00">2022-08-05</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-08-08 09:28:54" itemprop="dateModified" datetime="2022-08-08T09:28:54+08:00">2022-08-08</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/springboot/" itemprop="url" rel="index"><span itemprop="name">springboot</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/08/05/SpringBoot/day03/" class="article-date">
+  <time datetime="2022-08-05T04:52:46.000Z" itemprop="datePublished">2022-08-05</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/springboot/">springboot</a>
+  </div>
+   
+    </div>
       
-          <h1 id="五、web开发"><a href="#五、web开发" class="headerlink" title="五、web开发"></a>五、web开发</h1><h2 id="22、web场景-web开发简介"><a href="#22、web场景-web开发简介" class="headerlink" title="22、web场景-web开发简介"></a>22、web场景-web开发简介</h2><p>Spring Boot provides auto-configuration for Spring MVC that <strong>works well with most applications.(大多场景我们都无需自定义配置)</strong></p>
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="五、web开发"><a href="#五、web开发" class="headerlink" title="五、web开发"></a>五、web开发</h1><h2 id="22、web场景-web开发简介"><a href="#22、web场景-web开发简介" class="headerlink" title="22、web场景-web开发简介"></a>22、web场景-web开发简介</h2><p>Spring Boot provides auto-configuration for Spring MVC that <strong>works well with most applications.(大多场景我们都无需自定义配置)</strong></p>
 <p>The auto-configuration adds the following features on top of Spring’s defaults:</p>
 <ul>
 <li><p>Inclusion of <code>ContentNegotiatingViewResolver</code> and <code>BeanNameViewResolver</code> beans.</p>
@@ -1186,292 +834,433 @@
 <p>If you want to take complete control of Spring MVC, you can add your own <code>@Configuration</code> annotated with <code>@EnableWebMvc</code>, or alternatively add your own <code>@Configuration</code>-annotated <code>DelegatingWebMvcConfiguration</code> as described in the Javadoc of <code>@EnableWebMvc</code>.</p>
 <p><strong>使用</strong> <strong><code>@EnableWebMvc+@Configuration+DelegatingWebMvcConfiguration 全面接管SpringMVC</code></strong></p>
 </blockquote>
-
+ 
+      <!-- reward -->
       
     </div>
-
     
+
+    <!-- copyright -->
     
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/springboot/" rel="tag">springboot</a></li></ul>
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dhx_.com/2022/08/05/SpringBoot/day02/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avater.png">
-      <meta itemprop="name" content="dhx_">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dhx_'blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/08/05/SpringBoot/day02/" class="post-title-link" itemprop="url">springboot(2)</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-08-05 12:52:46 / 修改时间：12:56:17" itemprop="dateCreated datePublished" datetime="2022-08-05T12:52:46+08:00">2022-08-05</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/springboot/" itemprop="url" rel="index"><span itemprop="name">springboot</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="三、自动配置"><a href="#三、自动配置" class="headerlink" title="三、自动配置"></a>三、自动配置</h1><h2 id="13、自动配置【源码分析】-自动包规则原理"><a href="#13、自动配置【源码分析】-自动包规则原理" class="headerlink" title="13、自动配置【源码分析】-自动包规则原理"></a>13、自动配置【源码分析】-自动包规则原理</h2><p>Spring Boot应用的启动类：</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/08/05/SpringBoot/day02/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
-  </nav>
-
-
-
-          </div>
-          
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
-
-        </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
-        </li>
-      </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="dhx_"
-      src="/images/avater.png">
-  <p class="site-author-name" itemprop="name">dhx_</p>
-  <div class="site-description" itemprop="description"></div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
-          <span class="site-state-item-count">70</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-            <a href="/categories/">
-          
-        <span class="site-state-item-count">8</span>
-        <span class="site-state-item-name">分类</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-            <a href="/tags/">
-          
-        <span class="site-state-item-count">23</span>
-        <span class="site-state-item-name">标签</span></a>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author motion-element">
-      <span class="links-of-author-item">
-        <a href="https://github.com/adorabled4" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;adorabled4" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
-      </span>
-  </div>
-
-
-  <div class="links-of-blogroll motion-element">
-    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
-      Links
-    </div>
-    <ul class="links-of-blogroll-list">
-        <li class="links-of-blogroll-item">
-          <a href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter08/" title="https:&#x2F;&#x2F;heavy_code_industry.gitee.io&#x2F;code_heavy_industry&#x2F;pro001-javaweb&#x2F;lecture&#x2F;chapter08&#x2F;" rel="noopener" target="_blank">thymeleaf教程</a>
-        </li>
-        <li class="links-of-blogroll-item">
-          <a href="https://leetcode.cn/problemset/all/" title="https:&#x2F;&#x2F;leetcode.cn&#x2F;problemset&#x2F;all&#x2F;" rel="noopener" target="_blank">leetcode</a>
-        </li>
-        <li class="links-of-blogroll-item">
-          <a href="https://www.bilibili.com/" title="https:&#x2F;&#x2F;www.bilibili.com&#x2F;" rel="noopener" target="_blank">bilibili</a>
-        </li>
-    </ul>
-  </div>
-
-      </div>
-
-    </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
-
-
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
-
-<div class="copyright">
-  
-  &copy; 
-  <span itemprop="copyrightYear">2022</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">dhx_</span>
-</div>
-
-<!--  删除底部的 由hexo 强力驱动
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div>-->
-
-
-    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-        
-
-
-
-
-
-
-
-
-      </div>
     </footer>
   </div>
 
+   
+    
+</article>
+
+    
+    <article
+  id="post-SpringBoot/day02"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/08/05/SpringBoot/day02/"
+    >springboot(2)</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/08/05/SpringBoot/day02/" class="article-date">
+  <time datetime="2022-08-05T04:52:46.000Z" itemprop="datePublished">2022-08-05</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/springboot/">springboot</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="三、自动配置"><a href="#三、自动配置" class="headerlink" title="三、自动配置"></a>三、自动配置</h1><h2 id="13、自动配置【源码分析】-自动包规则原理"><a href="#13、自动配置【源码分析】-自动包规则原理" class="headerlink" title="13、自动配置【源码分析】-自动包规则原理"></a>13、自动配置【源码分析】-自动包规则原理</h2><p>Spring Boot应用的启动类：</p> 
+      <a class="article-more-link" href="/2022/08/05/SpringBoot/day02/"
+        >learn more...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/springboot/" rel="tag">springboot</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+    
+</article>
+
+    
+  </article>
   
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
-
-<script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
-
-
-<script src="/js/schemes/pisces.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
-
-
 
   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  <nav class="page-nav">
+    
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/2/">下一页</a>
+  </nav>
   
+</section>
+</div>
 
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2022
+        <i class="ri-heart-fill heart_icon"></i> dhx_
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
   
+  <div class="logo">
+    <a href="/"><img src="/images/avater.png" alt="dhx_&#39;blog"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
 
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+<script src="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.staticfile.org/justifiedGallery/3.8.1/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.staticfile.org/clipboard.js/2.0.10/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    <div id="music">
+    
+    
+    
+    <iframe frameborder="no" border="1" marginwidth="0" marginheight="0" width="200" height="86"
+        src="//music.163.com/outchain/player?type=2&id=521415465&auto=1&height=66"></iframe>
+</div>
+
+<style>
+    #music {
+        position: fixed;
+        right: 15px;
+        bottom: 0;
+        z-index: 998;
+    }
+</style>
+    
+    
+
+  </div>
 </body>
+
 </html>

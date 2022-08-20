@@ -1,240 +1,114 @@
 <!DOCTYPE html>
+
+
 <html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.2.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/cheems_sword_small.ico">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
-
-<link rel="stylesheet" href="/css/main.css">
-
-<link rel="stylesheet" href="https://fonts.cat.net/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
-  <link rel="stylesheet" href="/lib/pace/pace-theme-center-circle.min.css">
-  <script src="/lib/pace/pace.min.js"></script>
-
-<script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"dhx_.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
-  </script>
-
-  <meta name="description" content="&amp;#123;&amp;#123;msg&amp;#125;&amp;#125;相当于innerText v-bind:attr 绑定属性值。例如，v-bind:value - 绑定value值简写：    :value v-model 双向绑定v-model:value   , 简写  v-model v-if , v-else , v-showv-if和v-else之间不能有其他的节点v-show是通过样式表disp">
-<meta property="og:type" content="article">
-<meta property="og:title" content="vue.js简介">
-<meta property="og:url" content="http://dhx_.com/2022/07/15/Javaweb/day15vue/index.html">
-<meta property="og:site_name" content="dhx_&#39;blog">
-<meta property="og:description" content="&amp;#123;&amp;#123;msg&amp;#125;&amp;#125;相当于innerText v-bind:attr 绑定属性值。例如，v-bind:value - 绑定value值简写：    :value v-model 双向绑定v-model:value   , 简写  v-model v-if , v-else , v-showv-if和v-else之间不能有其他的节点v-show是通过样式表disp">
-<meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://heavy_code_industry.gitee.io/code_heavy_industry/assets/img/img001.40fbb122.jpg">
-<meta property="og:image" content="data:image/png;base64,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">
-<meta property="og:image" content="https://heavy_code_industry.gitee.io/code_heavy_industry/assets/img/img002.6ac79f5c.png">
-<meta property="og:image" content="https://heavy_code_industry.gitee.io/code_heavy_industry/assets/img/img003.00b9a1dc.png">
-<meta property="og:image" content="https://heavy_code_industry.gitee.io/code_heavy_industry/assets/img/img004.78bf4590.png">
-<meta property="og:image" content="https://heavy_code_industry.gitee.io/code_heavy_industry/assets/img/img005.4a4da09f.png">
-<meta property="og:image" content="https://heavy_code_industry.gitee.io/code_heavy_industry/assets/img/img006.90e107f0.png">
-<meta property="og:image" content="data:image/png;base64,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">
-<meta property="og:image" content="data:image/png;base64,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">
-<meta property="og:image" content="https://heavy_code_industry.gitee.io/code_heavy_industry/assets/img/img002.6ac79f5c.png">
-<meta property="og:image" content="e:/Typora/image/01.Axios示例.png">
-<meta property="article:published_time" content="2022-07-15T03:11:00.000Z">
-<meta property="article:modified_time" content="2022-07-27T07:06:27.444Z">
-<meta property="article:author" content="dhx_">
-<meta property="article:tag" content="Javaweb">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://heavy_code_industry.gitee.io/code_heavy_industry/assets/img/img001.40fbb122.jpg">
-
-<link rel="canonical" href="http://dhx_.com/2022/07/15/Javaweb/day15vue/">
-
-
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : false,
-    isPost : true,
-    lang   : 'zh-CN'
-  };
-</script>
-
-  <title>vue.js简介 | dhx_'blog</title>
   
 
-
-
-
-
-
-  <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
-
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
-    </div>
-  </div>
-
-  <div class="site-meta">
-
-    <a href="/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">dhx_'blog</h1>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-      <p class="site-subtitle" itemprop="description">一点浩然气，千里快哉风！</p>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-    </div>
-  </div>
-</div>
-
-
-
-
-<nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
-
-  </li>
-        <li class="menu-item menu-item-about">
-
-    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
-
-  </li>
-        <li class="menu-item menu-item-tags">
-
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">23</span></a>
-
-  </li>
-        <li class="menu-item menu-item-categories">
-
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">8</span></a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">70</span></a>
-
-  </li>
-  </ul>
-</nav>
-
-
-
-
-</div>
-    </header>
-
-    
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
-
-
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-
-          <div class="content post posts-expand">
-            
-
-    
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dhx_.com/2022/07/15/Javaweb/day15vue/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avater.png">
-      <meta itemprop="name" content="dhx_">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dhx_'blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          vue.js简介
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-07-15 11:11:00" itemprop="dateCreated datePublished" datetime="2022-07-15T11:11:00+08:00">2022-07-15</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-27 15:06:27" itemprop="dateModified" datetime="2022-07-27T15:06:27+08:00">2022-07-27</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/javaweb/" itemprop="url" rel="index"><span itemprop="name">javaweb</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
+    <head>
+      <meta charset="utf-8" />
+        
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>vue.js简介 |  dhx_&#39;blog</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="/images/cheems_sword_small.ico" />
+       
+<link rel="stylesheet" href="/dist/main.css">
 
       
-        <ol>
+<link rel="stylesheet" href="/css/fonts/remixicon.css">
+
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.staticfile.org/pace/1.2.4/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+      </style>
+    </head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-Javaweb/day15vue"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  vue.js简介
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/07/15/Javaweb/day15vue/" class="article-date">
+  <time datetime="2022-07-15T03:11:00.000Z" itemprop="datePublished">2022-07-15</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javaweb/">javaweb</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">3.4k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">14 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <ol>
 <li><code>&#123;&#123;msg&#125;&#125;</code>相当于innerText</li>
 <li>v-bind:attr 绑定属性值。例如，v-bind:value - 绑定value值<br>简写：    :value</li>
 <li>v-model 双向绑定<br>v-model:value   , 简写  v-model</li>
@@ -403,230 +277,469 @@
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">&quot;sayHello&quot;</span>&gt;</span>SayHello<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 <h1 id="Axios示例"><a href="#Axios示例" class="headerlink" title="Axios示例"></a>Axios示例</h1><p><img src="E:\Typora\image\01.Axios示例.png" alt="01.Axios示例"></p>
-
+ 
+      <!-- reward -->
+      
     </div>
-
-    
-    
     
 
-      <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/Javaweb/" rel="tag"># Javaweb</a>
-          </div>
-
-        
-
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2022/07/14/Javaweb/day14Ajax/" rel="prev" title="Ajax简介">
-      <i class="fa fa-chevron-left"></i> Ajax简介
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2022/07/15/%E7%90%90%E7%A2%8E%E7%9F%A5%E8%AF%86%E7%82%B9/java%E5%92%8Ccpp%E7%9A%84forEach%E5%BE%AA%E7%8E%AF%E7%9A%84%E5%8C%BA%E5%88%AB/" rel="next" title="java和cpp的forEach循环的区别">
-      java和cpp的forEach循环的区别 <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
+    <!-- copyright -->
     
-  </article>
-  
-  
-  
-
-
-
-          </div>
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
           
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
-
-        </div>
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
           
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
         </li>
       </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E8%8A%82-Vue-js%E7%AE%80%E4%BB%8B"><span class="nav-text">第一节 Vue.js简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E6%A1%86%E6%9E%B6"><span class="nav-text">1、框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81Vue-js"><span class="nav-text">2、Vue.js</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A0Vue-js%E7%9A%84%E4%BD%9C%E8%80%85"><span class="nav-text">①Vue.js的作者</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A1Vue-js%E7%9A%84%E5%AE%98%E7%BD%91%E4%BB%8B%E7%BB%8D"><span class="nav-text">②Vue.js的官网介绍</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E8%8A%82-%E5%87%86%E5%A4%87Vue-js%E7%8E%AF%E5%A2%83"><span class="nav-text">第二节 准备Vue.js环境</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="nav-text">1、开发中的最佳实践</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81Vue%E6%A1%86%E6%9E%B6%E7%9A%84js%E6%96%87%E4%BB%B6%E8%8E%B7%E5%8F%96"><span class="nav-text">2、Vue框架的js文件获取</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81%E6%9C%AC%E5%9C%B0%E5%88%9B%E5%BB%BAvue-js%E6%96%87%E4%BB%B6"><span class="nav-text">3、本地创建vue.js文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4%E3%80%81%E5%88%9B%E5%BB%BAHTML%E6%96%87%E6%A1%A3%E5%B9%B6%E5%BC%95%E5%85%A5vue-js"><span class="nav-text">4、创建HTML文档并引入vue.js</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E8%8A%82-Vue-js%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95%EF%BC%9A%E5%A3%B0%E6%98%8E%E5%BC%8F%E6%B8%B2%E6%9F%93"><span class="nav-text">第三节 Vue.js基本语法：声明式渲染</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E6%A6%82%E5%BF%B5"><span class="nav-text">1、概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A0%E5%A3%B0%E6%98%8E%E5%BC%8F"><span class="nav-text">①声明式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A1%E6%B8%B2%E6%9F%93"><span class="nav-text">②渲染</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81demo"><span class="nav-text">2、demo</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A0HTML%E4%BB%A3%E7%A0%81"><span class="nav-text">①HTML代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A1vue%E4%BB%A3%E7%A0%81"><span class="nav-text">②vue代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81%E6%9F%A5%E7%9C%8B%E5%A3%B0%E6%98%8E%E5%BC%8F%E6%B8%B2%E6%9F%93%E7%9A%84%E5%93%8D%E5%BA%94%E5%BC%8F%E6%95%88%E6%9E%9C"><span class="nav-text">3、查看声明式渲染的响应式效果</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E8%8A%82-Vue-js%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95%EF%BC%9A%E7%BB%91%E5%AE%9A%E5%85%83%E7%B4%A0%E5%B1%9E%E6%80%A7"><span class="nav-text">第四节 Vue.js基本语法：绑定元素属性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95"><span class="nav-text">1、基本语法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81demo-1"><span class="nav-text">2、demo</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A0HTML%E4%BB%A3%E7%A0%81-1"><span class="nav-text">①HTML代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A1Vue%E4%BB%A3%E7%A0%81"><span class="nav-text">②Vue代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81%E5%B0%8F%E7%BB%93"><span class="nav-text">3、小结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%BA%94%E8%8A%82-Vue-js%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95%EF%BC%9A%E5%8F%8C%E5%90%91%E6%95%B0%E6%8D%AE%E7%BB%91%E5%AE%9A"><span class="nav-text">第五节 Vue.js基本语法：双向数据绑定</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E6%8F%90%E5%87%BA%E9%97%AE%E9%A2%98"><span class="nav-text">1、提出问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81demo-2"><span class="nav-text">2、demo</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A0HTML%E4%BB%A3%E7%A0%81-2"><span class="nav-text">①HTML代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A1Vue%E4%BB%A3%E7%A0%81-1"><span class="nav-text">②Vue代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A2%E9%A1%B5%E9%9D%A2%E6%95%88%E6%9E%9C"><span class="nav-text">③页面效果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81%E5%8E%BB%E9%99%A4%E5%89%8D%E5%90%8E%E7%A9%BA%E6%A0%BC"><span class="nav-text">3、去除前后空格</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A0-value%E5%8F%AF%E4%BB%A5%E7%9C%81%E7%95%A5"><span class="nav-text">①:value可以省略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A1-trim%E4%BF%AE%E9%A5%B0%E7%AC%A6"><span class="nav-text">②.trim修饰符</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E5%85%AD%E8%8A%82-Vue-js%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95%EF%BC%9A%E6%9D%A1%E4%BB%B6%E6%B8%B2%E6%9F%93"><span class="nav-text">第六节 Vue.js基本语法：条件渲染</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81v-if"><span class="nav-text">1、v-if</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A0HTML%E4%BB%A3%E7%A0%81-3"><span class="nav-text">①HTML代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A1Vue%E4%BB%A3%E7%A0%81-2"><span class="nav-text">②Vue代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81v-if%E5%92%8Cv-else"><span class="nav-text">2、v-if和v-else</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A0HTML%E4%BB%A3%E7%A0%81-4"><span class="nav-text">①HTML代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A1Vue%E4%BB%A3%E7%A0%81-3"><span class="nav-text">②Vue代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81v-show"><span class="nav-text">3、v-show</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A0HTML%E4%BB%A3%E7%A0%81-5"><span class="nav-text">①HTML代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A1Vue%E4%BB%A3%E7%A0%81-4"><span class="nav-text">②Vue代码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E8%8A%82-%E5%87%86%E5%A4%87Vue-js%E7%8E%AF%E5%A2%83-1"><span class="nav-text">第二节 准备Vue.js环境</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5-1"><span class="nav-text">1、开发中的最佳实践</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81Vue%E6%A1%86%E6%9E%B6%E7%9A%84js%E6%96%87%E4%BB%B6%E8%8E%B7%E5%8F%96-1"><span class="nav-text">2、Vue框架的js文件获取</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81%E6%9C%AC%E5%9C%B0%E5%88%9B%E5%BB%BAvue-js%E6%96%87%E4%BB%B6-1"><span class="nav-text">3、本地创建vue.js文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4%E3%80%81%E5%88%9B%E5%BB%BAHTML%E6%96%87%E6%A1%A3%E5%B9%B6%E5%BC%95%E5%85%A5vue-js-1"><span class="nav-text">4、创建HTML文档并引入vue.js</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E5%85%AB%E8%8A%82-Vue-js%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95%EF%BC%9A%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8"><span class="nav-text">第八节 Vue.js基本语法：事件驱动</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81demo%EF%BC%9A%E5%AD%97%E7%AC%A6%E4%B8%B2%E9%A1%BA%E5%BA%8F%E5%8F%8D%E8%BD%AC"><span class="nav-text">1、demo：字符串顺序反转</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A0HTML%E4%BB%A3%E7%A0%81-6"><span class="nav-text">①HTML代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A1Vue%E4%BB%A3%E7%A0%81-5"><span class="nav-text">②Vue代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81demo%EF%BC%9A%E8%8E%B7%E5%8F%96%E9%BC%A0%E6%A0%87%E7%A7%BB%E5%8A%A8%E6%97%B6%E7%9A%84%E5%9D%90%E6%A0%87%E4%BF%A1%E6%81%AF"><span class="nav-text">2、demo：获取鼠标移动时的坐标信息</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A0HTML%E4%BB%A3%E7%A0%81-7"><span class="nav-text">①HTML代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A1Vue%E4%BB%A3%E7%A0%81-6"><span class="nav-text">②Vue代码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%B9%9D%E8%8A%82-Vue-js%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95%EF%BC%9A%E4%BE%A6%E5%90%AC%E5%B1%9E%E6%80%A7"><span class="nav-text">第九节 Vue.js基本语法：侦听属性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E6%8F%90%E5%87%BA%E9%9C%80%E6%B1%82"><span class="nav-text">1、提出需求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81Vue%E4%BB%A3%E7%A0%81"><span class="nav-text">2、Vue代码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E5%8D%81%E8%8A%82-Vue-js%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95%EF%BC%9A%E7%AE%80%E5%8C%96%E5%86%99%E6%B3%95"><span class="nav-text">第十节 Vue.js基本语法：简化写法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81v-bind%E7%9A%84%E7%AE%80%E5%8C%96%E5%86%99%E6%B3%95"><span class="nav-text">1、v-bind的简化写法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81v-on%E7%9A%84%E7%AE%80%E5%8C%96%E5%86%99%E6%B3%95"><span class="nav-text">2、v-on的简化写法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Axios%E7%A4%BA%E4%BE%8B"><span class="nav-text">Axios示例</span></a></li></ol></div>
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="dhx_"
-      src="/images/avater.png">
-  <p class="site-author-name" itemprop="name">dhx_</p>
-  <div class="site-description" itemprop="description"></div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
-          <span class="site-state-item-count">70</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-            <a href="/categories/">
-          
-        <span class="site-state-item-count">8</span>
-        <span class="site-state-item-name">分类</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-            <a href="/tags/">
-          
-        <span class="site-state-item-count">23</span>
-        <span class="site-state-item-name">标签</span></a>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author motion-element">
-      <span class="links-of-author-item">
-        <a href="https://github.com/adorabled4" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;adorabled4" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
       </span>
-  </div>
-
-
-  <div class="links-of-blogroll motion-element">
-    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
-      Links
-    </div>
-    <ul class="links-of-blogroll-list">
-        <li class="links-of-blogroll-item">
-          <a href="https://heavy_code_industry.gitee.io/code_heavy_industry/pro001-javaweb/lecture/chapter08/" title="https:&#x2F;&#x2F;heavy_code_industry.gitee.io&#x2F;code_heavy_industry&#x2F;pro001-javaweb&#x2F;lecture&#x2F;chapter08&#x2F;" rel="noopener" target="_blank">thymeleaf教程</a>
-        </li>
-        <li class="links-of-blogroll-item">
-          <a href="https://leetcode.cn/problemset/all/" title="https:&#x2F;&#x2F;leetcode.cn&#x2F;problemset&#x2F;all&#x2F;" rel="noopener" target="_blank">leetcode</a>
-        </li>
-        <li class="links-of-blogroll-item">
-          <a href="https://www.bilibili.com/" title="https:&#x2F;&#x2F;www.bilibili.com&#x2F;" rel="noopener" target="_blank">bilibili</a>
-        </li>
-    </ul>
-  </div>
-
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
       </div>
-
-    </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
-
-
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
-
-<div class="copyright">
-  
-  &copy; 
-  <span itemprop="copyrightYear">2022</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">dhx_</span>
 </div>
 
-<!--  删除底部的 由hexo 强力驱动
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div>-->
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://dhx_.com/2022/07/15/Javaweb/day15vue/" alt="微信分享二维码">
+    </div>
+</div>
 
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Javaweb/" rel="tag">Javaweb</a></li></ul>
 
-    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-        
-
-
-
-
-
-
-
-
-      </div>
     </footer>
   </div>
 
-  
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
-
-<script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
-
-
-<script src="/js/schemes/pisces.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+   
+  <nav class="article-nav">
+    
+      <a href="/2022/07/15/%E7%90%90%E7%A2%8E%E7%9F%A5%E8%AF%86%E7%82%B9/java%E5%92%8Ccpp%E7%9A%84forEach%E5%BE%AA%E7%8E%AF%E7%9A%84%E5%8C%BA%E5%88%AB/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            java和cpp的forEach循环的区别
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2022/07/14/Javaweb/day14Ajax/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">Ajax简介</div>
+      </a>
+    
+  </nav>
 
   
+   
+    
+    <script src="https://cdn.staticfile.org/twikoo/1.4.18/twikoo.all.min.js"></script>
+    <div id="twikoo" class="twikoo"></div>
+    <script>
+        twikoo.init({
+            envId: ""
+        })
+    </script>
+ 
+</article>
 
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2022
+        <i class="ri-heart-fill heart_icon"></i> dhx_
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
   
+  <div class="logo">
+    <a href="/"><img src="/images/avater.png" alt="dhx_&#39;blog"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
 
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.staticfile.org/justifiedGallery/3.8.1/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.staticfile.org/clipboard.js/2.0.10/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    <div id="music">
+    
+    
+    
+    <iframe frameborder="no" border="1" marginwidth="0" marginheight="0" width="200" height="86"
+        src="//music.163.com/outchain/player?type=2&id=521415465&auto=1&height=66"></iframe>
+</div>
+
+<style>
+    #music {
+        position: fixed;
+        right: 15px;
+        bottom: 0;
+        z-index: 998;
+    }
+</style>
+    
+    
+
+  </div>
 </body>
+
 </html>
