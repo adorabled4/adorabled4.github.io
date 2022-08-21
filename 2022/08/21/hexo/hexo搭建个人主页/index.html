@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+  
+
+    <head>
+      <meta charset="utf-8" />
+        
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>hexo搭建个人主页注意事项 |  dhx_&#39;blog</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220820231738085.png" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      
+<link rel="stylesheet" href="/css/fonts/remixicon.css">
+
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.staticfile.org/pace/1.2.4/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+      </style>
+    </head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-hexo/hexo搭建个人主页"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  hexo搭建个人主页注意事项
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/08/21/hexo/hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E4%B8%BB%E9%A1%B5/" class="article-date">
+  <time datetime="2022-08-21T12:47:45.000Z" itemprop="datePublished">2022-08-21</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/hexo/">hexo</a> / <a class="article-category-link" href="/categories/hexo/hexo/">hexo</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">1.5k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">5 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="hexo搭建个人主页注意事项"><a class="markdownIt-Anchor" href="#hexo搭建个人主页注意事项"></a> hexo搭建个人主页注意事项</h1>
+<ul>
+<li>
+<p>当前使用的主题 : <a target="_blank" rel="noopener" href="https://shen-yu.gitee.io/2019/ayer/">Ayer中文说明 | 岛 (gitee.io)</a></p>
+</li>
+<li>
+<p>搭建参考教程: <a target="_blank" rel="noopener" href="https://www.cnblogs.com/huanhao/p/hexobase.html#%E8%AE%BE%E7%BD%AE%E8%AF%AD%E8%A8%80">【基础篇】hexo博客搭建教程 - huanhao - 博客园 (cnblogs.com)</a></p>
+</li>
+</ul>
+<span id="more"></span>
+<img src="https://file.acs.pw/picGo/2022/03/11/20220311225614.png" alt="image-20220311225614551" style="zoom:50%;" />
+<h2 id="front-matter-选项"><a class="markdownIt-Anchor" href="#front-matter-选项"></a> Front-matter 选项</h2>
+<ul>
+<li>就是文章上面的那个 title  , categories ,  time 什么的</li>
+</ul>
+<p><code>Front-matter</code> 选项中的所有内容均为<strong>非必填</strong>的。但我仍然建议至少填写 <code>title</code> 、<code>urlname</code> 和 <code>date</code> 的值。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">配置选项</th>
+<th style="text-align:left">默认值</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">title</td>
+<td style="text-align:left">Markdown 的文件标题</td>
+<td style="text-align:left">文章标题，强烈建议填写此选项</td>
+</tr>
+<tr>
+<td style="text-align:left">date</td>
+<td style="text-align:left">文件创建时的日期时间</td>
+<td style="text-align:left">发布时间，强烈建议填写此选项，且最好保证全局唯一</td>
+</tr>
+<tr>
+<td style="text-align:left">author</td>
+<td style="text-align:left">根 _config.yml 中的 author</td>
+<td style="text-align:left">文章作者</td>
+</tr>
+<tr>
+<td style="text-align:left">img</td>
+<td style="text-align:left">featureImages 中的某个值</td>
+<td style="text-align:left">文章特征图，推荐使用图床(腾讯云、七牛云、又拍云等)来做图片的路径.如: <a target="_blank" rel="noopener" href="http://xxx.com/xxx.jpg">http://xxx.com/xxx.jpg</a></td>
+</tr>
+<tr>
+<td style="text-align:left">top</td>
+<td style="text-align:left">true</td>
+<td style="text-align:left">推荐文章（文章是否置顶），如果 top 值为 true，则会作为首页推荐文章</td>
+</tr>
+<tr>
+<td style="text-align:left">cover</td>
+<td style="text-align:left">false</td>
+<td style="text-align:left">v1.0.2版本新增，表示该文章是否需要加入到首页轮播封面中</td>
+</tr>
+<tr>
+<td style="text-align:left">coverImg</td>
+<td style="text-align:left">无</td>
+<td style="text-align:left">v1.0.2版本新增，表示该文章在首页轮播封面需要显示的图片路径，如果没有，则默认使用文章的特色图片</td>
+</tr>
+<tr>
+<td style="text-align:left">password</td>
+<td style="text-align:left">无</td>
+<td style="text-align:left">文章阅读密码，如果要对文章设置阅读验证密码的话，就可以设置 password 的值，该值必须是用 SHA256 加密后的密码，防止被他人识破。前提是在主题的 config.yml 中激活了 verifyPassword 选项</td>
+</tr>
+<tr>
+<td style="text-align:left">urlname</td>
+<td style="text-align:left">index</td>
+<td style="text-align:left">文章访问路径，需要在Hexo根目录下_config.yml文件中使用permalink: :urlname/和permalink_defaults:</td>
+</tr>
+<tr>
+<td style="text-align:left">urlname: index</td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">toc</td>
+<td style="text-align:left">true</td>
+<td style="text-align:left">permalink_defaults:是否开启 TOC，可以针对某篇文章单独关闭 TOC 的功能。前提是在主题的 config.yml 中激活了 toc 选项</td>
+</tr>
+<tr>
+<td style="text-align:left">mathjax</td>
+<td style="text-align:left">false</td>
+<td style="text-align:left">urlname: index 是否开启数学公式支持 ，本文章是否开启 mathjax，且需要在主题的 _config.yml 文件中也需要开启才行</td>
+</tr>
+<tr>
+<td style="text-align:left">summary</td>
+<td style="text-align:left">无</td>
+<td style="text-align:left">文章摘要，自定义的文章摘要内容，如果这个属性有值，文章卡片摘要就显示这段文字，否则程序会自动截取文章的部分内容作为摘要</td>
+</tr>
+<tr>
+<td style="text-align:left">categories</td>
+<td style="text-align:left">无</td>
+<td style="text-align:left">文章分类，本主题的分类表示宏观上大的分类，只建议一篇文章一个分类</td>
+</tr>
+<tr>
+<td style="text-align:left">tags</td>
+<td style="text-align:left">无</td>
+<td style="text-align:left">文章标签，一篇文章可以多个标签</td>
+</tr>
+<tr>
+<td style="text-align:left">keywords</td>
+<td style="text-align:left">文章标题</td>
+<td style="text-align:left">文章关键字，SEO 时需要</td>
+</tr>
+<tr>
+<td style="text-align:left">reprintPolicy</td>
+<td style="text-align:left">cc_by</td>
+<td style="text-align:left">文章转载规则， 可以是 cc_by, cc_by_nd, cc_by_sa, cc_by_nc, cc_by_nc_nd, cc_by_nc_sa, cc0, noreprint 或 pay 中的一个</td>
+</tr>
+</tbody>
+</table>
+<h2 id="插件"><a class="markdownIt-Anchor" href="#插件"></a> 插件</h2>
+<h3 id="1搜索建议安装"><a class="markdownIt-Anchor" href="#1搜索建议安装"></a> 1.搜索（建议安装）</h3>
+<p>本主题中还使用到了 <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search">hexo-generator-search</a> 的 Hexo 插件来做内容搜索，安装命令如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs javascript">npm install hexo-generator-search --save<br></code></pre></td></tr></table></figure>
+<p>在 Hexo 根目录下的 <code>_config.yml</code> 文件中，新增以下的配置项：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs javascript"># 需要安装hexo-generator-<span class="hljs-title function_">searchdb</span>(<span class="hljs-attr">https</span>:<span class="hljs-comment">//github.com/theme-next/hexo-generator-searchdb)</span><br><span class="hljs-attr">search</span>:<br>  <span class="hljs-attr">path</span>: search.<span class="hljs-property">xml</span><br>  <span class="hljs-attr">field</span>: post<br>  <span class="hljs-attr">content</span>: <span class="hljs-literal">true</span><br>  <span class="hljs-attr">format</span>: html<br></code></pre></td></tr></table></figure>
+<h3 id="2添加-emoji-表情支持"><a class="markdownIt-Anchor" href="#2添加-emoji-表情支持"></a> 2.添加 emoji 表情支持</h3>
+<p>本主题新增了对<code>emoji</code>表情的支持，使用到了 <a target="_blank" rel="noopener" href="https://npm.taobao.org/package/hexo-filter-github-emojis">hexo-filter-github-emojis</a> 的 Hexo 插件来支持 <code>emoji</code>表情的生成，把对应的<code>markdown emoji</code>语法（<code>::</code>,例如：<code>:smile:</code>）转变成会跳跃的<code>emoji</code>表情，安装命令如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs javascript">npm install hexo-filter-github-emojis --save<br></code></pre></td></tr></table></figure>
+<p>在 Hexo 根目录下的 <code>_config.yml</code> 文件中，新增以下的配置项：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-attr">githubEmojis</span>:<br>  <span class="hljs-attr">enable</span>: <span class="hljs-literal">true</span><br>  <span class="hljs-attr">className</span>: github-emoji<br>  <span class="hljs-attr">inject</span>: <span class="hljs-literal">true</span><br>  <span class="hljs-attr">styles</span>:<br>  <span class="hljs-attr">customEmojis</span>:<br></code></pre></td></tr></table></figure>
+<h3 id="3hexo功能增强插件"><a class="markdownIt-Anchor" href="#3hexo功能增强插件"></a> 3.Hexo功能增强插件</h3>
+<p><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000018402194">Hexo功能增强插件 - SegmentFault 思否</a></p>
+<p><code>hexo-enhancer</code></p>
+<p>此插件支持的功能较多，并且未来会继续增加，可以理解为<code>插件包</code>。到目前为止，此插件支持的功能如下：</p>
+<ul>
+<li>自动生成<code>title</code>：根据文件名自动生成标题。</li>
+<li>自动生成<code>date</code>：根据文件名自动生成日期，具体策略类似<code>Jekyll</code>。</li>
+<li>自动生成<code>abbrlink</code>：根据标题进行<code>base32</code>和<code>crc32</code>生成短链接。</li>
+<li>自动生成<code>categories</code>：根据文件的路径解析文章所属分类。</li>
+<li>自动生成<code>tags</code>：根据配置在<code>_config.yml</code>中的可用<code>tags</code>和<code>keywords</code>自动扫描文章中出现的标签。</li>
+</ul>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs txt">---<br>title: Title<br>date: 2019-03-05<br>categories: [A, B]<br>tags: [tag1, tag2]<br>---<br><br># Title<br><br>This is a markdown file, in categories [A, B], with tags [tag1, tag2]. <br></code></pre></td></tr></table></figure>
+<p>使用<code>hexo-enhancer</code>插件之后，以上<code>Front-matter</code>完全不需要手动指定：</p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs txt"># Title<br>This is a markdown file, in categories [A, B], with tags [tag1, tag2].<br></code></pre></td></tr></table></figure>
+<p>消失的<code>Front-matter</code>完全按照约定规则由<code>hexo-enhancer</code>自动生成，让你可以更加惬意简单地撰写博文。</p>
+<h4 id="安装"><a class="markdownIt-Anchor" href="#安装"></a> 安装</h4>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ada">npm install hexo-enhancer <span class="hljs-comment">--save</span><br></code></pre></td></tr></table></figure>
+<h4 id="用法-categories"><a class="markdownIt-Anchor" href="#用法-categories"></a> 用法 — <code>categories</code></h4>
+<p><code>hexo-enhancer</code> 会将<code>.md</code>文件所在目录及父目录的名称添加入<code>categories</code>属性中，因此你应该按照文章分类放置<code>.md</code>文件，事实上大多数人一直都这么做的。</p>
+<p>比如 <code>_posts/区块链/比特币/20091010-比特币简介.md</code> 文章将自动获得下面的<code>categories</code>属性：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs markdown">---<br>title: 比特币简介<br>date: 2009-10-10<br><span class="hljs-section">categories: [区块链, 比特币]</span><br><span class="hljs-section">---</span><br></code></pre></td></tr></table></figure>
+<h2 id="用法-tags"><a class="markdownIt-Anchor" href="#用法-tags"></a> 用法 — <code>tags</code></h2>
+<p>我一直认为，文章标签不应该手动维护，因为这样做太麻烦且容易遗漏，最终导致标签非常混乱。</p>
+<p>正确的做法应该是，将常见的标签关键词全局配置好，然后根据配置好的标签关键词，自动扫描每篇文章包括哪些关键词并生成<code>tags</code>属性。</p>
+<p><code>hexo-enhancer</code>的做法就是这样，启动后扫描<code>_config.yml</code>中的<code>keywords</code>与<code>tags</code>属性收集<code>全局标签候选词</code>，然后给每一篇文章自动扫描<code>tags</code>。</p>
+<p>例如，<code>_config.yml</code>配置的标签可以是这样的:</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">keywords:</span> <span class="hljs-string">HTML,</span> <span class="hljs-string">JavaScript,</span> <span class="hljs-string">Hexo</span><br><span class="hljs-attr">tags:</span> <span class="hljs-string">Java,</span> <span class="hljs-string">Golang,</span> <span class="hljs-string">React,</span> <span class="hljs-string">Vue</span><br></code></pre></td></tr></table></figure>
+<p><code>hexo-enhancer</code>会扫描您的<code>.md</code>文章，如果文章内出现以上关键词，则自动将其分配如文章的<code>tags</code>属性中。</p>
+<p>需要特别指出的是，<code>keywords</code>是标准配置，它最终会出现在网页<code>meta</code>中，而<code>tags</code>是自定义的属性，只会被本插件使用。</p>
+<h2 id="速度优化"><a class="markdownIt-Anchor" href="#速度优化"></a> 速度优化</h2>
+<ol>
+<li>把所有可以加载的图片, 都<strong>尽量放到图床上</strong>, 可以提高很多加载速度</li>
+</ol>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://adorabled4.github.io/2022/08/21/hexo/hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E4%B8%BB%E9%A1%B5/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2022/08/21/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E8%BF%99%E6%98%AF%E4%B8%80%E4%B8%AA%E6%B5%8B%E8%AF%95/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            这是一个测试
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2022/08/18/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80%E5%8B%8B%E7%AB%A0/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">算法基础-java代码实现OnBuilding...</div>
+      </a>
+    
+  </nav>
+
+  
+   
+    
+    <script src="https://cdn.staticfile.org/twikoo/1.4.18/twikoo.all.min.js"></script>
+    <div id="twikoo" class="twikoo"></div>
+    <script>
+        twikoo.init({
+            envId: ""
+        })
+    </script>
+ 
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2022
+        <i class="ri-heart-fill heart_icon"></i> dhx_
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/avater.png" alt="dhx_&#39;blog"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.staticfile.org/justifiedGallery/3.8.1/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.staticfile.org/clipboard.js/2.0.10/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+ 
+<script src="/js/dz.js"></script>
+ 
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    <div id="music">
+    
+    
+    
+    <iframe frameborder="no" border="1" marginwidth="0" marginheight="0" width="200" height="52"
+        src="//music.163.com/outchain/player?type=2&id=29480187&auto=1&height=32"></iframe>
+</div>
+
+<style>
+    #music {
+        position: fixed;
+        right: 15px;
+        bottom: 0;
+        z-index: 998;
+    }
+</style>
+    
+    
+
+  </div>
+</body>
+
+</html>
