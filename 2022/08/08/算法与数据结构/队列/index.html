@@ -76,7 +76,7 @@
   <time datetime="2022-08-08T14:34:55.000Z" itemprop="datePublished">2022-08-08</time>
 </a> 
   <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">算法与数据结构</a>
+    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">算法与数据结构</a> / <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">算法与数据结构</a>
   </div>
   
 <div class="word_count">
@@ -115,7 +115,7 @@
 <li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/81018602">算法一看就懂之「 队列 」 - 知乎 (zhihu.com)</a></li>
 </ul>
 <span id="more"></span>
-<p>队列的主要种类:</p>
+<p>队列的 主要种类:</p>
 <ol>
 <li><strong>[顺序队列](# 1、顺序队列)</strong></li>
 <li><strong>[链式队列](# 2、链式队列)</strong></li>
@@ -137,7 +137,7 @@
 </li>
 <li>
 <h1 id=""><a class="markdownIt-Anchor" href="#"></a> </h1>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Deque</span>&lt;E&gt; <span class="keyword">extends</span> <span class="title class_">Queue</span>&lt;E&gt; &#123;&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">Deque</span>&lt;E&gt; <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Queue</span>&lt;E&gt; &#123;&#125;<br></code></pre></td></tr></table></figure>
 <ul>
 <li>
 <p><a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=Deque&amp;spm=1001.2101.3001.7020">Deque</a>是一个双端队列接口，继承自Queue接口，Deque的实现类是<code>LinkedList</code>、<code>ArrayDeque</code>、<code>LinkedBlockingDeque</code>，</p>
@@ -314,7 +314,7 @@
 <p>“<strong>队列</strong>” 指的是元素只能从队头和队尾进行操作</p>
 </li>
 </ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LinkedList</span>&lt;E&gt;</span><br><span class="line">    <span class="keyword">extends</span> <span class="title class_">AbstractSequentialList</span>&lt;E&gt;</span><br><span class="line">    <span class="keyword">implements</span> <span class="title class_">List</span>&lt;E&gt;, Deque&lt;E&gt;, Cloneable, java.io.Serializable&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Deque</span>&lt;E&gt; <span class="keyword">extends</span> <span class="title class_">Queue</span>&lt;E&gt; &#123;&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Queue</span>&lt;E&gt; <span class="keyword">extends</span> <span class="title class_">Collection</span>&lt;E&gt; &#123;&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">LinkedList</span>&lt;E&gt;<br>    <span class="hljs-keyword">extends</span> <span class="hljs-title class_">AbstractSequentialList</span>&lt;E&gt;<br>    <span class="hljs-keyword">implements</span> <span class="hljs-title class_">List</span>&lt;E&gt;, Deque&lt;E&gt;, Cloneable, java.io.Serializable&#123;&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">Deque</span>&lt;E&gt; <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Queue</span>&lt;E&gt; &#123;&#125;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">Queue</span>&lt;E&gt; <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Collection</span>&lt;E&gt; &#123;&#125;<br></code></pre></td></tr></table></figure>
 <h4 id="剑指-offer-59-i-滑动窗口的最大值-力扣leetcode"><a class="markdownIt-Anchor" href="#剑指-offer-59-i-滑动窗口的最大值-力扣leetcode"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/hua-dong-chuang-kou-de-zui-da-zhi-lcof/">剑指 Offer 59 - I. 滑动窗口的最大值 - 力扣（LeetCode）</a></h4>
  
       <!-- reward -->
@@ -385,7 +385,7 @@
 </div>
 
 <div id="share-mask"></div>  
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Leetcode/" rel="tag">Leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%98%9F%E5%88%97/" rel="tag">队列</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">算法与数据结构</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%98%9F%E5%88%97/" rel="tag">队列</a></li></ul>
 
     </footer>
   </div>
@@ -393,11 +393,11 @@
    
   <nav class="article-nav">
     
-      <a href="/2022/08/12/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E7%A8%8B%E5%BA%8F%E5%91%98%E9%9D%A2%E8%AF%95%E9%87%91%E5%85%B8%20-java%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/" class="article-nav-link">
+      <a href="/2022/08/12/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E7%A8%8B%E5%BA%8F%E5%91%98%E9%9D%A2%E8%AF%95%E9%87%91%E5%85%B8/%E7%A8%8B%E5%BA%8F%E5%91%98%E9%9D%A2%E8%AF%95%E9%87%91%E5%85%B81~3/" class="article-nav-link">
         <strong class="article-nav-caption">上一篇</strong>
         <div class="article-nav-title">
           
-            程序员面试金典-java代码实现 OnBuilding...
+            程序员面试金典1~3
           
         </div>
       </a>

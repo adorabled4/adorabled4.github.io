@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+  
+
+    <head>
+      <meta charset="utf-8" />
+        
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>剑指offer59~69 |  dhx_&#39;blog</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220820231738085.png" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      
+<link rel="stylesheet" href="/css/fonts/remixicon.css">
+
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.staticfile.org/pace/1.2.4/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+      </style>
+    </head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-算法与数据结构/剑指offer/剑指offer59~69"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  剑指offer59~69
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/07/26/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%89%91%E6%8C%87offer/%E5%89%91%E6%8C%87offer59~69/" class="article-date">
+  <time datetime="2022-07-26T13:51:33.000Z" itemprop="datePublished">2022-07-26</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">算法与数据结构</a> / <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">算法与数据结构</a> / <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%89%91%E6%8C%87offer/">剑指offer</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">4.3k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">19 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="59~69-on-building"><a class="markdownIt-Anchor" href="#59~69-on-building"></a> 59~69 on building…</h1>
+<h3 id="59-i-滑动窗口的最大值"><a class="markdownIt-Anchor" href="#59-i-滑动窗口的最大值"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/hua-dong-chuang-kou-de-zui-da-zhi-lcof/">59 - I. 滑动窗口的最大值</a></h3>
+<p>难度困难474</p>
+<p>给定一个数组 <code>nums</code> 和滑动窗口的大小 <code>k</code>，请找出所有滑动窗口里的最大值。</p>
+<span id="more"></span>
+<ul>
+<li>暴力解法</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span>[] maxSlidingWindow(<span class="hljs-type">int</span>[] nums, <span class="hljs-type">int</span> k) &#123;<br>        <span class="hljs-keyword">if</span>(nums.length==<span class="hljs-number">0</span>||k==<span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[<span class="hljs-number">0</span>]; <span class="hljs-comment">// 数组为null 的情况</span><br>        <span class="hljs-type">int</span> []res=<span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[nums.length-k+<span class="hljs-number">1</span>]; <span class="hljs-comment">// 滑动窗口的数量</span><br>        <span class="hljs-type">int</span> pre=<span class="hljs-number">0</span>; <span class="hljs-comment">// 滑动窗口左下标</span><br>        <span class="hljs-keyword">while</span>(pre+k&lt;=nums.length)&#123;<br>            <span class="hljs-type">int</span> max=nums[pre]; <span class="hljs-comment">// 窗口最左边的元素</span><br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span>  <span class="hljs-operator">=</span> pre+<span class="hljs-number">1</span>; i &lt; pre+k; i++) &#123;<span class="hljs-comment">// 循环窗口</span><br>                max=Math.max(max,nums[i]);<br>            &#125;<br>            res[pre++]=max;<span class="hljs-comment">// 移动窗口并赋值</span><br>        &#125;<br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>单调队列</li>
+</ul>
+<h3 id="59-ii-队列的最大值"><a class="markdownIt-Anchor" href="#59-ii-队列的最大值"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/dui-lie-de-zui-da-zhi-lcof/">59 - II. 队列的最大值</a></h3>
+<p>难度中等403</p>
+<p>请定义一个队列并实现函数 <code>max_value</code> 得到队列里的最大值，要求函数<code>max_value</code>、<code>push_back</code> 和 <code>pop_front</code> 的<strong>均摊</strong>时间复杂度都是O(1)。</p>
+<p>若队列为空，<code>pop_front</code> 和 <code>max_value</code> 需要返回 -1</p>
+<blockquote>
+<p>对于入队操作以及出队操作, 直接使用<code>Queue</code> 的API即可</p>
+<p>对于<code>MAX_VALUE</code>,如果要实现<code>O(1)</code>的复杂度, 需要使用<code>Deque</code></p>
+<ul>
+<li>使用辅助队列<code>Deque</code> , 用来储存最大值</li>
+</ul>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">MaxQueue</span> &#123;<br>    Deque&lt;Integer&gt; deque=<span class="hljs-keyword">new</span> <span class="hljs-title class_">LinkedList</span>&lt;&gt;(); <span class="hljs-comment">// 辅助队列, 储存最大值</span><br>    Queue&lt;Integer&gt; queue=<span class="hljs-keyword">new</span> <span class="hljs-title class_">LinkedList</span>&lt;&gt;();<br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">MaxQueue</span><span class="hljs-params">()</span> &#123;<br><br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">max_value</span><span class="hljs-params">()</span> &#123; <span class="hljs-comment">//直接通过deque获取最大值</span><br>        <span class="hljs-keyword">return</span> deque.size()==<span class="hljs-number">0</span>?-<span class="hljs-number">1</span>: deque.peekFirst();<br>    &#125;<br>    <br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">push_back</span><span class="hljs-params">(<span class="hljs-type">int</span> value)</span> &#123;<br>        queue.add(value);<br>        <span class="hljs-comment">// 调整deque ,使其保持单调递减</span><br>        <span class="hljs-keyword">while</span>(deque.size()!=<span class="hljs-number">0</span>&amp;&amp;deque.peekLast()&lt;value)&#123;<br>            deque.removeLast();<br>        &#125;<br>        deque.addLast(value);<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">pop_front</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-keyword">if</span>(queue.size()==<span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;<br>        <span class="hljs-keyword">if</span>(queue.peek().equals(deque.peekFirst()))&#123; <span class="hljs-comment">//如果需要出队的元素是最大值,那么出队,否则不用管</span><br>            deque.pollFirst();<br>        &#125;<br>        <span class="hljs-keyword">return</span> queue.poll();<br>    &#125;<br>&#125;<br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * Your MaxQueue object will be instantiated and called as such:</span><br><span class="hljs-comment"> * MaxQueue obj = new MaxQueue();</span><br><span class="hljs-comment"> * int param_1 = obj.max_value();</span><br><span class="hljs-comment"> * obj.push_back(value);</span><br><span class="hljs-comment"> * int param_3 = obj.pop_front();</span><br><span class="hljs-comment"> */</span><br></code></pre></td></tr></table></figure>
+<h3 id="60-n个骰子的点数"><a class="markdownIt-Anchor" href="#60-n个骰子的点数"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/nge-tou-zi-de-dian-shu-lcof/">60. n个骰子的点数</a></h3>
+<p>难度中等464</p>
+<p>把n个骰子扔在地上，所有骰子朝上一面的点数之和为s。输入n，打印出s的所有可能的值出现的概率。</p>
+<p>你需要用一个浮点数数组返回答案，其中第 i 个元素代表这 n 个骰子所能掷出的点数集合中第 i 小的那个的概率。</p>
+<ul>
+<li>动态规划</li>
+<li>在前面计算的dp数组的概率的基础上, 都添加6 个分支<code>temp[j+k]+=dp[j]/6.0;</code>,</li>
+</ul>
+<p>通过子问题的解 f(n - 1) 可递推计算出 f(n) ，而输入一个骰子的解 f(1) 已知，因此可通过解 f(1)依次递推出任意解 f(n) 。</p>
+<blockquote>
+<p>假设有两个骰子A、B，这两个骰子相互独立。<br />
+在仅有一个骰子A的情况下，6个点出现的概率都为1/6, 同时A的每个点搭配B的每个点的概率也是相同的，所以骰子A为1会分别乘6个1/6去搭配骰子B的1~6， 即这种搭配2~7的概率分别都为1/36; 骰子A的2也会分别去乘6个1/6去搭配骰子B的1~6, 即这种搭配3~8的概率也分别为1/36, 以此类推。<br />
+因为这是独立重复试验，所以之间的关系是相加，所有实验相加后，就得到了最终的结果。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">double</span>[] dicesProbability(<span class="hljs-type">int</span> n) &#123;<br>        <span class="hljs-type">double</span>[] dp=<span class="hljs-keyword">new</span> <span class="hljs-title class_">double</span>[<span class="hljs-number">6</span>];<br>        Arrays.fill(dp,<span class="hljs-number">1</span>/<span class="hljs-number">6.0</span>);<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">2</span>; i &lt;= n; i++) &#123;<br>            <span class="hljs-type">double</span> temp[]=<span class="hljs-keyword">new</span> <span class="hljs-title class_">double</span>[i*<span class="hljs-number">5</span>+<span class="hljs-number">1</span>];<br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">j</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; j &lt; dp.length; j++) &#123; <span class="hljs-comment">// 前面的数组的点数</span><br>                <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">k</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; k &lt; <span class="hljs-number">6</span>; k++) &#123;   <span class="hljs-comment">// 多了一个 骰子的点数</span><br>                    temp[j+k]+=dp[j]/<span class="hljs-number">6.0</span>; <span class="hljs-comment">// 可以理解为 前面的数组的点数, 要均匀分给后面的骰子六份</span><br>                    <span class="hljs-comment">// 例如本来是x  , 那么新的点数列表就是 (x,1),(x,2),(x,3),(x,4),(x,5),(x,6)</span><br>                    <span class="hljs-comment">// x可以是(1,2,6), x中的每一位都表示之前的那一次的骰子的点数</span><br>                &#125;<br>            &#125;<br>            dp=temp;<br>        &#125;<br>        <span class="hljs-keyword">return</span> dp;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="61-扑克牌中的顺子"><a class="markdownIt-Anchor" href="#61-扑克牌中的顺子"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/bu-ke-pai-zhong-de-shun-zi-lcof/">61. 扑克牌中的顺子</a></h3>
+<p>难度简单261</p>
+<p>从<strong>若干副扑克牌</strong>中随机抽 <code>5</code> 张牌，判断是不是一个顺子，即这5张牌是不是连续的。2～10为数字本身，A为1，J为11，Q为12，K为13，而大、小王为 0 ，可以看成任意数字。A 不能视为 14。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">isStraight</span><span class="hljs-params">(<span class="hljs-type">int</span>[] nums)</span> &#123;<br><span class="hljs-comment">//1 2 3 4 5 6 7 8  9 10 11 12 13</span><br>        Arrays.sort(nums);<br>        <span class="hljs-type">int</span> cnt=<span class="hljs-number">0</span>; <span class="hljs-comment">// 统计 joker 的数量</span><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">4</span>; i++) &#123;<br>            <span class="hljs-keyword">if</span> (nums[i] == <span class="hljs-number">0</span>) cnt++;<br>            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (nums[i] == nums[i + <span class="hljs-number">1</span>]) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<span class="hljs-comment">// 有重复的 , 直接false</span><br>        &#125;<br>        <span class="hljs-keyword">if</span>(cnt==<span class="hljs-number">0</span>&amp;&amp;nums[<span class="hljs-number">4</span>]-nums[<span class="hljs-number">0</span>]&gt;=<span class="hljs-number">5</span>)&#123;<span class="hljs-comment">// 最大值比最小值相差 &gt;5</span><br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>        &#125;<br>        <span class="hljs-keyword">if</span>(cnt!=<span class="hljs-number">0</span>&amp;&amp;nums[<span class="hljs-number">4</span>]-nums[cnt]&gt;=<span class="hljs-number">5</span>)&#123;  <br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>最后几行的返回可以 简写,</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">isStraight</span><span class="hljs-params">(<span class="hljs-type">int</span>[] nums)</span> &#123;<br><span class="hljs-comment">//1 2 3 4 5 6 7 8  9 10 11 12 13</span><br>        Arrays.sort(nums);<br>        <span class="hljs-type">int</span> cnt=<span class="hljs-number">0</span>; <span class="hljs-comment">// 统计 joker 的数量</span><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">4</span>; i++) &#123;<br>            <span class="hljs-keyword">if</span> (nums[i] == <span class="hljs-number">0</span>) cnt++;<br>            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (nums[i] == nums[i + <span class="hljs-number">1</span>]) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<span class="hljs-comment">// 有重复的 , 直接false</span><br>        &#125;<br>        <span class="hljs-keyword">return</span> nums[<span class="hljs-number">4</span>]-nums[cnt]&lt;<span class="hljs-number">5</span>; <span class="hljs-comment">//最大牌 - 最小牌 &lt; 5 则可构成顺子 (这个与是否有joker无关 ,区别只在于cnt)</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="62-圆圈中最后剩下的数字"><a class="markdownIt-Anchor" href="#62-圆圈中最后剩下的数字"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/yuan-quan-zhong-zui-hou-sheng-xia-de-shu-zi-lcof/">62. 圆圈中最后剩下的数字</a></h3>
+<p>难度简单656</p>
+<p>0,1,···,n-1这n个数字排成一个圆圈，从数字0开始，每次从这个圆圈里删除第m个数字（删除后从下一个数字开始计数）。求出这个圆圈里剩下的最后一个数字。</p>
+<p>例如，0、1、2、3、4这5个数字组成一个圆圈，从数字0开始每次删除第3个数字，则删除的前4个数字依次是2、0、4、1，因此最后剩下的数字是3。</p>
+<ul>
+<li><strong>约瑟夫环问题</strong></li>
+</ul>
+<blockquote>
+<p>暴力模拟时间复杂度*O(MN)*显然是不可取的<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082image-20220809160509100.png" alt="image-20220809160509100" />image-20220809160509100</p>
+</blockquote>
+<p>正确的做法是使用动态规划:</p>
+<blockquote>
+<p>我们首先将这个问题 当做一个**「n, m 问题」**</p>
+</blockquote>
+<ul>
+<li>
+<p>由于删除的是第m个数字, 因此实际删除的数字是(m-1) , 又因为 m可能大于n , 所以实际删除的数字是 (m-1)%n</p>
+</li>
+<li>
+<p>删除后的数字环从下一个数字开始 (将这个数字视为第一个数字, ) ,即m%n, 设 t= m%n</p>
+</li>
+<li>
+<p>那么可以得到新的数字环是:</p>
+<blockquote>
+<p><code>t, t+1, t+2 , t+3 .......0 , 1 , t-3 ,t-2</code> , <strong>(t-1刚刚被删除了)</strong></p>
+<p>**「n -1 , m 问题」**的数字环是:</p>
+<p><code>0 , 1 , 2 , 3 , ...... t, t+1 ... n-2</code></p>
+</blockquote>
+</li>
+<li>
+<p>删除一轮后的数字环变为了一个「n -1 , m 问题」, 下面是数字的编号以及对应的关系:</p>
+<table>
+<thead>
+<tr>
+<th>「n -1 , m 问题」</th>
+<th>「n , m 问题」</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>t+0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>t+1</td>
+</tr>
+<tr>
+<td>2</td>
+<td>t+2</td>
+</tr>
+<tr>
+<td>…</td>
+<td>…</td>
+</tr>
+<tr>
+<td>n-2</td>
+<td>t-2</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>我们假设 **「n -1 , m 问题」**中的某一个数字为 <code>x</code> ,</p>
+<ul>
+<li>
+<p>那么可以得到递推关系:</p>
+<p>x----&gt; (x+t)%n</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>那么如果这个x 恰好是**「n -1 , m 问题」** 的解(记为<code>f(n)</code> , 由此我们可以得到:</p>
+<p><code>f(n) = (f(n-1) + t) % n</code></p>
+<p><code>= (f(n-1) + m%n ) % n</code></p>
+<p><code>= (f(n-1) + m ) % n</code></p>
+<p>因此, 我们可以通过<code>f (1)</code>来递推之任意的<code>f(n)</code>,</p>
+<ul>
+<li>而「1,m 问题」的解 <code>f(1) = 0</code>恒成立，即无论 m 为何值，长度为 1 的数字环留下的是一定是数字 0 。</li>
+</ul>
+<p><strong>动态规划:</strong></p>
+<blockquote>
+<p>状态定义： 设**「i,m 问题」**的解为 <code>dp[i]</code>；<br />
+转移方程： 通过以下公式可从 dp[i - 1]递推得到 <code>dp[i]</code> ；</p>
+<ul>
+<li><code>dp[i]=(dp[i−1]+m)%i</code></li>
+</ul>
+<p>初始状态：<strong>「1, m1,m 问题」*<em>的解恒为 00 ，即 <code>dp[1] = 0</code> ；<br />
+返回值： 返回*</em>「n, m问题」的</strong>解 dp[n] ；</p>
+</blockquote>
+<p>时间复杂度: <em>O(n)</em></p>
+<p>空间复杂度: <em>O(1)</em></p>
+<p>根据状态转移方程的递推特性，无需建立状态列表 dp ，而使用一个变量 x 执行状态转移即可。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">lastRemaining</span><span class="hljs-params">(<span class="hljs-type">int</span> n, <span class="hljs-type">int</span> m)</span> &#123;<br>        <span class="hljs-type">int</span> <span class="hljs-variable">x</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">2</span>; i &lt;= n; i++) &#123;<br>            x = (x + m) % i;<br>        &#125;<br>        <span class="hljs-keyword">return</span> x;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="63-股票的最大利润"><a class="markdownIt-Anchor" href="#63-股票的最大利润"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/gu-piao-de-zui-da-li-run-lcof/">63. 股票的最大利润</a></h3>
+<p>难度中等278</p>
+<p>假设把某股票的价格按照时间先后顺序存储在数组中，请问买卖该股票一次可能获得的最大利润是多少？</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082image-20220810160020674.png" alt="image-20220810160020674" />image-20220810160020674</p>
+<blockquote>
+<p>暴力解法时间复杂度 达到<em>O(n2)</em> ,舍弃</p>
+<p>正确的做法是使用动态规划, <strong>随着天数的增加</strong>获得最低价格以及最高的售价 , 然后每次统计利润是否增加</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-attr">profit</span>=Math.max(profit,price-cost)<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">maxProfit</span><span class="hljs-params">(<span class="hljs-type">int</span>[] prices)</span> &#123;<br>        <span class="hljs-type">int</span> cost=Integer.MAX_VALUE, profit=<span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> price : prices) &#123;<br>            cost=Math.min(cost,price);<br>            profit=Math.max(profit,price-cost);<br>        &#125;<br>        <span class="hljs-keyword">return</span> profit;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="64-求12n"><a class="markdownIt-Anchor" href="#64-求12n"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/qiu-12n-lcof/">64. 求1+2+…+n</a></h3>
+<p>难度中等523</p>
+<p>求 <code>1+2+...+n</code> ，要求不能使用乘除法、for、while、if、else、switch、case等关键字及条件判断语句（A?B:C）。</p>
+<ul>
+<li>cpp 利用构造函数求解</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-type">static</span> <span class="hljs-type">int</span> sum,value;<br>    <span class="hljs-built_in">Solution</span>()&#123;<br>        sum+=++value;<br>    &#125;<br>    <span class="hljs-function"><span class="hljs-type">static</span> <span class="hljs-type">int</span> <span class="hljs-title">getSum</span><span class="hljs-params">()</span></span>&#123;<span class="hljs-keyword">return</span> sum;&#125;<br>    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">sumNums</span><span class="hljs-params">(<span class="hljs-type">int</span> n)</span> </span>&#123;<br>        Solution *ptr=<span class="hljs-keyword">new</span> Solution[n<span class="hljs-number">-1</span>];<br>        <span class="hljs-keyword">return</span> Solution::<span class="hljs-built_in">getSum</span>();<br>    &#125;<br>&#125;;<br><span class="hljs-type">int</span> Solution::sum=<span class="hljs-number">0</span>, Solution::value=<span class="hljs-number">0</span>;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>java利用 <code>&amp;&amp;</code> 求解 , (递归)</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-type">int</span> res=<span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">sumNums</span><span class="hljs-params">(<span class="hljs-type">int</span> n)</span> &#123;<br>        <span class="hljs-type">boolean</span> x= n&gt;<span class="hljs-number">1</span>&amp;&amp;sumNums(n-<span class="hljs-number">1</span>)&gt;<span class="hljs-number">0</span>;<br>        res+=n;<br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="65-不用加减乘除做加法"><a class="markdownIt-Anchor" href="#65-不用加减乘除做加法"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/bu-yong-jia-jian-cheng-chu-zuo-jia-fa-lcof/">65. 不用加减乘除做加法</a></h3>
+<p>难度简单338</p>
+<p>写一个函数，求两个整数之和，要求在函数体内不得使用 “+”、“-”、“*”、“/” 四则运算符号。</p>
+<ul>
+<li>利用<code>^</code> 以及<code>&amp;</code>, 巧妙的进行相加</li>
+</ul>
+<blockquote>
+<p>首先 ,我们有两个数字,</p>
+<ul>
+<li>需要先获取 非进位的和 n (n= a^b)</li>
+<li>然后获取进位的和 : p (p=a&amp;b&lt;&lt;1)</li>
+<li>然后我们 通过 <code>n= n^p</code> 就得到了和 ( 进位和 + 非进位和)</li>
+</ul>
+<p><code>9 : 1001</code><br />
+<code>26: 11010</code><br />
+<code>n: 10011</code><br />
+<code>p: 10000</code><br />
+<code>n: 00011</code> , 可见, 如果仅仅是 <code>n^p</code> 可能存在新的进位的情况 ,<br />
+此时我们继续使用 p 来记录 n&amp;p&lt;&lt;1 的结果 ,<br />
+<code>p: 100000</code><br />
+<strong>这里需要用到一个新的数字(<code>temp</code>)来储存 <code>n&amp;p&lt;&lt;1</code> 的结果, 因为如果先 异或再 &amp; , 就会导致先相加, 再&amp;, 相当于重复计算了</strong><br />
+然后继续执行上一步类似的操作 也就是 n= n^p<br />
+<code>n:100011 : 35</code> 得到正确结果</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">add</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b)</span> &#123;<br>        <span class="hljs-type">int</span> n=a;<br>        <span class="hljs-type">int</span> p=b; <span class="hljs-comment">//存储上一轮的 进位和结果</span><br>        <span class="hljs-keyword">while</span>(p!=<span class="hljs-number">0</span>)&#123;<br>            <span class="hljs-type">int</span> <span class="hljs-variable">temp</span> <span class="hljs-operator">=</span> (n&amp;p)&lt;&lt;<span class="hljs-number">1</span>;<span class="hljs-comment">// 存储上一轮的进位和结果  ,如果还有进位那么就继续执行操作</span><br>            n=n^p; <span class="hljs-comment">// 进位和+ 非进位和</span><br>            p=temp; <span class="hljs-comment">//如果还有进位那么就继续执行操作</span><br>        &#125;<br>        <span class="hljs-keyword">return</span> n;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="66-构建乘积数组"><a class="markdownIt-Anchor" href="#66-构建乘积数组"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/gou-jian-cheng-ji-shu-zu-lcof/">66. 构建乘积数组</a></h3>
+<p>难度中等257</p>
+<p>给定一个数组 <code>A[0,1,…,n-1]</code>，请构建一个数组 <code>B[0,1,…,n-1]</code>，其中 <code>B[i]</code> 的值是数组 <code>A</code> 中除了下标 <code>i</code> 以外的元素的积, 即 <code>B[i]=A[0]×A[1]×…×A[i-1]×A[i+1]×…×A[n-1]</code>。不能使用除法。</p>
+<ul>
+<li>使用 <code>BigInteger.divide()方法</code> ,显然不行, 题目说了不可以使除法</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.math.BigInteger;<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span>[] constructArr(<span class="hljs-type">int</span>[] a) &#123;<br>        BigInteger big=<span class="hljs-keyword">new</span> <span class="hljs-title class_">BigInteger</span>(<span class="hljs-string">&quot;1&quot;</span>);<br>        <span class="hljs-type">int</span> cnt=<span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i : a) &#123;<br>            big=big.multiply(<span class="hljs-keyword">new</span> <span class="hljs-title class_">BigInteger</span>(String.valueOf(i)));<br>            <span class="hljs-keyword">if</span>(i==<span class="hljs-number">0</span>)&#123;<br>                <span class="hljs-keyword">break</span>;<br>            &#125;<br>            cnt++;<br>        &#125;<br>        <span class="hljs-keyword">if</span> (big.intValue()==<span class="hljs-number">0</span>)&#123;<br>            <span class="hljs-type">int</span> mul=<span class="hljs-number">1</span>;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; a.length; i++) &#123;<br>                <span class="hljs-keyword">if</span>(i!=cnt)&#123;<br>                    mul*=a[i];<br>                &#125;<br>            &#125;<br>            <span class="hljs-type">int</span> []res=<span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[a.length];<br>            res[cnt]=mul;<br>            <span class="hljs-keyword">return</span> res;<br>        &#125;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; a.length; i++) &#123;<br>            a[i]=big.divide(<span class="hljs-keyword">new</span> <span class="hljs-title class_">BigInteger</span>(String.valueOf(a[i]))).intValue();<br>        &#125;<br>        <span class="hljs-keyword">return</span> a;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>左右累乘, 通过 <code>b[]</code>来记录左边的累乘的结果, 通过temp 来记录右边的累乘的结果,</li>
+<li>注意<code>temp</code>计算的时候是从右下角开始累乘</li>
+<li><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082image-20220811093232439.png" alt="image-20220811093232439" />image-20220811093232439</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span>[] constructArr( <span class="hljs-type">int</span> []a)&#123;<br>        <span class="hljs-type">int</span> <span class="hljs-variable">len</span> <span class="hljs-operator">=</span>a.length;<br>        <span class="hljs-keyword">if</span>(len==<span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[<span class="hljs-number">0</span>];<br>        <span class="hljs-type">int</span>[]b =<span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[len];<br>        <span class="hljs-type">int</span> temp=<span class="hljs-number">1</span>;<br>        b[<span class="hljs-number">0</span>]=<span class="hljs-number">1</span>;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">1</span>; i &lt; b.length; i++) &#123;<br>                b[i]=a[i-<span class="hljs-number">1</span>]*b[i-<span class="hljs-number">1</span>]; <span class="hljs-comment">// a[i] 表示当前的元素, b[i-1] 表示的是前面的元素的累乘的结果</span><br>        &#125;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span>len-<span class="hljs-number">2</span> ; i &gt;=<span class="hljs-number">0</span> ; i--) &#123; <span class="hljs-comment">// 由于 a[n] 不需要乘以他本身, 因此 少循环一次, --&gt; i=len-2;</span><br>            temp*=a[i+<span class="hljs-number">1</span>];<br>            b[i]*=temp;<br>        &#125;<br>        <span class="hljs-keyword">return</span> b;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="67-把字符串转换成整数"><a class="markdownIt-Anchor" href="#67-把字符串转换成整数"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/ba-zi-fu-chuan-zhuan-huan-cheng-zheng-shu-lcof/">67. 把字符串转换成整数</a></h3>
+<p>难度中等179</p>
+<p>写一个函数 StrToInt，实现把字符串转换成整数这个功能。不能使用 atoi 或者其他类似的库函数。</p>
+<p>首先，该函数会根据需要丢弃无用的开头空格字符，直到寻找到第一个非空格的字符为止。</p>
+<p>当我们寻找到的第一个非空字符为正或者负号时，则将该符号与之后面尽可能多的连续数字组合起来，作为该整数的正负号；假如第一个非空字符是数字，则直接将其与之后连续的数字字符组合起来，形成整数。</p>
+<p>该字符串除了有效的整数部分之后也可能会存在多余的字符，这些字符可以被忽略，它们对于函数不应该造成影响。</p>
+<p>注意：假如该字符串中的第一个非空格字符不是一个有效整数字符、字符串为空或字符串仅包含空白字符时，则你的函数不需要进行转换。</p>
+<p>在任何情况下，若函数不能进行有效的转换时，请返回 0</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082image-20220811100252623.png" alt="image-20220811100252623" />image-20220811100252623</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">strToInt</span><span class="hljs-params">(String str)</span> &#123;<br>        <span class="hljs-type">char</span>[] c = str.trim().toCharArray();<br>        <span class="hljs-keyword">if</span>(c.length == <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>        <span class="hljs-type">int</span> <span class="hljs-variable">res</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>, bndry = Integer.MAX_VALUE / <span class="hljs-number">10</span>;<br>        <span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">1</span>, sign = <span class="hljs-number">1</span>;<br>        <span class="hljs-keyword">if</span>(c[<span class="hljs-number">0</span>] == <span class="hljs-string">&#x27;-&#x27;</span>) sign = -<span class="hljs-number">1</span>;<br>        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(c[<span class="hljs-number">0</span>] != <span class="hljs-string">&#x27;+&#x27;</span>) i = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> <span class="hljs-variable">j</span> <span class="hljs-operator">=</span> i; j &lt; c.length; j++) &#123;<br>            <span class="hljs-keyword">if</span>(c[j] &lt; <span class="hljs-string">&#x27;0&#x27;</span> || c[j] &gt; <span class="hljs-string">&#x27;9&#x27;</span>) <span class="hljs-keyword">break</span>;<br>            <span class="hljs-keyword">if</span>(res &gt; bndry || res == bndry &amp;&amp; c[j] &gt; <span class="hljs-string">&#x27;7&#x27;</span>) <span class="hljs-keyword">return</span> sign == <span class="hljs-number">1</span> ? Integer.MAX_VALUE : Integer.MIN_VALUE;<br>            res = res * <span class="hljs-number">10</span> + (c[j] - <span class="hljs-string">&#x27;0&#x27;</span>);<br>        &#125;<br>        <span class="hljs-keyword">return</span> sign * res;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="68-i-二叉搜索树的最近公共祖先"><a class="markdownIt-Anchor" href="#68-i-二叉搜索树的最近公共祖先"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/er-cha-sou-suo-shu-de-zui-jin-gong-gong-zu-xian-lcof/">68 - I. 二叉搜索树的最近公共祖先</a></h3>
+<p>难度简单252</p>
+<p>给定一个<strong>二叉搜索树</strong>, 找到该树中两个指定节点的最近公共祖先。</p>
+<p><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E6%9C%80%E8%BF%91%E5%85%AC%E5%85%B1%E7%A5%96%E5%85%88/8918834?fr=aladdin">百度百科</a>中最近公共祖先的定义为：“对于有根树 T 的两个结点 p、q，最近公共祖先表示为一个结点 x，满足 x 是 p、q 的祖先且 x 的深度尽可能大（<strong>一个节点也可以是它自己的祖先</strong>）。”</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082image-20220811100343943.png" alt="image-20220811100343943" />image-20220811100343943</p>
+<blockquote>
+<p>对于两个节点, 他们的对于祖先的分布有三种情况:</p>
+<ol>
+<li>两个子节点都在<strong>左子树</strong></li>
+<li>两个子节点都在<strong>右子树</strong></li>
+<li>两个子节点一左一右分布在子树
+<ul>
+<li>这种情况, 对应的最近公共祖先就是当前的节点( 在深入的话就没有公共祖先了)</li>
+</ul>
+</li>
+</ol>
+<p>由于题目给的是<strong>二叉搜索树</strong> , 那么可以直接利用 特性比较即可</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * Definition for a binary tree node.</span><br><span class="hljs-comment"> * public class TreeNode &#123;</span><br><span class="hljs-comment"> *     int val;</span><br><span class="hljs-comment"> *     TreeNode left;</span><br><span class="hljs-comment"> *     TreeNode right;</span><br><span class="hljs-comment"> *     TreeNode(int x) &#123; val = x; &#125;</span><br><span class="hljs-comment"> * &#125;</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> TreeNode <span class="hljs-title function_">lowestCommonAncestor</span><span class="hljs-params">(TreeNode root, TreeNode p, TreeNode q)</span> &#123;<br>        <span class="hljs-keyword">if</span>(root.val&gt;p.val&amp;&amp;root.val&gt;q.val)<span class="hljs-comment">// 两个子节点都在左子树</span><br>            <span class="hljs-keyword">return</span> lowestCommonAncestor(root.left,p,q);<br>        <span class="hljs-keyword">if</span>(root.val&lt;p.val&amp;&amp;root.val&lt;q.val)<br>            <span class="hljs-keyword">return</span>  lowestCommonAncestor(root.right,p,q);<br>        <span class="hljs-keyword">return</span> root;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="68-ii-二叉树的最近公共祖先"><a class="markdownIt-Anchor" href="#68-ii-二叉树的最近公共祖先"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/er-cha-shu-de-zui-jin-gong-gong-zu-xian-lcof/">68 - II. 二叉树的最近公共祖先</a></h3>
+<p>难度简单470</p>
+<p>给定一个二叉树, 找到该树中两个指定节点的最近公共祖先。</p>
+<p><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E6%9C%80%E8%BF%91%E5%85%AC%E5%85%B1%E7%A5%96%E5%85%88/8918834?fr=aladdin">百度百科</a>中最近公共祖先的定义为：“对于有根树 T 的两个结点 p、q，最近公共祖先表示为一个结点 x，满足 x 是 p、q 的祖先且 x 的深度尽可能大（<strong>一个节点也可以是它自己的祖先</strong>）。”</p>
+<blockquote>
+<p>其实思路跟上一题一样, 区别在于<strong>判断节点位于根节点的左右子树的方法</strong>不同</p>
+</blockquote>
+<ul>
+<li>通过递归判断节点是否是当前的节点的子节点
+<ul>
+<li><strong>时间复杂度很高</strong></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * Definition for a binary tree node.</span><br><span class="hljs-comment"> * public class TreeNode &#123;</span><br><span class="hljs-comment"> *     int val;</span><br><span class="hljs-comment"> *     TreeNode left;</span><br><span class="hljs-comment"> *     TreeNode right;</span><br><span class="hljs-comment"> *     TreeNode(int x) &#123; val = x; &#125;</span><br><span class="hljs-comment"> * &#125;</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> TreeNode <span class="hljs-title function_">lowestCommonAncestor</span><span class="hljs-params">(TreeNode root, TreeNode p, TreeNode q)</span> &#123;<br>        <span class="hljs-keyword">if</span>(root==<span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>        <span class="hljs-keyword">if</span>(root.val==p.val||root.val==q.val) <span class="hljs-keyword">return</span> root;<br>        <span class="hljs-keyword">if</span>(isSon(root.left,p)&amp;&amp;isSon(root.left,q))<span class="hljs-comment">// 两个子节点都在左子树</span><br>            <span class="hljs-keyword">return</span>  lowestCommonAncestor(root.left,p,q); <br>        <span class="hljs-keyword">if</span>(isSon(root.right,p)&amp;&amp;isSon(root.right,q)) <span class="hljs-comment">// 两个子节点都在右子树</span><br>            <span class="hljs-keyword">return</span>  lowestCommonAncestor(root.right,p,q);<br>        <span class="hljs-keyword">return</span> root;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">isSon</span><span class="hljs-params">(TreeNode root, TreeNode t)</span>&#123;<br>        <span class="hljs-keyword">if</span>(root==<span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>        <span class="hljs-keyword">if</span>(root.val==t.val) <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>        <span class="hljs-keyword">return</span> isSon(root.left,t)||isSon(root.right,t);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>通过递归对二叉树进行先序遍历, 当遇到节点 p或 q 时返回。从底至顶回溯，当节点 p,q 在节点 root的异侧时，节点 root即为最近公共祖先，则向上返回 root。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082image-20220811105929600.png" alt="" />image-20220811105929600</p>
+<blockquote>
+<p>分别递归左右子树, 如果遇到了<code>p</code> <code>q</code> 节点就返回,</p>
+<p>对于<code>left</code> 以及<code>right</code> 共有三种情况</p>
+<ol>
+<li>都不为null , 说明当前的root 就是最近的公共祖先(<code>return root</code>)</li>
+<li>如果都为null , 说明左右子树中都没有p ,q , 返回<code>null</code> ( <code>return right</code> )</li>
+<li>left和right中只有一个不为null, 说明两个节点在左右子树的同一侧
+<ul>
+<li>left为null : 说明p q 都在根节点的右子树中, 直接返回
+<ul>
+<li>p, q其中一个在root 的<strong>右子树</strong>中 , 此时<code>right</code>指向<code>p , q</code>其中一个</li>
+<li>p, q都在root 的右子树中, 此时<code>right</code>指向两个节点的<strong>最近公共祖先</strong></li>
+<li>如下图中的 <code>0 8</code> , 由于<code>left!=null&amp;&amp;right!=null</code> ==&gt; <code>return root</code> : <code>1</code></li>
+</ul>
+</li>
+<li>right为null:
+<ul>
+<li>同理, 不再赘述</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+</blockquote>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082image-20220811111200039.png" alt="" /></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> TreeNode <span class="hljs-title function_">lowestCommonAncestor</span><span class="hljs-params">(TreeNode root, TreeNode p, TreeNode q)</span> &#123;<br>        <span class="hljs-keyword">if</span>(root==<span class="hljs-literal">null</span>||root==q||root==q) <span class="hljs-keyword">return</span> root;<br>		TreeNode left=lowestCommonAncestor(root.left, p,q);<br>		TreeNode right=lowestCommonAncestor(root.right, p,q);<br>        <span class="hljs-keyword">if</span>(left==<span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> right;<br>        <span class="hljs-keyword">if</span>(right==<span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> left;<br>        r<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<iframe frameborder="no" border="1" marginwidth="0" marginheight="0" width="200" height="52" src="https://music.163.com/outchain/player?type=2&amp;id=29480187&amp;auto=1&amp;height=32" style="box-sizing: border-box;"></iframe>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://adorabled4.github.io/2022/07/26/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%89%91%E6%8C%87offer/%E5%89%91%E6%8C%87offer59~69/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">算法与数据结构</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2022/07/26/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%89%91%E6%8C%87offer/%E5%89%91%E6%8C%87offer37~47%E9%A2%98/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            剑指offer37~47题
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2022/07/26/SSM/SpringMVC/day2/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">SpringMVC（2）域对象共享数据&amp;&amp;视图&amp;&amp;restful</div>
+      </a>
+    
+  </nav>
+
+  
+   
+    
+    <script src="https://cdn.staticfile.org/twikoo/1.4.18/twikoo.all.min.js"></script>
+    <div id="twikoo" class="twikoo"></div>
+    <script>
+        twikoo.init({
+            envId: ""
+        })
+    </script>
+ 
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2022
+        <i class="ri-heart-fill heart_icon"></i> dhx_
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/avater.png" alt="dhx_&#39;blog"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.staticfile.org/justifiedGallery/3.8.1/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.staticfile.org/clipboard.js/2.0.10/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+ 
+<script src="/js/dz.js"></script>
+ 
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    <div id="music">
+    
+    
+    
+    <iframe frameborder="no" border="1" marginwidth="0" marginheight="0" width="200" height="52"
+        src="//music.163.com/outchain/player?type=2&id=29480187&auto=1&height=32"></iframe>
+</div>
+
+<style>
+    #music {
+        position: fixed;
+        right: 15px;
+        bottom: 0;
+        z-index: 998;
+    }
+</style>
+    
+    
+
+  </div>
+</body>
+
+</html>

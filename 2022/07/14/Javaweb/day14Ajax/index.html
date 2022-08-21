@@ -76,7 +76,7 @@
   <time datetime="2022-07-14T03:11:00.000Z" itemprop="datePublished">2022-07-14</time>
 </a> 
   <div class="article-category">
-    <a class="article-category-link" href="/categories/javaweb/">javaweb</a>
+    <a class="article-category-link" href="/categories/Javaweb/">Javaweb</a> / <a class="article-category-link" href="/categories/Javaweb/Javaweb/">Javaweb</a>
   </div>
   
 <div class="word_count">
@@ -106,19 +106,29 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p>Ajax : 异步的JavaScript and XML<br>目的： 用来发送异步的请求，然后当服务器给我响应的时候再进行回调操作<br>好处： 提高用户体验；局部刷新：降低服务器负担、减轻浏览器压力、减轻网络带宽压力</p>
+  <p>Ajax : 异步的JavaScript and XML<br />
+目的： 用来发送异步的请求，然后当服务器给我响应的时候再进行回调操作<br />
+好处： 提高用户体验；局部刷新：降低服务器负担、减轻浏览器压力、减轻网络带宽压力</p>
 <span id="more"></span>
-
 <p>开发步骤：</p>
 <ol>
 <li>创建XMLHttpRequest</li>
-<li>调用open进行设置：”GET” , URL , true</li>
+<li>调用open进行设置：“GET” , URL , true</li>
 <li>绑定状态改变时执行的回调函数 - onreadystatechange</li>
 <li>发送请求 - send()</li>
-<li>编写回调函数，在回调函数中，我们只对XMLHttpRequest的readystate为4的时候感兴趣<br>                   我们只对XMLHttpRequest的status为200的时候感兴趣</li>
+<li>编写回调函数，在回调函数中，我们只对XMLHttpRequest的readystate为4的时候感兴趣<br />
+我们只对XMLHttpRequest的status为200的时候感兴趣</li>
 </ol>
-<p>0: (Uninitialized) the send( ) method has not yet been invoked.<br>1: (Loading) the send( ) method has been invoked, request in progress.<br>2: (Loaded) the send( ) method has completed, entire response received.<br>3: (Interactive) the response is being parsed.<br>4: (Completed) the response has been parsed, is ready for harvesting.</p>
-<p>0 － （未初始化）还没有调用send()方法<br>1 － （载入）已调用send()方法，正在发送请求<br>2 － （载入完成）send()方法执行完成，已经接收到全部响应内容<br>3 － （交互）正在解析响应内容<br>4 － （完成）响应内容解析完成，可以在客户端调用了</p>
+<p>0: (Uninitialized) the send( ) method has not yet been invoked.<br />
+1: (Loading) the send( ) method has been invoked, request in progress.<br />
+2: (Loaded) the send( ) method has completed, entire response received.<br />
+3: (Interactive) the response is being parsed.<br />
+4: (Completed) the response has been parsed, is ready for harvesting.</p>
+<p>0 － （未初始化）还没有调用send()方法<br />
+1 － （载入）已调用send()方法，正在发送请求<br />
+2 － （载入完成）send()方法执行完成，已经接收到全部响应内容<br />
+3 － （交互）正在解析响应内容<br />
+4 － （完成）响应内容解析完成，可以在客户端调用了</p>
  
       <!-- reward -->
       

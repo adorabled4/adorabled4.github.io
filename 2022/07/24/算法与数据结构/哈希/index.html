@@ -11,7 +11,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title>哈希表 |  dhx_&#39;blog</title>
+      <title>哈希 |  dhx_&#39;blog</title>
   <meta name="generator" content="hexo-theme-ayer">
       
       <link rel="shortcut icon" href="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220820231738085.png" />
@@ -64,7 +64,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  哈希表
+  哈希
 </h1>
  
 
@@ -73,10 +73,10 @@
      
     <div class="article-meta">
       <a href="/2022/07/24/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%93%88%E5%B8%8C/" class="article-date">
-  <time datetime="2022-07-24T15:33:12.000Z" itemprop="datePublished">2022-07-24</time>
+  <time datetime="2022-07-24T13:30:42.000Z" itemprop="datePublished">2022-07-24</time>
 </a> 
   <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">算法与数据结构</a>
+    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">算法与数据结构</a> / <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">算法与数据结构</a>
   </div>
   
 <div class="word_count">
@@ -84,7 +84,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">673</span>
+            <span class="post-count">677</span>
         </span>
     </span>
 
@@ -93,7 +93,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">2 分钟</span>
+            <span class="post-count">3 分钟</span>
         </span>
     </span>
 </div>
@@ -108,46 +108,35 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <h2 id="1-两数之和"><a href="#1-两数之和" class="headerlink" title="1. 两数之和"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/two-sum/">1. 两数之和</a></h2><p>给定一个整数数组 <code>nums</code> 和一个整数目标值 <code>target</code>，请你在该数组中找出 <strong>和为目标值</strong> <em><code>target</code></em> 的那 <strong>两个</strong> 整数，并返回它们的数组下标。</p>
+  <h2 id="1-两数之和"><a class="markdownIt-Anchor" href="#1-两数之和"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/two-sum/">1. 两数之和</a></h2>
+<p>给定一个整数数组 <code>nums</code> 和一个整数目标值 <code>target</code>，请你在该数组中找出 <strong>和为目标值</strong> <em><code>target</code></em> 的那 <strong>两个</strong> 整数，并返回它们的数组下标。</p>
 <p>你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。</p>
 <p>你可以按任意顺序返回答案</p>
-<span id="more"></span>
-
-
-
 <blockquote>
 <p>暴力 or HashMap</p>
-<p>HashMap&lt;Integer,Integer&gt;   k 是 值， v 是数组的下标</p>
+<p><code>HashMap&lt;Integer,Integer&gt;</code> k 是 值， v 是数组的下标</p>
 <p>哈希查找的时间复杂度为 O(1)，所以可以利用 HashMap降低时间复杂度</p>
 <p>遍历当前数组 ， 判断是否存在<code>target-nums[i]</code> 的 key 值</p>
 <p>由于不能返回相同的坐标，因此必须先 判断，再 put</p>
 </blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span>[] twoSum(<span class="type">int</span>[]nums,<span class="type">int</span> target)&#123;</span><br><span class="line">    Map&lt;Integer,Integer&gt; map=<span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;nums.length;i++)&#123;</span><br><span class="line">        map.put(nums[i],i);</span><br><span class="line">        <span class="keyword">if</span>(map.containsKey(target-nums[i]))</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;i,map.get(target-nums[i])&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="2-两数相加"><a href="#2-两数相加" class="headerlink" title="2. 两数相加"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/add-two-numbers/">2. 两数相加</a></h2><p>给你两个 <strong>非空</strong> 的链表，表示两个非负的整数。它们每位数字都是按照 <strong>逆序</strong> 的方式存储的，并且每个节点只能存储 <strong>一位</strong> 数字。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-type">int</span>[] twoSum(<span class="hljs-type">int</span>[]nums,<span class="hljs-type">int</span> target)&#123;<br>    Map&lt;Integer,Integer&gt; map=<span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;&gt;();<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;nums.length;i++)&#123;<br>        map.put(nums[i],i);<br>        <span class="hljs-keyword">if</span>(map.containsKey(target-nums[i]))<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[]&#123;i,map.get(target-nums[i])&#125;;<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="2-两数相加"><a class="markdownIt-Anchor" href="#2-两数相加"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/add-two-numbers/">2. 两数相加</a></h2>
+<p>给你两个 <strong>非空</strong> 的链表，表示两个非负的整数。它们每位数字都是按照 <strong>逆序</strong> 的方式存储的，并且每个节点只能存储 <strong>一位</strong> 数字。</p>
 <p>请你将两个数相加，并以相同形式返回一个表示和的链表。</p>
 <p>你可以假设除了数字 0 之外，这两个数都不会以 0 开头。</p>
 <ul>
 <li>题目的大概意思就是链表的val 都是逆序的， 并且最后返回的链表也要是逆序的</li>
 </ul>
-<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//10821082image-20220725102723575.png" alt="image-20220725102723575" style="zoom:67%;" />
-
-
-
-
-
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//10821082image-20220725102723575.png" alt="image-20220725102723575" />image-20220725102723575</p>
 <blockquote>
 <p>暴力解法</p>
 <p>先遍历链表 ，获取val ，用String 存储</p>
 <p>然后通过将String 转换成数字相加，然后再利用<code>split</code>方法，得到res 的每个位数的值</p>
-<p>​		—–需要注意的是相加的过程中 ， 用int ， long 都会导致溢出，最后使用<code>BitInteger</code>， 有一个测试用例的长度 有30+</p>
+<p>—–需要注意的是相加的过程中 ， 用int ， long 都会导致溢出，最后使用<code>BitInteger</code>， 有一个测试用例的长度 有30+</p>
 <p>得到每一位的值之后在创建新的链表返回即可；</p>
 </blockquote>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//10821082image-20220725103034375.png" alt="image-20220725103034375"></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.math.BigInteger;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> * public class ListNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     ListNode next;</span></span><br><span class="line"><span class="comment"> *     ListNode() &#123;&#125;</span></span><br><span class="line"><span class="comment"> *     ListNode(int val) &#123; this.val = val; &#125;</span></span><br><span class="line"><span class="comment"> *     ListNode(int val, ListNode next) &#123; this.val = val; this.next = next; &#125;</span></span><br><span class="line"><span class="comment"> * &#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> ListNode <span class="title function_">addTwoNumbers</span><span class="params">(ListNode l1, ListNode l2)</span> &#123;</span><br><span class="line">        StringBuffer s1=<span class="keyword">new</span> <span class="title class_">StringBuffer</span>(<span class="string">&quot;&quot;</span>);</span><br><span class="line">        StringBuffer s2=<span class="keyword">new</span> <span class="title class_">StringBuffer</span>(<span class="string">&quot;&quot;</span>);</span><br><span class="line">        <span class="comment">// 获取 每一个节点的val</span></span><br><span class="line">        <span class="keyword">while</span>(l1!=<span class="literal">null</span>)&#123;</span><br><span class="line">            s1.append(l1.val);</span><br><span class="line">            l1=l1.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span>(l2!=<span class="literal">null</span>)&#123;</span><br><span class="line">            s2.append(l2.val);</span><br><span class="line">            l2=l2.next;</span><br><span class="line">        &#125;</span><br><span class="line">        s1=s1.reverse();</span><br><span class="line">        s2=s2.reverse();</span><br><span class="line">        BigInteger num1=<span class="keyword">new</span> <span class="title class_">BigInteger</span>(s1.toString());</span><br><span class="line">        BigInteger num2=<span class="keyword">new</span> <span class="title class_">BigInteger</span>(s2.toString());</span><br><span class="line">        BigInteger value=num1.add(num2);</span><br><span class="line">        StringBuffer v=<span class="keyword">new</span> <span class="title class_">StringBuffer</span>(value.toString());</span><br><span class="line">        v.reverse();</span><br><span class="line">        String[] split = v.toString().split(<span class="string">&quot;&quot;</span>);</span><br><span class="line">        <span class="type">int</span> size=split.length;  <span class="comment">// 记录 每一个节点的val</span></span><br><span class="line">        <span class="type">int</span> cnt=<span class="number">0</span>;</span><br><span class="line">        ListNode head=<span class="keyword">new</span> <span class="title class_">ListNode</span>(Integer.parseInt(split[cnt++])); <span class="comment">//头结点</span></span><br><span class="line">        ListNode res=head;</span><br><span class="line">        <span class="keyword">while</span>(--size&gt;<span class="number">0</span>)&#123; <span class="comment">// 创建链表</span></span><br><span class="line">            head.next=<span class="keyword">new</span> <span class="title class_">ListNode</span>(Integer.parseInt(split[cnt++]));</span><br><span class="line">            head=head.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span>  res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//10821082image-20220725103034375.png" alt="image-20220725103034375" />image-20220725103034375</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.math.BigInteger;<br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * Definition for singly-linked list.</span><br><span class="hljs-comment"> * public class ListNode &#123;</span><br><span class="hljs-comment"> *     int val;</span><br><span class="hljs-comment"> *     ListNode next;</span><br><span class="hljs-comment"> *     ListNode() &#123;&#125;</span><br><span class="hljs-comment"> *     ListNode(int val) &#123; this.val = val; &#125;</span><br><span class="hljs-comment"> *     ListNode(int val, ListNode next) &#123; this.val = val; this.next = next; &#125;</span><br><span class="hljs-comment"> * &#125;</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> ListNode <span class="hljs-title function_">addTwoNumbers</span><span class="hljs-params">(ListNode l1, ListNode l2)</span> &#123;<br>        StringBuffer s1=<span class="hljs-keyword">new</span> <span class="hljs-title class_">StringBuffer</span>(<span class="hljs-string">&quot;&quot;</span>);<br>        StringBuffer s2=<span class="hljs-keyword">new</span> <span class="hljs-title class_">StringBuffer</span>(<span class="hljs-string">&quot;&quot;</span>);<br>        <span class="hljs-comment">// 获取 每一个节点的val</span><br>        <span class="hljs-keyword">while</span>(l1!=<span class="hljs-literal">null</span>)&#123;<br>            s1.append(l1.val);<br>            l1=l1.next;<br>        &#125;<br>        <span class="hljs-keyword">while</span>(l2!=<span class="hljs-literal">null</span>)&#123;<br>            s2.append(l2.val);<br>            l2=l2.next;<br>        &#125;<br>        s1=s1.reverse();<br>        s2=s2.reverse();<br>        BigInteger num1=<span class="hljs-keyword">new</span> <span class="hljs-title class_">BigInteger</span>(s1.toString());<br>        BigInteger num2=<span class="hljs-keyword">new</span> <span class="hljs-title class_">BigInteger</span>(s2.toString());<br>        BigInteger value=num1.add(num2);<br>        StringBuffer v=<span class="hljs-keyword">new</span> <span class="hljs-title class_">StringBuffer</span>(value.toString());<br>        v.reverse();<br>        String[] split = v.toString().split(<span class="hljs-string">&quot;&quot;</span>);<br>        <span class="hljs-type">int</span> size=split.length;  <span class="hljs-comment">// 记录 每一个节点的val</span><br>        <span class="hljs-type">int</span> cnt=<span class="hljs-number">0</span>;<br>        ListNode head=<span class="hljs-keyword">new</span> <span class="hljs-title class_">ListNode</span>(Integer.parseInt(split[cnt++])); <span class="hljs-comment">//头结点</span><br>        ListNode res=head;<br>        <span class="hljs-keyword">while</span>(--size&gt;<span class="hljs-number">0</span>)&#123; <span class="hljs-comment">// 创建链表</span><br>            head.next=<span class="hljs-keyword">new</span> <span class="hljs-title class_">ListNode</span>(Integer.parseInt(split[cnt++]));<br>            head=head.next;<br>        &#125;<br>        <span class="hljs-keyword">return</span>  res;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
  
       <!-- reward -->
       
@@ -217,7 +206,7 @@
 </div>
 
 <div id="share-mask"></div>  
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Leetcode/" rel="tag">Leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%93%88%E5%B8%8C/" rel="tag">哈希</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">算法与数据结构</a></li></ul>
 
     </footer>
   </div>
@@ -235,7 +224,7 @@
       </a>
     
     
-      <a href="/2022/07/24/%E7%90%90%E7%A2%8E%E7%9F%A5%E8%AF%86%E7%82%B9/" class="article-nav-link">
+      <a href="/2022/07/24/%E7%90%90%E7%A2%8E%E7%9F%A5%E8%AF%86%E7%82%B9/%E7%90%90%E7%A2%8E%E7%9F%A5%E8%AF%86%E7%82%B9/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
         <div class="article-nav-title">琐碎知识点</div>
       </a>

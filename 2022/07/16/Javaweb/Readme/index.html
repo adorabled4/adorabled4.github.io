@@ -76,7 +76,7 @@
   <time datetime="2022-07-16T03:11:00.000Z" itemprop="datePublished">2022-07-16</time>
 </a> 
   <div class="article-category">
-    <a class="article-category-link" href="/categories/javaweb/">javaweb</a>
+    <a class="article-category-link" href="/categories/Javaweb/">Javaweb</a> / <a class="article-category-link" href="/categories/Javaweb/Javaweb/">Javaweb</a>
   </div>
   
 <div class="word_count">
@@ -84,7 +84,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">2.2k</span>
+            <span class="post-count">2.1k</span>
         </span>
     </span>
 
@@ -108,7 +108,8 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <h1 id="版本"><a href="#版本" class="headerlink" title="版本"></a>版本</h1><ol>
+  <h1 id="版本"><a class="markdownIt-Anchor" href="#版本"></a> 版本</h1>
+<ol>
 <li>MySQL： 8.02</li>
 <li>Tomcat :9.0.64</li>
 <li>JDK:11</li>
@@ -116,164 +117,182 @@
 <li>idea:2021.032</li>
 </ol>
 <span id="more"></span>
-
-<h1 id="MySQL8-0设置"><a href="#MySQL8-0设置" class="headerlink" title="MySQL8.0设置"></a>MySQL8.0设置</h1><ul>
+<h1 id="mysql80设置"><a class="markdownIt-Anchor" href="#mysql80设置"></a> MySQL8.0设置</h1>
+<ul>
 <li>保存在jdbc.properties即可</li>
 </ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">DRIVER</span> <span class="operator">=</span> <span class="string">&quot;com.mysql.cj.jdbc.Driver&quot;</span> ;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">URL</span> <span class="operator">=</span><span class="string">&quot;jdbc:mysql://localhost:3306/*****?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull&amp;serverTimezone=Asia/Shanghai&amp;useSSL=false&quot;</span>;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">USER</span> <span class="operator">=</span> <span class="string">&quot;root&quot;</span>;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">PWD</span> <span class="operator">=</span> <span class="string">&quot;*********&quot;</span> ;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-<h1 id="Edit水果信息执行顺序"><a href="#Edit水果信息执行顺序" class="headerlink" title="Edit水果信息执行顺序"></a>Edit水果信息执行顺序</h1><p>点击名称，<br><img src="E:\Typora\image\VHEBV%]@{50]57`QT][G$95.jpg" alt="img"><br>， 然后把fid发送给EditServlet</p>
-<p><img src="E:\Typora\image\image-20220710194328833.png" alt="image-20220710194328833">，EditServlet 内通过fid查找数据并保存（setAttribute )，然后EditServlet 跳转到 edit.html ， 通过thymeleaf 获取 对象并填入 数据</p>
-<p><img src="E:\Typora\image\image-20220710194308175.png" alt="image-20220710194308175"></p>
-<p>，修改好之后 点击 修改（实际是一个form表单） 提交表单，<br><img src="E:\Typora\image\V5MA3U3ZM}T86{W6@EUWDS3.jpg" alt="img"><br> ，将数据发送给updateServlet， updateServlet内完成 数据库的更新 ，然后跳转到index(经过thymeleaf渲染的界面，而不是直接index.html) ， 修改操作完成</p>
-<hr>
-<hr>
-<h1 id="requests传参-warning-parameters"><a href="#requests传参-warning-parameters" class="headerlink" title="requests传参:warning:parameters"></a>requests传参:warning:parameters</h1><h1 id=""><a href="#" class="headerlink" title=""></a></h1><p><img src="E:\Typora\image\image-20220707212212581.png" alt="image-20220707212212581"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">String</span> <span class="hljs-variable">DRIVER</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;com.mysql.cj.jdbc.Driver&quot;</span> ;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">String</span> <span class="hljs-variable">URL</span> <span class="hljs-operator">=</span><span class="hljs-string">&quot;jdbc:mysql://localhost:3306/*****?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull&amp;serverTimezone=Asia/Shanghai&amp;useSSL=false&quot;</span>;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">String</span> <span class="hljs-variable">USER</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;root&quot;</span>;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">String</span> <span class="hljs-variable">PWD</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;*********&quot;</span> ;<br></code></pre></td></tr></table></figure>
+<h1 id="edit水果信息执行顺序"><a class="markdownIt-Anchor" href="#edit水果信息执行顺序"></a> Edit水果信息执行顺序</h1>
+<p>点击名称，<br />
+<img src="E:%5CTypora%5Cimage%5CVHEBV%25%5D@%7B50%5D57%60QT%5D%5BG$95.jpg" alt="img" /><br />
+， 然后把fid发送给EditServlet</p>
+<p><img src="E:%5CTypora%5Cimage%5Cimage-20220710194328833.png" alt="image-20220710194328833" />，EditServlet 内通过fid查找数据并保存（setAttribute )，然后EditServlet 跳转到 edit.html ， 通过thymeleaf 获取 对象并填入 数据</p>
+<p><img src="E:%5CTypora%5Cimage%5Cimage-20220710194308175.png" alt="image-20220710194308175" /></p>
+<p>，修改好之后 点击 修改（实际是一个form表单） 提交表单，<br />
+<img src="E:%5CTypora%5Cimage%5CV5MA3U3ZM%7DT86%7BW6@EUWDS3.jpg" alt="img" /><br />
+，将数据发送给updateServlet， updateServlet内完成 数据库的更新 ，然后跳转到index(经过thymeleaf渲染的界面，而不是直接index.html) ， 修改操作完成</p>
+<hr />
+<hr />
+<h1 id="requests传参️parameters"><a class="markdownIt-Anchor" href="#requests传参️parameters"></a> requests传参⚠️parameters</h1>
+<h1 id=""><a class="markdownIt-Anchor" href="#"></a> </h1>
+<p><img src="E:%5CTypora%5Cimage%5Cimage-20220707212212581.png" alt="image-20220707212212581" /></p>
 <p>注意添加 <code>-parameters</code>,否则请求发过来的参数就会是<u>arg0 ,arg1,arg2 ,arg3s…………</u>， 无法获得具体的名称（导致参数全部为null ， 无法加载页面，</p>
 <p>原因：</p>
-<p><code>private String index(String oper , String keyword , Integer pageNo , HttpServletRequest request ) </code></p>
+<p><code>private String index(String oper , String keyword , Integer pageNo , HttpServletRequest request )</code></p>
 <ul>
-<li><p>FruitController index()方法在执行时 ，参数全部为空， 无法通过null的 request对象获取session，也就无法保存(<code>setAttribute</code>)</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> String <span class="title function_">index</span><span class="params">(String oper , String keyword , Integer pageNo , HttpServletRequest request )</span> &#123;</span><br><span class="line">    <span class="type">HttpSession</span> <span class="variable">session</span> <span class="operator">=</span> request.getSession() ;</span><br><span class="line">    <span class="keyword">if</span>(pageNo==<span class="literal">null</span>)&#123;</span><br><span class="line">        pageNo = <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(StringUtil.isNotEmpty(oper) &amp;&amp; <span class="string">&quot;search&quot;</span>.equals(oper))&#123;</span><br><span class="line">        pageNo = <span class="number">1</span> ;</span><br><span class="line">        <span class="keyword">if</span>(StringUtil.isEmpty(keyword))&#123;</span><br><span class="line">            keyword = <span class="string">&quot;&quot;</span> ;</span><br><span class="line">        &#125;</span><br><span class="line">        session.setAttribute(<span class="string">&quot;keyword&quot;</span>,keyword);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="type">Object</span> <span class="variable">keywordObj</span> <span class="operator">=</span> session.getAttribute(<span class="string">&quot;keyword&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span>(keywordObj!=<span class="literal">null</span>)&#123;</span><br><span class="line">            keyword = (String)keywordObj ;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            keyword = <span class="string">&quot;&quot;</span> ;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 重新更新当前页的值</span></span><br><span class="line">    session.setAttribute(<span class="string">&quot;pageNo&quot;</span>,pageNo);</span><br><span class="line">    List&lt;Fruit&gt; fruitList = fruitService.getFruitList(keyword , pageNo);</span><br><span class="line">    session.setAttribute(<span class="string">&quot;fruitList&quot;</span>,fruitList);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//总记录条数</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">pageCount</span> <span class="operator">=</span> fruitService.getPageCount(keyword);</span><br><span class="line">    session.setAttribute(<span class="string">&quot;pageCount&quot;</span>,pageCount);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;index&quot;</span> ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>
+<p>FruitController index()方法在执行时 ，参数全部为空， 无法通过null的 request对象获取session，也就无法保存(<code>setAttribute</code>)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> String <span class="hljs-title function_">index</span><span class="hljs-params">(String oper , String keyword , Integer pageNo , HttpServletRequest request )</span> &#123;<br>    <span class="hljs-type">HttpSession</span> <span class="hljs-variable">session</span> <span class="hljs-operator">=</span> request.getSession() ;<br>    <span class="hljs-keyword">if</span>(pageNo==<span class="hljs-literal">null</span>)&#123;<br>        pageNo = <span class="hljs-number">1</span>;<br>    &#125;<br>    <span class="hljs-keyword">if</span>(StringUtil.isNotEmpty(oper) &amp;&amp; <span class="hljs-string">&quot;search&quot;</span>.equals(oper))&#123;<br>        pageNo = <span class="hljs-number">1</span> ;<br>        <span class="hljs-keyword">if</span>(StringUtil.isEmpty(keyword))&#123;<br>            keyword = <span class="hljs-string">&quot;&quot;</span> ;<br>        &#125;<br>        session.setAttribute(<span class="hljs-string">&quot;keyword&quot;</span>,keyword);<br>    &#125;<span class="hljs-keyword">else</span>&#123;<br>        <span class="hljs-type">Object</span> <span class="hljs-variable">keywordObj</span> <span class="hljs-operator">=</span> session.getAttribute(<span class="hljs-string">&quot;keyword&quot;</span>);<br>        <span class="hljs-keyword">if</span>(keywordObj!=<span class="hljs-literal">null</span>)&#123;<br>            keyword = (String)keywordObj ;<br>        &#125;<span class="hljs-keyword">else</span>&#123;<br>            keyword = <span class="hljs-string">&quot;&quot;</span> ;<br>        &#125;<br>    &#125;<br>    <span class="hljs-comment">// 重新更新当前页的值</span><br>    session.setAttribute(<span class="hljs-string">&quot;pageNo&quot;</span>,pageNo);<br>    List&lt;Fruit&gt; fruitList = fruitService.getFruitList(keyword , pageNo);<br>    session.setAttribute(<span class="hljs-string">&quot;fruitList&quot;</span>,fruitList);<br><br>    <span class="hljs-comment">//总记录条数</span><br>    <span class="hljs-type">int</span> <span class="hljs-variable">pageCount</span> <span class="hljs-operator">=</span> fruitService.getPageCount(keyword);<br>    session.setAttribute(<span class="hljs-string">&quot;pageCount&quot;</span>,pageCount);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;index&quot;</span> ;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
 </ul>
 <p>）</p>
 <p>完成这个操作后，获得到了具体的实参名称</p>
-<p><img src="E:\Typora\image\image-20220707212507505.png" alt="image-20220707212507505"></p>
+<p><img src="E:%5CTypora%5Cimage%5Cimage-20220707212507505.png" alt="image-20220707212507505" /></p>
 <blockquote>
 <p>可以正确加载页面！！！！</p>
 </blockquote>
-<h1 id="qqzone项目增加添加日志功能"><a href="#qqzone项目增加添加日志功能" class="headerlink" title="qqzone项目增加添加日志功能"></a>qqzone项目增加添加日志功能</h1><h1 id="—ByMyself"><a href="#—ByMyself" class="headerlink" title="—ByMyself"></a>—ByMyself</h1><h4 id="thymeleaf"><a href="#thymeleaf" class="headerlink" title="thymeleaf ||"></a>thymeleaf ||</h4><blockquote>
+<h1 id="qqzone项目增加添加日志功能"><a class="markdownIt-Anchor" href="#qqzone项目增加添加日志功能"></a> qqzone项目增加添加日志功能</h1>
+<h1 id="bymyself"><a class="markdownIt-Anchor" href="#bymyself"></a> —ByMyself</h1>
+<h4 id="thymeleaf"><a class="markdownIt-Anchor" href="#thymeleaf"></a> thymeleaf ||</h4>
+<blockquote>
 <p>thymeleaf 表达式里面的 被 |  | 包裹住的内容表示里面是一个普通字符串</p>
 <p>被${ }包裹住的是表达式，</p>
 <p>比如：</p>
 <p><code>@&#123;|/addTopic.do?operate=addTopic&amp;userBasicId=$&#123;session.userBasic.id&#125;|&#125;</code></p>
 <p><code>@&#123;|/updateTopic.do?operate=updateTopic&amp;userBasicId=$&#123;session.userBasic.id&#125;|&#125;</code></p>
 <p>由于这是一个字符串 ，所以不用 再用’ 包裹operate 的值</p>
-<p>发送请求时 就是<a target="_blank" rel="noopener" href="http://localhost:8080/pro22/addTopic.do?operate=addTopic&amp;userBasicId=1">http://localhost:8080/pro22/addTopic.do?operate=addTopic&amp;userBasicId=1</a></p>
+<p>发送请求时 就是http://localhost:8080/pro22/addTopic.do?operate=addTopic&amp;userBasicId=1</p>
 </blockquote>
 <p>主要增加了</p>
 <ol>
-<li><p>addTopic.html</p>
+<li>
+<p>addTopic.html</p>
 <ul>
 <li><code>&lt;a th:href=&quot;@&#123;|/addTopic.do?operate=addTopic&amp;userBasicId=$&#123;session.userBasic.id&#125;|&#125;&quot; class=&quot;right8&quot; target=&quot;_blank&quot; &gt;发表新日志&lt;/a&gt;</code></li>
 <li>a标签向后端传值</li>
 </ul>
 </li>
-<li><p>addTopic 方法  ： </p>
+<li>
+<p>addTopic 方法  ：</p>
 <ul>
-<li><p>TopicController</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> String <span class="title function_">addTopic</span><span class="params">(Integer userBasicId,HttpSession session)</span>&#123; </span><br><span class="line">    <span class="comment">// 跳转到 addTopic.html 填入内容</span></span><br><span class="line">    <span class="type">UserBasic</span> <span class="variable">userBasic</span> <span class="operator">=</span> userBasicDAO.getUserBasicById(userBasicId);</span><br><span class="line">    session.setAttribute(<span class="string">&quot;userBasic&quot;</span>,userBasic);</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;frames/addTopic&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">updateTopic</span><span class="params">(String title, String content,Integer Id,HttpSession session)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 通过 DispacherServlet 接收来自addTopic.html的数据 ，并保存到数据库</span></span><br><span class="line">    UserBasic author=(UserBasic)session.getAttribute(<span class="string">&quot;userBasic&quot;</span>);</span><br><span class="line">    Topic topic=<span class="keyword">new</span> <span class="title class_">Topic</span>(content,<span class="keyword">new</span> <span class="title class_">Date</span>(),title,Id,author);</span><br><span class="line">    topicDAO.addTopic(topic);</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;redirect:user.do?operate=login&amp;loginId=&quot;</span>+author.getLoginId()+<span class="string">&quot;&amp;pwd=&quot;</span>+author.getPwd();</span><br><span class="line">    <span class="comment">/*  return &quot;index&quot;; 直接返回index 就不会登录，无法显示个人信息（账号， 以及日志等）*/</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<li>
+<p>TopicController</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> String <span class="hljs-title function_">addTopic</span><span class="hljs-params">(Integer userBasicId,HttpSession session)</span>&#123; <br>    <span class="hljs-comment">// 跳转到 addTopic.html 填入内容</span><br>    <span class="hljs-type">UserBasic</span> <span class="hljs-variable">userBasic</span> <span class="hljs-operator">=</span> userBasicDAO.getUserBasicById(userBasicId);<br>    session.setAttribute(<span class="hljs-string">&quot;userBasic&quot;</span>,userBasic);<br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;frames/addTopic&quot;</span>;<br>&#125;<br><span class="hljs-keyword">public</span> String <span class="hljs-title function_">updateTopic</span><span class="hljs-params">(String title, String content,Integer Id,HttpSession session)</span><br>&#123;<br>    <span class="hljs-comment">// 通过 DispacherServlet 接收来自addTopic.html的数据 ，并保存到数据库</span><br>    UserBasic author=(UserBasic)session.getAttribute(<span class="hljs-string">&quot;userBasic&quot;</span>);<br>    Topic topic=<span class="hljs-keyword">new</span> <span class="hljs-title class_">Topic</span>(content,<span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>(),title,Id,author);<br>    topicDAO.addTopic(topic);<br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;redirect:user.do?operate=login&amp;loginId=&quot;</span>+author.getLoginId()+<span class="hljs-string">&quot;&amp;pwd=&quot;</span>+author.getPwd();<br>    <span class="hljs-comment">/*  return &quot;index&quot;; 直接返回index 就不会登录，无法显示个人信息（账号， 以及日志等）*/</span><br>&#125;<br></code></pre></td></tr></table></figure>
 </li>
-<li><p>TopicDAOImpl </p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addTopic</span><span class="params">(Topic topic)</span> &#123;</span><br><span class="line">    executeUpdate(<span class="string">&quot;insert into t_reply values(?,?,?,?,?)&quot;</span>,</span><br><span class="line">                  topic.getId(),</span><br><span class="line">                  topic.getTitle(),</span><br><span class="line">                  topic.getContent(),</span><br><span class="line">                  topic.getTopicDate(),</span><br><span class="line">                  topic.getAuthor().getId()) ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>
+<p>TopicDAOImpl</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Override</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">addTopic</span><span class="hljs-params">(Topic topic)</span> &#123;<br>    executeUpdate(<span class="hljs-string">&quot;insert into t_reply values(?,?,?,?,?)&quot;</span>,<br>                  topic.getId(),<br>                  topic.getTitle(),<br>                  topic.getContent(),<br>                  topic.getTopicDate(),<br>                  topic.getAuthor().getId()) ;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
 </ul>
 </li>
-<li><p>大概执行顺序</p>
+<li>
+<p>大概执行顺序</p>
 <ol>
-<li><p>在main.html点击发表新日志 </p>
-<p><code>&lt;a th:href=&quot;@&#123;/addTopic.do&#125;&quot;  class=&quot;right8&quot; &gt;发表新日志2&lt;/a&gt;</code></p>
+<li>
+<p>在main.html点击发表新日志</p>
+<p><code>&lt;a th:href=&quot;@&#123;/addTopic.do&#125;&quot; class=&quot;right8&quot; &gt;发表新日志2&lt;/a&gt;</code></p>
 </li>
-<li><p>DispacherServlet接收<code>/addTopic.do</code>请求， 从请求中获取operate（此处是 addTopic） ，调用TopicController（通过beanFactory获取）addTopic方法， </p>
+<li>
+<p>DispacherServlet接收<code>/addTopic.do</code>请求， 从请求中获取operate（此处是 addTopic） ，调用TopicController（通过beanFactory获取）addTopic方法，</p>
 </li>
-<li><p>DispacherServle接收addTopic方法的返回值(<code>String returnStr = method.invoke(controllerBeanObj,parameterValues)</code>;)，然后通过thymeleaf模板引擎加载前端页面</p>
+<li>
+<p>DispacherServle接收addTopic方法的返回值(<code>String returnStr = method.invoke(controllerBeanObj,parameterValues)</code>😉，然后通过thymeleaf模板引擎加载前端页面</p>
 </li>
-<li><p>在addTopic.html填入数据后，点击提交，将表单(</p>
+<li>
+<p>在addTopic.html填入数据后，点击提交，将表单(</p>
 <p><code>&lt;form th:action=&quot;@&#123;|/updateTopic.do?operate=updateTopic&amp;userBasicId=$&#123;session.userBasic.id&#125;|&#125;&quot;&gt;</code>&gt;)</p>
 <p>发送到DicpacherServlet，beanFactory从<strong>application.xml</strong>读取到请求对应的controller（这里就是TopicController），然后找到operate对应的方法（这里就是updateTopic方法），将数据保存到数据库，返回登录页面</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> <span class="string">&quot;redirect:user.do?operate=login&amp;loginId=&quot;</span>+author.getLoginId()+<span class="string">&quot;&amp;pwd=&quot;</span>+author.getPwd();</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">return</span> <span class="hljs-string">&quot;redirect:user.do?operate=login&amp;loginId=&quot;</span>+author.getLoginId()+<span class="hljs-string">&quot;&amp;pwd=&quot;</span>+author.getPwd();<br></code></pre></td></tr></table></figure>
 <ul>
 <li>这里仍然是DispacherServle接收addTopic方法的返回值，然后thymeleaf模板引擎加载前端页面</li>
 </ul>
 </li>
-<li><p>添加日志操作完成</p>
+<li>
+<p>添加日志操作完成</p>
 </li>
 </ol>
 </li>
 </ol>
 <p>main.html</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">th:href</span>=<span class="string">&quot;@&#123;|/addTopic.do?operate=addTopic&amp;userBasicId=$&#123;session.userBasic.id&#125;|&#125;&quot;</span> <span class="attr">class</span>=<span class="string">&quot;right8&quot;</span> <span class="attr">target</span>=<span class="string">&quot;_blank&quot;</span> &gt;</span>发表新日志<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-
-
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">th:href</span>=<span class="hljs-string">&quot;@&#123;|/addTopic.do?operate=addTopic&amp;userBasicId=$&#123;session.userBasic.id&#125;|&#125;&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;right8&quot;</span> <span class="hljs-attr">target</span>=<span class="hljs-string">&quot;_blank&quot;</span> &gt;</span>发表新日志<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br></code></pre></td></tr></table></figure>
 <p>addTopic.html</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span> <span class="attr">xmlns:th</span>=<span class="string">&quot;http://www.thymeleaf.org&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">th:src</span>=<span class="string">&quot;@&#123;../css/addTopic.css&#125;&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">language</span>=<span class="string">&quot;JavaScript&quot;</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">        <span class="comment">/*此处写入js 代码*/</span></span></span><br><span class="line"><span class="language-javascript">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>发表新日志<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--&lt;div th:text=&quot;用户 |$&#123;session.userBasic.nickName&#125;| 发表新日志&quot;&gt;欢迎进入空间&lt;/div&gt;--&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">th:action</span>=<span class="string">&quot;@&#123;|/updateTopic.do?operate=updateTopic&amp;userBasicId=$&#123;session.userBasic.id&#125;|&#125;&quot;</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--    &quot;@&#123;|/addTopic.do?operate=addTopic&amp;userBasicId=$&#123;session.userBasic.id&#125;|&#125;&quot;--&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--这一行 表明 要访问TopicController</span></span><br><span class="line"><span class="comment">      &lt;input type=&quot;hidden&quot; name=&quot;operate&quot; value=&quot;updateTopic&quot;&gt;  ;这一行 表明 要调用 addTopic 方法 --&gt;</span></span><br><span class="line"><span class="comment">&lt;!--    &lt;input type=&quot;hidden&quot; name=&quot;userBasicId&quot; th:value=&quot;$&#123;session.userBasic.id&#125;&quot;/&gt;</span></span><br><span class="line"><span class="comment">将这两行 集成到 form 里面 --&gt;</span></span><br><span class="line"></span><br><span class="line">    标题<span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">&quot;div_add_reply&quot;</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span>=<span class="string">&quot;title&quot;</span> <span class="attr">th:value</span>=<span class="string">&quot;Test&quot;</span> /&gt;</span> <span class="tag">&lt;<span class="name">br</span>/&gt;</span></span><br><span class="line">    日志id<span class="tag">&lt;<span class="name">input</span>   <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span>=<span class="string">&quot;Id&quot;</span> <span class="attr">th:value</span>=<span class="string">&quot;12&quot;</span>/&gt;</span> <span class="tag">&lt;<span class="name">br</span>/&gt;</span></span><br><span class="line">    主要内容<span class="tag">&lt;<span class="name">input</span>  <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span>=<span class="string">&quot;content&quot;</span> <span class="attr">th:value</span>=<span class="string">&quot;主要内容&quot;</span>/&gt;</span> <span class="tag">&lt;<span class="name">br</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span>  <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span> <span class="attr">value</span>=<span class="string">&quot;添加日志&quot;</span>/&gt;</span> <span class="tag">&lt;<span class="name">br</span>/&gt;</span></span><br><span class="line"><span class="comment">&lt;!--    &lt;input type=&quot;button&quot; value=&quot;删除&quot; th:if=&quot;$&#123;session.userBasic.id==session.friend.id&#125;&quot; th:onclick=&quot;|delTopic($&#123;topic.id&#125;)|&quot;/&gt;--&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="遇到的问题："><a href="#遇到的问题：" class="headerlink" title="遇到的问题："></a>遇到的问题：</h2><ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">html</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;en&quot;</span> <span class="hljs-attr">xmlns:th</span>=<span class="hljs-string">&quot;http://www.thymeleaf.org&quot;</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">th:src</span>=<span class="hljs-string">&quot;@&#123;../css/addTopic.css&#125;&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">language</span>=<span class="hljs-string">&quot;JavaScript&quot;</span>&gt;</span><span class="language-javascript"></span><br><span class="language-javascript">        <span class="hljs-comment">/*此处写入js 代码*/</span></span><br><span class="language-javascript">    </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">&quot;UTF-8&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>发表新日志<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span><br><span class="hljs-comment">&lt;!--&lt;div th:text=&quot;用户 |$&#123;session.userBasic.nickName&#125;| 发表新日志&quot;&gt;欢迎进入空间&lt;/div&gt;--&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">th:action</span>=<span class="hljs-string">&quot;@&#123;|/updateTopic.do?operate=updateTopic&amp;userBasicId=$&#123;session.userBasic.id&#125;|&#125;&quot;</span>&gt;</span><br><span class="hljs-comment">&lt;!--    &quot;@&#123;|/addTopic.do?operate=addTopic&amp;userBasicId=$&#123;session.userBasic.id&#125;|&#125;&quot;--&gt;</span><br>    <span class="hljs-comment">&lt;!--这一行 表明 要访问TopicController</span><br><span class="hljs-comment">      &lt;input type=&quot;hidden&quot; name=&quot;operate&quot; value=&quot;updateTopic&quot;&gt;  ;这一行 表明 要调用 addTopic 方法 --&gt;</span><br><span class="hljs-comment">&lt;!--    &lt;input type=&quot;hidden&quot; name=&quot;userBasicId&quot; th:value=&quot;$&#123;session.userBasic.id&#125;&quot;/&gt;</span><br><span class="hljs-comment">将这两行 集成到 form 里面 --&gt;</span><br><br>    标题<span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;div_add_reply&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;title&quot;</span> <span class="hljs-attr">th:value</span>=<span class="hljs-string">&quot;Test&quot;</span> /&gt;</span> <span class="hljs-tag">&lt;<span class="hljs-name">br</span>/&gt;</span><br>    日志id<span class="hljs-tag">&lt;<span class="hljs-name">input</span>   <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;Id&quot;</span> <span class="hljs-attr">th:value</span>=<span class="hljs-string">&quot;12&quot;</span>/&gt;</span> <span class="hljs-tag">&lt;<span class="hljs-name">br</span>/&gt;</span><br>    主要内容<span class="hljs-tag">&lt;<span class="hljs-name">input</span>  <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;content&quot;</span> <span class="hljs-attr">th:value</span>=<span class="hljs-string">&quot;主要内容&quot;</span>/&gt;</span> <span class="hljs-tag">&lt;<span class="hljs-name">br</span>/&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">input</span>  <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;submit&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;添加日志&quot;</span>/&gt;</span> <span class="hljs-tag">&lt;<span class="hljs-name">br</span>/&gt;</span><br><span class="hljs-comment">&lt;!--    &lt;input type=&quot;button&quot; value=&quot;删除&quot; th:if=&quot;$&#123;session.userBasic.id==session.friend.id&#125;&quot; th:onclick=&quot;|delTopic($&#123;topic.id&#125;)|&quot;/&gt;--&gt;</span><br><br><span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<h2 id="遇到的问题"><a class="markdownIt-Anchor" href="#遇到的问题"></a> 遇到的问题：</h2>
+<ol>
 <li>addTopic方法的<code>return &quot;frames/detail&quot;;</code>的frames 没有写s</li>
-<li>执行的顺序应该是main.html 点击添加，发送请求， 然后执行addTopic 跳转到addTopic.html，在addTopic.html修改完成后，提交form表单，发送请求到TopicController的updateTopic，在uodateTopic内将数据保存到数据库<ul>
+<li>执行的顺序应该是main.html 点击添加，发送请求， 然后执行addTopic 跳转到addTopic.html，在addTopic.html修改完成后，提交form表单，发送请求到TopicController的updateTopic，在uodateTopic内将数据保存到数据库
+<ul>
 <li>第一次写的时候直接在addTopic方法里保存到数据库，但那是明显不可行的</li>
 </ul>
 </li>
-<li>TopicDAOImpl 的addTopic 方法需要插入的表写错了，导致日期格式不正确<ul>
+<li>TopicDAOImpl 的addTopic 方法需要插入的表写错了，导致日期格式不正确
+<ul>
 <li>insert into t_topic 写成了 insert into t_reply</li>
 </ul>
 </li>
 </ol>
-<h4 id="qqzone-bug1"><a href="#qqzone-bug1" class="headerlink" title="qqzone  bug1"></a>qqzone  bug1</h4><ul>
+<h4 id="qqzone-bug1"><a class="markdownIt-Anchor" href="#qqzone-bug1"></a> qqzone  bug1</h4>
+<ul>
 <li>参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/wsx9172/article/details/125404348">Can not set java.util.Date field *** to java.time.LocalDateTime解决办法</a></li>
 </ul>
 <p>setValue方法在给 <code>topic</code> ： <code>private Date topicDate ;</code> 赋值时 出现异常：</p>
 <ul>
-<li><p><code>Can not set java.util.Date field com.atguigu.qqzone.pojo.Topic.topicDate to java.time.LocalDateTime</code> </p>
+<li>
+<p><code>Can not set java.util.Date field com.atguigu.qqzone.pojo.Topic.topicDate to java.time.LocalDateTime</code></p>
 </li>
-<li><p>无法将LocalDateTime类型数据赋值给Date类型变量</p>
+<li>
+<p>无法将LocalDateTime类型数据赋值给Date类型变量</p>
 </li>
 </ul>
 <p>原因 ：应该属于mysql8.0驱动的bug，具体原因未知</p>
-<p>正常情况下从表中查出datetime类型如下<br><img src="https://img-blog.csdnimg.cn/bdbd82d1f95c4b4db299723c8cf01d72.png#pic_center" alt="在这里插入图片描述" style="zoom: 67%;" /><br>出现bug时类型为LocalDateTime，值为2017-07-15T00:16:40.0，与pojo属性类型不匹配<br><img src="https://img-blog.csdnimg.cn/0b9721a336c54b6f89ab41c0dbc76bd1.png#pic_center" alt="在这里插入图片描述" style="zoom:67%;" /></p>
+<p>正常情况下从表中查出datetime类型如下<br />
+<img src="https://img-blog.csdnimg.cn/bdbd82d1f95c4b4db299723c8cf01d72.png#pic_center" alt="在这里插入图片描述" style="zoom: 67%;" /><br />
+出现bug时类型为LocalDateTime，值为2017-07-15T00:16:40.0，与pojo属性类型不匹配<br />
+<img src="https://img-blog.csdnimg.cn/0b9721a336c54b6f89ab41c0dbc76bd1.png#pic_center" alt="在这里插入图片描述" style="zoom:67%;" /></p>
 <p>采用的解决方法是在属性赋值前（<code>setValue</code>）进行类型检查，如果是LocalDateTime类型就转换成java.util.Date类型</p>
 <ul>
 <li>正确的代码已经在上面改过了</li>
-<li>注意 ：<code>propertyValue=(Date)propertyValue;</code> 直接转换会&#x3D;&#x3D;报错&#x3D;&#x3D;<ul>
-<li><code>class java.time.LocalDateTime cannot be cast to class java.util.Date (java.time.LocalDateTime and java.util.Date are in module java.base of loader &#39;bootstrap&#39;)</code></li>
+<li>注意 ：<code>propertyValue=(Date)propertyValue;</code> 直接转换会<mark>报错</mark>
+<ul>
+<li><code>class java.time.LocalDateTime cannot be cast to class java.util.Date (java.time.LocalDateTime and java.util.Date are in module java.base of loader 'bootstrap')</code></li>
 </ul>
 </li>
 </ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (propertyValue.getClass().toString().equals(<span class="string">&quot;class java.time.LocalDateTime&quot;</span>))</span><br><span class="line">    <span class="comment">//实际测试使用 if(propertyValue instanceof LocalDateTime) 也可以</span></span><br><span class="line">&#123;</span><br><span class="line">                propertyValue = Timestamp.valueOf((LocalDateTime) propertyValue);</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure>
-
-<p>&#x3D;&#x3D;bug&#x3D;&#x3D;解除，可以正常加载页面</p>
-<h4 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h4><blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">if</span> (propertyValue.getClass().toString().equals(<span class="hljs-string">&quot;class java.time.LocalDateTime&quot;</span>))<br>    <span class="hljs-comment">//实际测试使用 if(propertyValue instanceof LocalDateTime) 也可以</span><br>&#123;<br>                propertyValue = Timestamp.valueOf((LocalDateTime) propertyValue);<br>            &#125;<br></code></pre></td></tr></table></figure>
+<p><mark>bug</mark>解除，可以正常加载页面</p>
+<h4 id="遇到的问题-2"><a class="markdownIt-Anchor" href="#遇到的问题-2"></a> 遇到的问题</h4>
+<blockquote>
 <p>总结：java的properties文件赋值不要写分号，会一起读取进去</p>
 </blockquote>
-<p>&#x3D;&#x3D;背景&#x3D;&#x3D;：在将登录MySQL需要用到的数据封装到jdbc.properties时，</p>
+<p><mark>背景</mark>：在将登录MySQL需要用到的数据封装到jdbc.properties时，</p>
 <ul>
 <li>通过静态代码块，加载类时自动执行（读取jdbc.properties中的数据）</li>
 </ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span>  String DRIVER ;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span>  String URL;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span>  String USER ;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span>  String PWD ;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> &#123;</span><br><span class="line">    <span class="type">InputStream</span> <span class="variable">is</span> <span class="operator">=</span> ConnUtil.class.getClassLoader().getResourceAsStream(<span class="string">&quot;jdbc.properties&quot;</span>);</span><br><span class="line">    Properties properties=<span class="keyword">new</span> <span class="title class_">Properties</span>();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        properties.load(is);</span><br><span class="line">       DRIVER= properties.getProperty(<span class="string">&quot;jdbc.DRIVER&quot;</span>);</span><br><span class="line">        URL= properties.getProperty(<span class="string">&quot;jdbc.URL&quot;</span>);</span><br><span class="line">        USER= properties.getProperty(<span class="string">&quot;jdbc.USER&quot;</span>);</span><br><span class="line">        PWD= properties.getProperty(<span class="string">&quot;jdbc.PWD&quot;</span>);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>&#x3D;&#x3D;异常&#x3D;&#x3D;：出现加载驱动错误</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span>  String DRIVER ;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span>  String URL;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span>  String USER ;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span>  String PWD ;<br><br><span class="hljs-keyword">static</span> &#123;<br>    <span class="hljs-type">InputStream</span> <span class="hljs-variable">is</span> <span class="hljs-operator">=</span> ConnUtil.class.getClassLoader().getResourceAsStream(<span class="hljs-string">&quot;jdbc.properties&quot;</span>);<br>    Properties properties=<span class="hljs-keyword">new</span> <span class="hljs-title class_">Properties</span>();<br>    <span class="hljs-keyword">try</span> &#123;<br>        properties.load(is);<br>       DRIVER= properties.getProperty(<span class="hljs-string">&quot;jdbc.DRIVER&quot;</span>);<br>        URL= properties.getProperty(<span class="hljs-string">&quot;jdbc.URL&quot;</span>);<br>        USER= properties.getProperty(<span class="hljs-string">&quot;jdbc.USER&quot;</span>);<br>        PWD= properties.getProperty(<span class="hljs-string">&quot;jdbc.PWD&quot;</span>);<br>    &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>        e.printStackTrace();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><mark>异常</mark>：出现加载驱动错误</p>
 <ul>
 <li><code>java.sql.SQLException: No suitable driver found for &quot;jdbc:mysql://localhost:3306/qqzonedb2?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull&amp;serverTimezone=Asia/Shanghai&amp;useSSL=false&quot;;</code></li>
 </ul>
-<p>&#x3D;&#x3D;原因&#x3D;&#x3D;：java的properties文件不能写分号</p>
+<p><mark>原因</mark>：java的properties文件不能写分号</p>
 <ul>
-<li><p>properties在load()时会将分号一起读取进去 </p>
+<li>
+<p>properties在load()时会将分号一起读取进去</p>
 <img src="E:\Typora\image\exception-16574288557131.png" alt="exception" style="zoom: 150%;" />
-
-<p><img src="E:\Typora\image\image-20220710124815097.png" alt="image-20220710124815097"></p>
+<p><img src="E:%5CTypora%5Cimage%5Cimage-20220710124815097.png" alt="image-20220710124815097" /></p>
 <ul>
-<li><p>因为<code>jdbc.properties</code>配置文件中的<code>jdbc.DRIVER</code>后面带了一个分号，所以通过load获取的Driver也有一个分号（上面的debug图片）</p>
+<li>
+<p>因为<code>jdbc.properties</code>配置文件中的<code>jdbc.DRIVER</code>后面带了一个分号，所以通过load获取的Driver也有一个分号（上面的debug图片）</p>
 </li>
-<li><p>注意上面的异常最后也是带了一个分号</p>
+<li>
+<p>注意上面的异常最后也是带了一个分号</p>
 </li>
 </ul>
 </li>
 </ul>
 <p><u>删去分号，问题解决</u></p>
-<h2 id="Controller-内-DAOImpl-or-Service-对象不需要初始化的原因"><a href="#Controller-内-DAOImpl-or-Service-对象不需要初始化的原因" class="headerlink" title="Controller 内 DAOImpl or  Service 对象不需要初始化的原因"></a>Controller 内 DAOImpl or  Service 对象不需要初始化的原因</h2><p>在application注册</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;user&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.atguigu.book.controller.UserController&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;userService&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;userService&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
-
+<h2 id="controller-内-daoimpl-or-service-对象不需要初始化的原因"><a class="markdownIt-Anchor" href="#controller-内-daoimpl-or-service-对象不需要初始化的原因"></a> Controller 内 DAOImpl or  Service 对象不需要初始化的原因</h2>
+<p>在application注册</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;user&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.atguigu.book.controller.UserController&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;userService&quot;</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">&quot;userService&quot;</span>/&gt;</span><br></code></pre></td></tr></table></figure>
 <p>下面的property ， 就是给UserController 内的 userService 初始化 ，直接<code>UserService userService ;</code>就行，不需要再<code>new UserService();</code></p>
  
       <!-- reward -->

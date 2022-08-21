@@ -76,7 +76,7 @@
   <time datetime="2022-07-07T03:11:00.000Z" itemprop="datePublished">2022-07-07</time>
 </a> 
   <div class="article-category">
-    <a class="article-category-link" href="/categories/javaweb/">javaweb</a>
+    <a class="article-category-link" href="/categories/Javaweb/">Javaweb</a> / <a class="article-category-link" href="/categories/Javaweb/Javaweb/">Javaweb</a>
   </div>
   
 <div class="word_count">
@@ -84,7 +84,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">2.8k</span>
+            <span class="post-count">2.7k</span>
         </span>
     </span>
 
@@ -108,76 +108,105 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <h1 id="1-再次学习Servlet的初始化方法"><a href="#1-再次学习Servlet的初始化方法" class="headerlink" title="1.再次学习Servlet的初始化方法"></a>1.再次学习Servlet的初始化方法</h1><ul>
-<li>最初的做法是： 一个请求对应一个Servlet，这样存在的问题是&#x3D;&#x3D;servlet太多了&#x3D;&#x3D;</li>
+  <h1 id="1再次学习servlet的初始化方法"><a class="markdownIt-Anchor" href="#1再次学习servlet的初始化方法"></a> 1.再次学习Servlet的初始化方法</h1>
+<ul>
+<li>最初的做法是： 一个请求对应一个Servlet，这样存在的问题是<mark>servlet太多了</mark></li>
 </ul>
-<p>把一些列的请求都对应一个<code>Servlet, IndexServlet/AddServlet/EditServlet/DelServlet/UpdateServlet</code> -&gt; </p>
-<p>合并成&#x3D;&#x3D;FruitServlet&#x3D;&#x3D;<br>通过一个operate的值来决定调用FruitServlet中的哪一个方法<br>使用的是switch-case</p>
+<p>把一些列的请求都对应一个<code>Servlet, IndexServlet/AddServlet/EditServlet/DelServlet/UpdateServlet</code> -&gt;</p>
+<p>合并成<mark>FruitServlet</mark><br />
+通过一个operate的值来决定调用FruitServlet中的哪一个方法<br />
+使用的是switch-case</p>
 <span id="more"></span>
-
 <p>在上一个版本中，Servlet中充斥着大量的switch-case，试想一下，随着我们的项目的业务规模扩大，那么会有很多的Servlet，也就意味着会有很多的switch-case，这是一种代码冗余</p>
 <p>因此，我们在servlet中使用了反射技术，我们规定operate的值和方法名一致，那么接收到operate的值是什么就表明我们需要调用对应的方法进行响应，如果找不到对应的方法，则抛异常</p>
 <p>在上一个版本中我们使用了反射技术，但是其实还是存在一定的问题：每一个servlet中都有类似的反射技术的代码。因此继续抽取，设计了中央控制器类：</p>
-<p>&#x3D;&#x3D;DispatcherServlet&#x3D;&#x3D;<br>DispatcherServlet这个类的工作分为两大部分：</p>
+<p><mark>DispatcherServlet</mark><br />
+DispatcherServlet这个类的工作分为两大部分：</p>
 <ol>
-<li><p>根据url定位到能够处理这个请求的controller组件：<br>  1. 从url中提取servletPath : <code>/fruit.do -&gt; fruit</code><br>  2. 根据fruit找到对应的组件:FruitController ， 这个对应的依据我们存储在applicationContext.xml中<br>         <code>&lt;bean id=&quot;fruit&quot; class=&quot;com.atguigu.fruit.controllers.FruitController/&gt;</code>通过DOM技术我们去解析XML文件，在中央控制器中形成一个beanMap容器，用来存放所有的Controller组件</p>
+<li>
+<p>根据url定位到能够处理这个请求的controller组件：<br />
+1. 从url中提取servletPath : <code>/fruit.do -&gt; fruit</code><br />
+2. 根据fruit找到对应的组件:FruitController ， 这个对应的依据我们存储在applicationContext.xml中<br />
+<code>&lt;bean id=&quot;fruit&quot; class=&quot;com.atguigu.fruit.controllers.FruitController/&gt;</code>通过DOM技术我们去解析XML文件，在中央控制器中形成一个beanMap容器，用来存放所有的Controller组件</p>
 <ol start="4">
 <li>根据获取到的operate的值定位到我们FruitController中需要调用的方法</li>
 </ol>
  <!--more-->
 </li>
-<li><p>调用Controller组件中的方法：</p>
+<li>
+<p>调用Controller组件中的方法：</p>
 <ol>
-<li><p>获取参数<br>获取即将要调用的方法的参数签名信息: <code>Parameter[] parameters = method.getParameters();</code><br>通过parameter.getName()获取参数的名称；<br>准备了<code>Object[] parameterValues</code> 这个数组用来存放对应参数的参数值<br>另外，我们需要考虑参数的类型问题，需要做类型转化的工作。通过parameter.getType()获取参数的类型</p>
+<li>
+<p>获取参数<br />
+获取即将要调用的方法的参数签名信息: <code>Parameter[] parameters = method.getParameters();</code><br />
+通过parameter.getName()获取参数的名称；<br />
+准备了<code>Object[] parameterValues</code> 这个数组用来存放对应参数的参数值<br />
+另外，我们需要考虑参数的类型问题，需要做类型转化的工作。通过parameter.getType()获取参数的类型</p>
 </li>
-<li><p>执行方法<br><code>Object returnObj = method.invoke(controllerBean , parameterValues);</code></p>
+<li>
+<p>执行方法<br />
+<code>Object returnObj = method.invoke(controllerBean , parameterValues);</code></p>
 </li>
-<li><p>视图处理</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span> <span class="number">1.</span> <span class="type">String</span> <span class="variable">returnStr</span> <span class="operator">=</span> (String)returnObj;</span><br><span class="line">      <span class="keyword">if</span>(returnStr.startWith(<span class="string">&quot;redirect:&quot;</span>))&#123;</span><br><span class="line">       ....</span><br><span class="line">      &#125;<span class="keyword">else</span> <span class="keyword">if</span>..... </span><br></pre></td></tr></table></figure></li>
+<li>
+<p>视图处理</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-number">1.</span> <span class="hljs-number">1.</span> <span class="hljs-type">String</span> <span class="hljs-variable">returnStr</span> <span class="hljs-operator">=</span> (String)returnObj;<br>      <span class="hljs-keyword">if</span>(returnStr.startWith(<span class="hljs-string">&quot;redirect:&quot;</span>))&#123;<br>       ....<br>      &#125;<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>..... <br></code></pre></td></tr></table></figure>
+</li>
 </ol>
 </li>
 </ol>
-<h2 id="x3D-x3D-Servlet的初始化方法-x3D-x3D"><a href="#x3D-x3D-Servlet的初始化方法-x3D-x3D" class="headerlink" title="&#x3D;&#x3D;Servlet的初始化方法&#x3D;&#x3D;"></a>&#x3D;&#x3D;Servlet的初始化方法&#x3D;&#x3D;</h2><blockquote>
+<h2 id="servlet的初始化方法"><a class="markdownIt-Anchor" href="#servlet的初始化方法"></a> <mark>Servlet的初始化方法</mark></h2>
+<blockquote>
 <p>Servlet生命周期：实例化、初始化、服务、销毁</p>
 </blockquote>
 <p>Servlet中的初始化方法有两个：</p>
 <p><code>init() , init(config)</code></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//其中带参数的方法代码如下：</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">init</span><span class="params">(ServletConfig config)</span> <span class="keyword">throws</span> ServletException &#123;</span><br><span class="line">  <span class="built_in">this</span>.config = config ;</span><br><span class="line">  init();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//另外一个无参的init方法如下：</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">init</span><span class="params">()</span> <span class="keyword">throws</span> ServletException&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//其中带参数的方法代码如下：</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">init</span><span class="hljs-params">(ServletConfig config)</span> <span class="hljs-keyword">throws</span> ServletException &#123;<br>  <span class="hljs-built_in">this</span>.config = config ;<br>  init();<br>&#125;<br><br><span class="hljs-comment">//另外一个无参的init方法如下：</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">init</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> ServletException&#123;<br>    <br>&#125;<br></code></pre></td></tr></table></figure>
 <blockquote>
-<p>如果我们想要在Servlet初始化时做一些准备工作，那么我们可以重写init方法<br>我们可以通过如下步骤去获取初始化设置的数据</p>
+<p>如果我们想要在Servlet初始化时做一些准备工作，那么我们可以重写init方法<br />
+我们可以通过如下步骤去获取初始化设置的数据</p>
 </blockquote>
 <ul>
-<li>获取config对象：ServletConfig config &#x3D; getServletConfig();</li>
+<li>获取config对象：ServletConfig config = getServletConfig();</li>
 <li>获取初始化参数值： config.getInitParameter(key);</li>
 </ul>
 <p><u>在web.xml文件中配置Servlet</u></p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">servlet</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>Demo01Servlet<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>com.atguigu.servlet.Demo01Servlet<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">init-param</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>hello<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>world<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">init-param</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>uname<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>jim<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>Demo01Servlet<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/demo01<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>&#x3D;&#x3D;也可以通过注解的方式进行配置&#x3D;&#x3D;：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@WebServlet(urlPatterns = &#123;&quot;/demo01&quot;&#125; ,</span></span><br><span class="line"><span class="meta"> initParams = &#123;</span></span><br><span class="line"><span class="meta">     @WebInitParam(name=&quot;hello&quot;,value=&quot;world&quot;),</span></span><br><span class="line"><span class="meta">     @WebInitParam(name=&quot;uname&quot;,value=&quot;jim&quot;)</span></span><br><span class="line"><span class="meta"> &#125;)</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h1 id="2、学习Servlet中的ServletContext和-lt-context-param-gt"><a href="#2、学习Servlet中的ServletContext和-lt-context-param-gt" class="headerlink" title="2、学习Servlet中的ServletContext和&lt;context-param&gt;"></a>2、学习Servlet中的<code>ServletContext</code>和<code>&lt;context-param&gt;</code></h1><h2 id="1、获取ServletContext"><a href="#1、获取ServletContext" class="headerlink" title="1、获取ServletContext"></a>1、获取ServletContext</h2><p>在初始化方法中： ServletContxt servletContext &#x3D; getServletContext();<br>在服务方法中也可以通过request对象获取，也可以通过session获取：<br>request.getServletContext(); session.getServletContext()</p>
-<h2 id="2、获取初始化值："><a href="#2、获取初始化值：" class="headerlink" title="2、获取初始化值："></a>2、获取初始化值：</h2><p>servletContext.getInitParameter();</p>
-<h1 id="3、什么是业务层-MVC"><a href="#3、什么是业务层-MVC" class="headerlink" title="3、什么是业务层(MVC)"></a>3、什么是业务层(MVC)</h1><ol>
-<li><p>Model1和Model2</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">servlet</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">servlet-name</span>&gt;</span>Demo01Servlet<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-name</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">servlet-class</span>&gt;</span>com.atguigu.servlet.Demo01Servlet<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-class</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">init-param</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">param-name</span>&gt;</span>hello<span class="hljs-tag">&lt;/<span class="hljs-name">param-name</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">param-value</span>&gt;</span>world<span class="hljs-tag">&lt;/<span class="hljs-name">param-value</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">init-param</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">init-param</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">param-name</span>&gt;</span>uname<span class="hljs-tag">&lt;/<span class="hljs-name">param-name</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">param-value</span>&gt;</span>jim<span class="hljs-tag">&lt;/<span class="hljs-name">param-value</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">init-param</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">servlet</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">servlet-mapping</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">servlet-name</span>&gt;</span>Demo01Servlet<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-name</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">url-pattern</span>&gt;</span>/demo01<span class="hljs-tag">&lt;/<span class="hljs-name">url-pattern</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">servlet-mapping</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<p><mark>也可以通过注解的方式进行配置</mark>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@WebServlet(urlPatterns = &#123;&quot;/demo01&quot;&#125; ,</span><br><span class="hljs-meta"> initParams = &#123;</span><br><span class="hljs-meta">     @WebInitParam(name=&quot;hello&quot;,value=&quot;world&quot;),</span><br><span class="hljs-meta">     @WebInitParam(name=&quot;uname&quot;,value=&quot;jim&quot;)</span><br><span class="hljs-meta"> &#125;)</span><br></code></pre></td></tr></table></figure>
+<h1 id="2-学习servlet中的servletcontext和context-param"><a class="markdownIt-Anchor" href="#2-学习servlet中的servletcontext和context-param"></a> 2、学习Servlet中的<code>ServletContext</code>和<code>&lt;context-param&gt;</code></h1>
+<h2 id="1-获取servletcontext"><a class="markdownIt-Anchor" href="#1-获取servletcontext"></a> 1、获取ServletContext</h2>
+<p>在初始化方法中： ServletContxt servletContext = getServletContext();<br />
+在服务方法中也可以通过request对象获取，也可以通过session获取：<br />
+request.getServletContext(); session.getServletContext()</p>
+<h2 id="2-获取初始化值"><a class="markdownIt-Anchor" href="#2-获取初始化值"></a> 2、获取初始化值：</h2>
+<p>servletContext.getInitParameter();</p>
+<h1 id="3-什么是业务层mvc"><a class="markdownIt-Anchor" href="#3-什么是业务层mvc"></a> 3、什么是业务层(MVC)</h1>
+<ol>
+<li>
+<p>Model1和Model2</p>
 <ul>
-<li><p>MVC : Model（模型）、View（视图）、Controller（控制器）<br>视图层：用于做数据展示以及和用户交互的一个界面<br>控制层：能够接受客户端的请求，具体的业务功能还是需要借助于模型组件来完成<br>模型层：模型分为很多种：有比较简单的pojo&#x2F;vo(value object)，有业务模型组件，有数据访问层组件</p>
+<li>
+<p>MVC : Model（模型）、View（视图）、Controller（控制器）<br />
+视图层：用于做数据展示以及和用户交互的一个界面<br />
+控制层：能够接受客户端的请求，具体的业务功能还是需要借助于模型组件来完成<br />
+模型层：模型分为很多种：有比较简单的pojo/vo(value object)，有业务模型组件，有数据访问层组件</p>
 </li>
-<li><p>pojo&#x2F;vo : 值对象</p>
+<li>
+<p>pojo/vo : 值对象</p>
 <p>DAO ： 数据访问对象 (访问数据库)</p>
 <p>BO ： 业务对象</p>
 </li>
 </ul>
 </li>
-<li><p>区分业务对象和数据访问对象：</p>
+<li>
+<p>区分业务对象和数据访问对象：</p>
 <ol>
-<li>DAO中的方法都是单精度方法或者称之为细粒度方法。什么叫单精度？一个方法只考虑一个操作，比如添加，那就是insert操作、查询那就是select操作….</li>
+<li>DAO中的方法都是单精度方法或者称之为细粒度方法。什么叫单精度？一个方法只考虑一个操作，比如添加，那就是insert操作、查询那就是select操作…</li>
 <li>BO中的方法属于业务方法，也实际的业务是比较复杂的，因此业务方法的粒度是比较粗的</li>
-<li>注册这个功能属于业务功能，也就是说注册这个方法属于业务方法。那么这个业务方法中包含了多个DAO方法。也就是说注册这个业务功能需要通过多个DAO方法的组合调用，从而完成注册功能的开发。<ul>
-<li>注册：<ol>
+<li>注册这个功能属于业务功能，也就是说注册这个方法属于业务方法。那么这个业务方法中包含了多个DAO方法。也就是说注册这个业务功能需要通过多个DAO方法的组合调用，从而完成注册功能的开发。
+<ul>
+<li>注册：
+<ol>
 <li>检查用户名是否已经被注册 - DAO中的select操作</li>
 <li>向用户表新增一条新用户记录 - DAO中的insert操作</li>
 <li>向用户积分表新增一条记录（新用户默认初始化积分100分） - DAO中的insert操作</li>
@@ -190,55 +219,78 @@
 </li>
 </ol>
 </li>
-<li><p>在库存系统中添加业务层组件</p>
+<li>
+<p>在库存系统中添加业务层组件</p>
 </li>
 </ol>
-<h1 id="4、IOC"><a href="#4、IOC" class="headerlink" title="4、IOC"></a>4、IOC</h1><h2 id="1、耦合-x2F-依赖"><a href="#1、耦合-x2F-依赖" class="headerlink" title="1、耦合&#x2F;依赖"></a>1、耦合&#x2F;依赖</h2><blockquote>
+<h1 id="4-ioc"><a class="markdownIt-Anchor" href="#4-ioc"></a> 4、IOC</h1>
+<h2 id="1-耦合依赖"><a class="markdownIt-Anchor" href="#1-耦合依赖"></a> 1、耦合/依赖</h2>
+<blockquote>
 <p>依赖指的是某某某离不开某某某</p>
 </blockquote>
-<p>在软件系统中，层与层之间是存在依赖的。我们也称之为&#x3D;&#x3D;耦合&#x3D;&#x3D;。<br><u>我们系统架构或者是设计的一个原则是： 高内聚低耦合。</u><br>层内部的组成应该是高度聚合的，而层与层之间的关系应该是低耦合的，最理想的情况0耦合（就是没有耦合）</p>
-<h2 id="2、IOC-控制反转-x2F-DI-依赖注入"><a href="#2、IOC-控制反转-x2F-DI-依赖注入" class="headerlink" title="2、IOC - 控制反转 &#x2F; DI - 依赖注入"></a>2、IOC - 控制反转 &#x2F; DI - 依赖注入</h2><ul>
-<li><p>控制反转</p>
+<p>在软件系统中，层与层之间是存在依赖的。我们也称之为<mark>耦合</mark>。<br />
+<u>我们系统架构或者是设计的一个原则是： 高内聚低耦合。</u><br />
+层内部的组成应该是高度聚合的，而层与层之间的关系应该是低耦合的，最理想的情况0耦合（就是没有耦合）</p>
+<h2 id="2-ioc-控制反转-di-依赖注入"><a class="markdownIt-Anchor" href="#2-ioc-控制反转-di-依赖注入"></a> 2、IOC - 控制反转 / DI - 依赖注入</h2>
+<ul>
+<li>
+<p>控制反转</p>
 <ol>
-<li><p>之前在Servlet中，我们创建service对象 ，<code>FruitService fruitService = new FruitServiceImpl();</code> 这句话</p>
+<li>
+<p>之前在Servlet中，我们创建service对象 ，<code>FruitService fruitService = new FruitServiceImpl();</code> 这句话</p>
 <ul>
 <li>如果出现在servlet中的某个方法内部，那么这个<code>fruitService</code>的作用域（生命周期）应该就是这个方法级别；</li>
 <li>如果这句话出现在servlet的类中，也就是说<code>fruitService</code>是一个成员变量，那么这个<code>fruitService</code>的作用域（生命周期）应该就是这个servlet实例级别</li>
 </ul>
 </li>
-<li><p>之后我们在applicationContext.xml中定义了这个fruitService。<br>  然后通过解析XML，产生<code>fruitService</code>实例，存放在<code>beanMap</code>中，这个<code>beanMap</code>在一个<code>BeanFactory</code>中。<br>因此，我们转移（改变）了之前的<code>service</code>实例、dao实例等等他们的生命周期。控制权从程序员转移到<code>BeanFactory</code>。这个现象我们称之为控制反转</p>
+<li>
+<p>之后我们在applicationContext.xml中定义了这个fruitService。<br />
+然后通过解析XML，产生<code>fruitService</code>实例，存放在<code>beanMap</code>中，这个<code>beanMap</code>在一个<code>BeanFactory</code>中。<br />
+因此，我们转移（改变）了之前的<code>service</code>实例、dao实例等等他们的生命周期。控制权从程序员转移到<code>BeanFactory</code>。这个现象我们称之为控制反转</p>
 </li>
 </ol>
 </li>
-<li><p>依赖注入</p>
+<li>
+<p>依赖注入</p>
 <ol>
-<li><p>之前我们在控制层出现代码：<code>FruitService fruitService = new FruitServiceImpl()；</code><br>那么，控制层和service层存在耦合。</p>
+<li>
+<p>之前我们在控制层出现代码：<code>FruitService fruitService = new FruitServiceImpl()；</code><br />
+那么，控制层和service层存在耦合。</p>
 </li>
-<li><p>之后，我们将代码修改成FruitService fruitService &#x3D; null ;<br>   然后，在配置文件中配置:</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;fruit&quot;</span> <span class="attr">class</span>=<span class="string">&quot;FruitController&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;fruitService&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;fruitService&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li>
+<p>之后，我们将代码修改成FruitService fruitService = null ;<br />
+然后，在配置文件中配置:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;fruit&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;FruitController&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;fruitService&quot;</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">&quot;fruitService&quot;</span>/&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span><br></code></pre></td></tr></table></figure>
+</li>
 </ol>
 </li>
 </ul>
-<h1 id="star-理解-star"><a href="#star-理解-star" class="headerlink" title=":star:理解:star:"></a>:star:理解:star:</h1><p>最先是DispatcherServlet （父类是<code>ViewBaseServlet extends HttpServlet    </code>） （调度器）<code>@WebServlet(&quot;*.do&quot;)</code> (会接收所有以.do结尾的请求)</p>
+<h1 id="️理解️"><a class="markdownIt-Anchor" href="#️理解️"></a> ⭐️理解⭐️</h1>
+<p>最先是DispatcherServlet （父类是<code>ViewBaseServlet extends HttpServlet</code>） （调度器）<code>@WebServlet(&quot;*.do&quot;)</code> (会接收所有以.do结尾的请求)</p>
 <p>接收 来自浏览器的请求（默认是Get方式），</p>
-<p> :warning::warning::warning::warning::warning: 会先执行<code>init()</code>方法 初始化servlet </p>
+<p>⚠️⚠️⚠️⚠️⚠️ 会先执行<code>init()</code>方法 初始化servlet</p>
 <blockquote>
 <p>可以在<code>init()</code>方法内执行一些准备操作，比如DispatcherServlet  的就是在这里通过初始化<code>beanFactory</code>对象，</p>
-<p><code> new ClassPathXmlApplicationContext();</code>读取&#x3D;&#x3D;applicationContext.xml&#x3D;&#x3D;的内容，方便下面直接通过<code>beanFactory</code>依据<code>servletPath</code>获取Controller</p>
+<p><code>new ClassPathXmlApplicationContext();</code>读取<mark>applicationContext.xml</mark>的内容，方便下面直接通过<code>beanFactory</code>依据<code>servletPath</code>获取Controller</p>
 </blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">init</span><span class="params">()</span> <span class="keyword">throws</span> ServletException &#123;</span><br><span class="line">    <span class="built_in">super</span>.init();</span><br><span class="line">    beanFactory = <span class="keyword">new</span> <span class="title class_">ClassPathXmlApplicationContext</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">init</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> ServletException &#123;<br>    <span class="hljs-built_in">super</span>.init();<br>    beanFactory = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ClassPathXmlApplicationContext</span>();<br>&#125;<br></code></pre></td></tr></table></figure>
 <p>此时进入Service方法:</p>
-<h3 id="Service内执行的内容"><a href="#Service内执行的内容" class="headerlink" title="Service内执行的内容"></a>Service内执行的内容</h3><ol>
-<li><p>获取operate 以及 fruit  (fruit 由 <code>/fruit.do</code>获得) </p>
+<h3 id="service内执行的内容"><a class="markdownIt-Anchor" href="#service内执行的内容"></a> Service内执行的内容</h3>
+<ol>
+<li>
+<p>获取operate 以及 fruit  (fruit 由 <code>/fruit.do</code>获得)</p>
 </li>
-<li><p>通过BeanFactory根据经过处理的<code>furit</code>获得FruitController对象</p>
+<li>
+<p>通过BeanFactory根据经过处理的<code>furit</code>获得FruitController对象</p>
 <p><code>Object controllerBeanObj = beanFactory.getBean(servletPath);</code>,</p>
 <ul>
-<li><p>因为通过 &#x3D;&#x3D;applicationContext.xml&#x3D;&#x3D;  的配置 ，fruit 对应 FruitController.java</p>
+<li>
+<p>因为通过 <mark>applicationContext.xml</mark>  的配置 ，fruit 对应 FruitController.java</p>
 </li>
-<li><p>applicationContext.xml </p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;fruitDAO&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.atguigu.fruit.dao.impl.FruitDAOImpl&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;fruitService&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.atguigu.fruit.service.impl.FruitServiceImpl&quot;</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- property标签用来表示属性；name表示属性名；ref表示引用其他bean的id值(reference : 引用)--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;fruitDAO&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;fruitDAO&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;fruit&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.atguigu.fruit.controllers.FruitController&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;fruitService&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;fruitService&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li>
+<p>applicationContext.xml</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;utf-8&quot;</span>?&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">beans</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;fruitDAO&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.atguigu.fruit.dao.impl.FruitDAOImpl&quot;</span>/&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;fruitService&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.atguigu.fruit.service.impl.FruitServiceImpl&quot;</span>&gt;</span><br>        <span class="hljs-comment">&lt;!-- property标签用来表示属性；name表示属性名；ref表示引用其他bean的id值(reference : 引用)--&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;fruitDAO&quot;</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">&quot;fruitDAO&quot;</span>/&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;fruit&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.atguigu.fruit.controllers.FruitController&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;fruitService&quot;</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">&quot;fruitService&quot;</span>/&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">beans</span>&gt;</span><br></code></pre></td></tr></table></figure>
+</li>
 </ul>
 <p>然后通过反射 <code>controllerBeanObj.getClass().getDeclaredMethods();</code> 获取 operate对应的 controller内的方法，</p>
 <blockquote>
@@ -246,40 +298,35 @@
 </blockquote>
 <p>另外，由于为了实现低耦合（层与层之间的关系不那么密切），fruitController 已经无法获得</p>
 <ul>
-<li><code>HttpServletRequest  request</code></li>
+<li><code>HttpServletRequest request</code></li>
 <li><code>HttpServletResponse response</code></li>
 </ul>
-<p>因此 ，fruitcontroller内方法执行需要的参数必须直接在&#x3D;&#x3D;中央调度器DispatcherServlet  ：service&#x3D;&#x3D;方法内<u>&#x3D;&#x3D;直接传递具体的参数&#x3D;&#x3D;</u></p>
+<p>因此 ，fruitcontroller内方法执行需要的参数必须直接在<mark>中央调度器DispatcherServlet  ：service</mark>方法内<u><mark>直接传递具体的参数</mark></u></p>
 <ul>
-<li><p>FruitController内的方法如下</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> String <span class="title function_">edit</span><span class="params">(Integer fid , HttpServletRequest request)</span></span><br><span class="line"><span class="keyword">private</span> String <span class="title function_">update</span><span class="params">(Integer fid ,String fname,Integer price,Integer fcount ,String remark )</span></span><br><span class="line"><span class="keyword">private</span> String <span class="title function_">del</span><span class="params">(Integer fid)</span></span><br><span class="line"><span class="keyword">private</span> String <span class="title function_">add</span><span class="params">(String fname , Integer price , Integer fcount , String remark )</span></span><br><span class="line"><span class="keyword">private</span> String <span class="title function_">index</span><span class="params">(String oper , String keyword , Integer pageNo , HttpServletRequest request )</span></span><br></pre></td></tr></table></figure>
-
-
+<li>
+<p>FruitController内的方法如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> String <span class="hljs-title function_">edit</span><span class="hljs-params">(Integer fid , HttpServletRequest request)</span><br><span class="hljs-keyword">private</span> String <span class="hljs-title function_">update</span><span class="hljs-params">(Integer fid ,String fname,Integer price,Integer fcount ,String remark )</span><br><span class="hljs-keyword">private</span> String <span class="hljs-title function_">del</span><span class="hljs-params">(Integer fid)</span><br><span class="hljs-keyword">private</span> String <span class="hljs-title function_">add</span><span class="hljs-params">(String fname , Integer price , Integer fcount , String remark )</span><br><span class="hljs-keyword">private</span> String <span class="hljs-title function_">index</span><span class="hljs-params">(String oper , String keyword , Integer pageNo , HttpServletRequest request )</span><br></code></pre></td></tr></table></figure>
 </li>
-<li><p>具体的参数传递的操作如下 (注意 操作执行的前提是&#x3D;&#x3D;匹配到了执行操作的方法&#x3D;&#x3D;)</p>
+<li>
+<p>具体的参数传递的操作如下 (注意 操作执行的前提是<mark>匹配到了执行操作的方法</mark>)</p>
 <blockquote>
-<p>&#x3D;&#x3D;if(operate.equals(method.getName()))&#x3D;&#x3D;</p>
+<p><mark>if(operate.equals(method.getName()))</mark></p>
 </blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//if(operate.equals(method.getName()))</span></span><br><span class="line"><span class="comment">//&#123;</span></span><br><span class="line"><span class="comment">//1.统一获取请求参数</span></span><br><span class="line"><span class="comment">//1-1.获取当前方法的参数，返回参数数组</span></span><br><span class="line">Parameter[] parameters = method.getParameters();</span><br><span class="line"><span class="comment">//1-2.parameterValues 用来承载参数的值</span></span><br><span class="line">Object[] parameterValues = <span class="keyword">new</span> <span class="title class_">Object</span>[parameters.length];</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; parameters.length; i++) &#123;</span><br><span class="line">    <span class="type">Parameter</span> <span class="variable">parameter</span> <span class="operator">=</span> parameters[i];</span><br><span class="line">    <span class="type">String</span> <span class="variable">parameterName</span> <span class="operator">=</span> parameter.getName() ;</span><br><span class="line">    <span class="comment">//如果参数名是request,response,session 那么就不是通过请求中获取参数的方式了</span></span><br><span class="line">    <span class="keyword">if</span>(<span class="string">&quot;request&quot;</span>.equals(parameterName))&#123;</span><br><span class="line">        parameterValues[i] = request ;</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="string">&quot;response&quot;</span>.equals(parameterName))&#123;</span><br><span class="line">        parameterValues[i] = response ;</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="string">&quot;session&quot;</span>.equals(parameterName))&#123;</span><br><span class="line">        parameterValues[i] = request.getSession() ;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="comment">//从请求中获取参数值</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">parameterValue</span> <span class="operator">=</span> request.getParameter(parameterName);</span><br><span class="line">        <span class="type">String</span> <span class="variable">typeName</span> <span class="operator">=</span> parameter.getType().getName();</span><br><span class="line"></span><br><span class="line">        <span class="type">Object</span> <span class="variable">parameterObj</span> <span class="operator">=</span> parameterValue ;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(parameterObj!=<span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="string">&quot;java.lang.Integer&quot;</span>.equals(typeName)) &#123;</span><br><span class="line">                parameterObj = Integer.parseInt(parameterValue);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        parameterValues[i] = parameterObj ;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//if(operate.equals(method.getName()))</span><br><span class="hljs-comment">//&#123;</span><br><span class="hljs-comment">//1.统一获取请求参数</span><br><span class="hljs-comment">//1-1.获取当前方法的参数，返回参数数组</span><br>Parameter[] parameters = method.getParameters();<br><span class="hljs-comment">//1-2.parameterValues 用来承载参数的值</span><br>Object[] parameterValues = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Object</span>[parameters.length];<br><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; parameters.length; i++) &#123;<br>    <span class="hljs-type">Parameter</span> <span class="hljs-variable">parameter</span> <span class="hljs-operator">=</span> parameters[i];<br>    <span class="hljs-type">String</span> <span class="hljs-variable">parameterName</span> <span class="hljs-operator">=</span> parameter.getName() ;<br>    <span class="hljs-comment">//如果参数名是request,response,session 那么就不是通过请求中获取参数的方式了</span><br>    <span class="hljs-keyword">if</span>(<span class="hljs-string">&quot;request&quot;</span>.equals(parameterName))&#123;<br>        parameterValues[i] = request ;<br>    &#125;<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(<span class="hljs-string">&quot;response&quot;</span>.equals(parameterName))&#123;<br>        parameterValues[i] = response ;<br>    &#125;<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(<span class="hljs-string">&quot;session&quot;</span>.equals(parameterName))&#123;<br>        parameterValues[i] = request.getSession() ;<br>    &#125;<span class="hljs-keyword">else</span>&#123;<br>        <span class="hljs-comment">//从请求中获取参数值</span><br>        <span class="hljs-type">String</span> <span class="hljs-variable">parameterValue</span> <span class="hljs-operator">=</span> request.getParameter(parameterName);<br>        <span class="hljs-type">String</span> <span class="hljs-variable">typeName</span> <span class="hljs-operator">=</span> parameter.getType().getName();<br><br>        <span class="hljs-type">Object</span> <span class="hljs-variable">parameterObj</span> <span class="hljs-operator">=</span> parameterValue ;<br><br>        <span class="hljs-keyword">if</span>(parameterObj!=<span class="hljs-literal">null</span>) &#123;<br>            <span class="hljs-keyword">if</span> (<span class="hljs-string">&quot;java.lang.Integer&quot;</span>.equals(typeName)) &#123;<br>                parameterObj = Integer.parseInt(parameterValue);<br>            &#125;<br>        &#125;<br>        parameterValues[i] = parameterObj ;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
 </ul>
 </li>
 </ol>
 <p><code>method.invoke(controllerBeanObj,parameterValues);</code>完成方法调用后，设计的 FruitController 的方法会返回需要执行的操作，</p>
 <p>​				<code>Object returnObj = method.invoke(controllerBeanObj,parameterValues);</code></p>
 <p>然后进行视图处理</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//3.视图处理</span></span><br><span class="line"><span class="type">String</span> <span class="variable">methodReturnStr</span> <span class="operator">=</span> (String)returnObj ;</span><br><span class="line"><span class="keyword">if</span>(methodReturnStr.startsWith(<span class="string">&quot;redirect:&quot;</span>))&#123;        <span class="comment">//比如：  redirect:fruit.do</span></span><br><span class="line">    <span class="type">String</span> <span class="variable">redirectStr</span> <span class="operator">=</span> methodReturnStr.substring(<span class="string">&quot;redirect:&quot;</span>.length());</span><br><span class="line">    response.sendRedirect(redirectStr);</span><br><span class="line"> <span class="comment">// 比如返回值是 redirect:fruit.do 就会 重定向，访问fruit.do （其实就是再次执行调度器的Service）</span></span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="built_in">super</span>.processTemplate(methodReturnStr,request,response);    <span class="comment">// 比如：  &quot;edit&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//3.视图处理</span><br><span class="hljs-type">String</span> <span class="hljs-variable">methodReturnStr</span> <span class="hljs-operator">=</span> (String)returnObj ;<br><span class="hljs-keyword">if</span>(methodReturnStr.startsWith(<span class="hljs-string">&quot;redirect:&quot;</span>))&#123;        <span class="hljs-comment">//比如：  redirect:fruit.do</span><br>    <span class="hljs-type">String</span> <span class="hljs-variable">redirectStr</span> <span class="hljs-operator">=</span> methodReturnStr.substring(<span class="hljs-string">&quot;redirect:&quot;</span>.length());<br>    response.sendRedirect(redirectStr);<br> <span class="hljs-comment">// 比如返回值是 redirect:fruit.do 就会 重定向，访问fruit.do （其实就是再次执行调度器的Service）</span><br>&#125;<span class="hljs-keyword">else</span>&#123;<br>    <span class="hljs-built_in">super</span>.processTemplate(methodReturnStr,request,response);    <span class="hljs-comment">// 比如：  &quot;edit&quot;</span><br>&#125;<br></code></pre></td></tr></table></figure>
 <p>顺序：</p>
 <ol>
-<li>DispacherServlet 的init ()  <ul>
+<li>DispacherServlet 的init ()
+<ul>
 <li>先调用父类的init()</li>
-<li>然后<code>beanFactory = new ClassPathXmlApplicationContext();</code>通过<code>ClassPathXmlApplicationContext</code>的构造器读取&#x3D;&#x3D;applicationContext.xml&#x3D;&#x3D;配置文件，初始化<code>ClassPathXmlApplicationContext.beanMap</code></li>
+<li>然后<code>beanFactory = new ClassPathXmlApplicationContext();</code>通过<code>ClassPathXmlApplicationContext</code>的构造器读取<mark>applicationContext.xml</mark>配置文件，初始化<code>ClassPathXmlApplicationContext.beanMap</code></li>
 </ul>
 </li>
 <li>然后进入service 方法</li>
@@ -287,7 +334,8 @@
 <li>根据Controller执行的方法的返回值决定下一步</li>
 <li>继续第一步（客户端重定向） or  视图渲染（跳转页面）</li>
 </ol>
-<h1 id=""><a href="#" class="headerlink" title=""></a></h1> 
+<h1 id=""><a class="markdownIt-Anchor" href="#"></a> </h1>
+ 
       <!-- reward -->
       
     </div>

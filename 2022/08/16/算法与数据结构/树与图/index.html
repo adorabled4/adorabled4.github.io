@@ -73,10 +73,10 @@
      
     <div class="article-meta">
       <a href="/2022/08/16/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91%E4%B8%8E%E5%9B%BE/" class="article-date">
-  <time datetime="2022-08-16T07:50:29.000Z" itemprop="datePublished">2022-08-16</time>
+  <time datetime="2022-08-16T07:50:11.479Z" itemprop="datePublished">2022-08-16</time>
 </a> 
   <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">算法与数据结构</a>
+    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">算法与数据结构</a> / <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">算法与数据结构</a>
   </div>
   
 <div class="word_count">
@@ -113,30 +113,68 @@
 <p>图是由节点和连接节点之间的边组成的，与连线的长度，节点的位置没有关系。一个图是一个三元组&lt;V(G), E(G), F&gt;，其中V是一个非空的节点集合，E是边集合，F是从边集合E到节点序偶(无序偶或有序偶)集合上的函数。若图中边总是两个节点的关联，则图可简记为G=&lt;G, E&gt;。树可以是空树但图不能是空图。图的结点集不能为空但边集可以为空。</p>
 <span id="more"></span>
 <ul>
-<li><strong>无向图</strong>：若图中所有边都是无向边，则图是无向图；</li>
-<li><strong>有向图</strong>：若所有边都是有向边，则图是有向图；</li>
-<li><strong>混合图</strong>：若图中既有无向边又有无向边则图为混合图；</li>
-<li><strong>多重图</strong>：还有平行边的任何一个图称为多重图</li>
-<li><strong>简单图</strong>：不含平行边和环的图称为简单图</li>
-<li><strong>平凡图</strong>：仅由一个孤立节点构成的图为平凡图；</li>
-<li><strong>零图</strong>：仅由孤立节点组成的图为零图；</li>
-<li><strong>完全图</strong>：图中每一对节点之间都有边相连则称为完全图</li>
-<li><strong>补图</strong>：给定一个图G，由图中<strong>所有节点</strong>和所有能使G称为完全图的<strong>添加边</strong>组成的图称为G相当于完全图的补图，简称G的补图。</li>
-<li><strong>子图</strong>：G=&lt;V,E&gt;，G’=&lt;V’, E’&gt;，
+<li>
+<p><strong>无向图</strong>：若图中所有边都是无向边，则图是无向图；</p>
+</li>
+<li>
+<p><strong>有向图</strong>：若所有边都是有向边，则图是有向图；</p>
+</li>
+<li>
+<p><strong>混合图</strong>：若图中既有无向边又有无向边则图为混合图；</p>
+</li>
+<li>
+<p><strong>多重图</strong>：还有平行边的任何一个图称为多重图</p>
+</li>
+<li>
+<p><strong>简单图</strong>：不含平行边和环的图称为简单图</p>
+</li>
+<li>
+<p><strong>平凡图</strong>：仅由一个孤立节点构成的图为平凡图；</p>
+</li>
+<li>
+<p><strong>零图</strong>：仅由孤立节点组成的图为零图；</p>
+</li>
+<li>
+<p><strong>完全图</strong>：图中每一对节点之间都有边相连则称为完全图</p>
+</li>
+<li>
+<p><strong>补图</strong>：给定一个图G，由图中<strong>所有节点</strong>和所有能使G称为完全图的<strong>添加边</strong>组成的图称为G相当于完全图的补图，简称G的补图。</p>
+</li>
+<li>
+<p>子图</p>
+<p>：G=&lt;V,E&gt;，G’=&lt;V’, E’&gt;，</p>
 <ul>
 <li>其中V’,E’分别是V，E的子集，则G’是G的子图</li>
 <li>***注意！***图G’ = &lt;V’, E’&gt;是图G=&lt;V,E&gt;的子图，若另一子图G’’=&lt;V’’, E’’&gt;使得E’’=E-E’，且V’‘中仅包含E’‘的边所关联的结点。则称 G’'是子图G’的相对于图G的补图。</li>
 </ul>
 </li>
-<li><strong>生成子图</strong>：G的子图包含G的所有结点则该子图为G的生成子图</li>
-<li><strong>同构图</strong>：图G=&lt;V,E&gt;及G’=&lt;V’,E’&gt;，若存在一一对应关系g，使得v-&gt;v’，e=(vi, vj) -&gt; e’ = (g(vi), g(vj))，则称G于G’同构记作G<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/543187296/edit#">\simeq</a>G’.两个图同构的充要条件是两个图的结点和边分别存在一一对应，且保持关联关系</li>
-<li><strong>孤立节点</strong>：图中不与任何节点邻接的节点</li>
-<li><strong>邻接节点</strong>：两个节点之间有边相连则这两个节点称为邻接点</li>
-<li><strong>邻接边</strong>：连接同一节点的两条边称为邻接边</li>
-<li><strong>环(回路)</strong>：邻接同一节点的一条边</li>
-<li><strong>度</strong>：节点连接的边数记为节点的度</li>
-<li><strong>出度</strong>：指出节点的边数量</li>
-<li><strong>入度</strong>：指向节点的边数量</li>
+<li>
+<p><strong>生成子图</strong>：G的子图包含G的所有结点则该子图为G的生成子图</p>
+</li>
+<li>
+<p><strong>同构图</strong>：图G=&lt;V,E&gt;及G’=&lt;V’,E’&gt;，若存在一一对应关系g，使得v-&gt;v’，e=(vi, vj) -&gt; e’ = (g(vi), g(vj))，则称G于G’同构记作G<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/543187296/edit#">\simeq</a>G’.两个图同构的充要条件是两个图的结点和边分别存在一一对应，且保持关联关系</p>
+</li>
+<li>
+<p><strong>孤立节点</strong>：图中不与任何节点邻接的节点</p>
+</li>
+<li>
+<p><strong>邻接节点</strong>：两个节点之间有边相连则这两个节点称为邻接点</p>
+</li>
+<li>
+<p><strong>邻接边</strong>：连接同一节点的两条边称为邻接边</p>
+</li>
+<li>
+<p><strong>环(回路)</strong>：邻接同一节点的一条边</p>
+</li>
+<li>
+<p><strong>度</strong>：节点连接的边数记为节点的度</p>
+</li>
+<li>
+<p><strong>出度</strong>：指出节点的边数量</p>
+</li>
+<li>
+<p><strong>入度</strong>：指向节点的边数量</p>
+</li>
 </ul>
 <h3 id="定理"><a class="markdownIt-Anchor" href="#定理"></a> <strong>定理</strong></h3>
 <ol>
@@ -178,37 +216,37 @@
 <h2 id="图的代数表示"><a class="markdownIt-Anchor" href="#图的代数表示"></a> 图的代数表示</h2>
 <h3 id="邻接矩阵"><a class="markdownIt-Anchor" href="#邻接矩阵"></a> <strong>邻接矩阵</strong></h3>
 <p>图的邻接矩阵表示通过使用|V|*|V|大小的方阵表示，矩阵每个元素表示结点的邻接关系。</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-915f847811d144bca858fad6102f8d7d_720w.jpg" alt="img" /></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1082v2-915f847811d144bca858fad6102f8d7d_720w.jpg" alt="img" />img</p>
 <p>简单无向图的邻接矩阵是对称的。第i行值为1的元素数目等于结点i的出度，第j列值为1的元素数目是结点j的入度。</p>
 <p>**定理一、**A为图的邻接矩阵，A^n中第i行第j列的元素等于结点i和结点j之间长度为n的路的数目</p>
 <h3 id="可达矩阵"><a class="markdownIt-Anchor" href="#可达矩阵"></a> <strong>可达矩阵</strong></h3>
 <p>对于一个简单有向图G，假设图中节点已排序，则方阵P为图G的可达矩阵</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-4ce0dcdc7434fb621e37cc4b57da38cd_720w.jpg" alt="img" /></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1082v2-4ce0dcdc7434fb621e37cc4b57da38cd_720w.jpg" alt="img" />img</p>
 <p>可达矩阵表明图中任意两个结点之间是否存在一条路。可达矩阵的计算通过邻接矩阵A计算。</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-855ae185d1495f1bcd97e2134fac50a7_720w.png" alt="img" /></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1082v2-855ae185d1495f1bcd97e2134fac50a7_720w.png" alt="img" />img</p>
 <p>将B中不为零的元素替换为1，得到的矩阵就是可达矩阵。</p>
 <h3 id="完全关联矩阵"><a class="markdownIt-Anchor" href="#完全关联矩阵"></a> <strong>完全关联矩阵</strong></h3>
 <p>给定图G，v1,v2,…vn和e1,e2,…eq分别为G中的点和边，则M为图的完全关联矩阵</p>
 <p><strong>无向图</strong></p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-fc227181afecbc96c9a5b1a44ca2ef62_720w.jpg" alt="img" /></p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-651b58ba9fc4234aaa755af159912827_r.jpg" alt="img" /></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1082v2-fc227181afecbc96c9a5b1a44ca2ef62_720w.jpg" alt="img" />img</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1082v2-651b58ba9fc4234aaa755af159912827_r.jpg" alt="img" />img</p>
 <p><strong>有向图</strong></p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-23e5f253050da658eb25108051b8a98b_720w.jpg" alt="img" /></p>
-<p><img src="https://pic3.zhimg.com/v2-e02fdd73aaea2511d6c3af5b75b11d2e_r.jpg" alt="img" /></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1082v2-23e5f253050da658eb25108051b8a98b_720w.jpg" alt="img" />img</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/v2-e02fdd73aaea2511d6c3af5b75b11d2e_r.jpg" alt="img" />img</p>
 <p>完全关联矩阵中两行相加(相当于两个结点合并)</p>
 <p>1）有向图中是两行分量的普通加法运算</p>
 <p>2）无向图中是对应分量加法模2运算</p>
 <h3 id="拉普拉斯矩阵"><a class="markdownIt-Anchor" href="#拉普拉斯矩阵"></a> <strong>拉普拉斯矩阵</strong></h3>
 <p>对于具有n个节点的简单无向图，该图拉普拉斯矩阵L定义为</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-bbbcb688c1e2ef1d335c4cb4e4d8de44_720w.png" alt="img" /></p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-7d31b65bf58ab3a43ad83d716d0d7207_r.jpg" alt="img" /></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1082v2-bbbcb688c1e2ef1d335c4cb4e4d8de44_720w.png" alt="img" />img</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1082v2-7d31b65bf58ab3a43ad83d716d0d7207_r.jpg" alt="img" />img</p>
 <p>D为图的度矩阵，是一个n*n的对角矩阵，diag(v)是v的度</p>
 <h3 id="对称归一化拉普拉斯矩阵"><a class="markdownIt-Anchor" href="#对称归一化拉普拉斯矩阵"></a> <strong>对称归一化拉普拉斯矩阵</strong></h3>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-88390642e96b699ca805d486cfdaeea2_720w.png" alt="img" /></p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-0e402f89e7767f169ea635d61e4cf530_r.jpg" alt="img" /></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1082v2-88390642e96b699ca805d486cfdaeea2_720w.png" alt="img" />img</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-0e402f89e7767f169ea635d61e4cf530_r.jpg" alt="img" />img</p>
 <h3 id="随机游走归一化拉普拉斯矩阵"><a class="markdownIt-Anchor" href="#随机游走归一化拉普拉斯矩阵"></a> <strong>随机游走归一化拉普拉斯矩阵</strong></h3>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-6c1e822fac7f8bf2de8f0bf0d8be92aa_720w.jpg" alt="img" /></p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-c251a186854297b6b9da88aafb865738_720w.jpg" alt="img" /></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1082v2-6c1e822fac7f8bf2de8f0bf0d8be92aa_720w.jpg" alt="img" />img</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1082v2-c251a186854297b6b9da88aafb865738_720w.jpg" alt="img" />img</p>
 <p><strong>定理：</strong></p>
 <p>a. 拉普拉斯矩阵半正定</p>
 <p>b. 拉普拉斯矩阵特征值非负</p>
@@ -238,11 +276,11 @@
 <p>**定理二、**欧拉定理，一个连通的平面图，v个结点e条边和r个面，欧拉公式：v-e+r=2</p>
 <p>**定理三、**G是一个有v个结点e条边的连通简单平面图，若v&gt;=3,则e&lt;=3v-6</p>
 <h2 id="对偶与着色"><a class="markdownIt-Anchor" href="#对偶与着色"></a> 对偶与着色</h2>
-<p>*<em>对偶图：<em><em>给定平面图G=&lt;V, E&gt;，它具有面F1, F2,…Fn，若图G</em>=&lt;V</em>, E</em>&gt;满足一下条件则陈G*是G的对偶图。</p>
+<p>**对偶图：*<em>给定平面图G=&lt;V, E&gt;，它具有面F1, F2,…Fn，若图G*=&lt;V*, E</em>&gt;满足一下条件则陈G*是G的对偶图。</p>
 <p>a. 图G任意一个面Fi，内部有且仅有一个结点v<em>i属于V</em></p>
 <p>b. 图G的面Fi, Fj公共边界ek，存在且仅存在一条边e<em>k，使e</em>k=(v<em>i, v</em>j)，且e*k与ek相交</p>
 <p>c. 当且仅当ek只是一个面Fi的边界时，v<em>i存在一个环e</em>k和ek相交。</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-6a13ca89607e69b4ab730e7526619c03_720w.jpg" alt="img" /></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1082v2-6a13ca89607e69b4ab730e7526619c03_720w.jpg" alt="img" />img</p>
 <p>**自对偶图：**图G的对偶图同构于G，则G是自对偶图</p>
 <p>着色：给定一平面图，对每个结点着色使相邻结点颜色不同。着色用了n种颜色则图称为n色的。</p>
 <p>韦尔奇。鲍威尔法对图着色：</p>
@@ -292,40 +330,40 @@
 <h2 id="图的存储"><a class="markdownIt-Anchor" href="#图的存储"></a> 图的存储</h2>
 <h3 id="邻接矩阵-2"><a class="markdownIt-Anchor" href="#邻接矩阵-2"></a> <strong>邻接矩阵</strong></h3>
 <p>图的邻接矩阵通过使用|V|*|V|大小的方阵表示，矩阵每个元素表示结点的邻接关系。</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-915f847811d144bca858fad6102f8d7d_720w.jpg" alt="img" /></p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-ff4d8cd47a1ce4fb41b8eacfa1defa07_r.jpg" alt="img" /></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1082v2-915f847811d144bca858fad6102f8d7d_720w.jpg" alt="img" />img</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1082v2-ff4d8cd47a1ce4fb41b8eacfa1defa07_r.jpg" alt="img" />img</p>
 <p>简单无向图的邻接矩阵是对称的。第i行值为1的元素数目等于结点i的出度，第j列值为1的元素数目是结点j的入度。对于带权图，则矩阵的元素表示边的权重。</p>
 <h3 id="邻接表"><a class="markdownIt-Anchor" href="#邻接表"></a> <strong>邻接表</strong></h3>
 <p>图的邻接矩阵的空间复杂度巨大，通常是稀疏的。对于无向图可以采用压缩矩阵的方式存储但是对于有向图会存在大量空间浪费，因此人们设计了邻接表的方式存储。</p>
 <p>邻接表方式主要由顺序存储和链表存储两种方式构成。图中所有结点采用顺序存储方式，对于每个结点对应一条边表(单链表)，表示该结点邻接的所有结点，对于有向图而言，边表则是有向边指向的所有结点。</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-3ee79d582bab9dcae6fac39a63a5f18f_r.jpg" alt="img" /></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-3ee79d582bab9dcae6fac39a63a5f18f_r.jpg" alt="img" />img</p>
 <p>邻接表中有两个基本数据结构，顶点表结点和边表结点。顶点表结点主要存放节点的属性信息和指向第一个表边结点的指针信息。边表结点存放着边另一头结点的Id等信息(代表一条边)和指向下一个边表结点的指针。值得注意的是，同一个图，对应邻接表不一定唯一。因为根据构造顺序的不同，结果不同。</p>
 <h3 id="十字链表"><a class="markdownIt-Anchor" href="#十字链表"></a> <strong>十字链表</strong></h3>
 <p>邻接表表示有向图时，每个结点对应的边表表示结点的出度信息，无法表示入度信息。可以采用逆邻接矩阵的方式表示出度信息但不能表示入度信息，因此，考虑将邻接表与逆邻接表结合同时表示有向图的出入度信息，得到十字链表的表示方式。</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-39f65acbe858e896e2f7a55d1f837df4_r.jpg" alt="img" /></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1082v2-39f65acbe858e896e2f7a55d1f837df4_r.jpg" alt="img" />img</p>
 <p>十字链表是邻接表的加强版，是在邻接表的基础上同时考虑出入度信息。十字链表同样包含两个数据结构即顶点表结点和边表结点。顶点表结点包含三个部分分别是结点的属性信息，出度域和入度域。出度域指向该结点的所有出边构成的边表，入度域指向以该结点为终点的所有边结点构成的边表。边结点上包含着该有向边的头尾所连的结点和同头同尾的指针域，这样，弧头相同的会连在同一链表上，弧尾相同的会连在同一链表上。十字链表中有多少结点，结点表就有多少项，有多少边，边表就有多少项。</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-e4dbd58f7a9e86e12931a1568fe30b01_r.jpg" alt="img" /></p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-85b96aeacb2ce5496955b7e7dfebf819_r.jpg" alt="img" /></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1082v2-e4dbd58f7a9e86e12931a1568fe30b01_r.jpg" alt="img" />img</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-85b96aeacb2ce5496955b7e7dfebf819_r.jpg" alt="img" />img</p>
 <h3 id="邻接多重表"><a class="markdownIt-Anchor" href="#邻接多重表"></a> <strong>邻接多重表</strong></h3>
 <p>邻接表表示无向图时会存在大量边信息的冗余，因为邻接表中每条边用两个结点表示的。为了降低冗余，邻接多重表用一个边结点表示边来降低冗余。具体结构如图，其中边结点存放着该边两端的结点标号，ilink指向下一条依附于顶点ivex的边；jlink指向下一条依附于顶点jvex的边。</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-205828c4cd555a31b583487bbecb87c9_r.jpg" alt="img" /></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1082v2-205828c4cd555a31b583487bbecb87c9_r.jpg" alt="img" />img</p>
 <h3 id="稀疏存储"><a class="markdownIt-Anchor" href="#稀疏存储"></a> <strong>稀疏存储</strong></h3>
 <p>按照图中边的数量可以分为稠密图和稀疏图。实际中大部分图是稀疏图，如果采用邻接矩阵存储稀疏图往往造成极大的空间浪费，因为很多元素为0，没有意义。因此需要考虑其他高效的存储方式。</p>
 <p><strong>1）COO(coordinate format)</strong></p>
 <p>COO格式将稀疏矩阵中非零元素以坐标的方式存储。分别用长度为n的三个数组表示非零元素对应的行坐标，列坐标，元素值。</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-d0f37d76a9c6ae3a6e285b605ecc0ddb_r.jpg" alt="img" /></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1082v2-d0f37d76a9c6ae3a6e285b605ecc0ddb_r.jpg" alt="img" />img</p>
 <p><strong>2）CSR(compressed sparse row format)</strong></p>
 <p>CSR格式要求矩阵元素按照行顺序存储，每一行中的元素可以乱序存储。因此，每一行不需要考虑行索引，只需要记录每行元素的起始位置即可。</p>
 <p>**row index：**数组中第i个元素表示原始矩阵中第i行在value矩阵中的起始位置，第i+1个元素表示第i行在value数组中的结束位置但不包含该位置。</p>
 <p>**column index：**数组第i个元素表示value[i]对应的列索引</p>
 <p>**value：**矩阵中非零元素的值</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-60507f7f1aefb421fce8aa1e3b7edbf7_720w.jpg" alt="img" /></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1082v2-60507f7f1aefb421fce8aa1e3b7edbf7_720w.jpg" alt="img" />img</p>
 <p><strong>3）CSC(compressed sparse column format)</strong></p>
 <p>与CSR类似，CSC格式采用按照列顺序存储。</p>
 <p>**col index：**数组中第i个元素表示原始矩阵中第i列在value矩阵中的起始位置，第i+1个元素表示第i列在value数组中的结束位置但不包含该位置。</p>
 <p>**row index：**数组第i个元素表示value[i]对应的行索引</p>
 <p>**value：**矩阵中非零元素的值</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082v2-c618a236af59ddb9540b9fb84f4e0e69_720w.jpg" alt="img" /></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1082v2-c618a236af59ddb9540b9fb84f4e0e69_720w.jpg" alt="img" />img</p>
 <p><strong>4）稀疏矩阵的压缩存储还包括三元组，行单链表，十字链表。</strong></p>
 <p>三元组存储类似于COO将每个元素的按照(行索引，列索引，值)的方式存储，所有元素按照行的存储顺序构成单链表。</p>
 <p>行单链表的每个元素也是按照三元组的方式存储的，只不过将每一行的元素单独构成一个链表</p>
@@ -399,7 +437,7 @@
 </div>
 
 <div id="share-mask"></div>  
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9B%BE%E8%AE%BA/" rel="tag">图论</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%91%E8%AE%BA/" rel="tag">树论</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">算法与数据结构</a></li></ul>
 
     </footer>
   </div>
@@ -407,19 +445,19 @@
    
   <nav class="article-nav">
     
-      <a href="/2022/08/18/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80%E5%8B%8B%E7%AB%A0/" class="article-nav-link">
+      <a href="/2022/08/20/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80%E5%8B%8B%E7%AB%A0/" class="article-nav-link">
         <strong class="article-nav-caption">上一篇</strong>
         <div class="article-nav-title">
           
-            算法基础-java代码实现OnBuilding...
+            算法基础勋章
           
         </div>
       </a>
     
     
-      <a href="/2022/08/12/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E7%A8%8B%E5%BA%8F%E5%91%98%E9%9D%A2%E8%AF%95%E9%87%91%E5%85%B8%20-java%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/" class="article-nav-link">
+      <a href="/2022/08/12/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E7%A8%8B%E5%BA%8F%E5%91%98%E9%9D%A2%E8%AF%95%E9%87%91%E5%85%B8/%E7%A8%8B%E5%BA%8F%E5%91%98%E9%9D%A2%E8%AF%95%E9%87%91%E5%85%B8%20-java%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">程序员面试金典-java代码实现 OnBuilding...</div>
+        <div class="article-nav-title">程序员面试金典 -java代码实现</div>
       </a>
     
   </nav>

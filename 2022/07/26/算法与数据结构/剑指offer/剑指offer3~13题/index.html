@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+  
+
+    <head>
+      <meta charset="utf-8" />
+        
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>剑指offer3~13题 |  dhx_&#39;blog</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220820231738085.png" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      
+<link rel="stylesheet" href="/css/fonts/remixicon.css">
+
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.staticfile.org/pace/1.2.4/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+      </style>
+    </head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-算法与数据结构/剑指offer/剑指offer3~13题"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  剑指offer3~13题
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/07/26/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%89%91%E6%8C%87offer/%E5%89%91%E6%8C%87offer3~13%E9%A2%98/" class="article-date">
+  <time datetime="2022-07-26T13:51:33.000Z" itemprop="datePublished">2022-07-26</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">算法与数据结构</a> / <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">算法与数据结构</a> / <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%89%91%E6%8C%87offer/">剑指offer</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">4.3k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">20 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="3~13"><a class="markdownIt-Anchor" href="#3~13"></a> 3~13</h1>
+<h3 id="03-数组中重复的数字"><a class="markdownIt-Anchor" href="#03-数组中重复的数字"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/shu-zu-zhong-zhong-fu-de-shu-zi-lcof/">03. 数组中重复的数字</a></h3>
+<p><strong>找出数组中重复的数字。</strong></p>
+<p><strong>在一个长度为 n 的数组 nums 里的所有数字都在 0～n-1 的范围内。数组中某些数字是重复的，但不知道有几个数字重复了，也不知道每个数字重复了几次。请找出数组中任意一个重复的数字。</strong></p>
+<span id="more"></span>
+<blockquote>
+<p>通过交换使得每一个数字回到与他自己的位置（最多两次），然后判断是否与相应下标的数字相同即可</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">swap</span><span class="hljs-params">(<span class="hljs-type">int</span>[]arr,<span class="hljs-type">int</span> i,<span class="hljs-type">int</span> j)</span><br>    &#123;<br>        <span class="hljs-type">int</span> temp=arr[i];<br>        arr[i]=arr[j];<br>        arr[j]=temp;<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">findRepeatNumber</span><span class="hljs-params">(<span class="hljs-type">int</span>[] nums)</span> &#123;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;nums.length;i++)&#123;<br>            <span class="hljs-keyword">while</span>(nums[i]!=i)&#123;<br>                <span class="hljs-keyword">if</span>(nums[i]==nums[nums[i]]) &#123;<br>                    <span class="hljs-keyword">return</span> nums[i];<br>                &#125;<br>                swap(nums,i,nums[i]);<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>或者是直接通过Set或者Map</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">findRepeatNumber</span><span class="hljs-params">(<span class="hljs-type">int</span>[] nums)</span> &#123;<br>        Set&lt;Integer&gt; set=<span class="hljs-keyword">new</span> <span class="hljs-title class_">HashSet</span>&lt;&gt;();<br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> a:nums)<br>        &#123;<br>            <span class="hljs-keyword">if</span>(!set.add(a))<br>                <span class="hljs-keyword">return</span> a;<br>        &#125;<br>        <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">findRepeatNumber</span><span class="hljs-params">(<span class="hljs-type">int</span>[] nums)</span> &#123;<br>        Map&lt;Integer, Boolean&gt; map=<span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;&gt;();<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> num : nums) &#123;<br>            <span class="hljs-keyword">if</span> (map.containsKey(num))<br>                <span class="hljs-keyword">return</span> num;<br>            <span class="hljs-keyword">else</span> map.put(num, <span class="hljs-literal">true</span>);<br>        &#125;<br>        <span class="hljs-keyword">return</span>  -<span class="hljs-number">1</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="04-二维数组中的查找"><a class="markdownIt-Anchor" href="#04-二维数组中的查找"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/er-wei-shu-zu-zhong-de-cha-zhao-lcof/">04. 二维数组中的查找</a></h3>
+<p><strong>在一个 n * m 的二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个高效的函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。</strong></p>
+<blockquote>
+<p>每一次都从右上角开始查询，</p>
+<p>如果是大于target字的数，那么这个数字所在列的所有数字也一定大于target， 剔除该行</p>
+<p>如果是小于target字的数，那么这个数字所在的行所有数字也一定小于target，剔除该列</p>
+<p>这样每一步缩小范围，直到查找范围为null或者找到target</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">findNumberIn2DArray</span><span class="hljs-params">(<span class="hljs-type">int</span>[][] matrix, <span class="hljs-type">int</span> target)</span> &#123;<br>        <span class="hljs-type">boolean</span> isFound=<span class="hljs-literal">false</span>;<br>        <span class="hljs-keyword">if</span> (matrix == <span class="hljs-literal">null</span> || matrix.length == <span class="hljs-number">0</span> || matrix[<span class="hljs-number">0</span>].length == <span class="hljs-number">0</span>) &#123;<br>            <span class="hljs-keyword">return</span> isFound;<br>        &#125;<br>        <span class="hljs-type">int</span> <span class="hljs-variable">rows</span> <span class="hljs-operator">=</span>matrix.length;<br>        <span class="hljs-type">int</span> columns=matrix[<span class="hljs-number">0</span>].length;<br>        <span class="hljs-keyword">if</span>(matrix!=<span class="hljs-literal">null</span>&amp;&amp;rows&gt;<span class="hljs-number">0</span>&amp;&amp;columns&gt;<span class="hljs-number">0</span>)&#123;<br>            <span class="hljs-type">int</span> row=<span class="hljs-number">0</span>,column=columns-<span class="hljs-number">1</span>;<br>            <span class="hljs-keyword">while</span>(row&lt;rows&amp;&amp;column&gt;=<span class="hljs-number">0</span>)<br>            &#123;<br>                <span class="hljs-keyword">if</span>(matrix[row][column]==target)<br>                &#123;<br>                    isFound=<span class="hljs-literal">true</span>;<br>                    <span class="hljs-keyword">break</span>;<br>                &#125;<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(matrix[row][column]&gt;target)   <span class="hljs-comment">// 剔除当前列</span><br>                &#123;<br>                    column--;<br>                &#125;<span class="hljs-keyword">else</span>&#123;                               <span class="hljs-comment">//剔除当前行</span><br>                    row++;<br>                &#125;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> isFound;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="05-替换空格"><a class="markdownIt-Anchor" href="#05-替换空格"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/ti-huan-kong-ge-lcof/">05. 替换空格</a></h3>
+<p>请实现一个函数，把字符串 <code>s</code> 中的每个空格替换成&quot;%20&quot;。</p>
+<blockquote>
+<p>本题如果使用cpp 来写的话， 核心思想就是 从末尾开始赋值， 可以节省大量的时间（通过这样做就不需要string 因为前面的数组插入数据 而后移 导致消耗时间）</p>
+<p>由于java String 的不可变性， 本体java代码直接使用 StringBuffer一个个的append 即可</p>
+</blockquote>
+<p>![image-20220717181023757](file:///E:/Typora/image/image-20220717181023757.png)image-20220717181023757</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">replaceSpace</span><span class="hljs-params">(String s)</span> &#123;<br>        StringBuffer res=<span class="hljs-keyword">new</span> <span class="hljs-title class_">StringBuffer</span>(<span class="hljs-string">&quot;&quot;</span>);<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; s.length(); i++)&#123;<br>            <span class="hljs-keyword">if</span>(s.charAt(i)==<span class="hljs-string">&#x27; &#x27;</span>)&#123;<br>                res.append(<span class="hljs-string">&quot;%20&quot;</span>);<br>            &#125;<span class="hljs-keyword">else</span>&#123;<br>                res.append(s.charAt(i));<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> res.toString();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>或者直接</p>
+<p><code>return s.replaceAll(&quot; &quot;,&quot;%20&quot;);</code>一行代码搞定。</p>
+<h3 id="06-从尾到头打印链表"><a class="markdownIt-Anchor" href="#06-从尾到头打印链表"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/cong-wei-dao-tou-da-yin-lian-biao-lcof/">06. 从尾到头打印链表</a></h3>
+<p><strong>输入一个链表的头节点，从尾到头反过来返回每个节点的值（用数组返回）。</strong></p>
+<blockquote>
+<p>通过ArrayList 添加 每个节点的val ，然后反向赋值给 int []res ,最后返回res 即可</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * Definition for singly-linked list.</span><br><span class="hljs-comment"> * public class ListNode &#123;</span><br><span class="hljs-comment"> *     int val;</span><br><span class="hljs-comment"> *     ListNode next;</span><br><span class="hljs-comment"> *     ListNode(int x) &#123; val = x; &#125;</span><br><span class="hljs-comment"> * &#125;</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span>[] reversePrint(ListNode head) &#123;<br>        <span class="hljs-keyword">if</span>(head==<span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[<span class="hljs-number">0</span>];   <span class="hljs-comment">// 数组为空 。返回 [] </span><br>        ArrayList&lt;Integer&gt; list=<span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();<br>        <span class="hljs-keyword">while</span>(head.next!=<span class="hljs-literal">null</span>)&#123;<br>            list.add(head.val);<br>            head=head.next;<br>        &#125;<br>        list.add(head.val);<br>        <span class="hljs-type">int</span> <span class="hljs-variable">len</span> <span class="hljs-operator">=</span>list.size();<br>        <span class="hljs-type">int</span> []res=<span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[len];<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> len-<span class="hljs-number">1</span>; i &gt;=<span class="hljs-number">0</span> ; i--) &#123;<br>                res[i]=list.get(len-i-<span class="hljs-number">1</span>);<br>        &#125;<br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="07-重建二叉树"><a class="markdownIt-Anchor" href="#07-重建二叉树"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/zhong-jian-er-cha-shu-lcof/">07. 重建二叉树</a></h3>
+<p>输入某二叉树的前序遍历和中序遍历的结果，请构建该二叉树并返回其根节点。</p>
+<p>假设输入的前序遍历和中序遍历的结果中都不含重复的数字。</p>
+<p>![image-20220719143417614](file:///E:/Typora/image/image-20220719143417614.png)image-20220719143417614</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * Definition for a binary tree node.</span><br><span class="hljs-comment"> * public class TreeNode &#123;</span><br><span class="hljs-comment"> *     int val;</span><br><span class="hljs-comment"> *     TreeNode left;</span><br><span class="hljs-comment"> *     TreeNode right;</span><br><span class="hljs-comment"> *     TreeNode(int x) &#123; val = x; &#125;</span><br><span class="hljs-comment"> * &#125;</span><br><span class="hljs-comment"> */</span><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br><br>    <span class="hljs-keyword">public</span> TreeNode <span class="hljs-title function_">buildTree</span><span class="hljs-params">(<span class="hljs-type">int</span>[] preorder, <span class="hljs-type">int</span>[] inorder)</span> &#123;<br>        <span class="hljs-keyword">return</span> f(preorder,inorder,<span class="hljs-literal">null</span>);<br>    &#125;<br>    <span class="hljs-type">int</span> preindex;<br>    <span class="hljs-type">int</span> inindex;  <span class="hljs-comment">//记录是否结束的标志</span><br>    <span class="hljs-comment">// 前序遍历 根左右   中序遍历 左根右</span><br>    <span class="hljs-keyword">public</span> TreeNode <span class="hljs-title function_">f</span><span class="hljs-params">(<span class="hljs-type">int</span> []preorder,<span class="hljs-type">int</span> []inorder,TreeNode finish)</span>  <br>        <span class="hljs-comment">//中序遍历的 节点的左右两边是他的左右孩子, 如果孩子是他自身，说明这个节点是个叶子结点</span><br>    &#123;<br>        <span class="hljs-keyword">if</span>(preindex==preorder.length||(finish!=<span class="hljs-literal">null</span>&amp;&amp;inorder[inindex]==finish.val))<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span> ;  <span class="hljs-comment">// 遍历完了</span><br>        <span class="hljs-comment">//当前子树的根节点</span><br>        TreeNode root=<span class="hljs-keyword">new</span> <span class="hljs-title class_">TreeNode</span>(preorder[<span class="hljs-built_in">this</span>.preindex++]);<br>        <span class="hljs-comment">//左子树</span><br>        root.left=f(preorder,inorder,root);<br>        <span class="hljs-built_in">this</span>.inindex++;  <span class="hljs-comment">// 中序遍历对应数组的下标</span><br>        <span class="hljs-comment">//右子树</span><br>        root.right=f(preorder,inorder,finish);<br>        <span class="hljs-keyword">return</span> root;<br>    &#125;<br>    <span class="hljs-comment">/* 先扫描前序序列的 ， 第一个节点的位置就是根节点，然后根据这个去扫描 中序遍历的序列，根节点的左侧是左子树，</span><br><span class="hljs-comment">右侧是右子树， 然后依次重复这个操作，找出 左子树的根节点，左子树的左子树，左子树的右子树， 继续重复，直到没有左右子树</span><br><span class="hljs-comment">         */</span><br><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>中序遍历二叉树</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    List&lt;Integer&gt; list=<span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>();<br>    <span class="hljs-keyword">public</span> List&lt;Integer&gt; <span class="hljs-title function_">inorderTraversal</span><span class="hljs-params">(TreeNode root)</span> &#123;<br>        dfs(root);<br>        <span class="hljs-keyword">return</span> list;<br>    &#125;<br>        <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">dfs</span><span class="hljs-params">(TreeNode root)</span>&#123;<br>        <span class="hljs-keyword">if</span>(root==<span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> ;<br>        dfs(root.left);<br>        list.add(root.val);<br>        dfs(root.right);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="09-用两个栈实现队列"><a class="markdownIt-Anchor" href="#09-用两个栈实现队列"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/yong-liang-ge-zhan-shi-xian-dui-lie-lcof/">09. 用两个栈实现队列</a></h3>
+<p>用两个栈实现一个队列。队列的声明如下，请实现它的两个函数 appendTail 和 deleteHead ，分别完成在队列尾部插入整数和在队列头部删除整数的功能。(若队列中没有元素，deleteHead 操作返回 -1 )</p>
+<h3 id="stack-类"><a class="markdownIt-Anchor" href="#stack-类"></a> Stack 类</h3>
+<ul>
+<li>栈是Vector的一个子类，它实现了一个标准的后进先出的栈。</li>
+<li>堆栈只定义了默认构造函数，用来创建一个空栈。 堆栈除了包括由Vector定义的所有方法，也定义了自己的一些方法。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">序号</th>
+<th style="text-align:left">方法描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">1</td>
+<td style="text-align:left">boolean empty() 测试堆栈是否为空。</td>
+</tr>
+<tr>
+<td style="text-align:left">2</td>
+<td style="text-align:left">Object peek( ) 查看堆栈顶部的对象，但不从堆栈中移除它。</td>
+</tr>
+<tr>
+<td style="text-align:left">3</td>
+<td style="text-align:left">Object pop( ) 移除堆栈顶部的对象，并作为此函数的值返回该对象。</td>
+</tr>
+<tr>
+<td style="text-align:left">4</td>
+<td style="text-align:left">Object push(Object element) 把项压入堆栈顶部。</td>
+</tr>
+<tr>
+<td style="text-align:left">5</td>
+<td style="text-align:left">int search(Object element) 返回对象在堆栈中的位置，以 1 为基数。</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>使用两个Stack: A ， B。 其中A 用来添加 元素， B用来移除元素</p>
+<p>A B 的元素的顺序相反</p>
+</blockquote>
+<ul>
+<li>
+<p>注意appendTail方法返回的 都是null</p>
+<p>deleteHead返回的是当前删除的元素</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">CQueue</span> &#123;<br>	<span class="hljs-keyword">public</span> <span class="hljs-title function_">CQueue</span><span class="hljs-params">()</span> &#123;<br>		A=<span class="hljs-keyword">new</span> <span class="hljs-title class_">Stack</span>&lt;&gt;();<br>		B=<span class="hljs-keyword">new</span> <span class="hljs-title class_">Stack</span>&lt;&gt;();<br>	&#125;<br>	Stack&lt;Integer&gt; A;<br>	Stack&lt;Integer&gt; B;<br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">appendTail</span><span class="hljs-params">(<span class="hljs-type">int</span> value)</span> &#123;<br>		A.add(value);<br>	&#125;<br><br>	<span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">deleteHead</span><span class="hljs-params">()</span> &#123;<br>		<span class="hljs-keyword">if</span>(!B.isEmpty())<br>		&#123;<br>			<span class="hljs-keyword">return</span>	B.pop();   <span class="hljs-comment">// 如果B中有元素，直接让B 的栈顶 出栈</span><br>		&#125;<br>		<span class="hljs-keyword">if</span>(A.isEmpty())<br>			<span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;    <span class="hljs-comment">// 代表此时的栈是空栈 ，返回-1 </span><br>		<span class="hljs-keyword">while</span>(!A.isEmpty()) <span class="hljs-comment">// 使A 的元素全部出栈 ，赋值给B ，并且 B的元素顺序与原本A 的顺序相反</span><br>		&#123;<br>			B.add(A.pop());<br>		&#125;<br>		 <span class="hljs-keyword">return</span> B.pop();<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>示例 1：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java">输入：<br>[<span class="hljs-string">&quot;CQueue&quot;</span>,<span class="hljs-string">&quot;appendTail&quot;</span>,<span class="hljs-string">&quot;deleteHead&quot;</span>,<span class="hljs-string">&quot;deleteHead&quot;</span>]<br>[[],[<span class="hljs-number">3</span>],[],[]]<br>输出：[<span class="hljs-literal">null</span>,<span class="hljs-literal">null</span>,<span class="hljs-number">3</span>,-<span class="hljs-number">1</span>]<br></code></pre></td></tr></table></figure>
+<p>示例2</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java">输入：<br>[<span class="hljs-string">&quot;CQueue&quot;</span>,<span class="hljs-string">&quot;deleteHead&quot;</span>,<span class="hljs-string">&quot;appendTail&quot;</span>,<span class="hljs-string">&quot;appendTail&quot;</span>,<span class="hljs-string">&quot;deleteHead&quot;</span>,<span class="hljs-string">&quot;deleteHead&quot;</span>]<br>[[],[],[<span class="hljs-number">5</span>],[<span class="hljs-number">2</span>],[],[]]<br>输出：[<span class="hljs-literal">null</span>,-<span class="hljs-number">1</span>,<span class="hljs-literal">null</span>,<span class="hljs-literal">null</span>,<span class="hljs-number">5</span>,<span class="hljs-number">2</span>]<br></code></pre></td></tr></table></figure>
+<h3 id="10-i-斐波那契数列"><a class="markdownIt-Anchor" href="#10-i-斐波那契数列"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/fei-bo-na-qi-shu-lie-lcof/">10- I. 斐波那契数列</a></h3>
+<p>写一个函数，输入 n ，求斐波那契（Fibonacci）数列的第 n 项（即 F(N)）。斐波那契数列的定义如下：</p>
+<p>F(0) = 0, F(1) = 1<br />
+F(N) = F(N - 1) + F(N - 2), 其中 N &gt; 1.<br />
+斐波那契数列由 0 和 1 开始，之后的斐波那契数就是由之前的两数相加而得出。</p>
+<p>答案需要取模 1e9+7（1000000007），如计算初始结果为：1000000008，请返回 1。</p>
+<blockquote>
+<p>N 较小， 直接循环计算即可</p>
+<p>需要注意的是 (a+b)%mod &lt; = &gt; (a%mod+b%mod)%mod</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> mod=<span class="hljs-number">1000000007</span>;<br>    <span class="hljs-comment">//  0   1  1  2  3   5   8  13</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">fib</span><span class="hljs-params">(<span class="hljs-type">int</span> n)</span> &#123;<br>        <span class="hljs-keyword">if</span>(n==<span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">if</span>(n==<span class="hljs-number">1</span>||n==<span class="hljs-number">2</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>        <span class="hljs-type">long</span> f1=<span class="hljs-number">0L</span>,f2=<span class="hljs-number">1L</span> ,f3=<span class="hljs-number">1L</span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;n;i++ )<br>        &#123;<br>            <span class="hljs-type">long</span> <span class="hljs-variable">temp</span> <span class="hljs-operator">=</span>f3;<br>            f3=(f1%mod+f2%mod)%mod;<br>            f1=f2;<br>            f2=f3;<br>        &#125;<br>        <span class="hljs-keyword">return</span> (<span class="hljs-type">int</span>)f3%mod;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="10-ii-青蛙跳台阶问题"><a class="markdownIt-Anchor" href="#10-ii-青蛙跳台阶问题"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/qing-wa-tiao-tai-jie-wen-ti-lcof/">10- II. 青蛙跳台阶问题</a></h3>
+<p>与上一题类似</p>
+<p>1、</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">numWays</span><span class="hljs-params">(<span class="hljs-type">int</span> n)</span> &#123; <span class="hljs-comment">// 1 1 2 3</span><br>        <span class="hljs-keyword">return</span> fib(n);<br>    &#125;      <br>   <span class="hljs-keyword">static</span> <span class="hljs-type">int</span> mod=<span class="hljs-number">1000000007</span>;<br>        <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">fib</span><span class="hljs-params">(<span class="hljs-type">int</span> n)</span> &#123;<br>        <span class="hljs-keyword">if</span>(n==<span class="hljs-number">2</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">2</span>;<br>        <span class="hljs-keyword">if</span>(n==<span class="hljs-number">1</span>||n==<span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>        <span class="hljs-type">long</span> f1=<span class="hljs-number">1L</span>,f2=<span class="hljs-number">1L</span> ,f3=<span class="hljs-number">2L</span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;n;i++ )<br>        &#123;<br>            <span class="hljs-type">long</span> <span class="hljs-variable">temp</span> <span class="hljs-operator">=</span>f3;<br>            f3=(f1%mod+f2%mod)%mod;<br>            f1=f2;<br>            f2=f3;<br>        &#125;<br>        <span class="hljs-keyword">return</span> (<span class="hljs-type">int</span>)f3%mod;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>2、</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>   <span class="hljs-keyword">static</span> <span class="hljs-type">int</span> mod=<span class="hljs-number">1000000007</span>;<br>     <br>    <span class="hljs-type">int</span> []res=<span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[<span class="hljs-number">101</span>];  <span class="hljs-comment">// 这里的数字替换为HashMap 也可以</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">numWays</span><span class="hljs-params">(<span class="hljs-type">int</span> n)</span> &#123; <span class="hljs-comment">// 1 1 2 3</span><br>        res[<span class="hljs-number">0</span>]=<span class="hljs-number">1</span>;<br>        res[<span class="hljs-number">1</span>]=<span class="hljs-number">1</span>;<br>        res[<span class="hljs-number">2</span>]=<span class="hljs-number">2</span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">3</span>;i&lt;=<span class="hljs-number">100</span>;i++)<br>        &#123;   <br>            res[i]=(res[i-<span class="hljs-number">1</span>]%mod+res[i-<span class="hljs-number">2</span>]%mod)%mod;<br>            <span class="hljs-keyword">if</span>(i==n) <span class="hljs-keyword">break</span>;<br>        &#125;<br>        <span class="hljs-keyword">return</span> res[n];<br>    &#125;      <br><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>3、 将上一个的数组替换为了HashMap ，可以节省内存</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br><br>    Map&lt;Integer,Integer&gt; res=<span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;&gt;();<br>    <span class="hljs-keyword">static</span> <span class="hljs-type">int</span> mod=<span class="hljs-number">1000000007</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">numWays</span><span class="hljs-params">(<span class="hljs-type">int</span> n)</span> &#123; <br>        res.put(<span class="hljs-number">0</span>,<span class="hljs-number">1</span>);<br>        res.put(<span class="hljs-number">1</span>,<span class="hljs-number">1</span>);<br>        res.put(<span class="hljs-number">2</span>,<span class="hljs-number">2</span>);<br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">3</span>;i&lt;=n;i++)<br>        &#123;   <br>            res.put(i,(res.get(i-<span class="hljs-number">1</span>)%mod+res.get(i-<span class="hljs-number">2</span>)%mod)%mod);<br>        &#125;<br>        <span class="hljs-keyword">return</span> res.get(n);<br>    &#125;      <br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="11-旋转数组的最小数字"><a class="markdownIt-Anchor" href="#11-旋转数组的最小数字"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/xuan-zhuan-shu-zu-de-zui-xiao-shu-zi-lcof/">11. 旋转数组的最小数字</a></h3>
+<p>把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。</p>
+<p>给你一个可能存在 <strong>重复</strong> 元素值的数组 <code>numbers</code> ，它原来是一个升序排列的数组，并按上述情形进行了一次旋转。请返回旋转数组的<strong>最小元素</strong>。例如，数组 <code>[3,4,5,1,2]</code> 为 <code>[1,2,3,4,5]</code> 的一次旋转，该数组的最小值为 1。</p>
+<p>注意，数组 <code>[a[0], a[1], a[2], ..., a[n-1]]</code> 旋转一次 的结果为数组 <code>[a[n-1], a[0], a[1], a[2], ..., a[n-2]]</code> 。</p>
+<p>![image-20220719174150375](file:///E:/%5CTypora%5Cimage%5Cimage-20220719174150375.png)image-20220719174150375</p>
+<blockquote>
+<p>遍历数组，由于原来的数组一定是升序排列， 那么如果出现了 相邻的两个数字，后面的数字小于前面的数字，说明后面的这个数字就是原来的数组的第一项</p>
+<p>，如果遍历完没有满足条件的情况，说明旋转后的数组与原来的数组一模一样。</p>
+</blockquote>
+<ul>
+<li>题目的数组不会出现 完全从大到小排序的情况</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">minArray</span><span class="hljs-params">(<span class="hljs-type">int</span>[] numbers)</span> &#123;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">1</span>; i &lt; numbers.length; i++) &#123;<br>            <span class="hljs-keyword">if</span>(numbers[i]&lt;numbers[i-<span class="hljs-number">1</span>])<br>                <span class="hljs-keyword">return</span> numbers[i];<br>        &#125;<br>         <span class="hljs-keyword">return</span> numbers[<span class="hljs-number">0</span>];<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>二分</li>
+</ul>
+<blockquote>
+<p>通过判断中点 与 右端的大小关系找到 原数组第一个元素所在的区间</p>
+</blockquote>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs angelscript"><span class="hljs-keyword">class</span> <span class="hljs-symbol">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> minArray(<span class="hljs-built_in">int</span>[] numbers) &#123;<br>        <span class="hljs-built_in">int</span> l=<span class="hljs-number">0</span>,r=numbers.length<span class="hljs-number">-1</span>;<br>        <span class="hljs-keyword">while</span>(l&lt;r)&#123;<br>           <span class="hljs-built_in">int</span> m=(l+r)/<span class="hljs-number">2</span>;<br>            <span class="hljs-keyword">if</span>(numbers[m]&gt;numbers[r])<br>                l=m+<span class="hljs-number">1</span>;<br>            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(numbers[m]&lt;numbers[r])<br>                r=m;<br>            <span class="hljs-keyword">else</span> r--;<br>        &#125;<br>        <span class="hljs-keyword">return</span> numbers[l];<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="12-矩阵中的路径"><a class="markdownIt-Anchor" href="#12-矩阵中的路径"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/ju-zhen-zhong-de-lu-jing-lcof/">12. 矩阵中的路径</a></h3>
+<p>难度中等655</p>
+<p>给定一个 <code>m x n</code> 二维字符网格 <code>board</code> 和一个字符串单词 <code>word</code> 。如果 <code>word</code> 存在于网格中，返回 <code>true</code> ；否则，返回 <code>false</code> 。</p>
+<p>单词必须按照字母顺序，通过相邻的单元格内的字母构成，其中“相邻”单元格是那些水平相邻或垂直相邻的单元格。同一个单元格内的字母不允许被重复使用。</p>
+<blockquote>
+<p><strong>注意不能往回走</strong></p>
+</blockquote>
+<ul>
+<li>注意下面的代码, 思路就错了 ,</li>
+</ul>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs arduino"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-type">boolean</span> res=<span class="hljs-literal">false</span>;<br>    <span class="hljs-type">int</span> totalLen;<br>    <span class="hljs-type">String</span> <span class="hljs-type">word</span>;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title">exist</span><span class="hljs-params">(<span class="hljs-type">char</span>[][] board, <span class="hljs-type">String</span> <span class="hljs-type">word</span>)</span> </span>&#123;<br>        totalLen=<span class="hljs-type">word</span>.<span class="hljs-built_in">length</span>();<br>        <span class="hljs-keyword">this</span>.<span class="hljs-type">word</span>=<span class="hljs-type">word</span>;<br>        <span class="hljs-built_in">dfs</span>(board,<span class="hljs-keyword">new</span> <span class="hljs-built_in">StringBuilder</span>(<span class="hljs-string">&quot;&quot;</span>),<span class="hljs-number">0</span>,<span class="hljs-number">0</span>);<br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-type">void</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-type">char</span>[][]board , StringBuilder s,<span class="hljs-type">int</span> i,<span class="hljs-type">int</span> j)</span></span>&#123;<br>        <span class="hljs-keyword">if</span>(i&lt;<span class="hljs-number">0</span>||j&lt;<span class="hljs-number">0</span>||i&gt;=board.length||j&gt;=board[<span class="hljs-number">0</span>].length||board[i][j]==<span class="hljs-string">&#x27;\0&#x27;</span>) <span class="hljs-comment">// 越界</span><br>            <span class="hljs-keyword">return</span> ;<br>        s.<span class="hljs-built_in">append</span>(board[i][j]);<br>        <span class="hljs-keyword">if</span>(s.<span class="hljs-built_in">length</span>()==totalLen)&#123; <span class="hljs-comment">//单词长度到了</span><br>            <span class="hljs-keyword">if</span>(s.<span class="hljs-built_in">toString</span>().<span class="hljs-built_in">equals</span>(<span class="hljs-type">word</span>)) res=<span class="hljs-literal">true</span>;<br>            <span class="hljs-keyword">return</span> ;<br>        &#125;<br>        <span class="hljs-keyword">if</span>(res) <span class="hljs-keyword">return</span> ;<br>        <span class="hljs-type">char</span> temp=board[i][j];<br>        board[i][j]=<span class="hljs-string">&#x27;\0&#x27;</span>;<br>        <span class="hljs-comment">// 由于StringBuilder是引用类型, 因此每一个都需要 new 一个新的空间, 否则会影响到原来的空间</span><br>        <span class="hljs-built_in">dfs</span>(board,<span class="hljs-keyword">new</span> <span class="hljs-built_in">StringBuilder</span>(s.<span class="hljs-built_in">toString</span>()),i,j<span class="hljs-number">-1</span>);<br>        <span class="hljs-built_in">dfs</span>(board,<span class="hljs-keyword">new</span> <span class="hljs-built_in">StringBuilder</span>(s.<span class="hljs-built_in">toString</span>()),i,j+<span class="hljs-number">1</span>);<br>        <span class="hljs-built_in">dfs</span>(board,<span class="hljs-keyword">new</span> <span class="hljs-built_in">StringBuilder</span>(s.<span class="hljs-built_in">toString</span>()),i+<span class="hljs-number">1</span>,j);<br>        <span class="hljs-built_in">dfs</span>(board,<span class="hljs-keyword">new</span> <span class="hljs-built_in">StringBuilder</span>(s.<span class="hljs-built_in">toString</span>()),i<span class="hljs-number">-1</span>,j);<br>        board[i][j]=temp;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>
+<p><strong>由于只进行了一次 dfs, 其实就是只有第一个格子进行操作了, 因此能读取的字符也只有从 第一个格子开始的字符</strong>, 所以需要使用两层for循环</p>
+</li>
+<li>
+<p><strong>递归每一个格子</strong></p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">for (int i = <span class="hljs-number">0</span><span class="hljs-comment">; i &lt; board.length; i++) &#123;</span><br>    for (int <span class="hljs-keyword">j </span>= <span class="hljs-number">0</span><span class="hljs-comment">; j &lt; board[0].length; j++) &#123;</span><br>        dfs(<span class="hljs-keyword">board,new </span>StringBuilder(<span class="hljs-string">&quot;&quot;</span>),i,<span class="hljs-keyword">j);</span><br><span class="hljs-keyword"></span>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082image-20220811230844639.png" alt="image-20220811230844639" />image-20220811230844639</p>
+<ul>
+<li>能通过, 但是很慢</li>
+</ul>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082image-20220811232319857.png" alt="image-20220811232319857" />image-20220811232319857</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs arduino"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-type">boolean</span> res=<span class="hljs-literal">false</span>;<br>    <span class="hljs-type">int</span> totalLen;<br>    <span class="hljs-type">String</span> <span class="hljs-type">word</span>;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title">exist</span><span class="hljs-params">(<span class="hljs-type">char</span>[][] board, <span class="hljs-type">String</span> <span class="hljs-type">word</span>)</span> </span>&#123;<br>        totalLen=<span class="hljs-type">word</span>.<span class="hljs-built_in">length</span>();<br>        <span class="hljs-keyword">this</span>.<span class="hljs-type">word</span>=<span class="hljs-type">word</span>;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; board.length; i++) &#123;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt; board[<span class="hljs-number">0</span>].length; j++) &#123;<br>                <span class="hljs-built_in">dfs</span>(board,<span class="hljs-keyword">new</span> <span class="hljs-built_in">StringBuilder</span>(<span class="hljs-string">&quot;&quot;</span>),i,j);<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-type">void</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-type">char</span>[][]board , StringBuilder s,<span class="hljs-type">int</span> i,<span class="hljs-type">int</span> j)</span></span>&#123;<br>        <span class="hljs-keyword">if</span>(i&lt;<span class="hljs-number">0</span>||j&lt;<span class="hljs-number">0</span>||i&gt;=board.length||j&gt;=board[<span class="hljs-number">0</span>].length||board[i][j]==<span class="hljs-string">&#x27;\0&#x27;</span>) <span class="hljs-comment">// 越界</span><br>            <span class="hljs-keyword">return</span> ;<br>        s.<span class="hljs-built_in">append</span>(board[i][j]);<br>        <span class="hljs-keyword">if</span>(s.<span class="hljs-built_in">length</span>()==totalLen)&#123; <span class="hljs-comment">//单词长度到了</span><br>            <span class="hljs-keyword">if</span>(s.<span class="hljs-built_in">toString</span>().<span class="hljs-built_in">equals</span>(<span class="hljs-type">word</span>)) res=<span class="hljs-literal">true</span>;<br>            <span class="hljs-keyword">return</span> ;<br>        &#125;<br>        <span class="hljs-keyword">if</span>(res) <span class="hljs-keyword">return</span> ;<br>        <span class="hljs-type">char</span> temp=board[i][j];<br>        board[i][j]=<span class="hljs-string">&#x27;\0&#x27;</span>;<br>        <span class="hljs-built_in">dfs</span>(board,<span class="hljs-keyword">new</span> <span class="hljs-built_in">StringBuilder</span>(s.<span class="hljs-built_in">toString</span>()),i+<span class="hljs-number">1</span>,j);<br>        <span class="hljs-built_in">dfs</span>(board,<span class="hljs-keyword">new</span> <span class="hljs-built_in">StringBuilder</span>(s.<span class="hljs-built_in">toString</span>()),i,j<span class="hljs-number">-1</span>);<br>        <span class="hljs-built_in">dfs</span>(board,<span class="hljs-keyword">new</span> <span class="hljs-built_in">StringBuilder</span>(s.<span class="hljs-built_in">toString</span>()),i,j+<span class="hljs-number">1</span>);<br>        <span class="hljs-built_in">dfs</span>(board,<span class="hljs-keyword">new</span> <span class="hljs-built_in">StringBuilder</span>(s.<span class="hljs-built_in">toString</span>()),i<span class="hljs-number">-1</span>,j);<br>        board[i][j]=temp;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li><strong>深度优先搜索（DFS）+ 剪枝</strong></li>
+<li><strong>快得多</strong></li>
+</ul>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs arduino"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title">exist</span><span class="hljs-params">(<span class="hljs-type">char</span>[][] board, <span class="hljs-type">String</span> <span class="hljs-type">word</span>)</span> </span>&#123;<br>        <span class="hljs-type">char</span>[] words = <span class="hljs-type">word</span>.<span class="hljs-built_in">toCharArray</span>();<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; board.length; i++) &#123;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt; board[<span class="hljs-number">0</span>].length; j++) &#123;<br>                <span class="hljs-keyword">if</span>(<span class="hljs-built_in">dfs</span>(board, words, i, j, <span class="hljs-number">0</span>)) <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-type">char</span>[][]board,<span class="hljs-type">char</span>[]words, <span class="hljs-type">int</span> i,<span class="hljs-type">int</span> j,<span class="hljs-type">int</span> k)</span></span>&#123;<br>        <span class="hljs-keyword">if</span>(i&lt;<span class="hljs-number">0</span>||j&lt;<span class="hljs-number">0</span>||i&gt;=board.length||j&gt;=board[<span class="hljs-number">0</span>].length||words[k]!=board[i][j]) <span class="hljs-comment">// 越界 and 字符不相同</span><br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span> ;<br>        <span class="hljs-keyword">if</span>(k==words.length<span class="hljs-number">-1</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<span class="hljs-comment">// 如果能走到这一步, 说明前面的字符全都相同(不相同的都pass了)</span><br>        board[i][j] = <span class="hljs-string">&#x27;\0&#x27;</span>;<span class="hljs-comment">// 赋值为null , 表示当前位置的字符已经走过了(就不需要走了) ,(剪枝)</span><br>        <span class="hljs-type">boolean</span> res= <span class="hljs-built_in">dfs</span>(board,words,i,j<span class="hljs-number">-1</span>,k+<span class="hljs-number">1</span>)||<span class="hljs-built_in">dfs</span>(board,words,i<span class="hljs-number">-1</span>,j,k+<span class="hljs-number">1</span>) ||<br>                <span class="hljs-built_in">dfs</span>(board,words,i,j+<span class="hljs-number">1</span>,k+<span class="hljs-number">1</span>)||<span class="hljs-built_in">dfs</span>(board,words,i+<span class="hljs-number">1</span>,j,k+<span class="hljs-number">1</span>);<br>        board[i][j]=words[k]; <span class="hljs-comment">// 还原 board[i][j] , (如果能走到这一步, 两者的这个位置的字符一定相同)</span><br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="13-机器人的运动范围"><a class="markdownIt-Anchor" href="#13-机器人的运动范围"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/ji-qi-ren-de-yun-dong-fan-wei-lcof/">13. 机器人的运动范围</a></h3>
+<p>地上有一个m行n列的方格，从坐标 <code>[0,0]</code> 到坐标 <code>[m-1,n-1]</code> 。一个机器人从坐标 <code>[0, 0]</code>的格子开始移动，它每次可以向左、右、上、下移动一格（不能移动到方格外），也不能进入行坐标和列坐标的数位之和大于k的格子。例如，当k为18时，机器人能够进入方格 [35, 37] ，因为3+5+3+7=18。但它不能进入方格 [35, 38]，因为3+5+3+8=19。请问该机器人能够到达多少个格子？</p>
+<p>![image-20220719194018772](file:///E:/Typora/image/image-20220719194018772.png)image-20220719194018772</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs angelscript"><span class="hljs-keyword">class</span> <span class="hljs-symbol">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> movingCount(<span class="hljs-built_in">int</span> m, <span class="hljs-built_in">int</span> n, <span class="hljs-built_in">int</span> k) &#123;<br>        <span class="hljs-built_in">int</span> res=<span class="hljs-number">0</span>;<br>        <span class="hljs-built_in">bool</span>ean visited[][]=new <span class="hljs-built_in">bool</span>ean[m][n];<br>        <span class="hljs-keyword">return</span> dfs(visited,m,n,k,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>);<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> dfs(<span class="hljs-built_in">bool</span>ean visited[][],<span class="hljs-built_in">int</span> m,<span class="hljs-built_in">int</span> n,<span class="hljs-built_in">int</span> k,<span class="hljs-built_in">int</span> i,<span class="hljs-built_in">int</span> j)<br>    &#123;<br>        <span class="hljs-comment">// 终止 ；走到了边界 或者 数位之和不满足条件了 或者当前的格子已经走过了</span><br>        <span class="hljs-keyword">if</span>(i&gt;=m||j&gt;=n||sum(i)+sum(j)&gt;k||visited[i][j]) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br><br>        visited[i][j]=<span class="hljs-literal">true</span>; <span class="hljs-comment">// 标记，表示当前格子走了</span><br>        <span class="hljs-comment">//  当前格子 + 往下走+往右走</span><br>       <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>+ dfs( visited,m,n,k,i+<span class="hljs-number">1</span>,j)+dfs(visited, m, n, k,i, j+<span class="hljs-number">1</span>);<br>    &#125; <br>    <span class="hljs-keyword">public</span> static <span class="hljs-built_in">int</span> sum(<span class="hljs-built_in">int</span> n)&#123; <span class="hljs-comment">// 获取一个数字的 每个位数之和    （由于题目要求的n&lt;=100，因此直接return 即可）</span><br>        <span class="hljs-keyword">return</span> n==<span class="hljs-number">100</span>?<span class="hljs-number">1</span>:n%<span class="hljs-number">10</span>+n/<span class="hljs-number">10</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>另一道相似的题目</p>
+<h3 id="695-岛屿的最大面积"><a class="markdownIt-Anchor" href="#695-岛屿的最大面积"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/max-area-of-island/">695. 岛屿的最大面积</a></h3>
+<p>给你一个大小为 <code>m x n</code> 的二进制矩阵 <code>grid</code> 。</p>
+<p><strong>岛屿</strong> 是由一些相邻的 <code>1</code> (代表土地) 构成的组合，这里的「相邻」要求两个 <code>1</code> 必须在 <strong>水平或者竖直的四个方向上</strong> 相邻。你可以假设 <code>grid</code> 的四个边缘都被 <code>0</code>（代表水）包围着。</p>
+<p>岛屿的面积是岛上值为 <code>1</code> 的单元格的数目。</p>
+<p>计算并返回 <code>grid</code> 中最大的岛屿面积。如果没有岛屿，则返回面积为 <code>0</code> 。</p>
+<p>![image-20220719202608622](file:///E:/Typora/image/image-20220719202608622.png)image-20220719202608622</p>
+<blockquote>
+<p>这个题跟上一个不太一样，这个是四周发散的</p>
+<p>先遍历， 如果位置的值是1 ， 再开始搜索，可以节省大量时间</p>
+</blockquote>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">public <span class="hljs-keyword">class</span> Solution &#123;<br>    public <span class="hljs-built_in">int</span> max<span class="hljs-constructor">AreaOfIsland(<span class="hljs-params">int</span>[][] <span class="hljs-params">grid</span>)</span> &#123;<br>        <span class="hljs-built_in">int</span> max_res=<span class="hljs-number">0</span>;<br>        <span class="hljs-built_in">int</span> m=grid.length, n=grid<span class="hljs-literal">[<span class="hljs-number">0</span>]</span>.length; <span class="hljs-comment">// 这里 n 表示的是 行数 ， m 表示的是列数  ,不太理解为什么不 -1 </span><br>        <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i = <span class="hljs-number">0</span>; i &lt; m; i++) &#123;  <span class="hljs-comment">// 这里要注意 i 表示的是 第几行 ， j 表示的是第几列 ，</span><br>            <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> j = <span class="hljs-number">0</span>; j &lt; n; j++) &#123;<br>                <span class="hljs-keyword">if</span>(grid<span class="hljs-literal">[<span class="hljs-identifier">i</span>]</span><span class="hljs-literal">[<span class="hljs-identifier">j</span>]</span>==<span class="hljs-number">1</span>)   <br>                    max_res= <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Math</span>.</span></span>max(<span class="hljs-constructor">DFS(<span class="hljs-params">grid</span>, <span class="hljs-params">m</span>, <span class="hljs-params">n</span>, <span class="hljs-params">i</span>, <span class="hljs-params">j</span>)</span>, max_res);<br>            &#125;<br>        &#125;<br>        return max_res;<br>    &#125;<br>    public <span class="hljs-built_in">int</span> <span class="hljs-constructor">DFS(<span class="hljs-params">int</span> [][]<span class="hljs-params">grid</span>,<span class="hljs-params">int</span> <span class="hljs-params">m</span>,<span class="hljs-params">int</span> <span class="hljs-params">n</span>,<span class="hljs-params">int</span> <span class="hljs-params">i</span>,<span class="hljs-params">int</span> <span class="hljs-params">j</span>)</span>&#123;<br>        <span class="hljs-keyword">if</span>(i&lt;<span class="hljs-number">0</span><span class="hljs-pattern-match"><span class="hljs-operator">||</span>j&lt;0<span class="hljs-operator">||</span>i&gt;= m<span class="hljs-operator">||</span>j&gt;=n<span class="hljs-operator">||</span>grid[i][j]<span class="hljs-operator">==</span>0) return 0;</span><br><span class="hljs-pattern-match">        <span class="hljs-keyword">if</span>(grid[i][j]<span class="hljs-operator">==</span>1)&#123;</span><br><span class="hljs-pattern-match">            grid[i][j]=0; <span class="hljs-operator">/</span><span class="hljs-operator">/</span> 表示这个位置走过了, 赋值为 0 ,避免重复</span><br><span class="hljs-pattern-match">        return 1+  <span class="hljs-operator">/</span><span class="hljs-operator">/</span> +1 是因为 当前的 位置就是1 是土地</span><br><span class="hljs-pattern-match">        <span class="hljs-constructor">DFS(<span class="hljs-params">grid</span>,<span class="hljs-params">m</span>, <span class="hljs-params">n</span>, <span class="hljs-params">i</span>+1, <span class="hljs-params">j</span>)</span>+</span><br><span class="hljs-pattern-match">        <span class="hljs-constructor">DFS(<span class="hljs-params">grid</span>,<span class="hljs-params">m</span>, <span class="hljs-params">n</span>, <span class="hljs-params">i</span>, <span class="hljs-params">j</span>+1)</span>+</span><br><span class="hljs-pattern-match">        <span class="hljs-constructor">DFS(<span class="hljs-params">grid</span>,<span class="hljs-params">m</span>, <span class="hljs-params">n</span>, <span class="hljs-params">i</span>, <span class="hljs-params">j</span>-1)</span>+</span><br><span class="hljs-pattern-match">        <span class="hljs-constructor">DFS(<span class="hljs-params">grid</span>,<span class="hljs-params">m</span>, <span class="hljs-params">n</span>, <span class="hljs-params">i</span>-1, <span class="hljs-params">j</span>)</span>;</span><br><span class="hljs-pattern-match">        &#125;</span><br><span class="hljs-pattern-match">        return 0;</span><br><span class="hljs-pattern-match">    &#125;</span><br><span class="hljs-pattern-match">&#125;</span><br></code></pre></td></tr></table></figure>
+<hr />
+<h1 id=""><a class="markdownIt-Anchor" href="#"></a> </h1>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://adorabled4.github.io/2022/07/26/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%89%91%E6%8C%87offer/%E5%89%91%E6%8C%87offer3~13%E9%A2%98/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">算法与数据结构</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2022/07/27/SSM/SpringMVC/day3/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            SpringMVC（3）RESTFful案例&amp;&amp;处理Ajax请求
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2022/07/26/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%89%91%E6%8C%87offer/%E5%89%91%E6%8C%87offer14~25%E9%A2%98/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">剑指offer14~25题</div>
+      </a>
+    
+  </nav>
+
+  
+   
+    
+    <script src="https://cdn.staticfile.org/twikoo/1.4.18/twikoo.all.min.js"></script>
+    <div id="twikoo" class="twikoo"></div>
+    <script>
+        twikoo.init({
+            envId: ""
+        })
+    </script>
+ 
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2022
+        <i class="ri-heart-fill heart_icon"></i> dhx_
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/avater.png" alt="dhx_&#39;blog"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.staticfile.org/justifiedGallery/3.8.1/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.staticfile.org/clipboard.js/2.0.10/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+ 
+<script src="/js/dz.js"></script>
+ 
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    <div id="music">
+    
+    
+    
+    <iframe frameborder="no" border="1" marginwidth="0" marginheight="0" width="200" height="52"
+        src="//music.163.com/outchain/player?type=2&id=29480187&auto=1&height=32"></iframe>
+</div>
+
+<style>
+    #music {
+        position: fixed;
+        right: 15px;
+        bottom: 0;
+        z-index: 998;
+    }
+</style>
+    
+    
+
+  </div>
+</body>
+
+</html>
