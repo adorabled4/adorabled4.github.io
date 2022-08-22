@@ -84,7 +84,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">5.9k</span>
+            <span class="post-count">6k</span>
         </span>
     </span>
 
@@ -508,15 +508,23 @@
 </ul>
 </blockquote>
 <ul>
-<li>16进制5是0101 a是1010，与运算的话刚好取了奇数位和偶数位，再进行移位（也就是乘二除二），相加。</li>
+<li>16进制5是0101 a是1010，分别进行与运算的话刚好取了奇数位和偶数位，再进行移位（也就是乘二除二），相加。</li>
 </ul>
 <blockquote>
 <p>奇数位右移，偶数位左移，取或得结果。</p>
 <p><code>0xaaaaaaaa = 10101010101010101010101010101010</code> (偶数位为1，奇数位为0）</p>
 <p><code>0x55555555 = 01010101010101010101010101010101</code> (偶数位为0，奇数位为1）</p>
+<p>十六进制的一位, 会被分解成二进制的四位</p>
+<p>a=10  =&gt; 8+2 =&gt; 1010</p>
+<p>​    5    = &gt; 4+1=&gt; 0101</p>
 </blockquote>
 <p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220819224637036.png" alt="image-20220819224637036" /></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">exchangeBits</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span> &#123;<br>        <span class="hljs-keyword">return</span> ( ((x &amp; <span class="hljs-number">0xaaaaaaaa</span>)&gt;&gt;&gt; <span class="hljs-number">1</span>) | ((x &amp; <span class="hljs-number">0x55555555</span>) &lt;&lt; <span class="hljs-number">1</span>) );<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><strong>下面以29为例</strong></p>
+<p><code>29: 11101</code>  =&gt; 101110</p>
+<p><code>&amp;0xaaaaaaaa =&gt;01000 &gt;&gt;&gt;1 =&gt; 00100</code></p>
+<p><code>&amp;0x55555555 =&gt;10101 &lt;&lt; 1 =&gt; 101010</code></p>
+<p><code>00100 | 101010 = &gt; 101110</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">exchangeBits</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span> &#123;<br>        <span class="hljs-keyword">return</span> (  ((x&amp;<span class="hljs-number">0xaaaaaaaa</span>) &gt;&gt;&gt;<span class="hljs-number">1</span>)|  ((x&amp;<span class="hljs-number">0x55555555</span>)&lt;&lt;<span class="hljs-number">1</span>)  );<br>        <span class="hljs-comment">// 0x55提取偶数为, 0xaa提取奇数位</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
  
       <!-- reward -->
       
