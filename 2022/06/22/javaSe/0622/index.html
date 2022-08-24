@@ -116,6 +116,7 @@
 <p><strong><u>序列化</u>：<strong>用ObjectOutputStream类</strong>保存</strong>基本类型数据或对象的机制</p>
 <p><strong><u>反序列化</u>：<strong>用ObjectInputStream类</strong>读取</strong>基本类型数据或对象的机制</p>
 <p>ObjectOutputStream和ObjectInputStream不能序列化static和transient修饰的成员变量</p>
+<span id="more"></span>
 <h2 id="对象的序列化"><a class="markdownIt-Anchor" href="#对象的序列化"></a> <strong>对象的序列化</strong></h2>
 <p>1.<strong>对象序列化机制</strong>允许把内存中的Java对象转换成平台无关的二进制流，从而允许把这种二进制流持久地保存在磁盘上，或通过网络将这种二进制流传输到另一个网络节点。//当其它程序获取了这种二进制流，就可以恢复成原来的Java对象</p>
 <p>2.序列化的好处在于可将任何实现了Serializable接口的对象转化为<strong>字节数据</strong>，使其在保存和传输时可被还原</p>

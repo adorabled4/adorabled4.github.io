@@ -112,6 +112,7 @@
        
   <h1 id="java8-新特性"><a class="markdownIt-Anchor" href="#java8-新特性"></a> Java8 新特性</h1>
 <p>Java8（JDK8.0）较 JDK7.0 有很多变化或者说是优化，<strong>比如 interface 里可以有静态方法和默认方法，并且可以有方法体</strong>，这一点就颠覆了之前的认知；<strong><code>java.util.HashMap</code> 数据结构里增加了红黑树</strong>；还有众所周知的 <strong>Lambda 表达式</strong>等等</p>
+<span id="more"></span>
 <h2 id="一-interface"><a class="markdownIt-Anchor" href="#一-interface"></a> 一、Interface</h2>
 <p>interface 的设计初衷是面向抽象，提高扩展性。这也留有一点遗憾，Interface 修改的时候，实现它的类也必须跟着改。</p>
 <p>为了解决接口的修改与现有的实现不兼容的问题。新 interface 的方法可以用<code>default</code> 或 <code>static</code>修饰，这样就可以有方法体，实现类也不必重写此方法。</p>
