@@ -117,11 +117,24 @@
 <span id="more"></span>
 <h2 id="位取反~"><a class="markdownIt-Anchor" href="#位取反~"></a> 位取反(~)</h2>
 <p>位取反即之前<a target="_blank" rel="noopener" href="https://www.cnblogs.com/zzerx/p/15042367.html#%E8%B4%9F%E6%95%B0%E8%BD%AC%E4%BA%8C%E8%BF%9B%E5%88%B6">负数转二进制</a>所用的方式，即<strong>0变1，1变0</strong>。</p>
-<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs dns">COPY<span class="hljs-number">10001100</span><br><span class="hljs-number">01110011</span><br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">COPY10001100
+01110011<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <h2 id="位与"><a class="markdownIt-Anchor" href="#位与"></a> 位与(&amp;)</h2>
 <p>位与即如果两个位进行比较<strong>两位同时为1，结果才为1，否则结果为0</strong>。<br />
 例如: <code>125 &amp; 7</code></p>
-<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs gherkin">COPY           125   &amp;    7<br> 二进制: 01111101 &amp; 00000111<br> <br>位与比较:    <br>0 1 1 1 1 1 0 1<br>---------------<br>0 0 0 0 0 1 1 1<br>|<span class="hljs-string"> </span>|<span class="hljs-string"> </span>|<span class="hljs-string"> </span>|<span class="hljs-string"> </span>|<span class="hljs-string"> </span>|<span class="hljs-string"> </span>|<span class="hljs-string"> </span>|<br>× × × × × √ × √<br>|<span class="hljs-string"> </span>|<span class="hljs-string"> </span>|<span class="hljs-string"> </span>|<span class="hljs-string"> </span>|<span class="hljs-string"> </span>|<span class="hljs-string"> </span>|<span class="hljs-string"> </span>|<br>0 0 0 0 0 1 0 1<br> <br>结果: 125&amp;7 = 0000 0111 = 5<br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">COPY           125   &amp;    7
+ 二进制: 01111101 &amp; 00000111
+ 
+位与比较:    
+0 1 1 1 1 1 0 1
+---------------
+0 0 0 0 0 1 1 1
+| | | | | | | |
+× × × × × √ × √
+| | | | | | | |
+0 0 0 0 0 1 0 1
+ 
+结果: 125&amp;7 &#x3D; 0000 0111 &#x3D; 5<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="剑指-offer-65-不用加减乘除做加法"><a class="markdownIt-Anchor" href="#剑指-offer-65-不用加减乘除做加法"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/bu-yong-jia-jian-cheng-chu-zuo-jia-fa-lcof/">剑指 Offer 65. 不用加减乘除做加法</a></h3>
 <p>写一个函数，求两个整数之和，要求在函数体内不得使用 “+”、“-”、“*”、“/” 四则运算符号。</p>
 <ul>
@@ -145,18 +158,53 @@
 然后继续执行上一步类似的操作 也就是 n= n^p<br />
 <code>n:100011 : 35</code> 得到正确结果</p>
 </blockquote>
-<figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs axapta">COPY<span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> add(<span class="hljs-built_in">int</span> a, <span class="hljs-built_in">int</span> b) &#123;<br>        <span class="hljs-built_in">int</span> n=a;<br>        <span class="hljs-built_in">int</span> p=b; <span class="hljs-comment">//存储上一轮的 进位和结果</span><br>        <span class="hljs-keyword">while</span>(p!=<span class="hljs-number">0</span>)&#123;<br>            <span class="hljs-built_in">int</span> temp = (n&amp;p)&lt;&lt;<span class="hljs-number">1</span>;<span class="hljs-comment">// 存储上一轮的进位和结果  ,如果还有进位那么就继续执行操作</span><br>            n=n^p; <span class="hljs-comment">// 进位和+ 非进位和</span><br>            p=temp; <span class="hljs-comment">//如果还有进位那么就继续执行操作</span><br>        &#125;<br>        <span class="hljs-keyword">return</span> n;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">COPYclass Solution &#123;
+    public int add(int a, int b) &#123;
+        int n&#x3D;a;
+        int p&#x3D;b; &#x2F;&#x2F;存储上一轮的 进位和结果
+        while(p!&#x3D;0)&#123;
+            int temp &#x3D; (n&amp;p)&lt;&lt;1;&#x2F;&#x2F; 存储上一轮的进位和结果  ,如果还有进位那么就继续执行操作
+            n&#x3D;n^p; &#x2F;&#x2F; 进位和+ 非进位和
+            p&#x3D;temp; &#x2F;&#x2F;如果还有进位那么就继续执行操作
+        &#125;
+        return n;
+    &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="位或"><a class="markdownIt-Anchor" href="#位或"></a> 位或(|)</h2>
 <p>位或即如果两个位进行比较<strong>两位同时为0，结果才为0，否则结果为1</strong>。<br />
 例如: <code>125 | 7</code></p>
-<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs gherkin">COPY           125   |<span class="hljs-string">    7</span><br><span class="hljs-string"> 二进制: 01111101 </span>|<span class="hljs-string"> 00000111</span><br><span class="hljs-string"> </span><br><span class="hljs-string">位或比较:    </span><br><span class="hljs-string">0 1 1 1 1 1 0 1</span><br><span class="hljs-string">---------------</span><br><span class="hljs-string">0 0 0 0 0 1 1 1</span><br><span class="hljs-string"></span>|<span class="hljs-string"> </span>|<span class="hljs-string"> </span>|<span class="hljs-string"> </span>|<span class="hljs-string"> </span>|<span class="hljs-string"> </span>|<span class="hljs-string"> </span>|<span class="hljs-string"> </span>|<br>√ × × × × × × ×<br>|<span class="hljs-string"> </span>|<span class="hljs-string"> </span>|<span class="hljs-string"> </span>|<span class="hljs-string"> </span>|<span class="hljs-string"> </span>|<span class="hljs-string"> </span>|<span class="hljs-string"> </span>|<br>0 1 1 1 1 1 1 1<br> <br>结果: 125|<span class="hljs-string">7 = 0111 1111 = 7</span><br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">COPY           125   |    7
+ 二进制: 01111101 | 00000111
+ 
+位或比较:    
+0 1 1 1 1 1 0 1
+---------------
+0 0 0 0 0 1 1 1
+| | | | | | | |
+√ × × × × × × ×
+| | | | | | | |
+0 1 1 1 1 1 1 1
+ 
+结果: 125|7 &#x3D; 0111 1111 &#x3D; 7<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="异或"><a class="markdownIt-Anchor" href="#异或"></a> 异或(^)</h2>
 <p>位异或即如果两个位进行比较<strong>相同取0，不同取1</strong>。</p>
 <blockquote>
 <p>x^x=0</p>
 </blockquote>
 <p>例如: <code>125 ^ 7</code>(java中^代表异或)</p>
-<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs gherkin">COPY           125   ^    7<br> 二进制: 01111101 ^ 00000111<br> <br>位异或比较:    <br>0 1 1 1 1 1 0 1<br>---------------<br>0 0 0 0 0 1 1 1<br>|<span class="hljs-string"> </span>|<span class="hljs-string"> </span>|<span class="hljs-string"> </span>|<span class="hljs-string"> </span>|<span class="hljs-string"> </span>|<span class="hljs-string"> </span>|<span class="hljs-string"> </span>|<br>√ × × × × √ × √<br>|<span class="hljs-string"> </span>|<span class="hljs-string"> </span>|<span class="hljs-string"> </span>|<span class="hljs-string"> </span>|<span class="hljs-string"> </span>|<span class="hljs-string"> </span>|<span class="hljs-string"> </span>|<br>0 1 1 1 1 0 1 0<br> <br>结果: 125^7 = 0111 1010 = 122<br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">COPY           125   ^    7
+ 二进制: 01111101 ^ 00000111
+ 
+位异或比较:    
+0 1 1 1 1 1 0 1
+---------------
+0 0 0 0 0 1 1 1
+| | | | | | | |
+√ × × × × √ × √
+| | | | | | | |
+0 1 1 1 1 0 1 0
+ 
+结果: 125^7 &#x3D; 0111 1010 &#x3D; 122<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>异或的几条性质:</p>
 <ol>
 <li>交换律</li>
@@ -165,22 +213,57 @@
 <li>自反性: a^ b^ b= a ^ 0=a;</li>
 </ol>
 <p>编程算法中的作用:<strong>交换两个数</strong>(利用性质)</p>
-<figure class="highlight parser3"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs parser3"><span class="language-xml">COPYpublic void Swap(int  &amp;a,  int  &amp;b)&#123;  </span><br><span class="language-xml">  if  (a  !=  b)&#123;  </span><br><span class="language-xml">    a  ^=  b; //a=a</span><span class="hljs-keyword">^b</span><span class="language-xml"></span><br><span class="language-xml">    b  ^=  a; //b=b^(a</span><span class="hljs-keyword">^b</span><span class="language-xml">) = (b</span><span class="hljs-keyword">^b</span><span class="language-xml">)</span><span class="hljs-keyword">^a</span><span class="language-xml"> = a </span><br><span class="language-xml">    a  ^=  b; //a=(a</span><span class="hljs-keyword">^b</span><span class="language-xml">)</span><span class="hljs-keyword">^a</span><span class="language-xml"> = (a</span><span class="hljs-keyword">^a</span><span class="language-xml">)</span><span class="hljs-keyword">^b</span><span class="language-xml"> = b</span><br><span class="language-xml">        &#125;  </span><br><span class="language-xml">&#125;</span><br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">COPYpublic void Swap(int  &amp;a,  int  &amp;b)&#123;  
+  if  (a  !&#x3D;  b)&#123;  
+    a  ^&#x3D;  b; &#x2F;&#x2F;a&#x3D;a^b
+    b  ^&#x3D;  a; &#x2F;&#x2F;b&#x3D;b^(a^b) &#x3D; (b^b)^a &#x3D; a 
+    a  ^&#x3D;  b; &#x2F;&#x2F;a&#x3D;(a^b)^a &#x3D; (a^a)^b &#x3D; b
+        &#125;  
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="136-只出现一次的数字"><a class="markdownIt-Anchor" href="#136-只出现一次的数字"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/single-number/">136. 只出现一次的数字</a></h3>
 <p>给定一个<strong>非空</strong>整数数组，除了某个元素只出现一次以外，其余每个元素均出现两次。找出那个只出现了一次的元素。</p>
 <blockquote>
 <p>利用<strong>相同的数字异或的结果为0</strong> 以及 <strong>任何数字异或0都是它本身的性质 ,</strong></p>
 <p>将数组中所有的数字 ^ 然后返回即可得到结果</p>
 </blockquote>
-<figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs axapta">COPY<span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> singleNumber(<span class="hljs-built_in">int</span>[] nums) &#123;<br>        <span class="hljs-built_in">int</span> res=nums[<span class="hljs-number">0</span>];<br>        <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> i=<span class="hljs-number">1</span>;i&lt;nums.length;i++)&#123;<br>            res^=nums[i];<br>        &#125;<br>        <span class="hljs-keyword">return</span>  res;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">COPYclass Solution &#123;
+    public int singleNumber(int[] nums) &#123;
+        int res&#x3D;nums[0];
+        for(int i&#x3D;1;i&lt;nums.length;i++)&#123;
+            res^&#x3D;nums[i];
+        &#125;
+        return  res;
+    &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="右移"><a class="markdownIt-Anchor" href="#右移"></a> 右移(&gt;&gt;)</h2>
 <p>将一个数的各二进制位全部右移若干位，正数左补0，负数左补1，右边丢弃。<br />
 <code>125&gt;&gt;3</code></p>
-<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc">COPY           125   &gt;&gt;    3<br>右移:    <br><span class="hljs-section">0 1 1 1 1 1 0 1</span><br><span class="hljs-section">---------------</span><br>0 0 1 1 1 1 1 0 |1     &gt;&gt; 1<br>0 0 0 1 1 1 1 1 |0 1   &gt;&gt; 2<br>0 0 0 0 1 1 1 1 |1 0 1   &gt;&gt; 3<br>^ ^ ^ <br>正数补0负数补1<br>结果: 125&gt;&gt;3 = 0000 1111 = 15<br>等价与 125/2的3次方的商<br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">COPY           125   &gt;&gt;    3
+右移:    
+0 1 1 1 1 1 0 1
+---------------
+0 0 1 1 1 1 1 0 |1     &gt;&gt; 1
+0 0 0 1 1 1 1 1 |0 1   &gt;&gt; 2
+0 0 0 0 1 1 1 1 |1 0 1   &gt;&gt; 3
+^ ^ ^ 
+正数补0负数补1
+结果: 125&gt;&gt;3 &#x3D; 0000 1111 &#x3D; 15
+等价与 125&#x2F;2的3次方的商<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="左移"><a class="markdownIt-Anchor" href="#左移"></a> 左移(&lt;&lt;)</h2>
 <p>同样的，左移则是<strong>将一个运算对象的各二进制位全部左移若干位（左边的二进制位丢弃，右边补0）。</strong><br />
 <code>125&gt;&gt;3</code></p>
-<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs dns">COPY           <span class="hljs-number">125</span>   &gt;&gt;    <span class="hljs-number">3</span><br>右移:    <br>      <span class="hljs-number">0 1 1 1</span> <span class="hljs-number">1 1 0 1</span><br>      ---------------<br>    <span class="hljs-number">0|1 1 1</span> <span class="hljs-number">1 1 0 1</span> <span class="hljs-number">0</span>  &lt;&lt; <span class="hljs-number">1</span><br>  <span class="hljs-number">0 1|1 1</span> <span class="hljs-number">1 1 0 1</span> <span class="hljs-number">0</span> <span class="hljs-number">0</span>  &lt;&lt; <span class="hljs-number">2</span><br><span class="hljs-number">0 1 1|1</span> <span class="hljs-number">1 1 0 1</span> <span class="hljs-number">0</span> <span class="hljs-number">0</span> <span class="hljs-number">0</span>  &lt;&lt; <span class="hljs-number">3</span><br>                ^ ^ ^<br>                 补<span class="hljs-number">0</span><br>结果: <span class="hljs-number">125</span>&lt;&lt;<span class="hljs-number">3</span> = <span class="hljs-number">1110 1000</span> = -<span class="hljs-number">24</span>(八位)       <br>      <span class="hljs-number">125</span>&lt;&lt;<span class="hljs-number">3</span> = <span class="hljs-number">1110 1000</span> = <span class="hljs-number">1000</span>(十六位)<br>相当:<span class="hljs-number">125*2的3</span>次方(若左移时舍弃的高位不包含<span class="hljs-number">1</span>)<br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">COPY           125   &gt;&gt;    3
+右移:    
+      0 1 1 1 1 1 0 1
+      ---------------
+    0|1 1 1 1 1 0 1 0  &lt;&lt; 1
+  0 1|1 1 1 1 0 1 0 0  &lt;&lt; 2
+0 1 1|1 1 1 0 1 0 0 0  &lt;&lt; 3
+                ^ ^ ^
+                 补0
+结果: 125&lt;&lt;3 &#x3D; 1110 1000 &#x3D; -24(八位)       
+      125&lt;&lt;3 &#x3D; 1110 1000 &#x3D; 1000(十六位)
+相当:125*2的3次方(若左移时舍弃的高位不包含1)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="无符号右移"><a class="markdownIt-Anchor" href="#无符号右移"></a> 无符号右移(&gt;&gt;&gt;)</h2>
 <p>无符号右移则始终补0，不考虑正负数。</p>
 <h3 id="与-的区别"><a class="markdownIt-Anchor" href="#与-的区别"></a> ‘ &gt;&gt; ‘与’ &gt;&gt;&gt; ‘的区别</h3>

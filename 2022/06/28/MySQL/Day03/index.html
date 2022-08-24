@@ -114,76 +114,731 @@
 <h2 id="1-约束"><a class="markdownIt-Anchor" href="#1-约束"></a> 1、约束</h2>
 <h3 id="11-唯一性约束unique"><a class="markdownIt-Anchor" href="#11-唯一性约束unique"></a> 1.1、唯一性约束（<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=unique&amp;spm=1001.2101.3001.7020">unique</a>）</h3>
 <span id="more"></span>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs mysql">* 唯一约束修饰的字段具有唯一性，不能重复。但可以为NULL。<br>* 案例：给某一列添加unique<br>	drop table if exists t_user;<br>	create table t_user(<br>		id int,<br>		username varchar(255) unique  // 列级约束<br>	);<br>	insert into t_user values(1,&#x27;zhangsan&#x27;);<br>	insert into t_user values(2,&#x27;zhangsan&#x27;);<br>	ERROR 1062 (23000): Duplicate entry &#x27;zhangsan&#x27; for key &#x27;username&#x27;<br>  <br>	insert into t_user(id) values(2);<br>	insert into t_user(id) values(3);<br>	insert into t_user(id) values(4);<br>* 案例：给两个列或者多个列添加unique<br>	drop table if exists t_user;<br>	create table t_user(<br>		id int, <br>		usercode varchar(255),<br>		username varchar(255),<br>		unique(usercode,username) // 多个字段联合起来添加1个约束unique 【表级约束】<br>	);<br><br>	insert into t_user values(1,&#x27;111&#x27;,&#x27;zs&#x27;);<br>	insert into t_user values(2,&#x27;111&#x27;,&#x27;ls&#x27;);<br>	insert into t_user values(3,&#x27;222&#x27;,&#x27;zs&#x27;);<br>	select * from t_user;<br>	insert into t_user values(4,&#x27;111&#x27;,&#x27;zs&#x27;);<br>	ERROR 1062 (23000): Duplicate entry &#x27;111-zs&#x27; for key &#x27;usercode&#x27;<br><br>	drop table if exists t_user;<br>	create table t_user(<br>		id int, <br>		usercode varchar(255) unique,<br>		username varchar(255) unique<br>	);<br>	insert into t_user values(1,&#x27;111&#x27;,&#x27;zs&#x27;);<br>	insert into t_user values(2,&#x27;111&#x27;,&#x27;ls&#x27;);<br>	ERROR 1062 (23000): Duplicate entry &#x27;111&#x27; for key &#x27;usercode&#x27;<br>* 注意：not null约束只有列级约束。没有表级约束。<br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">* 唯一约束修饰的字段具有唯一性，不能重复。但可以为NULL。
+* 案例：给某一列添加unique
+	drop table if exists t_user;
+	create table t_user(
+		id int,
+		username varchar(255) unique  &#x2F;&#x2F; 列级约束
+	);
+	insert into t_user values(1,&#39;zhangsan&#39;);
+	insert into t_user values(2,&#39;zhangsan&#39;);
+	ERROR 1062 (23000): Duplicate entry &#39;zhangsan&#39; for key &#39;username&#39;
+  
+	insert into t_user(id) values(2);
+	insert into t_user(id) values(3);
+	insert into t_user(id) values(4);
+* 案例：给两个列或者多个列添加unique
+	drop table if exists t_user;
+	create table t_user(
+		id int, 
+		usercode varchar(255),
+		username varchar(255),
+		unique(usercode,username) &#x2F;&#x2F; 多个字段联合起来添加1个约束unique 【表级约束】
+	);
+
+	insert into t_user values(1,&#39;111&#39;,&#39;zs&#39;);
+	insert into t_user values(2,&#39;111&#39;,&#39;ls&#39;);
+	insert into t_user values(3,&#39;222&#39;,&#39;zs&#39;);
+	select * from t_user;
+	insert into t_user values(4,&#39;111&#39;,&#39;zs&#39;);
+	ERROR 1062 (23000): Duplicate entry &#39;111-zs&#39; for key &#39;usercode&#39;
+
+	drop table if exists t_user;
+	create table t_user(
+		id int, 
+		usercode varchar(255) unique,
+		username varchar(255) unique
+	);
+	insert into t_user values(1,&#39;111&#39;,&#39;zs&#39;);
+	insert into t_user values(2,&#39;111&#39;,&#39;ls&#39;);
+	ERROR 1062 (23000): Duplicate entry &#39;111&#39; for key &#39;usercode&#39;
+* 注意：not null约束只有列级约束。没有表级约束。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="12-主键约束"><a class="markdownIt-Anchor" href="#12-主键约束"></a> 1.2、主键约束</h3>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><code class="hljs mysql">* 怎么给一张表添加主键约束呢？<br>	drop table if exists t_user;<br>	create table t_user(<br>		id int primary key,  // 列级约束<br>		username varchar(255),<br>		email varchar(255)<br>	);<br>	insert into t_user(id,username,email) values(1,&#x27;zs&#x27;,&#x27;zs@123.com&#x27;);<br>	insert into t_user(id,username,email) values(2,&#x27;ls&#x27;,&#x27;ls@123.com&#x27;);<br>	insert into t_user(id,username,email) values(3,&#x27;ww&#x27;,&#x27;ww@123.com&#x27;);<br>	select * from t_user;<br>	+----+----------+------------+<br>	| id | username | email      |<br>	+----+----------+------------+<br>	|  1 | zs       | zs@123.com |<br>	|  2 | ls       | ls@123.com |<br>	|  3 | ww       | ww@123.com |<br>	+----+----------+------------+<br><br>	insert into t_user(id,username,email) values(1,&#x27;jack&#x27;,&#x27;jack@123.com&#x27;);<br>	ERROR 1062 (23000): Duplicate entry &#x27;1&#x27; for key &#x27;PRIMARY&#x27;<br><br>	insert into t_user(username,email) values(&#x27;jack&#x27;,&#x27;jack@123.com&#x27;);<br>	ERROR 1364 (HY000): Field &#x27;id&#x27; doesn&#x27;t have a default value<br>	<br>	根据以上的测试得出：id是主键，因为添加了主键约束，主键字段中的数据不能为NULL，也不能重复。<br>	主键的特点：不能为NULL，也不能重复。<br><br>* 主键相关的术语？<br>	主键约束 : primary key<br>	主键字段 : id字段添加primary key之后，id叫做主键字段<br>	主键值 : id字段中的每一个值都是主键值。<br><br>* 主键有什么作用？<br>	- 表的设计三范式中有要求，第一范式就要求任何一张表都应该有主键。<br>	- 主键的作用：主键值是这行记录在这张表当中的唯一标识。（就像一个人的身份证号码一样。）<br><br>* 主键的分类？<br>	根据主键字段的字段数量来划分：<br>		单一主键（推荐的，常用的。）<br>		复合主键(多个字段联合起来添加一个主键约束)（复合主键不建议使用，因为复合主键违背三范式。）<br>	根据主键性质来划分：<br>		自然主键：主键值最好就是一个和业务没有任何关系的自然数。（这种方式是推荐的）<br>		业务主键：主键值和系统的业务挂钩，例如：拿着银行卡的卡号做主键，拿着身份证号码作为主键。（不推荐用）<br>					  最好不要拿着和业务挂钩的字段作为主键。因为以后的业务一旦发生改变的时候，主键值可能也需要<br>					  随着发生变化，但有的时候没有办法变化，因为变化可能会导致主键值重复。<br><br>* 一张表的主键约束只能有1个。（必须记住）<br><br>* 使用表级约束方式定义主键：<br>	drop table if exists t_user;<br>	create table t_user(<br>		id int,<br>		username varchar(255),<br>		primary key(id)<br>	);<br>	insert into t_user(id,username) values(1,&#x27;zs&#x27;);<br>	insert into t_user(id,username) values(2,&#x27;ls&#x27;);<br>	insert into t_user(id,username) values(3,&#x27;ws&#x27;);<br>	insert into t_user(id,username) values(4,&#x27;cs&#x27;);<br>	select * from t_user;<br><br>	insert into t_user(id,username) values(4,&#x27;cx&#x27;);<br>	ERROR 1062 (23000): Duplicate entry &#x27;4&#x27; for key &#x27;PRIMARY&#x27;<br><br>	以下内容是演示以下复合主键，不需要掌握：<br>		drop table if exists t_user;<br>		create table t_user(<br>			id int,<br>			username varchar(255),<br>			password varchar(255),<br>			primary key(id,username)<br>		);<br>		insert .......<br><br>* mysql提供主键值自增：（非常重要。）<br>	drop table if exists t_user;<br>	create table t_user(<br>		id int primary key auto_increment, // id字段自动维护一个自增的数字，从1开始，以1递增。<br>		username varchar(255)<br>	);<br>	insert into t_user(username) values(&#x27;a&#x27;);<br>	insert into t_user(username) values(&#x27;b&#x27;);<br>	insert into t_user(username) values(&#x27;c&#x27;);<br>	insert into t_user(username) values(&#x27;d&#x27;);<br>	insert into t_user(username) values(&#x27;e&#x27;);<br>	insert into t_user(username) values(&#x27;f&#x27;);<br>	select * from t_user;<br><br>	提示:Oracle当中也提供了一个自增机制，叫做：序列（sequence）对象。<br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">* 怎么给一张表添加主键约束呢？
+	drop table if exists t_user;
+	create table t_user(
+		id int primary key,  &#x2F;&#x2F; 列级约束
+		username varchar(255),
+		email varchar(255)
+	);
+	insert into t_user(id,username,email) values(1,&#39;zs&#39;,&#39;zs@123.com&#39;);
+	insert into t_user(id,username,email) values(2,&#39;ls&#39;,&#39;ls@123.com&#39;);
+	insert into t_user(id,username,email) values(3,&#39;ww&#39;,&#39;ww@123.com&#39;);
+	select * from t_user;
+	+----+----------+------------+
+	| id | username | email      |
+	+----+----------+------------+
+	|  1 | zs       | zs@123.com |
+	|  2 | ls       | ls@123.com |
+	|  3 | ww       | ww@123.com |
+	+----+----------+------------+
+
+	insert into t_user(id,username,email) values(1,&#39;jack&#39;,&#39;jack@123.com&#39;);
+	ERROR 1062 (23000): Duplicate entry &#39;1&#39; for key &#39;PRIMARY&#39;
+
+	insert into t_user(username,email) values(&#39;jack&#39;,&#39;jack@123.com&#39;);
+	ERROR 1364 (HY000): Field &#39;id&#39; doesn&#39;t have a default value
+	
+	根据以上的测试得出：id是主键，因为添加了主键约束，主键字段中的数据不能为NULL，也不能重复。
+	主键的特点：不能为NULL，也不能重复。
+
+* 主键相关的术语？
+	主键约束 : primary key
+	主键字段 : id字段添加primary key之后，id叫做主键字段
+	主键值 : id字段中的每一个值都是主键值。
+
+* 主键有什么作用？
+	- 表的设计三范式中有要求，第一范式就要求任何一张表都应该有主键。
+	- 主键的作用：主键值是这行记录在这张表当中的唯一标识。（就像一个人的身份证号码一样。）
+
+* 主键的分类？
+	根据主键字段的字段数量来划分：
+		单一主键（推荐的，常用的。）
+		复合主键(多个字段联合起来添加一个主键约束)（复合主键不建议使用，因为复合主键违背三范式。）
+	根据主键性质来划分：
+		自然主键：主键值最好就是一个和业务没有任何关系的自然数。（这种方式是推荐的）
+		业务主键：主键值和系统的业务挂钩，例如：拿着银行卡的卡号做主键，拿着身份证号码作为主键。（不推荐用）
+					  最好不要拿着和业务挂钩的字段作为主键。因为以后的业务一旦发生改变的时候，主键值可能也需要
+					  随着发生变化，但有的时候没有办法变化，因为变化可能会导致主键值重复。
+
+* 一张表的主键约束只能有1个。（必须记住）
+
+* 使用表级约束方式定义主键：
+	drop table if exists t_user;
+	create table t_user(
+		id int,
+		username varchar(255),
+		primary key(id)
+	);
+	insert into t_user(id,username) values(1,&#39;zs&#39;);
+	insert into t_user(id,username) values(2,&#39;ls&#39;);
+	insert into t_user(id,username) values(3,&#39;ws&#39;);
+	insert into t_user(id,username) values(4,&#39;cs&#39;);
+	select * from t_user;
+
+	insert into t_user(id,username) values(4,&#39;cx&#39;);
+	ERROR 1062 (23000): Duplicate entry &#39;4&#39; for key &#39;PRIMARY&#39;
+
+	以下内容是演示以下复合主键，不需要掌握：
+		drop table if exists t_user;
+		create table t_user(
+			id int,
+			username varchar(255),
+			password varchar(255),
+			primary key(id,username)
+		);
+		insert .......
+
+* mysql提供主键值自增：（非常重要。）
+	drop table if exists t_user;
+	create table t_user(
+		id int primary key auto_increment, &#x2F;&#x2F; id字段自动维护一个自增的数字，从1开始，以1递增。
+		username varchar(255)
+	);
+	insert into t_user(username) values(&#39;a&#39;);
+	insert into t_user(username) values(&#39;b&#39;);
+	insert into t_user(username) values(&#39;c&#39;);
+	insert into t_user(username) values(&#39;d&#39;);
+	insert into t_user(username) values(&#39;e&#39;);
+	insert into t_user(username) values(&#39;f&#39;);
+	select * from t_user;
+
+	提示:Oracle当中也提供了一个自增机制，叫做：序列（sequence）对象。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="13-外键约束"><a class="markdownIt-Anchor" href="#13-外键约束"></a> 1.3、外键约束</h3>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><code class="hljs mysql">* 关于外键约束的相关术语：<br>	外键约束: foreign key<br>	外键字段：添加有外键约束的字段<br>	外键值：外键字段中的每一个值。<br><br>* 业务背景：<br>	请设计数据库表，用来维护学生和班级的信息？<br>		第一种方案：一张表存储所有数据<br>		no(pk)			name			classno			classname<br>		-------------------------------------------------------------------------------------------<br>		1					zs1				101				北京大兴区经济技术开发区亦庄二中高三1班<br>		2					zs2				101				北京大兴区经济技术开发区亦庄二中高三1班<br>		3					zs3				102				北京大兴区经济技术开发区亦庄二中高三2班<br>		4					zs4				102				北京大兴区经济技术开发区亦庄二中高三2班<br>		5					zs5				102				北京大兴区经济技术开发区亦庄二中高三2班<br>		缺点：冗余。【不推荐】<br><br>		第二种方案：两张表（班级表和学生表）<br>		t_class 班级表<br>		cno(pk)		cname<br>		--------------------------------------------------------<br>		101		北京大兴区经济技术开发区亦庄二中高三1班<br>		102		北京大兴区经济技术开发区亦庄二中高三2班<br><br>		t_student 学生表<br>		sno(pk)		sname				classno(该字段添加外键约束fk)<br>		------------------------------------------------------------<br>		1				zs1				101<br>		2				zs2				101<br>		3				zs3				102<br>		4				zs4				102<br>		5				zs5				102<br>	<br>* 将以上表的建表语句写出来：<br><br>	t_student中的classno字段引用t_class表中的cno字段，此时t_student表叫做子表。t_class表叫做父表。<br><br>	顺序要求：<br>		删除数据的时候，先删除子表，再删除父表。<br>		添加数据的时候，先添加父表，在添加子表。<br>		创建表的时候，先创建父表，再创建子表。<br>		删除表的时候，先删除子表，在删除父表。<br>	<br>	drop table if exists t_student;<br>	drop table if exists t_class;<br><br>	create table t_class(<br>		cno int,<br>		cname varchar(255),<br>		primary key(cno)<br>	);<br><br>	create table t_student(<br>		sno int,<br>		sname varchar(255),<br>		classno int,<br>		primary key(sno),<br>		foreign key(classno) references t_class(cno)<br>	);<br><br>	insert into t_class values(101,&#x27;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&#x27;);<br>	insert into t_class values(102,&#x27;yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy&#x27;);<br><br>	insert into t_student values(1,&#x27;zs1&#x27;,101);<br>	insert into t_student values(2,&#x27;zs2&#x27;,101);<br>	insert into t_student values(3,&#x27;zs3&#x27;,102);<br>	insert into t_student values(4,&#x27;zs4&#x27;,102);<br>	insert into t_student values(5,&#x27;zs5&#x27;,102);<br>	insert into t_student values(6,&#x27;zs6&#x27;,102);<br>	select * from t_class;<br>	select * from t_student;<br><br>	insert into t_student values(7,&#x27;lisi&#x27;,103);<br>	ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`bjpowernode`.INT `t_student_ibfk_1` FOREIGN KEY (`classno`) REFERENCES `t_class` (`cno`))<br><br>* 外键值可以为NULL？<br>	外键可以为NULL。<br><br>* 外键字段引用其他表的某个字段的时候，被引用的字段必须是主键吗？<br>	注意：被引用的字段不一定是主键，但至少具有unique约束。<br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">* 关于外键约束的相关术语：
+	外键约束: foreign key
+	外键字段：添加有外键约束的字段
+	外键值：外键字段中的每一个值。
+
+* 业务背景：
+	请设计数据库表，用来维护学生和班级的信息？
+		第一种方案：一张表存储所有数据
+		no(pk)			name			classno			classname
+		-------------------------------------------------------------------------------------------
+		1					zs1				101				北京大兴区经济技术开发区亦庄二中高三1班
+		2					zs2				101				北京大兴区经济技术开发区亦庄二中高三1班
+		3					zs3				102				北京大兴区经济技术开发区亦庄二中高三2班
+		4					zs4				102				北京大兴区经济技术开发区亦庄二中高三2班
+		5					zs5				102				北京大兴区经济技术开发区亦庄二中高三2班
+		缺点：冗余。【不推荐】
+
+		第二种方案：两张表（班级表和学生表）
+		t_class 班级表
+		cno(pk)		cname
+		--------------------------------------------------------
+		101		北京大兴区经济技术开发区亦庄二中高三1班
+		102		北京大兴区经济技术开发区亦庄二中高三2班
+
+		t_student 学生表
+		sno(pk)		sname				classno(该字段添加外键约束fk)
+		------------------------------------------------------------
+		1				zs1				101
+		2				zs2				101
+		3				zs3				102
+		4				zs4				102
+		5				zs5				102
+	
+* 将以上表的建表语句写出来：
+
+	t_student中的classno字段引用t_class表中的cno字段，此时t_student表叫做子表。t_class表叫做父表。
+
+	顺序要求：
+		删除数据的时候，先删除子表，再删除父表。
+		添加数据的时候，先添加父表，在添加子表。
+		创建表的时候，先创建父表，再创建子表。
+		删除表的时候，先删除子表，在删除父表。
+	
+	drop table if exists t_student;
+	drop table if exists t_class;
+
+	create table t_class(
+		cno int,
+		cname varchar(255),
+		primary key(cno)
+	);
+
+	create table t_student(
+		sno int,
+		sname varchar(255),
+		classno int,
+		primary key(sno),
+		foreign key(classno) references t_class(cno)
+	);
+
+	insert into t_class values(101,&#39;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&#39;);
+	insert into t_class values(102,&#39;yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy&#39;);
+
+	insert into t_student values(1,&#39;zs1&#39;,101);
+	insert into t_student values(2,&#39;zs2&#39;,101);
+	insert into t_student values(3,&#39;zs3&#39;,102);
+	insert into t_student values(4,&#39;zs4&#39;,102);
+	insert into t_student values(5,&#39;zs5&#39;,102);
+	insert into t_student values(6,&#39;zs6&#39;,102);
+	select * from t_class;
+	select * from t_student;
+
+	insert into t_student values(7,&#39;lisi&#39;,103);
+	ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (&#96;bjpowernode&#96;.INT &#96;t_student_ibfk_1&#96; FOREIGN KEY (&#96;classno&#96;) REFERENCES &#96;t_class&#96; (&#96;cno&#96;))
+
+* 外键值可以为NULL？
+	外键可以为NULL。
+
+* 外键字段引用其他表的某个字段的时候，被引用的字段必须是主键吗？
+	注意：被引用的字段不一定是主键，但至少具有unique约束。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="2-存储引擎整个内容属于了解内容"><a class="markdownIt-Anchor" href="#2-存储引擎整个内容属于了解内容"></a> 2、存储引擎？（整个内容属于了解内容）</h2>
 <h3 id="21-完整的建表语句"><a class="markdownIt-Anchor" href="#21-完整的建表语句"></a> 2.1、完整的建表语句</h3>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs routeros">CREATE TABLE `t_x` (<br>  `id` int(11)<span class="hljs-built_in"> DEFAULT </span><span class="hljs-literal">NULL</span><br>) <span class="hljs-attribute">ENGINE</span>=InnoDB<span class="hljs-built_in"> DEFAULT </span><span class="hljs-attribute">CHARSET</span>=utf8;<br><br>注意：在MySQL当中，凡是标识符是可以使用飘号括起来的。最好别用，不通用。<br><br>建表的时候可以指定存储引擎，也可以指定字符集。<br><br>mysql默认使用的存储引擎是InnoDB方式。<br>默认采用的字符集是UTF8<br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">CREATE TABLE &#96;t_x&#96; (
+  &#96;id&#96; int(11) DEFAULT NULL
+) ENGINE&#x3D;InnoDB DEFAULT CHARSET&#x3D;utf8;
+
+注意：在MySQL当中，凡是标识符是可以使用飘号括起来的。最好别用，不通用。
+
+建表的时候可以指定存储引擎，也可以指定字符集。
+
+mysql默认使用的存储引擎是InnoDB方式。
+默认采用的字符集是UTF8<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="22-什么是存储引擎呢"><a class="markdownIt-Anchor" href="#22-什么是存储引擎呢"></a> 2.2、什么是存储引擎呢？</h3>
-<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">存储引擎这个名字只有在mysql中存在。（<span class="hljs-keyword">Oracle中有对应的机制，但是不叫做存储引擎。Oracle中没有特殊的名字，就是“表的存储方式”）</span><br><span class="hljs-keyword"></span><br>mysql支持很多存储引擎，每一个存储引擎都对应了一种不同的存储方式。<br>每一个存储引擎都有自己的优缺点，需要在合适的时机选择合适的存储引擎。<br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">存储引擎这个名字只有在mysql中存在。（Oracle中有对应的机制，但是不叫做存储引擎。Oracle中没有特殊的名字，就是“表的存储方式”）
+
+mysql支持很多存储引擎，每一个存储引擎都对应了一种不同的存储方式。
+每一个存储引擎都有自己的优缺点，需要在合适的时机选择合适的存储引擎。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="23-查看当前mysql支持的存储引擎"><a class="markdownIt-Anchor" href="#23-查看当前mysql支持的存储引擎"></a> 2.3、查看当前mysql支持的存储引擎？</h3>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">show</span> <span class="hljs-string">engines</span> <span class="hljs-string">\G</span><br><br><span class="hljs-string">mysql</span> <span class="hljs-number">5.5</span><span class="hljs-number">.36</span><span class="hljs-string">版本支持的存储引擎有9个：</span><br>	<span class="hljs-string">***************************</span> <span class="hljs-number">1</span><span class="hljs-string">.</span> <span class="hljs-string">row</span> <span class="hljs-string">***************************</span><br>			<span class="hljs-attr">Engine:</span> <span class="hljs-string">FEDERATED</span><br>		  <span class="hljs-attr">Support:</span> <span class="hljs-literal">NO</span><br>		  <span class="hljs-attr">Comment:</span> <span class="hljs-string">Federated</span> <span class="hljs-string">MySQL</span> <span class="hljs-string">storage</span> <span class="hljs-string">engine</span><br>	<span class="hljs-attr">Transactions:</span> <span class="hljs-literal">NULL</span><br>				 <span class="hljs-attr">XA:</span> <span class="hljs-literal">NULL</span><br>	  <span class="hljs-attr">Savepoints:</span> <span class="hljs-literal">NULL</span><br>	<span class="hljs-string">***************************</span> <span class="hljs-number">2</span><span class="hljs-string">.</span> <span class="hljs-string">row</span> <span class="hljs-string">***************************</span><br>			<span class="hljs-attr">Engine:</span> <span class="hljs-string">MRG_MYISAM</span><br>		  <span class="hljs-attr">Support:</span> <span class="hljs-literal">YES</span><br>		  <span class="hljs-attr">Comment:</span> <span class="hljs-string">Collection</span> <span class="hljs-string">of</span> <span class="hljs-string">identical</span> <span class="hljs-string">MyISAM</span> <span class="hljs-string">tables</span><br>	<span class="hljs-attr">Transactions:</span> <span class="hljs-literal">NO</span><br>				 <span class="hljs-attr">XA:</span> <span class="hljs-literal">NO</span><br>	  <span class="hljs-attr">Savepoints:</span> <span class="hljs-literal">NO</span><br>	<span class="hljs-string">***************************</span> <span class="hljs-number">3</span><span class="hljs-string">.</span> <span class="hljs-string">row</span> <span class="hljs-string">***************************</span><br>			<span class="hljs-attr">Engine:</span> <span class="hljs-string">MyISAM</span><br>		  <span class="hljs-attr">Support:</span> <span class="hljs-literal">YES</span><br>		  <span class="hljs-attr">Comment:</span> <span class="hljs-string">MyISAM</span> <span class="hljs-string">storage</span> <span class="hljs-string">engine</span><br>	<span class="hljs-attr">Transactions:</span> <span class="hljs-literal">NO</span><br>				 <span class="hljs-attr">XA:</span> <span class="hljs-literal">NO</span><br>	  <span class="hljs-attr">Savepoints:</span> <span class="hljs-literal">NO</span><br>	<span class="hljs-string">***************************</span> <span class="hljs-number">4</span><span class="hljs-string">.</span> <span class="hljs-string">row</span> <span class="hljs-string">***************************</span><br>			<span class="hljs-attr">Engine:</span> <span class="hljs-string">BLACKHOLE</span><br>		  <span class="hljs-attr">Support:</span> <span class="hljs-literal">YES</span><br>		  <span class="hljs-attr">Comment:</span> <span class="hljs-string">/dev/null</span> <span class="hljs-string">storage</span> <span class="hljs-string">engine</span> <span class="hljs-string">(anything</span> <span class="hljs-string">you</span> <span class="hljs-string">write</span> <span class="hljs-string">to</span> <span class="hljs-string">it</span> <span class="hljs-string">disappears)</span><br>	<span class="hljs-attr">Transactions:</span> <span class="hljs-literal">NO</span><br>				 <span class="hljs-attr">XA:</span> <span class="hljs-literal">NO</span><br>	  <span class="hljs-attr">Savepoints:</span> <span class="hljs-literal">NO</span><br>	<span class="hljs-string">***************************</span> <span class="hljs-number">5</span><span class="hljs-string">.</span> <span class="hljs-string">row</span> <span class="hljs-string">***************************</span><br>			<span class="hljs-attr">Engine:</span> <span class="hljs-string">CSV</span><br>		  <span class="hljs-attr">Support:</span> <span class="hljs-literal">YES</span><br>		  <span class="hljs-attr">Comment:</span> <span class="hljs-string">CSV</span> <span class="hljs-string">storage</span> <span class="hljs-string">engine</span><br>	<span class="hljs-attr">Transactions:</span> <span class="hljs-literal">NO</span><br>				 <span class="hljs-attr">XA:</span> <span class="hljs-literal">NO</span><br>	  <span class="hljs-attr">Savepoints:</span> <span class="hljs-literal">NO</span><br>	<span class="hljs-string">***************************</span> <span class="hljs-number">6</span><span class="hljs-string">.</span> <span class="hljs-string">row</span> <span class="hljs-string">***************************</span><br>			<span class="hljs-attr">Engine:</span> <span class="hljs-string">MEMORY</span><br>		  <span class="hljs-attr">Support:</span> <span class="hljs-literal">YES</span><br>		  <span class="hljs-attr">Comment:</span> <span class="hljs-string">Hash</span> <span class="hljs-string">based,</span> <span class="hljs-string">stored</span> <span class="hljs-string">in</span> <span class="hljs-string">memory,</span> <span class="hljs-string">useful</span> <span class="hljs-string">for</span> <span class="hljs-string">temporary</span> <span class="hljs-string">tables</span><br>	<span class="hljs-attr">Transactions:</span> <span class="hljs-literal">NO</span><br>				 <span class="hljs-attr">XA:</span> <span class="hljs-literal">NO</span><br>	  <span class="hljs-attr">Savepoints:</span> <span class="hljs-literal">NO</span><br>	<span class="hljs-string">***************************</span> <span class="hljs-number">7</span><span class="hljs-string">.</span> <span class="hljs-string">row</span> <span class="hljs-string">***************************</span><br>			<span class="hljs-attr">Engine:</span> <span class="hljs-string">ARCHIVE</span><br>		  <span class="hljs-attr">Support:</span> <span class="hljs-literal">YES</span><br>		  <span class="hljs-attr">Comment:</span> <span class="hljs-string">Archive</span> <span class="hljs-string">storage</span> <span class="hljs-string">engine</span><br>	<span class="hljs-attr">Transactions:</span> <span class="hljs-literal">NO</span><br>				 <span class="hljs-attr">XA:</span> <span class="hljs-literal">NO</span><br>	  <span class="hljs-attr">Savepoints:</span> <span class="hljs-literal">NO</span><br>	<span class="hljs-string">***************************</span> <span class="hljs-number">8</span><span class="hljs-string">.</span> <span class="hljs-string">row</span> <span class="hljs-string">***************************</span><br>			<span class="hljs-attr">Engine:</span> <span class="hljs-string">InnoDB</span><br>		  <span class="hljs-attr">Support:</span> <span class="hljs-string">DEFAULT</span><br>		  <span class="hljs-attr">Comment:</span> <span class="hljs-string">Supports</span> <span class="hljs-string">transactions,</span> <span class="hljs-string">row-level</span> <span class="hljs-string">locking,</span> <span class="hljs-string">and</span> <span class="hljs-string">foreign</span> <span class="hljs-string">keys</span><br>	<span class="hljs-attr">Transactions:</span> <span class="hljs-literal">YES</span><br>				 <span class="hljs-attr">XA:</span> <span class="hljs-literal">YES</span><br>	  <span class="hljs-attr">Savepoints:</span> <span class="hljs-literal">YES</span><br>	<span class="hljs-string">***************************</span> <span class="hljs-number">9</span><span class="hljs-string">.</span> <span class="hljs-string">row</span> <span class="hljs-string">***************************</span><br>			<span class="hljs-attr">Engine:</span> <span class="hljs-string">PERFORMANCE_SCHEMA</span><br>		  <span class="hljs-attr">Support:</span> <span class="hljs-literal">YES</span><br>		  <span class="hljs-attr">Comment:</span> <span class="hljs-string">Performance</span> <span class="hljs-string">Schema</span><br>	<span class="hljs-attr">Transactions:</span> <span class="hljs-literal">NO</span><br>				 <span class="hljs-attr">XA:</span> <span class="hljs-literal">NO</span><br>	  <span class="hljs-attr">Savepoints:</span> <span class="hljs-literal">NO</span><br><br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">show engines \G
+
+mysql 5.5.36版本支持的存储引擎有9个：
+	*************************** 1. row ***************************
+			Engine: FEDERATED
+		  Support: NO
+		  Comment: Federated MySQL storage engine
+	Transactions: NULL
+				 XA: NULL
+	  Savepoints: NULL
+	*************************** 2. row ***************************
+			Engine: MRG_MYISAM
+		  Support: YES
+		  Comment: Collection of identical MyISAM tables
+	Transactions: NO
+				 XA: NO
+	  Savepoints: NO
+	*************************** 3. row ***************************
+			Engine: MyISAM
+		  Support: YES
+		  Comment: MyISAM storage engine
+	Transactions: NO
+				 XA: NO
+	  Savepoints: NO
+	*************************** 4. row ***************************
+			Engine: BLACKHOLE
+		  Support: YES
+		  Comment: &#x2F;dev&#x2F;null storage engine (anything you write to it disappears)
+	Transactions: NO
+				 XA: NO
+	  Savepoints: NO
+	*************************** 5. row ***************************
+			Engine: CSV
+		  Support: YES
+		  Comment: CSV storage engine
+	Transactions: NO
+				 XA: NO
+	  Savepoints: NO
+	*************************** 6. row ***************************
+			Engine: MEMORY
+		  Support: YES
+		  Comment: Hash based, stored in memory, useful for temporary tables
+	Transactions: NO
+				 XA: NO
+	  Savepoints: NO
+	*************************** 7. row ***************************
+			Engine: ARCHIVE
+		  Support: YES
+		  Comment: Archive storage engine
+	Transactions: NO
+				 XA: NO
+	  Savepoints: NO
+	*************************** 8. row ***************************
+			Engine: InnoDB
+		  Support: DEFAULT
+		  Comment: Supports transactions, row-level locking, and foreign keys
+	Transactions: YES
+				 XA: YES
+	  Savepoints: YES
+	*************************** 9. row ***************************
+			Engine: PERFORMANCE_SCHEMA
+		  Support: YES
+		  Comment: Performance Schema
+	Transactions: NO
+				 XA: NO
+	  Savepoints: NO
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="24-常见的存储引擎"><a class="markdownIt-Anchor" href="#24-常见的存储引擎"></a> 2.4、常见的存储引擎？</h3>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><code class="hljs yaml">	<span class="hljs-attr">Engine:</span> <span class="hljs-string">MyISAM</span><br>		  <span class="hljs-attr">Support:</span> <span class="hljs-literal">YES</span><br>		  <span class="hljs-attr">Comment:</span> <span class="hljs-string">MyISAM</span> <span class="hljs-string">storage</span> <span class="hljs-string">engine</span><br>	<span class="hljs-attr">Transactions:</span> <span class="hljs-literal">NO</span><br>				 <span class="hljs-attr">XA:</span> <span class="hljs-literal">NO</span><br>	  <span class="hljs-attr">Savepoints:</span> <span class="hljs-literal">NO</span><br>	<br>	<span class="hljs-string">MyISAM这种存储引擎不支持事务。</span><br>	<span class="hljs-string">MyISAM是mysql最常用的存储引擎，但是这种引擎不是默认的。</span><br>	<span class="hljs-string">MyISAM采用三个文件组织一张表：</span><br>		<span class="hljs-string">xxx.frm（存储格式的文件）</span><br>		<span class="hljs-string">xxx.MYD（存储表中数据的文件）</span><br>		<span class="hljs-string">xxx.MYI（存储表中索引的文件）</span><br>	<span class="hljs-string">优点：可被压缩，节省存储空间。并且可以转换为只读表，提高检索效率。</span><br>	<span class="hljs-string">缺点：不支持事务。</span><br><br><span class="hljs-string">-----------------------------------------------------------------------------</span><br><br>		  <span class="hljs-attr">Engine:</span> <span class="hljs-string">InnoDB</span><br>		  <span class="hljs-attr">Support:</span> <span class="hljs-string">DEFAULT</span><br>		  <span class="hljs-attr">Comment:</span> <span class="hljs-string">Supports</span> <span class="hljs-string">transactions,</span> <span class="hljs-string">row-level</span> <span class="hljs-string">locking,</span> <span class="hljs-string">and</span> <span class="hljs-string">foreign</span> <span class="hljs-string">keys</span><br>	<span class="hljs-attr">Transactions:</span> <span class="hljs-literal">YES</span><br>				 <span class="hljs-attr">XA:</span> <span class="hljs-literal">YES</span><br>	  <span class="hljs-attr">Savepoints:</span> <span class="hljs-literal">YES</span><br>		<br>	<span class="hljs-string">优点：支持事务、行级锁、外键等。这种存储引擎数据的安全得到保障。</span><br>	<br>	<span class="hljs-string">表的结构存储在xxx.frm文件中</span><br>	<span class="hljs-string">数据存储在tablespace这样的表空间中（逻辑概念），无法被压缩，无法转换成只读。</span><br>	<span class="hljs-string">这种InnoDB存储引擎在MySQL数据库崩溃之后提供自动恢复机制。</span><br>	<span class="hljs-string">InnoDB支持级联删除和级联更新。</span><br><br><span class="hljs-string">-------------------------------------------------------------------------------------</span><br><br>			<span class="hljs-attr">Engine:</span> <span class="hljs-string">MEMORY</span><br>		  <span class="hljs-attr">Support:</span> <span class="hljs-literal">YES</span><br>		  <span class="hljs-attr">Comment:</span> <span class="hljs-string">Hash</span> <span class="hljs-string">based,</span> <span class="hljs-string">stored</span> <span class="hljs-string">in</span> <span class="hljs-string">memory,</span> <span class="hljs-string">useful</span> <span class="hljs-string">for</span> <span class="hljs-string">temporary</span> <span class="hljs-string">tables</span><br>	<span class="hljs-attr">Transactions:</span> <span class="hljs-literal">NO</span><br>				 <span class="hljs-attr">XA:</span> <span class="hljs-literal">NO</span><br>	  <span class="hljs-attr">Savepoints:</span> <span class="hljs-literal">NO</span><br>	<br>	<span class="hljs-string">缺点：不支持事务。数据容易丢失。因为所有数据和索引都是存储在内存当中的。</span><br>	<span class="hljs-string">优点：查询速度最快。</span><br>	<span class="hljs-string">以前叫做HEPA引擎。</span><br><br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">	Engine: MyISAM
+		  Support: YES
+		  Comment: MyISAM storage engine
+	Transactions: NO
+				 XA: NO
+	  Savepoints: NO
+	
+	MyISAM这种存储引擎不支持事务。
+	MyISAM是mysql最常用的存储引擎，但是这种引擎不是默认的。
+	MyISAM采用三个文件组织一张表：
+		xxx.frm（存储格式的文件）
+		xxx.MYD（存储表中数据的文件）
+		xxx.MYI（存储表中索引的文件）
+	优点：可被压缩，节省存储空间。并且可以转换为只读表，提高检索效率。
+	缺点：不支持事务。
+
+-----------------------------------------------------------------------------
+
+		  Engine: InnoDB
+		  Support: DEFAULT
+		  Comment: Supports transactions, row-level locking, and foreign keys
+	Transactions: YES
+				 XA: YES
+	  Savepoints: YES
+		
+	优点：支持事务、行级锁、外键等。这种存储引擎数据的安全得到保障。
+	
+	表的结构存储在xxx.frm文件中
+	数据存储在tablespace这样的表空间中（逻辑概念），无法被压缩，无法转换成只读。
+	这种InnoDB存储引擎在MySQL数据库崩溃之后提供自动恢复机制。
+	InnoDB支持级联删除和级联更新。
+
+-------------------------------------------------------------------------------------
+
+			Engine: MEMORY
+		  Support: YES
+		  Comment: Hash based, stored in memory, useful for temporary tables
+	Transactions: NO
+				 XA: NO
+	  Savepoints: NO
+	
+	缺点：不支持事务。数据容易丢失。因为所有数据和索引都是存储在内存当中的。
+	优点：查询速度最快。
+	以前叫做HEPA引擎。
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="3-事务transaction"><a class="markdownIt-Anchor" href="#3-事务transaction"></a> 3、事务（Transaction）</h2>
 <h3 id="31-什么是事务"><a class="markdownIt-Anchor" href="#31-什么是事务"></a> 3.1、什么是事务</h3>
-<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs n1ql">一个事务是一个完整的业务逻辑单元，不可再分。<br><br>比如：银行账户转账，从A账户向B账户转账10000.需要执行两条<span class="hljs-keyword">update</span>语句：<br>	<span class="hljs-keyword">update</span> t_act <span class="hljs-keyword">set</span> balance = balance - <span class="hljs-number">10000</span> <span class="hljs-keyword">where</span> actno = <span class="hljs-string">&#x27;act-001&#x27;</span>;<br>	<span class="hljs-keyword">update</span> t_act <span class="hljs-keyword">set</span> balance = balance + <span class="hljs-number">10000</span> <span class="hljs-keyword">where</span> actno = <span class="hljs-string">&#x27;act-002&#x27;</span>;<br><br>以上两条DML语句必须同时成功，或者同时失败，不允许出现一条成功，一条失败。<br><br>要想保证以上的两条DML语句同时成功或者同时失败，那么就需要使用数据库的“事务机制”。<br><br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">一个事务是一个完整的业务逻辑单元，不可再分。
+
+比如：银行账户转账，从A账户向B账户转账10000.需要执行两条update语句：
+	update t_act set balance &#x3D; balance - 10000 where actno &#x3D; &#39;act-001&#39;;
+	update t_act set balance &#x3D; balance + 10000 where actno &#x3D; &#39;act-002&#39;;
+
+以上两条DML语句必须同时成功，或者同时失败，不允许出现一条成功，一条失败。
+
+要想保证以上的两条DML语句同时成功或者同时失败，那么就需要使用数据库的“事务机制”。
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="32-和事务相关的语句只有dml语句-insert-delete-update"><a class="markdownIt-Anchor" href="#32-和事务相关的语句只有dml语句-insert-delete-update"></a> 3.2、和事务相关的语句只有：DML语句。（insert delete update）</h3>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs">	为什么？因为它们这三个语句都是和数据库表当中的“数据”相关的。<br>	事务的存在是为了保证数据的完整性，安全性。<br>12<br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">	为什么？因为它们这三个语句都是和数据库表当中的“数据”相关的。
+	事务的存在是为了保证数据的完整性，安全性。
+12<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <h3 id="33-假设所有的业务都能使用1条dml语句搞定还需要事务机制吗"><a class="markdownIt-Anchor" href="#33-假设所有的业务都能使用1条dml语句搞定还需要事务机制吗"></a> 3.3、假设所有的业务都能使用1条DML语句搞定，还需要事务机制吗？</h3>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs">	不需要事务。<br>	但实际情况不是这样的，通常一个“事儿（事务【业务】）”需要多条DML语句共同联合完成。<br>12<br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">	不需要事务。
+	但实际情况不是这样的，通常一个“事儿（事务【业务】）”需要多条DML语句共同联合完成。
+12<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <h3 id="34-事务的特性"><a class="markdownIt-Anchor" href="#34-事务的特性"></a> 3.4、事务的特性？</h3>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs less">	事务包括四大特性：<span class="hljs-selector-tag">ACID</span><br>	<span class="hljs-selector-tag">A</span>: 原子性：事务是最小的工作单元，不可再分。<br>	<span class="hljs-selector-tag">C</span>: 一致性：事务必须保证多条<span class="hljs-selector-tag">DML</span>语句同时成功或者同时失败。<br>	<span class="hljs-selector-tag">I</span>：隔离性：事务<span class="hljs-selector-tag">A</span>与事务<span class="hljs-selector-tag">B</span>之间具有隔离。<br>	<span class="hljs-selector-tag">D</span>：持久性：持久性说的是最终数据必须持久化到硬盘文件中，事务才算成功的结束。<br><span class="hljs-number">12345</span><br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">	事务包括四大特性：ACID
+	A: 原子性：事务是最小的工作单元，不可再分。
+	C: 一致性：事务必须保证多条DML语句同时成功或者同时失败。
+	I：隔离性：事务A与事务B之间具有隔离。
+	D：持久性：持久性说的是最终数据必须持久化到硬盘文件中，事务才算成功的结束。
+12345<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="35-关于事务之间的隔离性"><a class="markdownIt-Anchor" href="#35-关于事务之间的隔离性"></a> 3.5、关于事务之间的隔离性</h3>
-<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">	事务隔离性存在隔离级别，理论上隔离级别包括<span class="hljs-number">4</span>个：<br>		第一级别：读未提交（<span class="hljs-keyword">read</span> <span class="hljs-keyword">uncommitted</span>）<br>			对方事务还没有提交，我们当前事务可以读取到对方未提交的数据。<br>			读未提交存在脏读（Dirty <span class="hljs-keyword">Read</span>）现象：表示读到了脏的数据。<br>		第二级别：读已提交（<span class="hljs-keyword">read</span> <span class="hljs-keyword">committed</span>）<br>			对方事务提交之后的数据我方可以读取到。<br>			这种隔离级别解决了: 脏读现象没有了。<br>			读已提交存在的问题是：不可重复读。<br>		第三级别：可重复读（<span class="hljs-keyword">repeatable</span> <span class="hljs-keyword">read</span>）<br>			这种隔离级别解决了：不可重复读问题。<br>			这种隔离级别存在的问题是：读取到的数据是幻象。<br>		第四级别：序列化读/串行化读（<span class="hljs-keyword">serializable</span>） <br>			解决了所有问题。<br>			效率低。需要事务排队。<br>		<br>		oracle数据库默认的隔离级别是：读已提交。<br>		mysql数据库默认的隔离级别是：可重复读。<br><span class="hljs-number">1234567891011121314151617</span><br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">	事务隔离性存在隔离级别，理论上隔离级别包括4个：
+		第一级别：读未提交（read uncommitted）
+			对方事务还没有提交，我们当前事务可以读取到对方未提交的数据。
+			读未提交存在脏读（Dirty Read）现象：表示读到了脏的数据。
+		第二级别：读已提交（read committed）
+			对方事务提交之后的数据我方可以读取到。
+			这种隔离级别解决了: 脏读现象没有了。
+			读已提交存在的问题是：不可重复读。
+		第三级别：可重复读（repeatable read）
+			这种隔离级别解决了：不可重复读问题。
+			这种隔离级别存在的问题是：读取到的数据是幻象。
+		第四级别：序列化读&#x2F;串行化读（serializable） 
+			解决了所有问题。
+			效率低。需要事务排队。
+		
+		oracle数据库默认的隔离级别是：读已提交。
+		mysql数据库默认的隔离级别是：可重复读。
+1234567891011121314151617<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="36-演示事务"><a class="markdownIt-Anchor" href="#36-演示事务"></a> 3.6、演示事务</h3>
-<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">	* mysql事务默认情况下是自动提交的。<br>		（什么是自动提交？只要执行任意一条DML语句则提交一次。）怎么关闭自动提交？<span class="hljs-keyword">start</span> <span class="hljs-keyword">transaction</span>;<br>	<br>	* 准备表：<br>		<span class="hljs-keyword">drop</span> <span class="hljs-keyword">table</span> <span class="hljs-keyword">if</span> <span class="hljs-keyword">exists</span> t_user;<br>		<span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> t_user(<br>			id <span class="hljs-type">int</span> <span class="hljs-keyword">primary key</span> auto_increment,<br>			username <span class="hljs-type">varchar</span>(<span class="hljs-number">255</span>)<br>		);<br>	<br>	* 演示：mysql中的事务是支持自动提交的，只要执行一条DML，则提交一次。<br>		mysql&gt; <span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> t_user(username) <span class="hljs-keyword">values</span>(<span class="hljs-string">&#x27;zs&#x27;</span>);<br>		Query OK, <span class="hljs-number">1</span> <span class="hljs-keyword">row</span> affected (<span class="hljs-number">0.03</span> sec)<br><br>		mysql&gt; <span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> t_user;<br>		+<span class="hljs-comment">----+----------+</span><br>		| id | username |<br>		+<span class="hljs-comment">----+----------+</span><br>		|  <span class="hljs-number">1</span> | zs       |<br>		+<span class="hljs-comment">----+----------+</span><br>		<span class="hljs-number">1</span> <span class="hljs-keyword">row</span> <span class="hljs-keyword">in</span> <span class="hljs-keyword">set</span> (<span class="hljs-number">0.00</span> sec)<br><br>		mysql&gt; <span class="hljs-keyword">rollback</span>;<br>		Query OK, <span class="hljs-number">0</span> <span class="hljs-keyword">rows</span> affected (<span class="hljs-number">0.00</span> sec)<br><br>		mysql&gt; <span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> t_user;<br>		+<span class="hljs-comment">----+----------+</span><br>		| id | username |<br>		+<span class="hljs-comment">----+----------+</span><br>		|  <span class="hljs-number">1</span> | zs       |<br>		+<span class="hljs-comment">----+----------+</span><br>		<span class="hljs-number">1</span> <span class="hljs-keyword">row</span> <span class="hljs-keyword">in</span> <span class="hljs-keyword">set</span> (<span class="hljs-number">0.00</span> sec)<br>	<br>	* 演示：使用<span class="hljs-keyword">start</span> <span class="hljs-keyword">transaction</span>;关闭自动提交机制。<br>		mysql&gt; <span class="hljs-keyword">start</span> <span class="hljs-keyword">transaction</span>;<br>		Query OK, <span class="hljs-number">0</span> <span class="hljs-keyword">rows</span> affected (<span class="hljs-number">0.00</span> sec)<br><br>		mysql&gt; <span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> t_user(username) <span class="hljs-keyword">values</span>(<span class="hljs-string">&#x27;lisi&#x27;</span>);<br>		Query OK, <span class="hljs-number">1</span> <span class="hljs-keyword">row</span> affected (<span class="hljs-number">0.00</span> sec)<br><br>		mysql&gt; <span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> t_user;<br>		+<span class="hljs-comment">----+----------+</span><br>		| id | username |<br>		+<span class="hljs-comment">----+----------+</span><br>		|  <span class="hljs-number">1</span> | zs       |<br>		|  <span class="hljs-number">2</span> | lisi     |<br>		+<span class="hljs-comment">----+----------+</span><br>		<span class="hljs-number">2</span> <span class="hljs-keyword">rows</span> <span class="hljs-keyword">in</span> <span class="hljs-keyword">set</span> (<span class="hljs-number">0.00</span> sec)<br><br>		mysql&gt; <span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> t_user(username) <span class="hljs-keyword">values</span>(<span class="hljs-string">&#x27;wangwu&#x27;</span>);<br>		Query OK, <span class="hljs-number">1</span> <span class="hljs-keyword">row</span> affected (<span class="hljs-number">0.00</span> sec)<br><br>		mysql&gt; <span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> t_user;<br>		+<span class="hljs-comment">----+----------+</span><br>		| id | username |<br>		+<span class="hljs-comment">----+----------+</span><br>		|  <span class="hljs-number">1</span> | zs       |<br>		|  <span class="hljs-number">2</span> | lisi     |<br>		|  <span class="hljs-number">3</span> | wangwu   |<br>		+<span class="hljs-comment">----+----------+</span><br>		<span class="hljs-number">3</span> <span class="hljs-keyword">rows</span> <span class="hljs-keyword">in</span> <span class="hljs-keyword">set</span> (<span class="hljs-number">0.00</span> sec)<br><br>		mysql&gt; <span class="hljs-keyword">rollback</span>;<br>		Query OK, <span class="hljs-number">0</span> <span class="hljs-keyword">rows</span> affected (<span class="hljs-number">0.02</span> sec)<br><br>		mysql&gt; <span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> t_user;<br>		+<span class="hljs-comment">----+----------+</span><br>		| id | username |<br>		+<span class="hljs-comment">----+----------+</span><br>		|  <span class="hljs-number">1</span> | zs       |<br>		+<span class="hljs-comment">----+----------+</span><br>		<span class="hljs-number">1</span> <span class="hljs-keyword">row</span> <span class="hljs-keyword">in</span> <span class="hljs-keyword">set</span> (<span class="hljs-number">0.00</span> sec)<br>		<span class="hljs-comment">--------------------------------------------------------------------</span><br>		mysql&gt; <span class="hljs-keyword">start</span> <span class="hljs-keyword">transaction</span>;<br>		Query OK, <span class="hljs-number">0</span> <span class="hljs-keyword">rows</span> affected (<span class="hljs-number">0.00</span> sec)<br><br>		mysql&gt; <span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> t_user(username) <span class="hljs-keyword">values</span>(<span class="hljs-string">&#x27;wangwu&#x27;</span>);<br>		Query OK, <span class="hljs-number">1</span> <span class="hljs-keyword">row</span> affected (<span class="hljs-number">0.00</span> sec)<br><br>		mysql&gt; <span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> t_user(username) <span class="hljs-keyword">values</span>(<span class="hljs-string">&#x27;rose&#x27;</span>);<br>		Query OK, <span class="hljs-number">1</span> <span class="hljs-keyword">row</span> affected (<span class="hljs-number">0.00</span> sec)<br><br>		mysql&gt; <span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> t_user(username) <span class="hljs-keyword">values</span>(<span class="hljs-string">&#x27;jack&#x27;</span>);<br>		Query OK, <span class="hljs-number">1</span> <span class="hljs-keyword">row</span> affected (<span class="hljs-number">0.00</span> sec)<br><br>		mysql&gt; <span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> t_user;<br>		+<span class="hljs-comment">----+----------+</span><br>		| id | username |<br>		+<span class="hljs-comment">----+----------+</span><br>		|  <span class="hljs-number">1</span> | zs       |<br>		|  <span class="hljs-number">4</span> | wangwu   |<br>		|  <span class="hljs-number">5</span> | rose     |<br>		|  <span class="hljs-number">6</span> | jack     |<br>		+<span class="hljs-comment">----+----------+</span><br>		<span class="hljs-number">4</span> <span class="hljs-keyword">rows</span> <span class="hljs-keyword">in</span> <span class="hljs-keyword">set</span> (<span class="hljs-number">0.00</span> sec)<br><br>		mysql&gt; <span class="hljs-keyword">commit</span>;<br>		Query OK, <span class="hljs-number">0</span> <span class="hljs-keyword">rows</span> affected (<span class="hljs-number">0.04</span> sec)<br><br>		mysql&gt; <span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> t_user;<br>		+<span class="hljs-comment">----+----------+</span><br>		| id | username |<br>		+<span class="hljs-comment">----+----------+</span><br>		|  <span class="hljs-number">1</span> | zs       |<br>		|  <span class="hljs-number">4</span> | wangwu   |<br>		|  <span class="hljs-number">5</span> | rose     |<br>		|  <span class="hljs-number">6</span> | jack     |<br>		+<span class="hljs-comment">----+----------+</span><br>		<span class="hljs-number">4</span> <span class="hljs-keyword">rows</span> <span class="hljs-keyword">in</span> <span class="hljs-keyword">set</span> (<span class="hljs-number">0.00</span> sec)<br><br>		mysql&gt; <span class="hljs-keyword">rollback</span>;<br>		Query OK, <span class="hljs-number">0</span> <span class="hljs-keyword">rows</span> affected (<span class="hljs-number">0.00</span> sec)<br><br>		mysql&gt; <span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> t_user;<br>		+<span class="hljs-comment">----+----------+</span><br>		| id | username |<br>		+<span class="hljs-comment">----+----------+</span><br>		|  <span class="hljs-number">1</span> | zs       |<br>		|  <span class="hljs-number">4</span> | wangwu   |<br>		|  <span class="hljs-number">5</span> | rose     |<br>		|  <span class="hljs-number">6</span> | jack     |<br>		+<span class="hljs-comment">----+----------+</span><br>		<span class="hljs-number">4</span> <span class="hljs-keyword">rows</span> <span class="hljs-keyword">in</span> <span class="hljs-keyword">set</span> (<span class="hljs-number">0.00</span> sec)<br><br>	* 演示两个事务，假如隔离级别<br>		演示第<span class="hljs-number">1</span>级别：读未提交<br>			<span class="hljs-keyword">set</span> <span class="hljs-keyword">global</span> <span class="hljs-keyword">transaction</span> <span class="hljs-keyword">isolation</span> <span class="hljs-keyword">level</span> <span class="hljs-keyword">read</span> <span class="hljs-keyword">uncommitted</span>;<br>		演示第<span class="hljs-number">2</span>级别：读已提交<br>			<span class="hljs-keyword">set</span> <span class="hljs-keyword">global</span> <span class="hljs-keyword">transaction</span> <span class="hljs-keyword">isolation</span> <span class="hljs-keyword">level</span> <span class="hljs-keyword">read</span> <span class="hljs-keyword">committed</span>;<br>		演示第<span class="hljs-number">3</span>级别：可重复读<br>			<span class="hljs-keyword">set</span> <span class="hljs-keyword">global</span> <span class="hljs-keyword">transaction</span> <span class="hljs-keyword">isolation</span> <span class="hljs-keyword">level</span> <span class="hljs-keyword">repeatable</span> <span class="hljs-keyword">read</span>;<br>		<br>	* mysql远程登录：mysql -h192<span class="hljs-number">.168</span><span class="hljs-number">.151</span><span class="hljs-number">.18</span> -uroot -p444<br><span class="hljs-number">123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118119120121122123124125126127128129130131132133</span><br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">	* mysql事务默认情况下是自动提交的。
+		（什么是自动提交？只要执行任意一条DML语句则提交一次。）怎么关闭自动提交？start transaction;
+	
+	* 准备表：
+		drop table if exists t_user;
+		create table t_user(
+			id int primary key auto_increment,
+			username varchar(255)
+		);
+	
+	* 演示：mysql中的事务是支持自动提交的，只要执行一条DML，则提交一次。
+		mysql&gt; insert into t_user(username) values(&#39;zs&#39;);
+		Query OK, 1 row affected (0.03 sec)
+
+		mysql&gt; select * from t_user;
+		+----+----------+
+		| id | username |
+		+----+----------+
+		|  1 | zs       |
+		+----+----------+
+		1 row in set (0.00 sec)
+
+		mysql&gt; rollback;
+		Query OK, 0 rows affected (0.00 sec)
+
+		mysql&gt; select * from t_user;
+		+----+----------+
+		| id | username |
+		+----+----------+
+		|  1 | zs       |
+		+----+----------+
+		1 row in set (0.00 sec)
+	
+	* 演示：使用start transaction;关闭自动提交机制。
+		mysql&gt; start transaction;
+		Query OK, 0 rows affected (0.00 sec)
+
+		mysql&gt; insert into t_user(username) values(&#39;lisi&#39;);
+		Query OK, 1 row affected (0.00 sec)
+
+		mysql&gt; select * from t_user;
+		+----+----------+
+		| id | username |
+		+----+----------+
+		|  1 | zs       |
+		|  2 | lisi     |
+		+----+----------+
+		2 rows in set (0.00 sec)
+
+		mysql&gt; insert into t_user(username) values(&#39;wangwu&#39;);
+		Query OK, 1 row affected (0.00 sec)
+
+		mysql&gt; select * from t_user;
+		+----+----------+
+		| id | username |
+		+----+----------+
+		|  1 | zs       |
+		|  2 | lisi     |
+		|  3 | wangwu   |
+		+----+----------+
+		3 rows in set (0.00 sec)
+
+		mysql&gt; rollback;
+		Query OK, 0 rows affected (0.02 sec)
+
+		mysql&gt; select * from t_user;
+		+----+----------+
+		| id | username |
+		+----+----------+
+		|  1 | zs       |
+		+----+----------+
+		1 row in set (0.00 sec)
+		--------------------------------------------------------------------
+		mysql&gt; start transaction;
+		Query OK, 0 rows affected (0.00 sec)
+
+		mysql&gt; insert into t_user(username) values(&#39;wangwu&#39;);
+		Query OK, 1 row affected (0.00 sec)
+
+		mysql&gt; insert into t_user(username) values(&#39;rose&#39;);
+		Query OK, 1 row affected (0.00 sec)
+
+		mysql&gt; insert into t_user(username) values(&#39;jack&#39;);
+		Query OK, 1 row affected (0.00 sec)
+
+		mysql&gt; select * from t_user;
+		+----+----------+
+		| id | username |
+		+----+----------+
+		|  1 | zs       |
+		|  4 | wangwu   |
+		|  5 | rose     |
+		|  6 | jack     |
+		+----+----------+
+		4 rows in set (0.00 sec)
+
+		mysql&gt; commit;
+		Query OK, 0 rows affected (0.04 sec)
+
+		mysql&gt; select * from t_user;
+		+----+----------+
+		| id | username |
+		+----+----------+
+		|  1 | zs       |
+		|  4 | wangwu   |
+		|  5 | rose     |
+		|  6 | jack     |
+		+----+----------+
+		4 rows in set (0.00 sec)
+
+		mysql&gt; rollback;
+		Query OK, 0 rows affected (0.00 sec)
+
+		mysql&gt; select * from t_user;
+		+----+----------+
+		| id | username |
+		+----+----------+
+		|  1 | zs       |
+		|  4 | wangwu   |
+		|  5 | rose     |
+		|  6 | jack     |
+		+----+----------+
+		4 rows in set (0.00 sec)
+
+	* 演示两个事务，假如隔离级别
+		演示第1级别：读未提交
+			set global transaction isolation level read uncommitted;
+		演示第2级别：读已提交
+			set global transaction isolation level read committed;
+		演示第3级别：可重复读
+			set global transaction isolation level repeatable read;
+		
+	* mysql远程登录：mysql -h192.168.151.18 -uroot -p444
+123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118119120121122123124125126127128129130131132133<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="4-索引"><a class="markdownIt-Anchor" href="#4-索引"></a> 4、索引</h2>
 <h3 id="41-什么是索引有什么用"><a class="markdownIt-Anchor" href="#41-什么是索引有什么用"></a> 4.1、什么是索引？有什么用？</h3>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs sql">	索引就相当于一本书的目录，通过目录可以快速的找到对应的资源。<br>	在数据库方面，查询一张表的时候有两种检索方式：<br>		第一种方式：全表扫描<br>		第二种方式：根据索引检索（效率很高）<br><br>	索引为什么可以提高检索效率呢？<br>		其实最根本的原理是缩小了扫描的范围。<br>	<br>	索引虽然可以提高检索效率，但是不能随意的添加索引，因为索引也是数据库当中<br>	的对象，也需要数据库不断的维护。是有维护成本的。比如，表中的数据经常被修改<br>	这样就不适合添加索引，因为数据一旦修改，索引需要重新排序，进行维护。<br><br>	添加索引是给某一个字段，或者说某些字段添加索引。<br><br>	<span class="hljs-keyword">select</span> ename,sal <span class="hljs-keyword">from</span> emp <span class="hljs-keyword">where</span> ename <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;SMITH&#x27;</span>;<br>	当ename字段上没有添加索引的时候，以上<span class="hljs-keyword">sql</span>语句会进行全表扫描，扫描ename字段中所有的值。<br>	当ename字段上添加索引的时候，以上<span class="hljs-keyword">sql</span>语句会根据索引扫描，快速定位。<br><span class="hljs-number">1234567891011121314151617</span><br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">	索引就相当于一本书的目录，通过目录可以快速的找到对应的资源。
+	在数据库方面，查询一张表的时候有两种检索方式：
+		第一种方式：全表扫描
+		第二种方式：根据索引检索（效率很高）
+
+	索引为什么可以提高检索效率呢？
+		其实最根本的原理是缩小了扫描的范围。
+	
+	索引虽然可以提高检索效率，但是不能随意的添加索引，因为索引也是数据库当中
+	的对象，也需要数据库不断的维护。是有维护成本的。比如，表中的数据经常被修改
+	这样就不适合添加索引，因为数据一旦修改，索引需要重新排序，进行维护。
+
+	添加索引是给某一个字段，或者说某些字段添加索引。
+
+	select ename,sal from emp where ename &#x3D; &#39;SMITH&#39;;
+	当ename字段上没有添加索引的时候，以上sql语句会进行全表扫描，扫描ename字段中所有的值。
+	当ename字段上添加索引的时候，以上sql语句会根据索引扫描，快速定位。
+1234567891011121314151617<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="42-怎么创建索引对象怎么删除索引对象"><a class="markdownIt-Anchor" href="#42-怎么创建索引对象怎么删除索引对象"></a> 4.2、怎么创建索引对象？怎么删除索引对象？</h3>
-<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs n1ql">	创建索引对象：<br>		<span class="hljs-keyword">create</span> <span class="hljs-keyword">index</span> 索引名称 <span class="hljs-keyword">on</span> 表名(字段名);<br>	删除索引对象：<br>		<span class="hljs-keyword">drop</span> <span class="hljs-keyword">index</span> 索引名称 <span class="hljs-keyword">on</span> 表名;<br>1234<br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">	创建索引对象：
+		create index 索引名称 on 表名(字段名);
+	删除索引对象：
+		drop index 索引名称 on 表名;
+1234<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="43-什么时候考虑给字段添加索引满足什么条件"><a class="markdownIt-Anchor" href="#43-什么时候考虑给字段添加索引满足什么条件"></a> 4.3、什么时候考虑给字段添加索引？（满足什么条件）</h3>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs markdown"><span class="hljs-bullet">	*</span> 数据量庞大。（根据客户的需求，根据线上的环境）<br><span class="hljs-bullet">	*</span> 该字段很少的DML操作。（因为字段进行修改操作，索引也需要维护）<br><span class="hljs-bullet">	*</span> 该字段经常出现在where子句中。（经常根据哪个字段查询）<br>123<br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">	* 数据量庞大。（根据客户的需求，根据线上的环境）
+	* 该字段很少的DML操作。（因为字段进行修改操作，索引也需要维护）
+	* 该字段经常出现在where子句中。（经常根据哪个字段查询）
+123<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="44-注意主键和具有unique约束的字段自动会添加索引"><a class="markdownIt-Anchor" href="#44-注意主键和具有unique约束的字段自动会添加索引"></a> 4.4、注意：主键和具有unique约束的字段自动会添加索引。</h3>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs">根据主键查询效率较高。尽量根据主键检索。<br><br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">根据主键查询效率较高。尽量根据主键检索。
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <h3 id="45-查看sql语句的执行计划"><a class="markdownIt-Anchor" href="#45-查看sql语句的执行计划"></a> 4.5、查看sql语句的执行计划：</h3>
-<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc"><span class="hljs-section">mysql&gt; explain select ename,sal from emp where sal = 5000;</span><br><span class="hljs-section">+----+-------------+-------+------+---------------+------+---------+------+------+-------------+</span><br><span class="hljs-section">| id | select_type | table | type | possible_keys | key  | key_len | ref  | rows | Extra       |</span><br><span class="hljs-section">+----+-------------+-------+------+---------------+------+---------+------+------+-------------+</span><br><span class="hljs-section">|  1 | SIMPLE      | emp   | ALL  | NULL          | NULL | NULL    | NULL |   14 | Using where |</span><br><span class="hljs-section">+----+-------------+-------+------+---------------+------+---------+------+------+-------------+</span><br><br>给薪资sal字段添加索引：<br><span class="hljs-code">	create index emp_sal_index on emp(sal);</span><br><br><span class="hljs-section">mysql&gt; explain select ename,sal from emp where sal = 5000;</span><br><span class="hljs-section">+----+-------------+-------+------+---------------+---------------+---------+-------+------+-------------+</span><br><span class="hljs-section">| id | select_type | table | type | possible_keys | key           | key_len | ref   | rows | Extra       |</span><br><span class="hljs-section">+----+-------------+-------+------+---------------+---------------+---------+-------+------+-------------+</span><br><span class="hljs-section">|  1 | SIMPLE      | emp   | ref  | emp_sal_index | emp_sal_index | 9       | const |    1 | Using where |</span><br><span class="hljs-section">+----+-------------+-------+------+---------------+---------------+---------+-------+------+-------------+</span><br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">mysql&gt; explain select ename,sal from emp where sal &#x3D; 5000;
++----+-------------+-------+------+---------------+------+---------+------+------+-------------+
+| id | select_type | table | type | possible_keys | key  | key_len | ref  | rows | Extra       |
++----+-------------+-------+------+---------------+------+---------+------+------+-------------+
+|  1 | SIMPLE      | emp   | ALL  | NULL          | NULL | NULL    | NULL |   14 | Using where |
++----+-------------+-------+------+---------------+------+---------+------+------+-------------+
+
+给薪资sal字段添加索引：
+	create index emp_sal_index on emp(sal);
+
+mysql&gt; explain select ename,sal from emp where sal &#x3D; 5000;
++----+-------------+-------+------+---------------+---------------+---------+-------+------+-------------+
+| id | select_type | table | type | possible_keys | key           | key_len | ref   | rows | Extra       |
++----+-------------+-------+------+---------------+---------------+---------+-------+------+-------------+
+|  1 | SIMPLE      | emp   | ref  | emp_sal_index | emp_sal_index | 9       | const |    1 | Using where |
++----+-------------+-------+------+---------------+---------------+---------+-------+------+-------------+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="46-索引底层采用的数据结构是b-tree"><a class="markdownIt-Anchor" href="#46-索引底层采用的数据结构是b-tree"></a> 4.6、索引底层采用的数据结构是：B + Tree</h3>
 <h3 id="47-索引的实现原理"><a class="markdownIt-Anchor" href="#47-索引的实现原理"></a> 4.7、索引的实现原理？</h3>
-<figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs axapta">通过B Tree缩小扫描范围，底层索引进行了排序，分区，索引会携带数据在表中的“物理地址”，<br>最终通过索引检索到数据之后，获取到关联的物理地址，通过物理地址定位表中的数据，效率<br>是最高的。<br>	<span class="hljs-keyword">select</span> ename <span class="hljs-keyword">from</span> emp <span class="hljs-keyword">where</span> ename = <span class="hljs-string">&#x27;SMITH&#x27;</span>;<br>	通过索引转换为：<br>	<span class="hljs-keyword">select</span> ename <span class="hljs-keyword">from</span> emp <span class="hljs-keyword">where</span> 物理地址 = <span class="hljs-number">0x3</span>;<br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">通过B Tree缩小扫描范围，底层索引进行了排序，分区，索引会携带数据在表中的“物理地址”，
+最终通过索引检索到数据之后，获取到关联的物理地址，通过物理地址定位表中的数据，效率
+是最高的。
+	select ename from emp where ename &#x3D; &#39;SMITH&#39;;
+	通过索引转换为：
+	select ename from emp where 物理地址 &#x3D; 0x3;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="48-索引的分类"><a class="markdownIt-Anchor" href="#48-索引的分类"></a> 4.8、索引的分类？</h3>
-<figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs erlang">单一索引：给单个字段添加索引<br>复合索引: 给多个字段联合起来添加<span class="hljs-number">1</span>个索引<br>主键索引：主键上会自动添加索引<br>唯一索引：有unique约束的字段上会自动添加索引<br>....<br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">单一索引：给单个字段添加索引
+复合索引: 给多个字段联合起来添加1个索引
+主键索引：主键上会自动添加索引
+唯一索引：有unique约束的字段上会自动添加索引
+....<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="49-索引什么时候失效"><a class="markdownIt-Anchor" href="#49-索引什么时候失效"></a> 4.9、索引什么时候失效？</h3>
-<figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs axapta"><span class="hljs-keyword">select</span> ename <span class="hljs-keyword">from</span> emp <span class="hljs-keyword">where</span> ename <span class="hljs-keyword">like</span> <span class="hljs-string">&#x27;%A%&#x27;</span>;<br>模糊查询的时候，第一个通配符使用的是%，这个时候索引是失效的。<br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">select ename from emp where ename like &#39;%A%&#39;;
+模糊查询的时候，第一个通配符使用的是%，这个时候索引是失效的。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <h2 id="5-视图view"><a class="markdownIt-Anchor" href="#5-视图view"></a> 5、视图(view)</h2>
 <h3 id="51-什么是视图"><a class="markdownIt-Anchor" href="#51-什么是视图"></a> 5.1、什么是视图？</h3>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs">站在不同的角度去看到数据。（同一张表的数据，通过不同的角度去看待）。<br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">站在不同的角度去看到数据。（同一张表的数据，通过不同的角度去看待）。<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <h3 id="52-怎么创建视图怎么删除视图"><a class="markdownIt-Anchor" href="#52-怎么创建视图怎么删除视图"></a> 5.2、怎么创建视图？怎么删除视图？</h3>
-<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">create</span> <span class="hljs-keyword">view</span> myview <span class="hljs-keyword">as</span> <span class="hljs-keyword">select</span> empno,ename <span class="hljs-keyword">from</span> emp;<br><span class="hljs-keyword">drop</span> <span class="hljs-keyword">view</span> myview;<br><br>注意：只有DQL语句才能以视图对象的方式创建出来。<br><br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">create view myview as select empno,ename from emp;
+drop view myview;
+
+注意：只有DQL语句才能以视图对象的方式创建出来。
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="53-对视图进行增删改查会影响到原表数据-通过视图影响原表数据的不是直接操作的原表"><a class="markdownIt-Anchor" href="#53-对视图进行增删改查会影响到原表数据-通过视图影响原表数据的不是直接操作的原表"></a> 5.3、对视图进行增删改查，会影响到原表数据。（通过视图影响原表数据的，不是直接操作的原表）</h3>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs">可以对视图进行CRUD操作。<br>1<br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">可以对视图进行CRUD操作。
+1<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <h3 id="54-面向视图操作"><a class="markdownIt-Anchor" href="#54-面向视图操作"></a> 5.4、面向视图操作？</h3>
-<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs gherkin">mysql&gt; select <span class="hljs-symbol">*</span> from myview;<br>+-------+--------+<br>|<span class="hljs-string"> empno </span>|<span class="hljs-string"> ename  </span>|<br>+-------+--------+<br>|<span class="hljs-string">  7369 </span>|<span class="hljs-string"> SMITH  </span>|<br>|<span class="hljs-string">  7499 </span>|<span class="hljs-string"> ALLEN  </span>|<br>|<span class="hljs-string">  7521 </span>|<span class="hljs-string"> WARD   </span>|<br>|<span class="hljs-string">  7566 </span>|<span class="hljs-string"> JONES  </span>|<br>|<span class="hljs-string">  7654 </span>|<span class="hljs-string"> MARTIN </span>|<br>|<span class="hljs-string">  7698 </span>|<span class="hljs-string"> BLAKE  </span>|<br>|<span class="hljs-string">  7782 </span>|<span class="hljs-string"> CLARK  </span>|<br>|<span class="hljs-string">  7788 </span>|<span class="hljs-string"> SCOTT  </span>|<br>|<span class="hljs-string">  7839 </span>|<span class="hljs-string"> KING   </span>|<br>|<span class="hljs-string">  7844 </span>|<span class="hljs-string"> TURNER </span>|<br>|<span class="hljs-string">  7876 </span>|<span class="hljs-string"> ADAMS  </span>|<br>|<span class="hljs-string">  7900 </span>|<span class="hljs-string"> JAMES  </span>|<br>|<span class="hljs-string">  7902 </span>|<span class="hljs-string"> FORD   </span>|<br>|<span class="hljs-string">  7934 </span>|<span class="hljs-string"> MILLER </span>|<br>+-------+--------+<br><br>create table emp_bak as select <span class="hljs-symbol">*</span> from emp;<br>create view myview1 as select empno,ename,sal from emp_bak;<br>update myview1 set ename=&#x27;hehe&#x27;,sal=1 where empno = 7369; // 通过视图修改原表数据。<br>delete from myview1 where empno = 7369; // 通过视图删除原表数据。<br><br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">mysql&gt; select * from myview;
++-------+--------+
+| empno | ename  |
++-------+--------+
+|  7369 | SMITH  |
+|  7499 | ALLEN  |
+|  7521 | WARD   |
+|  7566 | JONES  |
+|  7654 | MARTIN |
+|  7698 | BLAKE  |
+|  7782 | CLARK  |
+|  7788 | SCOTT  |
+|  7839 | KING   |
+|  7844 | TURNER |
+|  7876 | ADAMS  |
+|  7900 | JAMES  |
+|  7902 | FORD   |
+|  7934 | MILLER |
++-------+--------+
+
+create table emp_bak as select * from emp;
+create view myview1 as select empno,ename,sal from emp_bak;
+update myview1 set ename&#x3D;&#39;hehe&#39;,sal&#x3D;1 where empno &#x3D; 7369; &#x2F;&#x2F; 通过视图修改原表数据。
+delete from myview1 where empno &#x3D; 7369; &#x2F;&#x2F; 通过视图删除原表数据。
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="55-视图的作用"><a class="markdownIt-Anchor" href="#55-视图的作用"></a> 5.5、视图的作用？</h3>
 <blockquote>
 <p>视图可以隐藏表的实现细节。保密级别较高的系统，数据库只对外提供相关的视图，java程序员只对视图对象进行CRUD。</p>
 </blockquote>
 <h2 id="6-dba命令"><a class="markdownIt-Anchor" href="#6-dba命令"></a> 6、DBA命令</h2>
 <h3 id="61-将数据库当中的数据导出"><a class="markdownIt-Anchor" href="#61-将数据库当中的数据导出"></a> 6.1、将数据库当中的数据导出</h3>
-<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">在windows的dos命令窗口中执行：（导出整个库）<br>	mysqldump <span class="hljs-keyword">bjpowernode&gt;D:\bjpowernode.sql </span>-uroot -p333<br><br>在windows的dos命令窗口中执行：（导出指定数据库当中的指定表）<br>	mysqldump <span class="hljs-keyword">bjpowernode </span>emp&gt;D:\<span class="hljs-keyword">bjpowernode.sql </span>-uroot –p123<br><br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">在windows的dos命令窗口中执行：（导出整个库）
+	mysqldump bjpowernode&gt;D:\bjpowernode.sql -uroot -p333
+
+在windows的dos命令窗口中执行：（导出指定数据库当中的指定表）
+	mysqldump bjpowernode emp&gt;D:\bjpowernode.sql -uroot –p123
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="62-导入数据"><a class="markdownIt-Anchor" href="#62-导入数据"></a> 6.2、导入数据</h3>
-<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">create database <span class="hljs-keyword">bjpowernode;</span><br><span class="hljs-keyword"></span>use <span class="hljs-keyword">bjpowernode;</span><br><span class="hljs-keyword"></span>source D:\<span class="hljs-keyword">bjpowernode.sql</span><br><span class="hljs-keyword"></span><br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">create database bjpowernode;
+use bjpowernode;
+source D:\bjpowernode.sql
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <h2 id="7-数据库设计三范式重点内容面试经常问"><a class="markdownIt-Anchor" href="#7-数据库设计三范式重点内容面试经常问"></a> 7、数据库设计三范式（重点内容，面试经常问）</h2>
 <h3 id="71-什么是设计范式"><a class="markdownIt-Anchor" href="#71-什么是设计范式"></a> 7.1、什么是设计范式？</h3>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs">	设计表的依据。按照这个三范式设计的表不会出现数据冗余。<br>1<br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">	设计表的依据。按照这个三范式设计的表不会出现数据冗余。
+1<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <h3 id="72-三范式都是哪些"><a class="markdownIt-Anchor" href="#72-三范式都是哪些"></a> 7.2、三范式都是哪些？</h3>
-<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><code class="hljs scss">第一范式：任何一张表都应该有主键，并且每一个字段原子性不可再分。<br><br>第二范式：建立在第一范式的基础之上，所有非主键字段完全依赖主键，不能产生部分依赖。<br>	多对多？三张表，关系表两个外键。<br>	t_student学生表<br>	<span class="hljs-built_in">sno</span>(pk)		sname<br>	-------------------<br>	<span class="hljs-number">1</span>				张三<br>	<span class="hljs-number">2</span>				李四<br>	<span class="hljs-number">3</span>				王五<br><br>	t_teacher 讲师表<br>	<span class="hljs-built_in">tno</span>(pk)		tname<br>	---------------------<br>	<span class="hljs-number">1</span>				王老师<br>	<span class="hljs-number">2</span>				张老师<br>	<span class="hljs-number">3</span>				李老师<br><br>	t_student_teacher_relation 学生讲师关系表<br>	<span class="hljs-built_in">id</span>(pk)		<span class="hljs-built_in">sno</span>(fk)		<span class="hljs-built_in">tno</span>(fk)<br>	----------------------------------<br>	<span class="hljs-number">1</span>				<span class="hljs-number">1</span>				<span class="hljs-number">3</span><br>	<span class="hljs-number">2</span>				<span class="hljs-number">1</span>				<span class="hljs-number">1</span><br>	<span class="hljs-number">3</span>				<span class="hljs-number">2</span>				<span class="hljs-number">2</span><br>	<span class="hljs-number">4</span>				<span class="hljs-number">2</span>				<span class="hljs-number">3</span><br>	<span class="hljs-number">5</span>				<span class="hljs-number">3</span>				<span class="hljs-number">1</span><br>	<span class="hljs-number">6</span>				<span class="hljs-number">3</span>				<span class="hljs-number">3</span><br><br>第三范式：建立在第二范式的基础之上，所有非主键字段直接依赖主键，不能产生传递依赖。<br>	一对多？两张表，多的表加外键。<br>	班级t_class<br>	<span class="hljs-built_in">cno</span>(pk)			cname<br>	--------------------------<br>	<span class="hljs-number">1</span>					班级<span class="hljs-number">1</span><br>	<span class="hljs-number">2</span>					班级<span class="hljs-number">2</span><br><br>	学生t_student<br>	<span class="hljs-built_in">sno</span>(pk)			sname				<span class="hljs-built_in">classno</span>(fk)<br>	---------------------------------------------<br>	<span class="hljs-number">101</span>				张<span class="hljs-number">1</span>				<span class="hljs-number">1</span><br>	<span class="hljs-number">102</span>				张<span class="hljs-number">2</span>				<span class="hljs-number">1</span><br>	<span class="hljs-number">103</span>				张<span class="hljs-number">3</span>				<span class="hljs-number">2</span><br>	<span class="hljs-number">104</span>				张<span class="hljs-number">4</span>				<span class="hljs-number">2</span><br>	<span class="hljs-number">105</span>				张<span class="hljs-number">5</span>				<span class="hljs-number">2</span><br><br>提醒：在实际的开发中，以满足客户的需求为主，有的时候会拿冗余换执行速度。<br><br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">第一范式：任何一张表都应该有主键，并且每一个字段原子性不可再分。
+
+第二范式：建立在第一范式的基础之上，所有非主键字段完全依赖主键，不能产生部分依赖。
+	多对多？三张表，关系表两个外键。
+	t_student学生表
+	sno(pk)		sname
+	-------------------
+	1				张三
+	2				李四
+	3				王五
+
+	t_teacher 讲师表
+	tno(pk)		tname
+	---------------------
+	1				王老师
+	2				张老师
+	3				李老师
+
+	t_student_teacher_relation 学生讲师关系表
+	id(pk)		sno(fk)		tno(fk)
+	----------------------------------
+	1				1				3
+	2				1				1
+	3				2				2
+	4				2				3
+	5				3				1
+	6				3				3
+
+第三范式：建立在第二范式的基础之上，所有非主键字段直接依赖主键，不能产生传递依赖。
+	一对多？两张表，多的表加外键。
+	班级t_class
+	cno(pk)			cname
+	--------------------------
+	1					班级1
+	2					班级2
+
+	学生t_student
+	sno(pk)			sname				classno(fk)
+	---------------------------------------------
+	101				张1				1
+	102				张2				1
+	103				张3				2
+	104				张4				2
+	105				张5				2
+
+提醒：在实际的开发中，以满足客户的需求为主，有的时候会拿冗余换执行速度。
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="73-一对一怎么设计"><a class="markdownIt-Anchor" href="#73-一对一怎么设计"></a> 7.3、一对一怎么设计？</h3>
-<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs scss">一对一设计有两种方案：主键共享<br>	t_user_login  用户登录表<br>	<span class="hljs-built_in">id</span>(pk)		username			password<br>	--------------------------------------<br>	<span class="hljs-number">1</span>				zs					<span class="hljs-number">123</span><br>	<span class="hljs-number">2</span>				ls					<span class="hljs-number">456</span><br><br>	t_user_detail 用户详细信息表<br>	<span class="hljs-built_in">id</span>(pk+fk)	realname			tel			....<br>	------------------------------------------------<br>	<span class="hljs-number">1</span>				张三				<span class="hljs-number">1111111111</span><br>	<span class="hljs-number">2</span>				李四				<span class="hljs-number">1111415621</span><br><br>一对一设计有两种方案：外键唯一。<br>	t_user_login  用户登录表<br>	<span class="hljs-built_in">id</span>(pk)		username			password<br>	--------------------------------------<br>	<span class="hljs-number">1</span>				zs					<span class="hljs-number">123</span><br>	<span class="hljs-number">2</span>				ls					<span class="hljs-number">456</span><br><br>	t_user_detail 用户详细信息表<br>	<span class="hljs-built_in">id</span>(pk)	   realname			tel				<span class="hljs-built_in">userid</span>(fk+unique)....<br>	-----------------------------------------------------------<br>	<span class="hljs-number">1</span>				张三				<span class="hljs-number">1111111111</span>		<span class="hljs-number">2</span><br>	<span class="hljs-number">2</span>				李四				<span class="hljs-number">1111415621</span>		<span class="hljs-number">1</span><br></code></pre></td></tr></table></figure> 
+<pre class="line-numbers language-none"><code class="language-none">一对一设计有两种方案：主键共享
+	t_user_login  用户登录表
+	id(pk)		username			password
+	--------------------------------------
+	1				zs					123
+	2				ls					456
+
+	t_user_detail 用户详细信息表
+	id(pk+fk)	realname			tel			....
+	------------------------------------------------
+	1				张三				1111111111
+	2				李四				1111415621
+
+一对一设计有两种方案：外键唯一。
+	t_user_login  用户登录表
+	id(pk)		username			password
+	--------------------------------------
+	1				zs					123
+	2				ls					456
+
+	t_user_detail 用户详细信息表
+	id(pk)	   realname			tel				userid(fk+unique)....
+	-----------------------------------------------------------
+	1				张三				1111111111		2
+	2				李四				1111415621		1<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre> 
       <!-- reward -->
       
     </div>
