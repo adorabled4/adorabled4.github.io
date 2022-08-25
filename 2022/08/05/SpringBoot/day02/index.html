@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">3k</span>
+            <span class="post-count">3.2k</span>
         </span>
     </span>
 
@@ -95,7 +95,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">13 分钟</span>
+            <span class="post-count">14 分钟</span>
         </span>
     </span>
 </div>
@@ -114,33 +114,9 @@
 <h2 id="13-自动配置源码分析-自动包规则原理"><a class="markdownIt-Anchor" href="#13-自动配置源码分析-自动包规则原理"></a> 13、自动配置【源码分析】-自动包规则原理</h2>
 <p>Spring Boot应用的启动类：</p>
 <span id="more"></span>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@SpringBootApplication</span>
-<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MainApplication</span> <span class="token punctuation">&#123;</span>
-
-    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token class-name">SpringApplication</span><span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span><span class="token class-name">MainApplication</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span> args<span class="token punctuation">)</span><span class="token punctuation">;</span>
-     <span class="token punctuation">&#125;</span> 
-
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@SpringBootApplication</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MainApplication</span> &#123;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        SpringApplication.run(MainApplication.class, args);<br>     &#125; <br><br>&#125;<br></code></pre></td></tr></table></figure>
 <p>分析下<code>@SpringBootApplication</code></p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@Target</span><span class="token punctuation">(</span><span class="token class-name">ElementType</span><span class="token punctuation">.</span>TYPE<span class="token punctuation">)</span>
-<span class="token annotation punctuation">@Retention</span><span class="token punctuation">(</span><span class="token class-name">RetentionPolicy</span><span class="token punctuation">.</span>RUNTIME<span class="token punctuation">)</span>
-<span class="token annotation punctuation">@Documented</span>
-<span class="token annotation punctuation">@Inherited</span>
-<span class="token annotation punctuation">@SpringBootConfiguration</span>
-<span class="token annotation punctuation">@EnableAutoConfiguration</span>
-<span class="token annotation punctuation">@ComponentScan</span><span class="token punctuation">(</span>
-    excludeFilters <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token annotation punctuation">@Filter</span><span class="token punctuation">(</span>
-    type <span class="token operator">=</span> <span class="token class-name">FilterType</span><span class="token punctuation">.</span>CUSTOM<span class="token punctuation">,</span>
-    classes <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token class-name">TypeExcludeFilter</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">&#125;</span>
-<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token annotation punctuation">@Filter</span><span class="token punctuation">(</span>
-    type <span class="token operator">=</span> <span class="token class-name">FilterType</span><span class="token punctuation">.</span>CUSTOM<span class="token punctuation">,</span>
-    classes <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token class-name">AutoConfigurationExcludeFilter</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">&#125;</span>
-<span class="token punctuation">)</span><span class="token punctuation">&#125;</span>
-<span class="token punctuation">)</span>
-<span class="token keyword">public</span> <span class="token annotation punctuation">@interface</span> <span class="token class-name">SpringBootApplication</span> <span class="token punctuation">&#123;</span>
-    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Target(ElementType.TYPE)</span><br><span class="hljs-meta">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="hljs-meta">@Documented</span><br><span class="hljs-meta">@Inherited</span><br><span class="hljs-meta">@SpringBootConfiguration</span><br><span class="hljs-meta">@EnableAutoConfiguration</span><br><span class="hljs-meta">@ComponentScan(</span><br><span class="hljs-meta">    excludeFilters = &#123;@Filter(</span><br><span class="hljs-meta">    type = FilterType.CUSTOM,</span><br><span class="hljs-meta">    classes = &#123;TypeExcludeFilter.class&#125;</span><br><span class="hljs-meta">), @Filter(</span><br><span class="hljs-meta">    type = FilterType.CUSTOM,</span><br><span class="hljs-meta">    classes = &#123;AutoConfigurationExcludeFilter.class&#125;</span><br><span class="hljs-meta">)&#125;</span><br><span class="hljs-meta">)</span><br><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> SpringBootApplication &#123;<br>    ...<br>&#125;<br></code></pre></td></tr></table></figure>
 <p>重点分析</p>
 <ul>
 <li><code>@SpringBootConfiguration</code></li>
@@ -148,16 +124,7 @@
 <li><code>@ComponentScan</code></li>
 </ul>
 <h3 id="springbootconfiguration"><a class="markdownIt-Anchor" href="#springbootconfiguration"></a> @SpringBootConfiguration</h3>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@Target</span><span class="token punctuation">(</span><span class="token class-name">ElementType</span><span class="token punctuation">.</span>TYPE<span class="token punctuation">)</span>
-<span class="token annotation punctuation">@Retention</span><span class="token punctuation">(</span><span class="token class-name">RetentionPolicy</span><span class="token punctuation">.</span>RUNTIME<span class="token punctuation">)</span>
-<span class="token annotation punctuation">@Documented</span>
-<span class="token annotation punctuation">@Configuration</span>
-<span class="token keyword">public</span> <span class="token annotation punctuation">@interface</span> <span class="token class-name">SpringBootConfiguration</span> <span class="token punctuation">&#123;</span>
-    <span class="token annotation punctuation">@AliasFor</span><span class="token punctuation">(</span>
-        annotation <span class="token operator">=</span> <span class="token class-name">Configuration</span><span class="token punctuation">.</span><span class="token keyword">class</span>
-    <span class="token punctuation">)</span>
-    <span class="token keyword">boolean</span> <span class="token function">proxyBeanMethods</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">default</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Target(ElementType.TYPE)</span><br><span class="hljs-meta">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="hljs-meta">@Documented</span><br><span class="hljs-meta">@Configuration</span><br><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> SpringBootConfiguration &#123;<br>    <span class="hljs-meta">@AliasFor(</span><br><span class="hljs-meta">        annotation = Configuration.class</span><br><span class="hljs-meta">    )</span><br>    <span class="hljs-type">boolean</span> <span class="hljs-title function_">proxyBeanMethods</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> <span class="hljs-literal">true</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 <p><code>@Configuration</code>代表当前是一个配置类。</p>
 <h3 id="componentscan"><a class="markdownIt-Anchor" href="#componentscan"></a> @ComponentScan</h3>
 <p>指定扫描哪些Spring注解。</p>
@@ -166,33 +133,7 @@
 <ul>
 <li>是<code>@AutoConfigurationPackage</code>以及</li>
 </ul>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">//</span>
-<span class="token comment">// Source code recreated from a .class file by IntelliJ IDEA</span>
-<span class="token comment">// (powered by FernFlower decompiler)</span>
-<span class="token comment">//</span>
-<span class="token keyword">package</span> <span class="token namespace">org<span class="token punctuation">.</span>springframework<span class="token punctuation">.</span>boot<span class="token punctuation">.</span>autoconfigure</span><span class="token punctuation">;</span>
-<span class="token keyword">import</span> <span class="token import"><span class="token namespace">java<span class="token punctuation">.</span>lang<span class="token punctuation">.</span>annotation<span class="token punctuation">.</span></span><span class="token class-name">Documented</span></span><span class="token punctuation">;</span>
-<span class="token keyword">import</span> <span class="token import"><span class="token namespace">java<span class="token punctuation">.</span>lang<span class="token punctuation">.</span>annotation<span class="token punctuation">.</span></span><span class="token class-name">ElementType</span></span><span class="token punctuation">;</span>
-<span class="token keyword">import</span> <span class="token import"><span class="token namespace">java<span class="token punctuation">.</span>lang<span class="token punctuation">.</span>annotation<span class="token punctuation">.</span></span><span class="token class-name">Inherited</span></span><span class="token punctuation">;</span>
-<span class="token keyword">import</span> <span class="token import"><span class="token namespace">java<span class="token punctuation">.</span>lang<span class="token punctuation">.</span>annotation<span class="token punctuation">.</span></span><span class="token class-name">Retention</span></span><span class="token punctuation">;</span>
-<span class="token keyword">import</span> <span class="token import"><span class="token namespace">java<span class="token punctuation">.</span>lang<span class="token punctuation">.</span>annotation<span class="token punctuation">.</span></span><span class="token class-name">RetentionPolicy</span></span><span class="token punctuation">;</span>
-<span class="token keyword">import</span> <span class="token import"><span class="token namespace">java<span class="token punctuation">.</span>lang<span class="token punctuation">.</span>annotation<span class="token punctuation">.</span></span><span class="token class-name">Target</span></span><span class="token punctuation">;</span>
-<span class="token keyword">import</span> <span class="token import"><span class="token namespace">org<span class="token punctuation">.</span>springframework<span class="token punctuation">.</span>context<span class="token punctuation">.</span>annotation<span class="token punctuation">.</span></span><span class="token class-name">Import</span></span><span class="token punctuation">;</span>
-
-<span class="token annotation punctuation">@Target</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token class-name">ElementType</span><span class="token punctuation">.</span>TYPE<span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
-<span class="token annotation punctuation">@Retention</span><span class="token punctuation">(</span><span class="token class-name">RetentionPolicy</span><span class="token punctuation">.</span>RUNTIME<span class="token punctuation">)</span>
-<span class="token annotation punctuation">@Documented</span>
-<span class="token annotation punctuation">@Inherited</span>
-<span class="token annotation punctuation">@AutoConfigurationPackage</span>
-<span class="token annotation punctuation">@Import</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token class-name">AutoConfigurationImportSelector</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
-<span class="token keyword">public</span> <span class="token annotation punctuation">@interface</span> <span class="token class-name">EnableAutoConfiguration</span> <span class="token punctuation">&#123;</span>
-    <span class="token class-name">String</span> ENABLED_OVERRIDE_PROPERTY <span class="token operator">=</span> <span class="token string">"spring.boot.enableautoconfiguration"</span><span class="token punctuation">;</span>
-
-    <span class="token class-name">Class</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token operator">?</span><span class="token punctuation">></span></span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">exclude</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">default</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
-
-    <span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">excludeName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">default</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//</span><br><span class="hljs-comment">// Source code recreated from a .class file by IntelliJ IDEA</span><br><span class="hljs-comment">// (powered by FernFlower decompiler)</span><br><span class="hljs-comment">//</span><br><span class="hljs-keyword">package</span> org.springframework.boot.autoconfigure;<br><span class="hljs-keyword">import</span> java.lang.annotation.Documented;<br><span class="hljs-keyword">import</span> java.lang.annotation.ElementType;<br><span class="hljs-keyword">import</span> java.lang.annotation.Inherited;<br><span class="hljs-keyword">import</span> java.lang.annotation.Retention;<br><span class="hljs-keyword">import</span> java.lang.annotation.RetentionPolicy;<br><span class="hljs-keyword">import</span> java.lang.annotation.Target;<br><span class="hljs-keyword">import</span> org.springframework.context.annotation.Import;<br><br><span class="hljs-meta">@Target(&#123;ElementType.TYPE&#125;)</span><br><span class="hljs-meta">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="hljs-meta">@Documented</span><br><span class="hljs-meta">@Inherited</span><br><span class="hljs-meta">@AutoConfigurationPackage</span><br><span class="hljs-meta">@Import(&#123;AutoConfigurationImportSelector.class&#125;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> EnableAutoConfiguration &#123;<br>    <span class="hljs-type">String</span> <span class="hljs-variable">ENABLED_OVERRIDE_PROPERTY</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;spring.boot.enableautoconfiguration&quot;</span>;<br><br>    Class&lt;?&gt;[] exclude() <span class="hljs-keyword">default</span> &#123;&#125;;<br><br>    String[] excludeName() <span class="hljs-keyword">default</span> &#123;&#125;;<br>&#125;<br><br></code></pre></td></tr></table></figure>
 <p>重点分析<code>@AutoConfigurationPackage</code>，<code>@Import(AutoConfigurationImportSelector.class)</code>。</p>
 <h3 id="autoconfigurationpackage"><a class="markdownIt-Anchor" href="#autoconfigurationpackage"></a> @AutoConfigurationPackage</h3>
 <p>标签名直译为：自动配置包，指定了默认的包规则。</p>
@@ -203,16 +144,7 @@
 </ul>
 </li>
 </ul>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@Target</span><span class="token punctuation">(</span><span class="token class-name">ElementType</span><span class="token punctuation">.</span>TYPE<span class="token punctuation">)</span>
-<span class="token annotation punctuation">@Retention</span><span class="token punctuation">(</span><span class="token class-name">RetentionPolicy</span><span class="token punctuation">.</span>RUNTIME<span class="token punctuation">)</span>
-<span class="token annotation punctuation">@Documented</span>
-<span class="token annotation punctuation">@Inherited</span>
-<span class="token annotation punctuation">@Import</span><span class="token punctuation">(</span><span class="token class-name">AutoConfigurationPackages<span class="token punctuation">.</span>Registrar</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token comment">//给容器中导入一个组件</span>
-<span class="token keyword">public</span> <span class="token annotation punctuation">@interface</span> <span class="token class-name">AutoConfigurationPackage</span> <span class="token punctuation">&#123;</span>
-    <span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">basePackages</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">default</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
-
-    <span class="token class-name">Class</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token operator">?</span><span class="token punctuation">></span></span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">basePackageClasses</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">default</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Target(ElementType.TYPE)</span><br><span class="hljs-meta">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="hljs-meta">@Documented</span><br><span class="hljs-meta">@Inherited</span><br><span class="hljs-meta">@Import(AutoConfigurationPackages.Registrar.class)</span><span class="hljs-comment">//给容器中导入一个组件</span><br><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> AutoConfigurationPackage &#123;<br>    String[] basePackages() <span class="hljs-keyword">default</span> &#123;&#125;;<br><br>    Class&lt;?&gt;[] basePackageClasses() <span class="hljs-keyword">default</span> &#123;&#125;;<br>&#125;<br></code></pre></td></tr></table></figure>
 <ol>
 <li>利用Registrar给容器中导入一系列组件</li>
 <li>将指定的一个包下的所有组件导入进MainApplication所在包下。</li>
@@ -231,42 +163,13 @@
 </li>
 </ol>
 <p><img src="F:/blog/source/_posts/SpringBoot/image/20210205005536620.png" alt="在这里插入图片描述" /></p>
-<pre class="line-numbers language-properties" data-language="properties"><code class="language-properties"><span class="token comment"># 文件里面写死了spring-boot一启动就要给容器中加载的所有配置类</span>
-<span class="token comment"># spring-boot-autoconfigure-2.3.4.RELEASE.jar/META-INF/spring.factories</span>
-<span class="token comment"># Auto Configure</span>
-<span class="token key attr-name">org.springframework.boot.autoconfigure.EnableAutoConfiguration</span><span class="token punctuation">=</span><span class="token value attr-value">\
-org.springframework.boot.autoconfigure.admin.SpringApplicationAdminJmxAutoConfiguration,\
-org.springframework.boot.autoconfigure.aop.AopAutoConfiguration,\
-...</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-comment"># 文件里面写死了spring-boot一启动就要给容器中加载的所有配置类</span><br><span class="hljs-comment"># spring-boot-autoconfigure-2.3.4.RELEASE.jar/META-INF/spring.factories</span><br><span class="hljs-comment"># Auto Configure</span><br><span class="hljs-attr">org.springframework.boot.autoconfigure.EnableAutoConfiguration</span>=<span class="hljs-string">\</span><br><span class="hljs-string">org.springframework.boot.autoconfigure.admin.SpringApplicationAdminJmxAutoConfiguration,\</span><br><span class="hljs-string">org.springframework.boot.autoconfigure.aop.AopAutoConfiguration,\</span><br><span class="hljs-string">...</span><br></code></pre></td></tr></table></figure>
 <p>虽然我们127个场景的所有自动配置启动的时候默认全部加载，但是<code>xxxxAutoConfiguration</code>按照条件装配规则（<code>@Conditional</code>），最终会按需配置。</p>
 <p>如<code>AopAutoConfiguration</code>类：</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@Configuration</span><span class="token punctuation">(</span>
-    proxyBeanMethods <span class="token operator">=</span> <span class="token boolean">false</span>
-<span class="token punctuation">)</span>
-<span class="token annotation punctuation">@ConditionalOnProperty</span><span class="token punctuation">(</span>
-    prefix <span class="token operator">=</span> <span class="token string">"spring.aop"</span><span class="token punctuation">,</span>
-    name <span class="token operator">=</span> <span class="token string">"auto"</span><span class="token punctuation">,</span>
-    havingValue <span class="token operator">=</span> <span class="token string">"true"</span><span class="token punctuation">,</span>
-    matchIfMissing <span class="token operator">=</span> <span class="token boolean">true</span>
-<span class="token punctuation">)</span>
-<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">AopAutoConfiguration</span> <span class="token punctuation">&#123;</span>
-    <span class="token keyword">public</span> <span class="token class-name">AopAutoConfiguration</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    <span class="token punctuation">&#125;</span>
-	<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Configuration(</span><br><span class="hljs-meta">    proxyBeanMethods = false</span><br><span class="hljs-meta">)</span><br><span class="hljs-meta">@ConditionalOnProperty(</span><br><span class="hljs-meta">    prefix = &quot;spring.aop&quot;,</span><br><span class="hljs-meta">    name = &quot;auto&quot;,</span><br><span class="hljs-meta">    havingValue = &quot;true&quot;,</span><br><span class="hljs-meta">    matchIfMissing = true</span><br><span class="hljs-meta">)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AopAutoConfiguration</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">AopAutoConfiguration</span><span class="hljs-params">()</span> &#123;<br>    &#125;<br>	...<br>&#125;<br></code></pre></td></tr></table></figure>
 <h2 id="15-自动配置源码分析-自动配置流程"><a class="markdownIt-Anchor" href="#15-自动配置源码分析-自动配置流程"></a> 15、自动配置【源码分析】-自动配置流程</h2>
 <p>以<code>DispatcherServletAutoConfiguration</code>的内部类<code>DispatcherServletConfiguration</code>为例子:</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@Bean</span>
-<span class="token annotation punctuation">@ConditionalOnBean</span><span class="token punctuation">(</span><span class="token class-name">MultipartResolver</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span>  <span class="token comment">//容器中有这个类型组件</span>
-<span class="token annotation punctuation">@ConditionalOnMissingBean</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token class-name">DispatcherServlet</span><span class="token punctuation">.</span>MULTIPART_RESOLVER_BEAN_NAME<span class="token punctuation">)</span>
-<span class="token comment">//容器中没有这个名字(multipartResolver) multipartResolver 的组件</span>
-<span class="token keyword">public</span> <span class="token class-name">MultipartResolver</span> <span class="token function">multipartResolver</span><span class="token punctuation">(</span><span class="token class-name">MultipartResolver</span> resolv	er<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-	<span class="token comment">//给@Bean标注的方法传入了对象参数，这个参数的值就会从容器中找。</span>
-	<span class="token comment">//SpringMVC multipartResolver(做了规范化)。防止有些用户配置的文件上传解析器不符合规范 , 把名字纠正为multipartResolver</span>
-	<span class="token comment">// Detect if the user has created a MultipartResolver but named it incorrectly</span>
-	<span class="token keyword">return</span> resolver<span class="token punctuation">;</span>
-    <span class="token comment">//给容器中加入了文件上传解析器；</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Bean</span><br><span class="hljs-meta">@ConditionalOnBean(MultipartResolver.class)</span>  <span class="hljs-comment">//容器中有这个类型组件</span><br><span class="hljs-meta">@ConditionalOnMissingBean(name = DispatcherServlet.MULTIPART_RESOLVER_BEAN_NAME)</span><br><span class="hljs-comment">//容器中没有这个名字(multipartResolver) multipartResolver 的组件</span><br><span class="hljs-keyword">public</span> MultipartResolver <span class="hljs-title function_">multipartResolver</span><span class="hljs-params">(MultipartResolver resolv	er)</span> &#123;<br>	<span class="hljs-comment">//给@Bean标注的方法传入了对象参数，这个参数的值就会从容器中找。</span><br>	<span class="hljs-comment">//SpringMVC multipartResolver(做了规范化)。防止有些用户配置的文件上传解析器不符合规范 , 把名字纠正为multipartResolver</span><br>	<span class="hljs-comment">// Detect if the user has created a MultipartResolver but named it incorrectly</span><br>	<span class="hljs-keyword">return</span> resolver;<br>    <span class="hljs-comment">//给容器中加入了文件上传解析器；</span><br>&#125;<br></code></pre></td></tr></table></figure>
 <ul>
 <li><u>SpringBoot默认会在底层配好所有的组件</u>，但是<strong>如果用户自己配置了以用户的优先</strong>。</li>
 </ul>
@@ -330,8 +233,7 @@ org.springframework.boot.autoconfigure.aop.AopAutoConfiguration,\
 </ul>
 <blockquote>
 <p>比如<code>spring.banner.image.location</code></p>
-<pre class="line-numbers language-properties" data-language="properties"><code class="language-properties"><span class="token key attr-name">spring.banner.image.location</span><span class="token punctuation">=</span><span class="token value attr-value">classpath:picture.png</span>
-<span class="token comment"># 默认是 resource 目录下的banner.gif (jpg or  png  can also be used)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">spring.banner.image.location</span>=<span class="hljs-string">classpath:picture.png</span><br><span class="hljs-comment"># 默认是 resource 目录下的banner.gif (jpg or  png  can also be used)</span><br></code></pre></td></tr></table></figure>
 </blockquote>
 </li>
 <li>
@@ -355,10 +257,7 @@ org.springframework.boot.autoconfigure.aop.AopAutoConfiguration,\
 <ul>
 <li>引入依赖：</li>
 </ul>
-<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
-     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.projectlombok<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
-     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>lombok<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs xml"> <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>     <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.projectlombok<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>     <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>lombok<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure>
 <p>IDEA中File-&gt;Settings-&gt;Plugins，搜索安装Lombok插件。</p>
 <img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082image-20220805094132788.png" alt="image-20220805094132788" style="zoom:80%;" />
 <blockquote>
@@ -379,33 +278,10 @@ org.springframework.boot.autoconfigure.aop.AopAutoConfiguration,\
 <blockquote>
 <p>如果需要部分参数的构造器, 就需要自己写</p>
 </blockquote>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@NoArgsConstructor</span>
-<span class="token annotation punctuation">@Data</span> 
-<span class="token annotation punctuation">@ToString</span>
-<span class="token annotation punctuation">@EqualsAndHashCode</span>
-<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">User</span> <span class="token punctuation">&#123;</span>
-
-    <span class="token keyword">private</span> <span class="token class-name">String</span> name<span class="token punctuation">;</span>
-    <span class="token keyword">private</span> <span class="token class-name">Integer</span> age<span class="token punctuation">;</span>
-
-    <span class="token keyword">private</span> <span class="token class-name">Pet</span> pet<span class="token punctuation">;</span>
-
-    <span class="token keyword">public</span> <span class="token class-name">User</span><span class="token punctuation">(</span><span class="token class-name">String</span> name<span class="token punctuation">,</span><span class="token class-name">Integer</span> age<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
-        <span class="token keyword">this</span><span class="token punctuation">.</span>name <span class="token operator">=</span> name<span class="token punctuation">;</span>
-        <span class="token keyword">this</span><span class="token punctuation">.</span>age <span class="token operator">=</span> age<span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@NoArgsConstructor</span><br><span class="hljs-meta">@Data</span> <br><span class="hljs-meta">@ToString</span><br><span class="hljs-meta">@EqualsAndHashCode</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">User</span> &#123;<br><br>    <span class="hljs-keyword">private</span> String name;<br>    <span class="hljs-keyword">private</span> Integer age;<br><br>    <span class="hljs-keyword">private</span> Pet pet;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">User</span><span class="hljs-params">(String name,Integer age)</span>&#123;<br>        <span class="hljs-built_in">this</span>.name = name;<br>        <span class="hljs-built_in">this</span>.age = age;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 <hr />
 <p>简化日志开发</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@Slf4j</span>
-<span class="token annotation punctuation">@RestController</span>
-<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">HelloController</span> <span class="token punctuation">&#123;</span>
-    <span class="token annotation punctuation">@RequestMapping</span><span class="token punctuation">(</span><span class="token string">"/hello"</span><span class="token punctuation">)</span>
-    <span class="token keyword">public</span> <span class="token class-name">String</span> <span class="token function">handle01</span><span class="token punctuation">(</span><span class="token annotation punctuation">@RequestParam</span><span class="token punctuation">(</span><span class="token string">"name"</span><span class="token punctuation">)</span> <span class="token class-name">String</span> name<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
-        log<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"请求进来了...."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">return</span> <span class="token string">"Hello, Spring Boot 2!"</span><span class="token operator">+</span><span class="token string">"你好："</span><span class="token operator">+</span>name<span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Slf4j</span><br><span class="hljs-meta">@RestController</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">HelloController</span> &#123;<br>    <span class="hljs-meta">@RequestMapping(&quot;/hello&quot;)</span><br>    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">handle01</span><span class="hljs-params">(<span class="hljs-meta">@RequestParam(&quot;name&quot;)</span> String name)</span>&#123;<br>        log.info(<span class="hljs-string">&quot;请求进来了....&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;Hello, Spring Boot 2!&quot;</span>+<span class="hljs-string">&quot;你好：&quot;</span>+name;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 <h3 id="lombok的优缺点"><a class="markdownIt-Anchor" href="#lombok的优缺点"></a> Lombok的优缺点</h3>
 <ul>
 <li>
@@ -448,13 +324,7 @@ org.springframework.boot.autoconfigure.aop.AopAutoConfiguration,\
 </ul>
 </blockquote>
 <p>添加依赖：</p>
-<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependencies</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.springframework.boot<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>spring-boot-devtools<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>optional</span><span class="token punctuation">></span></span>true<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>optional</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependencies</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-devtools<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">optional</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name">optional</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span><br></code></pre></td></tr></table></figure>
 <p>在IDEA中，项目或者页面修改以后：Ctrl+F9(重新编译)。</p>
 <h2 id="19-最佳实践-spring-initailizr项目初始化向导"><a class="markdownIt-Anchor" href="#19-最佳实践-spring-initailizr项目初始化向导"></a> 19、最佳实践-Spring Initailizr(项目初始化向导)</h2>
 <ul>
@@ -485,55 +355,17 @@ org.springframework.boot.autoconfigure.aop.AopAutoConfiguration,\
 <ul>
 <li>字面量：单个的、不可再分的值。date、boolean、string、number、null</li>
 </ul>
-<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token key atrule">k</span><span class="token punctuation">:</span> v<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">k:</span> <span class="hljs-string">v</span><br></code></pre></td></tr></table></figure>
 <ul>
 <li>对象：键值对的集合。map、hash、set、object</li>
 </ul>
-<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token comment">#行内写法：  </span>
-
-<span class="token key atrule">k</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span>k1<span class="token punctuation">:</span>v1<span class="token punctuation">,</span>k2<span class="token punctuation">:</span>v2<span class="token punctuation">,</span>k3<span class="token punctuation">:</span>v3<span class="token punctuation">&#125;</span>
-
-<span class="token comment">#或</span>
-
-<span class="token key atrule">k</span><span class="token punctuation">:</span> 
-  <span class="token key atrule">k1</span><span class="token punctuation">:</span> v1
-  <span class="token key atrule">k2</span><span class="token punctuation">:</span> v2
-  <span class="token key atrule">k3</span><span class="token punctuation">:</span> v3<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-comment">#行内写法：  </span><br><br><span class="hljs-attr">k:</span> &#123;<span class="hljs-string">k1:v1</span>,<span class="hljs-string">k2:v2</span>,<span class="hljs-string">k3:v3</span>&#125;<br><br><span class="hljs-comment">#或</span><br><br><span class="hljs-attr">k:</span> <br>  <span class="hljs-attr">k1:</span> <span class="hljs-string">v1</span><br>  <span class="hljs-attr">k2:</span> <span class="hljs-string">v2</span><br>  <span class="hljs-attr">k3:</span> <span class="hljs-string">v3</span><br></code></pre></td></tr></table></figure>
 <ul>
 <li>数组：一组按次序排列的值。array、list、queue</li>
 </ul>
-<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token comment">#行内写法：  </span>
-
-<span class="token key atrule">k</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>v1<span class="token punctuation">,</span>v2<span class="token punctuation">,</span>v3<span class="token punctuation">]</span>
-
-<span class="token comment">#或者</span>
-
-<span class="token key atrule">k</span><span class="token punctuation">:</span>
- <span class="token punctuation">-</span> v1
- <span class="token punctuation">-</span> v2
- <span class="token punctuation">-</span> v3<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-comment">#行内写法：  </span><br><br><span class="hljs-attr">k:</span> [<span class="hljs-string">v1</span>,<span class="hljs-string">v2</span>,<span class="hljs-string">v3</span>]<br><br><span class="hljs-comment">#或者</span><br><br><span class="hljs-attr">k:</span><br> <span class="hljs-bullet">-</span> <span class="hljs-string">v1</span><br> <span class="hljs-bullet">-</span> <span class="hljs-string">v2</span><br> <span class="hljs-bullet">-</span> <span class="hljs-string">v3</span><br></code></pre></td></tr></table></figure>
 <h3 id="实例"><a class="markdownIt-Anchor" href="#实例"></a> 实例</h3>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@ConfigurationProperties</span><span class="token punctuation">(</span>prefix <span class="token operator">=</span> <span class="token string">"person"</span><span class="token punctuation">)</span>
-<span class="token annotation punctuation">@Component</span>
-<span class="token annotation punctuation">@Data</span>
-<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Person</span> <span class="token punctuation">&#123;</span>
-    <span class="token keyword">private</span> <span class="token class-name">String</span> userName<span class="token punctuation">;</span>
-    <span class="token keyword">private</span> <span class="token class-name">Boolean</span> boss<span class="token punctuation">;</span>
-    <span class="token keyword">private</span> <span class="token class-name">Date</span> birth<span class="token punctuation">;</span>
-    <span class="token keyword">private</span> <span class="token class-name">Integer</span> age<span class="token punctuation">;</span>
-    <span class="token keyword">private</span> <span class="token class-name">Pet</span> pet<span class="token punctuation">;</span>
-    <span class="token keyword">private</span> <span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> interests<span class="token punctuation">;</span>
-    <span class="token keyword">private</span> <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">></span></span> animal<span class="token punctuation">;</span>
-    <span class="token keyword">private</span> <span class="token class-name">Map</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">,</span> <span class="token class-name">Object</span><span class="token punctuation">></span></span> score<span class="token punctuation">;</span>
-    <span class="token keyword">private</span> <span class="token class-name">Set</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Double</span><span class="token punctuation">></span></span> salarys<span class="token punctuation">;</span>
-    <span class="token keyword">private</span> <span class="token class-name">Map</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">,</span> <span class="token class-name">List</span><span class="token punctuation">&lt;</span><span class="token class-name">Pet</span><span class="token punctuation">></span><span class="token punctuation">></span></span> allPets<span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span>
-
-<span class="token annotation punctuation">@Data</span>
-<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Pet</span> <span class="token punctuation">&#123;</span>
-    <span class="token keyword">private</span> <span class="token class-name">String</span> name<span class="token punctuation">;</span>
-    <span class="token keyword">private</span> <span class="token class-name">Double</span> weight<span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@ConfigurationProperties(prefix = &quot;person&quot;)</span><br><span class="hljs-meta">@Component</span><br><span class="hljs-meta">@Data</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Person</span> &#123;<br>    <span class="hljs-keyword">private</span> String userName;<br>    <span class="hljs-keyword">private</span> Boolean boss;<br>    <span class="hljs-keyword">private</span> Date birth;<br>    <span class="hljs-keyword">private</span> Integer age;<br>    <span class="hljs-keyword">private</span> Pet pet;<br>    <span class="hljs-keyword">private</span> String[] interests;<br>    <span class="hljs-keyword">private</span> List&lt;String&gt; animal;<br>    <span class="hljs-keyword">private</span> Map&lt;String, Object&gt; score;<br>    <span class="hljs-keyword">private</span> Set&lt;Double&gt; salarys;<br>    <span class="hljs-keyword">private</span> Map&lt;String, List&lt;Pet&gt;&gt; allPets;<br>&#125;<br><br><span class="hljs-meta">@Data</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Pet</span> &#123;<br>    <span class="hljs-keyword">private</span> String name;<br>    <span class="hljs-keyword">private</span> Double weight;<br>&#125;<br></code></pre></td></tr></table></figure>
 <p><strong>用yaml表示以上对象</strong></p>
 <ul>
 <li>
@@ -549,45 +381,7 @@ org.springframework.boot.autoconfigure.aop.AopAutoConfiguration,\
 <pre class="highlight"><code class="txt"> \n --&gt;
  张三
  李四
-<pre class="line-numbers language-none"><code class="language-none">
-**application.yml**
-
-&#96;&#96;&#96;yaml
-person:
-  userName: dhx_
-  boss: true
-  birth: 2019&#x2F;12&#x2F;21
-  age: 18
-  #interests: [吃饭,睡觉,玩游戏]
-  interests:
-    - 篮球
-    - 睡觉
-    - 吃饭
-    - 玩游戏
-  animal: [cat,dog,fish]
-#  score:
-#    english: 10
-#    math: 90
-  score: &#123;english:80,math:90&#125;
-  salarys:
-    - 9999.1
-    - 999.2
-  pet:
-    name: Tom
-    weight: 10
-  allPets:
-    sick:
-      - &#123;name:阿狗,weight:90.1&#125;
-      - name: 阿猫
-        weight: 88.66
-      - name: 阿蛇
-        weight: 77.77
-    health:
-      - &#123;name:大狗,weight:90.1&#125;
-      - name: 大猫
-        weight: 88.66
-      - name: 大蛇
-        weight: 77.77<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight nestedtext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs nestedtext"><br><span class="hljs-attribute">**application.yml**</span><br><span class="hljs-attribute"></span><br><span class="hljs-attribute">```yaml</span><br><span class="hljs-attribute">person</span><span class="hljs-punctuation">:</span><br>  <span class="hljs-attribute">userName</span><span class="hljs-punctuation">:</span> <span class="hljs-string">dhx_</span><br>  <span class="hljs-attribute">boss</span><span class="hljs-punctuation">:</span> <span class="hljs-string">true</span><br>  <span class="hljs-attribute">birth</span><span class="hljs-punctuation">:</span> <span class="hljs-string">2019/12/21</span><br>  <span class="hljs-attribute">age</span><span class="hljs-punctuation">:</span> <span class="hljs-string">18</span><br>  <span class="hljs-comment">#interests: [吃饭,睡觉,玩游戏]</span><br>  <span class="hljs-attribute">interests</span><span class="hljs-punctuation">:</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">篮球</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">睡觉</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">吃饭</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">玩游戏</span><br>  <span class="hljs-attribute">animal</span><span class="hljs-punctuation">:</span> <span class="hljs-string">[cat,dog,fish]</span><br><span class="hljs-comment">#  score:</span><br><span class="hljs-comment">#    english: 10</span><br><span class="hljs-comment">#    math: 90</span><br>  <span class="hljs-attribute">score</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&#123;english:80,math:90&#125;</span><br>  <span class="hljs-attribute">salarys</span><span class="hljs-punctuation">:</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">9999.1</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">999.2</span><br>  <span class="hljs-attribute">pet</span><span class="hljs-punctuation">:</span><br>    <span class="hljs-attribute">name</span><span class="hljs-punctuation">:</span> <span class="hljs-string">Tom</span><br>    <span class="hljs-attribute">weight</span><span class="hljs-punctuation">:</span> <span class="hljs-string">10</span><br>  <span class="hljs-attribute">allPets</span><span class="hljs-punctuation">:</span><br>    <span class="hljs-attribute">sick</span><span class="hljs-punctuation">:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&#123;name:阿狗,weight:90.1&#125;</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">name: 阿猫</span><br>        <span class="hljs-attribute">weight</span><span class="hljs-punctuation">:</span> <span class="hljs-string">88.66</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">name: 阿蛇</span><br>        <span class="hljs-attribute">weight</span><span class="hljs-punctuation">:</span> <span class="hljs-string">77.77</span><br>    <span class="hljs-attribute">health</span><span class="hljs-punctuation">:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&#123;name:大狗,weight:90.1&#125;</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">name: 大猫</span><br>        <span class="hljs-attribute">weight</span><span class="hljs-punctuation">:</span> <span class="hljs-string">88.66</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">name: 大蛇</span><br>        <span class="hljs-attribute">weight</span><span class="hljs-punctuation">:</span> <span class="hljs-string">77.77</span><br></code></pre></td></tr></table></figure>
 
 </code></pre>
 </li>
@@ -595,18 +389,9 @@ person:
 </li>
 </ul>
 <p>controller:</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@RestController</span>
-<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">HelloController</span> <span class="token punctuation">&#123;</span>
-    <span class="token annotation punctuation">@Autowired</span>
-    <span class="token class-name">Person</span> person<span class="token punctuation">;</span>
-
-    <span class="token annotation punctuation">@RequestMapping</span><span class="token punctuation">(</span><span class="token string">"/person"</span><span class="token punctuation">)</span>
-    <span class="token keyword">public</span> <span class="token class-name">Person</span> <span class="token function">person</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
-        <span class="token keyword">return</span> person<span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@RestController</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">HelloController</span> &#123;<br>    <span class="hljs-meta">@Autowired</span><br>    Person person;<br><br>    <span class="hljs-meta">@RequestMapping(&quot;/person&quot;)</span><br>    <span class="hljs-keyword">public</span> Person <span class="hljs-title function_">person</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-keyword">return</span> person;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 <p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082image-20220805123200802.png" alt="image-20220805123200802" /></p>
-<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup">&#123;"userName":"dhx_","boss":true,"birth":"2019-12-20T16:00:00.000+00:00","age":18,"pet":&#123;"name":"Tom","weight":10.0&#125;,"interests":["篮球","睡觉","吃饭","玩游戏"],"animal":["cat","dog","fish"],"score":&#123;"english80":"","math90":""&#125;,"salarys":[9999.1,999.2],"allPets":&#123;"sick":[&#123;"name":"","weight":null&#125;,&#123;"name":"阿猫","weight":88.66&#125;,&#123;"name":"阿蛇","weight":77.77&#125;],"health":[&#123;"name":"","weight":null&#125;,&#123;"name":"大猫","weight":88.66&#125;,&#123;"name":"大蛇","weight":77.77&#125;]&#125;&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs html">&#123;&quot;userName&quot;:&quot;dhx_&quot;,&quot;boss&quot;:true,&quot;birth&quot;:&quot;2019-12-20T16:00:00.000+00:00&quot;,&quot;age&quot;:18,&quot;pet&quot;:&#123;&quot;name&quot;:&quot;Tom&quot;,&quot;weight&quot;:10.0&#125;,&quot;interests&quot;:[&quot;篮球&quot;,&quot;睡觉&quot;,&quot;吃饭&quot;,&quot;玩游戏&quot;],&quot;animal&quot;:[&quot;cat&quot;,&quot;dog&quot;,&quot;fish&quot;],&quot;score&quot;:&#123;&quot;english80&quot;:&quot;&quot;,&quot;math90&quot;:&quot;&quot;&#125;,&quot;salarys&quot;:[9999.1,999.2],&quot;allPets&quot;:&#123;&quot;sick&quot;:[&#123;&quot;name&quot;:&quot;&quot;,&quot;weight&quot;:null&#125;,&#123;&quot;name&quot;:&quot;阿猫&quot;,&quot;weight&quot;:88.66&#125;,&#123;&quot;name&quot;:&quot;阿蛇&quot;,&quot;weight&quot;:77.77&#125;],&quot;health&quot;:[&#123;&quot;name&quot;:&quot;&quot;,&quot;weight&quot;:null&#125;,&#123;&quot;name&quot;:&quot;大猫&quot;,&quot;weight&quot;:88.66&#125;,&#123;&quot;name&quot;:&quot;大蛇&quot;,&quot;weight&quot;:77.77&#125;]&#125;&#125;<br></code></pre></td></tr></table></figure>
 <blockquote>
 <p>当同时存在application.properties以及application.yml文件时, 会以properties的内容优先</p>
 </blockquote>
@@ -616,29 +401,7 @@ person:
 <p>You can easily generate your own configuration metadata file from items annotated with <code>@ConfigurationProperties</code> by using the <code>spring-boot-configuration-processor</code> jar. The jar includes a Java annotation processor which is invoked as your project is compiled.——<a target="_blank" rel="noopener" href="https://docs.spring.io/spring-boot/docs/2.4.2/reference/htmlsingle/#configuration-metadata-annotation-processor">link</a></p>
 </blockquote>
 <p>自定义的类和配置文件绑定一般没有提示。若要提示，添加如下依赖：</p>
-<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.springframework.boot<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>spring-boot-configuration-processor<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>optional</span><span class="token punctuation">></span></span>true<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>optional</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span>
-
-<span class="token comment">&lt;!-- 下面插件作用是工程打包时，不将spring-boot-configuration-processor打进包内，让其只在编码的时候有用 --></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>build</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>plugins</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>plugin</span><span class="token punctuation">></span></span>
-            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.springframework.boot<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
-            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>spring-boot-maven-plugin<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
-            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>configuration</span><span class="token punctuation">></span></span>
-                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>excludes</span><span class="token punctuation">></span></span>
-                    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>exclude</span><span class="token punctuation">></span></span>
-                        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.springframework.boot<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
-                        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>spring-boot-configuration-processor<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
-                    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>exclude</span><span class="token punctuation">></span></span>
-                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>excludes</span><span class="token punctuation">></span></span>
-            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>configuration</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>plugin</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>plugins</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>build</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre> 
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-configuration-processor<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">optional</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name">optional</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><br><span class="hljs-comment">&lt;!-- 下面插件作用是工程打包时，不将spring-boot-configuration-processor打进包内，让其只在编码的时候有用 --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">build</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">plugins</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">plugin</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-maven-plugin<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">configuration</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">excludes</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">exclude</span>&gt;</span><br>                        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>                        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-configuration-processor<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>                    <span class="hljs-tag">&lt;/<span class="hljs-name">exclude</span>&gt;</span><br>                <span class="hljs-tag">&lt;/<span class="hljs-name">excludes</span>&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">configuration</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">plugin</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">plugins</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">build</span>&gt;</span><br></code></pre></td></tr></table></figure> 
       <!-- reward -->
       
     </div>
@@ -715,24 +478,72 @@ person:
    
   <nav class="article-nav">
     
-      <a href="/2022/08/08/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E9%98%9F%E5%88%97/" class="article-nav-link">
+      <a href="/2022/08/05/SpringBoot/day03/" class="article-nav-link">
         <strong class="article-nav-caption">上一篇</strong>
         <div class="article-nav-title">
           
-            队列
+            springboot(3)
           
         </div>
       </a>
     
     
-      <a href="/2022/08/05/SpringBoot/day03/" class="article-nav-link">
+      <a href="/2022/08/01/SpringBoot/day01/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">springboot(3)</div>
+        <div class="article-nav-title">springboot(1)</div>
       </a>
     
   </nav>
 
-  
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.staticfile.org/valine/1.4.16/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "BMxcpVMjh3EMOP7tyImO6aLR-gzGzoHsz",
+    app_key: "HpcPO68bneKDaeq3H1G1xuIN",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
    
     
     <script src="https://cdn.staticfile.org/twikoo/1.4.18/twikoo.all.min.js"></script>

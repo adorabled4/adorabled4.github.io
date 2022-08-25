@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">2.6k</span>
+            <span class="post-count">2.7k</span>
         </span>
     </span>
 
@@ -95,7 +95,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">10 分钟</span>
+            <span class="post-count">11 分钟</span>
         </span>
     </span>
 </div>
@@ -150,10 +150,7 @@ DispatcherServlet这个类的工作分为两大部分：</p>
 </li>
 <li>
 <p>视图处理</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token number">1.</span> <span class="token number">1.</span> <span class="token class-name">String</span> returnStr <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">)</span>returnObj<span class="token punctuation">;</span>
-      <span class="token keyword">if</span><span class="token punctuation">(</span>returnStr<span class="token punctuation">.</span><span class="token function">startWith</span><span class="token punctuation">(</span><span class="token string">"redirect:"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
-       <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
-      <span class="token punctuation">&#125;</span><span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-number">1.</span> <span class="hljs-number">1.</span> <span class="hljs-type">String</span> <span class="hljs-variable">returnStr</span> <span class="hljs-operator">=</span> (String)returnObj;<br>      <span class="hljs-keyword">if</span>(returnStr.startWith(<span class="hljs-string">&quot;redirect:&quot;</span>))&#123;<br>       ....<br>      &#125;<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>..... <br></code></pre></td></tr></table></figure>
 </li>
 </ol>
 </li>
@@ -164,16 +161,7 @@ DispatcherServlet这个类的工作分为两大部分：</p>
 </blockquote>
 <p>Servlet中的初始化方法有两个：</p>
 <p><code>init() , init(config)</code></p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">//其中带参数的方法代码如下：</span>
-<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">init</span><span class="token punctuation">(</span><span class="token class-name">ServletConfig</span> config<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">ServletException</span> <span class="token punctuation">&#123;</span>
-  <span class="token keyword">this</span><span class="token punctuation">.</span>config <span class="token operator">=</span> config <span class="token punctuation">;</span>
-  <span class="token function">init</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span>
-
-<span class="token comment">//另外一个无参的init方法如下：</span>
-<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">init</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">ServletException</span><span class="token punctuation">&#123;</span>
-    
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//其中带参数的方法代码如下：</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">init</span><span class="hljs-params">(ServletConfig config)</span> <span class="hljs-keyword">throws</span> ServletException &#123;<br>  <span class="hljs-built_in">this</span>.config = config ;<br>  init();<br>&#125;<br><br><span class="hljs-comment">//另外一个无参的init方法如下：</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">init</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> ServletException&#123;<br>    <br>&#125;<br></code></pre></td></tr></table></figure>
 <blockquote>
 <p>如果我们想要在Servlet初始化时做一些准备工作，那么我们可以重写init方法<br />
 我们可以通过如下步骤去获取初始化设置的数据</p>
@@ -183,28 +171,9 @@ DispatcherServlet这个类的工作分为两大部分：</p>
 <li>获取初始化参数值： config.getInitParameter(key);</li>
 </ul>
 <p><u>在web.xml文件中配置Servlet</u></p>
-<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>servlet</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>servlet-name</span><span class="token punctuation">></span></span>Demo01Servlet<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>servlet-name</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>servlet-class</span><span class="token punctuation">></span></span>com.atguigu.servlet.Demo01Servlet<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>servlet-class</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>init-param</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>param-name</span><span class="token punctuation">></span></span>hello<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>param-name</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>param-value</span><span class="token punctuation">></span></span>world<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>param-value</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>init-param</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>init-param</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>param-name</span><span class="token punctuation">></span></span>uname<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>param-name</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>param-value</span><span class="token punctuation">></span></span>jim<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>param-value</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>init-param</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>servlet</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>servlet-mapping</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>servlet-name</span><span class="token punctuation">></span></span>Demo01Servlet<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>servlet-name</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>url-pattern</span><span class="token punctuation">></span></span>/demo01<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>url-pattern</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>servlet-mapping</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">servlet</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">servlet-name</span>&gt;</span>Demo01Servlet<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-name</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">servlet-class</span>&gt;</span>com.atguigu.servlet.Demo01Servlet<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-class</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">init-param</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">param-name</span>&gt;</span>hello<span class="hljs-tag">&lt;/<span class="hljs-name">param-name</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">param-value</span>&gt;</span>world<span class="hljs-tag">&lt;/<span class="hljs-name">param-value</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">init-param</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">init-param</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">param-name</span>&gt;</span>uname<span class="hljs-tag">&lt;/<span class="hljs-name">param-name</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">param-value</span>&gt;</span>jim<span class="hljs-tag">&lt;/<span class="hljs-name">param-value</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">init-param</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">servlet</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">servlet-mapping</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">servlet-name</span>&gt;</span>Demo01Servlet<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-name</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">url-pattern</span>&gt;</span>/demo01<span class="hljs-tag">&lt;/<span class="hljs-name">url-pattern</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">servlet-mapping</span>&gt;</span><br></code></pre></td></tr></table></figure>
 <p><mark>也可以通过注解的方式进行配置</mark>：</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@WebServlet</span><span class="token punctuation">(</span>urlPatterns <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token string">"/demo01"</span><span class="token punctuation">&#125;</span> <span class="token punctuation">,</span>
- initParams <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
-     <span class="token annotation punctuation">@WebInitParam</span><span class="token punctuation">(</span>name<span class="token operator">=</span><span class="token string">"hello"</span><span class="token punctuation">,</span>value<span class="token operator">=</span><span class="token string">"world"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-     <span class="token annotation punctuation">@WebInitParam</span><span class="token punctuation">(</span>name<span class="token operator">=</span><span class="token string">"uname"</span><span class="token punctuation">,</span>value<span class="token operator">=</span><span class="token string">"jim"</span><span class="token punctuation">)</span>
- <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@WebServlet(urlPatterns = &#123;&quot;/demo01&quot;&#125; ,</span><br><span class="hljs-meta"> initParams = &#123;</span><br><span class="hljs-meta">     @WebInitParam(name=&quot;hello&quot;,value=&quot;world&quot;),</span><br><span class="hljs-meta">     @WebInitParam(name=&quot;uname&quot;,value=&quot;jim&quot;)</span><br><span class="hljs-meta"> &#125;)</span><br></code></pre></td></tr></table></figure>
 <h1 id="2-学习servlet中的servletcontext和context-param"><a class="markdownIt-Anchor" href="#2-学习servlet中的servletcontext和context-param"></a> 2、学习Servlet中的<code>ServletContext</code>和<code>&lt;context-param&gt;</code></h1>
 <h2 id="1-获取servletcontext"><a class="markdownIt-Anchor" href="#1-获取servletcontext"></a> 1、获取ServletContext</h2>
 <p>在初始化方法中： ServletContxt servletContext = getServletContext();<br />
@@ -292,9 +261,7 @@ request.getServletContext(); session.getServletContext()</p>
 <li>
 <p>之后，我们将代码修改成FruitService fruitService = null ;<br />
 然后，在配置文件中配置:</p>
-<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>bean</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>fruit<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>FruitController<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>fruitService<span class="token punctuation">"</span></span> <span class="token attr-name">ref</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>fruitService<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>bean</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;fruit&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;FruitController&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;fruitService&quot;</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">&quot;fruitService&quot;</span>/&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span><br></code></pre></td></tr></table></figure>
 </li>
 </ol>
 </li>
@@ -307,10 +274,7 @@ request.getServletContext(); session.getServletContext()</p>
 <p>可以在<code>init()</code>方法内执行一些准备操作，比如DispatcherServlet  的就是在这里通过初始化<code>beanFactory</code>对象，</p>
 <p><code>new ClassPathXmlApplicationContext();</code>读取<mark>applicationContext.xml</mark>的内容，方便下面直接通过<code>beanFactory</code>依据<code>servletPath</code>获取Controller</p>
 </blockquote>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">init</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">ServletException</span> <span class="token punctuation">&#123;</span>
-    <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">init</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    beanFactory <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ClassPathXmlApplicationContext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">init</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> ServletException &#123;<br>    <span class="hljs-built_in">super</span>.init();<br>    beanFactory = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ClassPathXmlApplicationContext</span>();<br>&#125;<br></code></pre></td></tr></table></figure>
 <p>此时进入Service方法:</p>
 <h3 id="service内执行的内容"><a class="markdownIt-Anchor" href="#service内执行的内容"></a> Service内执行的内容</h3>
 <ol>
@@ -326,18 +290,7 @@ request.getServletContext(); session.getServletContext()</p>
 </li>
 <li>
 <p>applicationContext.xml</p>
-<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token prolog">&lt;?xml version="1.0" encoding="utf-8"?></span>
-
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>beans</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>bean</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>fruitDAO<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>com.atguigu.fruit.dao.impl.FruitDAOImpl<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>bean</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>fruitService<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>com.atguigu.fruit.service.impl.FruitServiceImpl<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
-        <span class="token comment">&lt;!-- property标签用来表示属性；name表示属性名；ref表示引用其他bean的id值(reference : 引用)--></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>fruitDAO<span class="token punctuation">"</span></span> <span class="token attr-name">ref</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>fruitDAO<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>bean</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>bean</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>fruit<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>com.atguigu.fruit.controllers.FruitController<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>fruitService<span class="token punctuation">"</span></span> <span class="token attr-name">ref</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>fruitService<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>bean</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>beans</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;utf-8&quot;</span>?&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">beans</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;fruitDAO&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.atguigu.fruit.dao.impl.FruitDAOImpl&quot;</span>/&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;fruitService&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.atguigu.fruit.service.impl.FruitServiceImpl&quot;</span>&gt;</span><br>        <span class="hljs-comment">&lt;!-- property标签用来表示属性；name表示属性名；ref表示引用其他bean的id值(reference : 引用)--&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;fruitDAO&quot;</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">&quot;fruitDAO&quot;</span>/&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;fruit&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.atguigu.fruit.controllers.FruitController&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;fruitService&quot;</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">&quot;fruitService&quot;</span>/&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">beans</span>&gt;</span><br></code></pre></td></tr></table></figure>
 </li>
 </ul>
 <p>然后通过反射 <code>controllerBeanObj.getClass().getDeclaredMethods();</code> 获取 operate对应的 controller内的方法，</p>
@@ -353,49 +306,14 @@ request.getServletContext(); session.getServletContext()</p>
 <ul>
 <li>
 <p>FruitController内的方法如下</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">private</span> <span class="token class-name">String</span> <span class="token function">edit</span><span class="token punctuation">(</span><span class="token class-name">Integer</span> fid <span class="token punctuation">,</span> <span class="token class-name">HttpServletRequest</span> request<span class="token punctuation">)</span>
-<span class="token keyword">private</span> <span class="token class-name">String</span> <span class="token function">update</span><span class="token punctuation">(</span><span class="token class-name">Integer</span> fid <span class="token punctuation">,</span><span class="token class-name">String</span> fname<span class="token punctuation">,</span><span class="token class-name">Integer</span> price<span class="token punctuation">,</span><span class="token class-name">Integer</span> fcount <span class="token punctuation">,</span><span class="token class-name">String</span> remark <span class="token punctuation">)</span>
-<span class="token keyword">private</span> <span class="token class-name">String</span> <span class="token function">del</span><span class="token punctuation">(</span><span class="token class-name">Integer</span> fid<span class="token punctuation">)</span>
-<span class="token keyword">private</span> <span class="token class-name">String</span> <span class="token function">add</span><span class="token punctuation">(</span><span class="token class-name">String</span> fname <span class="token punctuation">,</span> <span class="token class-name">Integer</span> price <span class="token punctuation">,</span> <span class="token class-name">Integer</span> fcount <span class="token punctuation">,</span> <span class="token class-name">String</span> remark <span class="token punctuation">)</span>
-<span class="token keyword">private</span> <span class="token class-name">String</span> <span class="token function">index</span><span class="token punctuation">(</span><span class="token class-name">String</span> oper <span class="token punctuation">,</span> <span class="token class-name">String</span> keyword <span class="token punctuation">,</span> <span class="token class-name">Integer</span> pageNo <span class="token punctuation">,</span> <span class="token class-name">HttpServletRequest</span> request <span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> String <span class="hljs-title function_">edit</span><span class="hljs-params">(Integer fid , HttpServletRequest request)</span><br><span class="hljs-keyword">private</span> String <span class="hljs-title function_">update</span><span class="hljs-params">(Integer fid ,String fname,Integer price,Integer fcount ,String remark )</span><br><span class="hljs-keyword">private</span> String <span class="hljs-title function_">del</span><span class="hljs-params">(Integer fid)</span><br><span class="hljs-keyword">private</span> String <span class="hljs-title function_">add</span><span class="hljs-params">(String fname , Integer price , Integer fcount , String remark )</span><br><span class="hljs-keyword">private</span> String <span class="hljs-title function_">index</span><span class="hljs-params">(String oper , String keyword , Integer pageNo , HttpServletRequest request )</span><br></code></pre></td></tr></table></figure>
 </li>
 <li>
 <p>具体的参数传递的操作如下 (注意 操作执行的前提是<mark>匹配到了执行操作的方法</mark>)</p>
 <blockquote>
 <p><mark>if(operate.equals(method.getName()))</mark></p>
 </blockquote>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">//if(operate.equals(method.getName()))</span>
-<span class="token comment">//&#123;</span>
-<span class="token comment">//1.统一获取请求参数</span>
-<span class="token comment">//1-1.获取当前方法的参数，返回参数数组</span>
-<span class="token class-name">Parameter</span><span class="token punctuation">[</span><span class="token punctuation">]</span> parameters <span class="token operator">=</span> method<span class="token punctuation">.</span><span class="token function">getParameters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token comment">//1-2.parameterValues 用来承载参数的值</span>
-<span class="token class-name">Object</span><span class="token punctuation">[</span><span class="token punctuation">]</span> parameterValues <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Object</span><span class="token punctuation">[</span>parameters<span class="token punctuation">.</span>length<span class="token punctuation">]</span><span class="token punctuation">;</span>
-<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> parameters<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    <span class="token class-name">Parameter</span> parameter <span class="token operator">=</span> parameters<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
-    <span class="token class-name">String</span> parameterName <span class="token operator">=</span> parameter<span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">;</span>
-    <span class="token comment">//如果参数名是request,response,session 那么就不是通过请求中获取参数的方式了</span>
-    <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token string">"request"</span><span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>parameterName<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
-        parameterValues<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> request <span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span><span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token string">"response"</span><span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>parameterName<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
-        parameterValues<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> response <span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span><span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token string">"session"</span><span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>parameterName<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
-        parameterValues<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> request<span class="token punctuation">.</span><span class="token function">getSession</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span><span class="token keyword">else</span><span class="token punctuation">&#123;</span>
-        <span class="token comment">//从请求中获取参数值</span>
-        <span class="token class-name">String</span> parameterValue <span class="token operator">=</span> request<span class="token punctuation">.</span><span class="token function">getParameter</span><span class="token punctuation">(</span>parameterName<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token class-name">String</span> typeName <span class="token operator">=</span> parameter<span class="token punctuation">.</span><span class="token function">getType</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-        <span class="token class-name">Object</span> parameterObj <span class="token operator">=</span> parameterValue <span class="token punctuation">;</span>
-
-        <span class="token keyword">if</span><span class="token punctuation">(</span>parameterObj<span class="token operator">!=</span><span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token string">"java.lang.Integer"</span><span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>typeName<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-                parameterObj <span class="token operator">=</span> <span class="token class-name">Integer</span><span class="token punctuation">.</span><span class="token function">parseInt</span><span class="token punctuation">(</span>parameterValue<span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token punctuation">&#125;</span>
-        <span class="token punctuation">&#125;</span>
-        parameterValues<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> parameterObj <span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//if(operate.equals(method.getName()))</span><br><span class="hljs-comment">//&#123;</span><br><span class="hljs-comment">//1.统一获取请求参数</span><br><span class="hljs-comment">//1-1.获取当前方法的参数，返回参数数组</span><br>Parameter[] parameters = method.getParameters();<br><span class="hljs-comment">//1-2.parameterValues 用来承载参数的值</span><br>Object[] parameterValues = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Object</span>[parameters.length];<br><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; parameters.length; i++) &#123;<br>    <span class="hljs-type">Parameter</span> <span class="hljs-variable">parameter</span> <span class="hljs-operator">=</span> parameters[i];<br>    <span class="hljs-type">String</span> <span class="hljs-variable">parameterName</span> <span class="hljs-operator">=</span> parameter.getName() ;<br>    <span class="hljs-comment">//如果参数名是request,response,session 那么就不是通过请求中获取参数的方式了</span><br>    <span class="hljs-keyword">if</span>(<span class="hljs-string">&quot;request&quot;</span>.equals(parameterName))&#123;<br>        parameterValues[i] = request ;<br>    &#125;<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(<span class="hljs-string">&quot;response&quot;</span>.equals(parameterName))&#123;<br>        parameterValues[i] = response ;<br>    &#125;<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(<span class="hljs-string">&quot;session&quot;</span>.equals(parameterName))&#123;<br>        parameterValues[i] = request.getSession() ;<br>    &#125;<span class="hljs-keyword">else</span>&#123;<br>        <span class="hljs-comment">//从请求中获取参数值</span><br>        <span class="hljs-type">String</span> <span class="hljs-variable">parameterValue</span> <span class="hljs-operator">=</span> request.getParameter(parameterName);<br>        <span class="hljs-type">String</span> <span class="hljs-variable">typeName</span> <span class="hljs-operator">=</span> parameter.getType().getName();<br><br>        <span class="hljs-type">Object</span> <span class="hljs-variable">parameterObj</span> <span class="hljs-operator">=</span> parameterValue ;<br><br>        <span class="hljs-keyword">if</span>(parameterObj!=<span class="hljs-literal">null</span>) &#123;<br>            <span class="hljs-keyword">if</span> (<span class="hljs-string">&quot;java.lang.Integer&quot;</span>.equals(typeName)) &#123;<br>                parameterObj = Integer.parseInt(parameterValue);<br>            &#125;<br>        &#125;<br>        parameterValues[i] = parameterObj ;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 </li>
 </ul>
 </li>
@@ -403,15 +321,7 @@ request.getServletContext(); session.getServletContext()</p>
 <p><code>method.invoke(controllerBeanObj,parameterValues);</code>完成方法调用后，设计的 FruitController 的方法会返回需要执行的操作，</p>
 <p>​				<code>Object returnObj = method.invoke(controllerBeanObj,parameterValues);</code></p>
 <p>然后进行视图处理</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">//3.视图处理</span>
-<span class="token class-name">String</span> methodReturnStr <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">)</span>returnObj <span class="token punctuation">;</span>
-<span class="token keyword">if</span><span class="token punctuation">(</span>methodReturnStr<span class="token punctuation">.</span><span class="token function">startsWith</span><span class="token punctuation">(</span><span class="token string">"redirect:"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>        <span class="token comment">//比如：  redirect:fruit.do</span>
-    <span class="token class-name">String</span> redirectStr <span class="token operator">=</span> methodReturnStr<span class="token punctuation">.</span><span class="token function">substring</span><span class="token punctuation">(</span><span class="token string">"redirect:"</span><span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    response<span class="token punctuation">.</span><span class="token function">sendRedirect</span><span class="token punctuation">(</span>redirectStr<span class="token punctuation">)</span><span class="token punctuation">;</span>
- <span class="token comment">// 比如返回值是 redirect:fruit.do 就会 重定向，访问fruit.do （其实就是再次执行调度器的Service）</span>
-<span class="token punctuation">&#125;</span><span class="token keyword">else</span><span class="token punctuation">&#123;</span>
-    <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">processTemplate</span><span class="token punctuation">(</span>methodReturnStr<span class="token punctuation">,</span>request<span class="token punctuation">,</span>response<span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment">// 比如：  "edit"</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//3.视图处理</span><br><span class="hljs-type">String</span> <span class="hljs-variable">methodReturnStr</span> <span class="hljs-operator">=</span> (String)returnObj ;<br><span class="hljs-keyword">if</span>(methodReturnStr.startsWith(<span class="hljs-string">&quot;redirect:&quot;</span>))&#123;        <span class="hljs-comment">//比如：  redirect:fruit.do</span><br>    <span class="hljs-type">String</span> <span class="hljs-variable">redirectStr</span> <span class="hljs-operator">=</span> methodReturnStr.substring(<span class="hljs-string">&quot;redirect:&quot;</span>.length());<br>    response.sendRedirect(redirectStr);<br> <span class="hljs-comment">// 比如返回值是 redirect:fruit.do 就会 重定向，访问fruit.do （其实就是再次执行调度器的Service）</span><br>&#125;<span class="hljs-keyword">else</span>&#123;<br>    <span class="hljs-built_in">super</span>.processTemplate(methodReturnStr,request,response);    <span class="hljs-comment">// 比如：  &quot;edit&quot;</span><br>&#125;<br></code></pre></td></tr></table></figure>
 <p>顺序：</p>
 <ol>
 <li>DispacherServlet 的init ()
@@ -520,7 +430,55 @@ request.getServletContext(); session.getServletContext()</p>
     
   </nav>
 
-  
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.staticfile.org/valine/1.4.16/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "BMxcpVMjh3EMOP7tyImO6aLR-gzGzoHsz",
+    app_key: "HpcPO68bneKDaeq3H1G1xuIN",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
    
     
     <script src="https://cdn.staticfile.org/twikoo/1.4.18/twikoo.all.min.js"></script>

@@ -95,7 +95,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">4 分钟</span>
+            <span class="post-count">5 分钟</span>
         </span>
     </span>
 </div>
@@ -151,87 +151,9 @@
 </blockquote>
 </li>
 </ul>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">triple</span><span class="token punctuation">(</span><span class="token keyword">int</span> x<span class="token punctuation">)</span> <span class="token comment">// won't work </span>
-<span class="token punctuation">&#123;</span>
-	x<span class="token operator">=</span><span class="token number">3</span><span class="token operator">*</span>x<span class="token punctuation">;</span>  <span class="token comment">//modifies local variable;</span>
-<span class="token punctuation">&#125;</span>
-
-<span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">triple</span><span class="token punctuation">(</span><span class="token class-name">Intger</span> x<span class="token punctuation">)</span> <span class="token comment">// won't work </span>
-<span class="token punctuation">&#123;</span>
-	x<span class="token operator">=</span><span class="token number">3</span><span class="token operator">*</span>x<span class="token punctuation">;</span>  
-<span class="token punctuation">&#125;</span>
-
-<span class="token comment">// 可以通过holder类型改变   ,实际上就是引用类型 ，地址传递会被改变</span>
-<span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">triple</span><span class="token punctuation">(</span><span class="token class-name">IntHolder</span> x<span class="token punctuation">)</span>
-<span class="token punctuation">&#123;</span>
-    x<span class="token punctuation">.</span>value<span class="token operator">=</span><span class="token number">3</span><span class="token operator">*</span>x<span class="token punctuation">.</span>value<span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">triple</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span> <span class="hljs-comment">// won&#x27;t work </span><br>&#123;<br>	x=<span class="hljs-number">3</span>*x;  <span class="hljs-comment">//modifies local variable;</span><br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">triple</span><span class="hljs-params">(Intger x)</span> <span class="hljs-comment">// won&#x27;t work </span><br>&#123;<br>	x=<span class="hljs-number">3</span>*x;  <br>&#125;<br><br><span class="hljs-comment">// 可以通过holder类型改变   ,实际上就是引用类型 ，地址传递会被改变</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">triple</span><span class="hljs-params">(IntHolder x)</span><br>&#123;<br>    x.value=<span class="hljs-number">3</span>*x.value;<br>&#125;<br></code></pre></td></tr></table></figure>
 <h3 id="代码"><a class="markdownIt-Anchor" href="#代码"></a> 代码</h3>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">import</span> <span class="token import"><span class="token namespace">java<span class="token punctuation">.</span>util<span class="token punctuation">.</span></span><span class="token class-name">ArrayList</span></span><span class="token punctuation">;</span>
-<span class="token keyword">import</span> <span class="token import"><span class="token namespace">java<span class="token punctuation">.</span>util<span class="token punctuation">.</span></span><span class="token class-name">Date</span></span><span class="token punctuation">;</span>
-<span class="token keyword">import</span> <span class="token import"><span class="token namespace">java<span class="token punctuation">.</span>util<span class="token punctuation">.</span></span><span class="token class-name">List</span></span><span class="token punctuation">;</span>
-
-<span class="token comment">/**
- * @author Dhx_
- * @className Test
- * @description TODO
- * @date 2022/7/11 20:52
- */</span>
-<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Test</span> <span class="token punctuation">&#123;</span>
-    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token class-name">Book</span><span class="token punctuation">[</span><span class="token punctuation">]</span> books <span class="token operator">=</span><span class="token keyword">new</span> <span class="token class-name">Book</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">&#123;</span><span class="token keyword">new</span> <span class="token class-name">Book</span><span class="token punctuation">(</span><span class="token number">12</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token keyword">new</span> <span class="token class-name">Book</span><span class="token punctuation">(</span><span class="token number">122</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token keyword">new</span> <span class="token class-name">Book</span><span class="token punctuation">(</span><span class="token number">1122</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token keyword">new</span> <span class="token class-name">Book</span><span class="token punctuation">(</span><span class="token number">812</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token keyword">new</span> <span class="token class-name">Book</span><span class="token punctuation">(</span><span class="token number">612</span><span class="token punctuation">)</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
-        <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">CartItem</span><span class="token punctuation">></span></span> cartItemList <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        cartItemList<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">CartItem</span><span class="token punctuation">(</span>books<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        cartItemList<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">CartItem</span><span class="token punctuation">(</span>books<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        cartItemList<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">CartItem</span><span class="token punctuation">(</span>books<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        cartItemList<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">CartItem</span><span class="token punctuation">(</span>books<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        cartItemList<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">CartItem</span><span class="token punctuation">(</span>books<span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token class-name">CartItem</span> e <span class="token operator">:</span>cartItemList<span class="token punctuation">)</span>
-        <span class="token punctuation">&#123;</span>
-           e<span class="token punctuation">.</span><span class="token function">setBook</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Book</span><span class="token punctuation">(</span>e<span class="token punctuation">.</span><span class="token function">getBook</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>price<span class="token operator">+</span><span class="token number">10000</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span>
-        cartItemList<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token operator">::</span><span class="token function">println</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token class-name">Integer</span> x<span class="token operator">=</span><span class="token number">10</span><span class="token punctuation">;</span>
-        <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Integer</span><span class="token punctuation">></span></span> integerList <span class="token operator">=</span><span class="token class-name">List</span><span class="token punctuation">.</span><span class="token function">of</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token class-name">Integer</span> e<span class="token operator">:</span> integerList<span class="token punctuation">)</span>
-        <span class="token punctuation">&#123;</span>
-            e<span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Integer</span><span class="token punctuation">(</span>e<span class="token punctuation">.</span><span class="token function">intValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span>
-        integerList<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token operator">::</span><span class="token function">println</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        x<span class="token operator">=</span><span class="token number">11</span><span class="token punctuation">;</span>
-        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span>
-<span class="token keyword">class</span> <span class="token class-name">CartItem</span>
-<span class="token punctuation">&#123;</span>
-    <span class="token class-name">Book</span> book<span class="token punctuation">;</span>
-    <span class="token class-name">Date</span> date<span class="token operator">=</span><span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">setBook</span><span class="token punctuation">(</span><span class="token class-name">Book</span> book<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token keyword">this</span><span class="token punctuation">.</span>book <span class="token operator">=</span> book<span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-
-    <span class="token annotation punctuation">@Override</span>
-    <span class="token keyword">public</span> <span class="token class-name">String</span> <span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token keyword">return</span> <span class="token string">"CartItem&#123;"</span> <span class="token operator">+</span>
-                <span class="token string">"book="</span> <span class="token operator">+</span> book<span class="token punctuation">.</span>price <span class="token operator">+</span>
-                <span class="token char">'&#125;'</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-
-    <span class="token keyword">public</span> <span class="token class-name">CartItem</span><span class="token punctuation">(</span><span class="token class-name">Book</span> book<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token keyword">this</span><span class="token punctuation">.</span>book <span class="token operator">=</span> book<span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-
-    <span class="token keyword">public</span> <span class="token class-name">Book</span> <span class="token function">getBook</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token keyword">return</span> book<span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span>
-<span class="token keyword">class</span> <span class="token class-name">Book</span> <span class="token punctuation">&#123;</span>
-    <span class="token class-name">Book</span><span class="token punctuation">(</span><span class="token keyword">int</span> price<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token keyword">this</span><span class="token punctuation">.</span>price <span class="token operator">=</span> price<span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token keyword">public</span> <span class="token class-name">Integer</span> price<span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.util.ArrayList;<br><span class="hljs-keyword">import</span> java.util.Date;<br><span class="hljs-keyword">import</span> java.util.List;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span> Dhx_</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@className</span> Test</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@description</span> TODO</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@date</span> 2022/7/11 20:52</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Test</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        Book[] books =<span class="hljs-keyword">new</span> <span class="hljs-title class_">Book</span>[]&#123;<span class="hljs-keyword">new</span> <span class="hljs-title class_">Book</span>(<span class="hljs-number">12</span>),<span class="hljs-keyword">new</span> <span class="hljs-title class_">Book</span>(<span class="hljs-number">122</span>),<span class="hljs-keyword">new</span> <span class="hljs-title class_">Book</span>(<span class="hljs-number">1122</span>),<span class="hljs-keyword">new</span> <span class="hljs-title class_">Book</span>(<span class="hljs-number">812</span>),<span class="hljs-keyword">new</span> <span class="hljs-title class_">Book</span>(<span class="hljs-number">612</span>)&#125;;<br>        List&lt;CartItem&gt; cartItemList = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;(<span class="hljs-number">5</span>);<br>        cartItemList.add(<span class="hljs-keyword">new</span> <span class="hljs-title class_">CartItem</span>(books[<span class="hljs-number">0</span>]));<br>        cartItemList.add(<span class="hljs-keyword">new</span> <span class="hljs-title class_">CartItem</span>(books[<span class="hljs-number">1</span>]));<br>        cartItemList.add(<span class="hljs-keyword">new</span> <span class="hljs-title class_">CartItem</span>(books[<span class="hljs-number">2</span>]));<br>        cartItemList.add(<span class="hljs-keyword">new</span> <span class="hljs-title class_">CartItem</span>(books[<span class="hljs-number">3</span>]));<br>        cartItemList.add(<span class="hljs-keyword">new</span> <span class="hljs-title class_">CartItem</span>(books[<span class="hljs-number">4</span>]));<br>        <span class="hljs-keyword">for</span>(CartItem e :cartItemList)<br>        &#123;<br>           e.setBook(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Book</span>(e.getBook().price+<span class="hljs-number">10000</span>));<br>        &#125;<br>        cartItemList.forEach(System.out::println);<br>        Integer x=<span class="hljs-number">10</span>;<br>        List&lt;Integer&gt; integerList =List.of(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>);<br>        <span class="hljs-keyword">for</span>(Integer e: integerList)<br>        &#123;<br>            e= <span class="hljs-keyword">new</span> <span class="hljs-title class_">Integer</span>(e.intValue()+<span class="hljs-number">1</span>);<br>        &#125;<br>        integerList.forEach(System.out::println);<br>        x=<span class="hljs-number">11</span>;<br>        System.out.println(x);<br>    &#125;<br>&#125;<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">CartItem</span><br>&#123;<br>    Book book;<br>    Date date=<span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>();<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setBook</span><span class="hljs-params">(Book book)</span> &#123;<br>        <span class="hljs-built_in">this</span>.book = book;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">toString</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;CartItem&#123;&quot;</span> +<br>                <span class="hljs-string">&quot;book=&quot;</span> + book.price +<br>                <span class="hljs-string">&#x27;&#125;&#x27;</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">CartItem</span><span class="hljs-params">(Book book)</span> &#123;<br>        <span class="hljs-built_in">this</span>.book = book;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> Book <span class="hljs-title function_">getBook</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> book;<br>    &#125;<br>&#125;<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Book</span> &#123;<br>    Book(<span class="hljs-type">int</span> price) &#123;<br>        <span class="hljs-built_in">this</span>.price = price;<br>    &#125;<br>    <span class="hljs-keyword">public</span> Integer price;<br>&#125;<br><br></code></pre></td></tr></table></figure>
 <h3 id="debug"><a class="markdownIt-Anchor" href="#debug"></a> debug</h3>
 <ul>
 <li>
@@ -246,26 +168,7 @@
 <ul>
 <li>cpp中的forEach循环<mark>不会</mark>影响原本的数据</li>
 </ul>
-<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;bits/stdc++.h></span></span>
-<span class="token keyword">class</span> <span class="token class-name">Integer</span><span class="token punctuation">&#123;</span>
-<span class="token keyword">public</span><span class="token operator">:</span>
-    <span class="token keyword">int</span> num<span class="token punctuation">;</span>
-    <span class="token function">Integer</span><span class="token punctuation">(</span><span class="token keyword">int</span> num<span class="token punctuation">)</span><span class="token punctuation">&#123;</span> <span class="token keyword">this</span><span class="token operator">-></span>num <span class="token operator">=</span> num<span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
-    <span class="token function">Integer</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
-<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span class="token punctuation">&#123;</span>
-    string str <span class="token operator">=</span> <span class="token string">"abcdefg"</span><span class="token punctuation">;</span>
-    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">char</span> ch <span class="token operator">:</span> str<span class="token punctuation">)</span>  ch <span class="token operator">+=</span> <span class="token number">1</span><span class="token punctuation">;</span>
-    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">char</span> ch <span class="token operator">:</span> str<span class="token punctuation">)</span>  std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> ch <span class="token operator">&lt;&lt;</span> <span class="token char">' '</span><span class="token punctuation">;</span>
-    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token char">'\n'</span><span class="token punctuation">;</span>
-    Integer integers<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token function">Integer</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">Integer</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">Integer</span><span class="token punctuation">(</span><span class="token number">6</span><span class="token punctuation">)</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
-    <span class="token keyword">for</span> <span class="token punctuation">(</span>Integer e <span class="token operator">:</span> integers<span class="token punctuation">)</span>   e<span class="token punctuation">.</span>num<span class="token operator">++</span><span class="token punctuation">;</span>
-    <span class="token keyword">for</span> <span class="token punctuation">(</span>Integer e <span class="token operator">:</span> integers<span class="token punctuation">)</span>   cout <span class="token operator">&lt;&lt;</span> e<span class="token punctuation">.</span>num <span class="token operator">&lt;&lt;</span> <span class="token char">' '</span><span class="token punctuation">;</span>  
-    <span class="token comment">// a b c d e f g</span>
-    <span class="token comment">//  4 5 6</span>
-    <span class="token function">getchar</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Integer</span>&#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-type">int</span> num;<br>    <span class="hljs-built_in">Integer</span>(<span class="hljs-type">int</span> num)&#123; <span class="hljs-keyword">this</span>-&gt;num = num; &#125;<br>    <span class="hljs-built_in">Integer</span>() &#123;&#125;<br>&#125;;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    string str = <span class="hljs-string">&quot;abcdefg&quot;</span>;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">char</span> ch : str)  ch += <span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">char</span> ch : str)  std::cout &lt;&lt; ch &lt;&lt; <span class="hljs-string">&#x27; &#x27;</span>;<br>    std::cout &lt;&lt; <span class="hljs-string">&#x27;\n&#x27;</span>;<br>    Integer integers[] = &#123;<span class="hljs-built_in">Integer</span>(<span class="hljs-number">4</span>), <span class="hljs-built_in">Integer</span>(<span class="hljs-number">5</span>), <span class="hljs-built_in">Integer</span>(<span class="hljs-number">6</span>)&#125;;<br>    <span class="hljs-keyword">for</span> (Integer e : integers)   e.num++;<br>    <span class="hljs-keyword">for</span> (Integer e : integers)   cout &lt;&lt; e.num &lt;&lt; <span class="hljs-string">&#x27; &#x27;</span>;  <br>    <span class="hljs-comment">// a b c d e f g</span><br>    <span class="hljs-comment">//  4 5 6</span><br>    <span class="hljs-built_in">getchar</span>();<br>&#125;<br></code></pre></td></tr></table></figure>
  
       <!-- reward -->
       
@@ -360,7 +263,55 @@
     
   </nav>
 
-  
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.staticfile.org/valine/1.4.16/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "BMxcpVMjh3EMOP7tyImO6aLR-gzGzoHsz",
+    app_key: "HpcPO68bneKDaeq3H1G1xuIN",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
    
     
     <script src="https://cdn.staticfile.org/twikoo/1.4.18/twikoo.all.min.js"></script>

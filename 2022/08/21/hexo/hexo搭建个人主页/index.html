@@ -225,24 +225,14 @@
 <h2 id="插件"><a class="markdownIt-Anchor" href="#插件"></a> 插件</h2>
 <h3 id="1搜索建议安装"><a class="markdownIt-Anchor" href="#1搜索建议安装"></a> 1.搜索（建议安装）</h3>
 <p>本主题中还使用到了 <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search">hexo-generator-search</a> 的 Hexo 插件来做内容搜索，安装命令如下：</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">npm install hexo<span class="token operator">-</span>generator<span class="token operator">-</span>search <span class="token operator">--</span>save<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs javascript">npm install hexo-generator-search --save<br></code></pre></td></tr></table></figure>
 <p>在 Hexo 根目录下的 <code>_config.yml</code> 文件中，新增以下的配置项：</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"># 需要安装hexo<span class="token operator">-</span>generator<span class="token operator">-</span><span class="token function">searchdb</span><span class="token punctuation">(</span>https<span class="token operator">:</span><span class="token operator">/</span><span class="token operator">/</span>github<span class="token punctuation">.</span>com<span class="token operator">/</span>theme<span class="token operator">-</span>next<span class="token operator">/</span>hexo<span class="token operator">-</span>generator<span class="token operator">-</span>searchdb<span class="token punctuation">)</span>
-<span class="token literal-property property">search</span><span class="token operator">:</span>
-  <span class="token literal-property property">path</span><span class="token operator">:</span> search<span class="token punctuation">.</span>xml
-  <span class="token literal-property property">field</span><span class="token operator">:</span> post
-  <span class="token literal-property property">content</span><span class="token operator">:</span> <span class="token boolean">true</span>
-  <span class="token literal-property property">format</span><span class="token operator">:</span> html<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs javascript"># 需要安装hexo-generator-<span class="hljs-title function_">searchdb</span>(<span class="hljs-attr">https</span>:<span class="hljs-comment">//github.com/theme-next/hexo-generator-searchdb)</span><br><span class="hljs-attr">search</span>:<br>  <span class="hljs-attr">path</span>: search.<span class="hljs-property">xml</span><br>  <span class="hljs-attr">field</span>: post<br>  <span class="hljs-attr">content</span>: <span class="hljs-literal">true</span><br>  <span class="hljs-attr">format</span>: html<br></code></pre></td></tr></table></figure>
 <h3 id="2添加-emoji-表情支持"><a class="markdownIt-Anchor" href="#2添加-emoji-表情支持"></a> 2.添加 emoji 表情支持</h3>
 <p>本主题新增了对<code>emoji</code>表情的支持，使用到了 <a target="_blank" rel="noopener" href="https://npm.taobao.org/package/hexo-filter-github-emojis">hexo-filter-github-emojis</a> 的 Hexo 插件来支持 <code>emoji</code>表情的生成，把对应的<code>markdown emoji</code>语法（<code>::</code>,例如：<code>:smile:</code>）转变成会跳跃的<code>emoji</code>表情，安装命令如下：</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">npm install hexo<span class="token operator">-</span>filter<span class="token operator">-</span>github<span class="token operator">-</span>emojis <span class="token operator">--</span>save<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs javascript">npm install hexo-filter-github-emojis --save<br></code></pre></td></tr></table></figure>
 <p>在 Hexo 根目录下的 <code>_config.yml</code> 文件中，新增以下的配置项：</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token literal-property property">githubEmojis</span><span class="token operator">:</span>
-  <span class="token literal-property property">enable</span><span class="token operator">:</span> <span class="token boolean">true</span>
-  <span class="token literal-property property">className</span><span class="token operator">:</span> github<span class="token operator">-</span>emoji
-  <span class="token literal-property property">inject</span><span class="token operator">:</span> <span class="token boolean">true</span>
-  <span class="token literal-property property">styles</span><span class="token operator">:</span>
-  <span class="token literal-property property">customEmojis</span><span class="token operator">:</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-attr">githubEmojis</span>:<br>  <span class="hljs-attr">enable</span>: <span class="hljs-literal">true</span><br>  <span class="hljs-attr">className</span>: github-emoji<br>  <span class="hljs-attr">inject</span>: <span class="hljs-literal">true</span><br>  <span class="hljs-attr">styles</span>:<br>  <span class="hljs-attr">customEmojis</span>:<br></code></pre></td></tr></table></figure>
 <h3 id="3hexo功能增强插件"><a class="markdownIt-Anchor" href="#3hexo功能增强插件"></a> 3.Hexo功能增强插件</h3>
 <p><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000018402194">Hexo功能增强插件 - SegmentFault 思否</a></p>
 <p><code>hexo-enhancer</code></p>
@@ -254,37 +244,22 @@
 <li>自动生成<code>categories</code>：根据文件的路径解析文章所属分类。</li>
 <li>自动生成<code>tags</code>：根据配置在<code>_config.yml</code>中的可用<code>tags</code>和<code>keywords</code>自动扫描文章中出现的标签。</li>
 </ul>
-<pre class="line-numbers language-txt" data-language="txt"><code class="language-txt">---
-title: Title
-date: 2019-03-05
-categories: [A, B]
-tags: [tag1, tag2]
----
-
-# Title
-
-This is a markdown file, in categories [A, B], with tags [tag1, tag2]. <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs txt">---<br>title: Title<br>date: 2019-03-05<br>categories: [A, B]<br>tags: [tag1, tag2]<br>---<br><br># Title<br><br>This is a markdown file, in categories [A, B], with tags [tag1, tag2]. <br></code></pre></td></tr></table></figure>
 <p>使用<code>hexo-enhancer</code>插件之后，以上<code>Front-matter</code>完全不需要手动指定：</p>
-<pre class="line-numbers language-txt" data-language="txt"><code class="language-txt"># Title
-This is a markdown file, in categories [A, B], with tags [tag1, tag2].<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs txt"># Title<br>This is a markdown file, in categories [A, B], with tags [tag1, tag2].<br></code></pre></td></tr></table></figure>
 <p>消失的<code>Front-matter</code>完全按照约定规则由<code>hexo-enhancer</code>自动生成，让你可以更加惬意简单地撰写博文。</p>
 <h4 id="安装"><a class="markdownIt-Anchor" href="#安装"></a> 安装</h4>
-<pre class="line-numbers language-ada" data-language="ada"><code class="language-ada"><span class="token variable">npm</span> <span class="token variable">install</span> <span class="token variable">hexo</span><span class="token operator">-</span><span class="token variable">enhancer</span> <span class="token comment">--save</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ada">npm install hexo-enhancer <span class="hljs-comment">--save</span><br></code></pre></td></tr></table></figure>
 <h4 id="用法-categories"><a class="markdownIt-Anchor" href="#用法-categories"></a> 用法 — <code>categories</code></h4>
 <p><code>hexo-enhancer</code> 会将<code>.md</code>文件所在目录及父目录的名称添加入<code>categories</code>属性中，因此你应该按照文章分类放置<code>.md</code>文件，事实上大多数人一直都这么做的。</p>
 <p>比如 <code>_posts/区块链/比特币/20091010-比特币简介.md</code> 文章将自动获得下面的<code>categories</code>属性：</p>
-<pre class="line-numbers language-markdown" data-language="markdown"><code class="language-markdown"><span class="token front-matter-block"><span class="token punctuation">---</span>
-<span class="token front-matter yaml language-yaml"><span class="token key atrule">title</span><span class="token punctuation">:</span> 比特币简介
-<span class="token key atrule">date</span><span class="token punctuation">:</span> <span class="token datetime number">2009-10-10</span>
-<span class="token key atrule">categories</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>区块链<span class="token punctuation">,</span> 比特币<span class="token punctuation">]</span></span>
-<span class="token punctuation">---</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs markdown">---<br>title: 比特币简介<br>date: 2009-10-10<br><span class="hljs-section">categories: [区块链, 比特币]</span><br><span class="hljs-section">---</span><br></code></pre></td></tr></table></figure>
 <h2 id="用法-tags"><a class="markdownIt-Anchor" href="#用法-tags"></a> 用法 — <code>tags</code></h2>
 <p>我一直认为，文章标签不应该手动维护，因为这样做太麻烦且容易遗漏，最终导致标签非常混乱。</p>
 <p>正确的做法应该是，将常见的标签关键词全局配置好，然后根据配置好的标签关键词，自动扫描每篇文章包括哪些关键词并生成<code>tags</code>属性。</p>
 <p><code>hexo-enhancer</code>的做法就是这样，启动后扫描<code>_config.yml</code>中的<code>keywords</code>与<code>tags</code>属性收集<code>全局标签候选词</code>，然后给每一篇文章自动扫描<code>tags</code>。</p>
 <p>例如，<code>_config.yml</code>配置的标签可以是这样的:</p>
-<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token key atrule">keywords</span><span class="token punctuation">:</span> HTML<span class="token punctuation">,</span> JavaScript<span class="token punctuation">,</span> Hexo
-<span class="token key atrule">tags</span><span class="token punctuation">:</span> Java<span class="token punctuation">,</span> Golang<span class="token punctuation">,</span> React<span class="token punctuation">,</span> Vue<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">keywords:</span> <span class="hljs-string">HTML,</span> <span class="hljs-string">JavaScript,</span> <span class="hljs-string">Hexo</span><br><span class="hljs-attr">tags:</span> <span class="hljs-string">Java,</span> <span class="hljs-string">Golang,</span> <span class="hljs-string">React,</span> <span class="hljs-string">Vue</span><br></code></pre></td></tr></table></figure>
 <p><code>hexo-enhancer</code>会扫描您的<code>.md</code>文章，如果文章内出现以上关键词，则自动将其分配如文章的<code>tags</code>属性中。</p>
 <p>需要特别指出的是，<code>keywords</code>是标准配置，它最终会出现在网页<code>meta</code>中，而<code>tags</code>是自定义的属性，只会被本插件使用。</p>
 <h2 id="速度优化"><a class="markdownIt-Anchor" href="#速度优化"></a> 速度优化</h2>
@@ -385,7 +360,55 @@ This is a markdown file, in categories [A, B], with tags [tag1, tag2].<span aria
     
   </nav>
 
-  
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.staticfile.org/valine/1.4.16/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "BMxcpVMjh3EMOP7tyImO6aLR-gzGzoHsz",
+    app_key: "HpcPO68bneKDaeq3H1G1xuIN",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
    
     
     <script src="https://cdn.staticfile.org/twikoo/1.4.18/twikoo.all.min.js"></script>
