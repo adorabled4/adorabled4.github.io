@@ -7,7 +7,7 @@
     <head>
       <meta charset="utf-8" />
        
-      <meta name="keywords" content="DFS,BFS,java, 双指针, 算法与数据结构, hexo, 回溯算法, 树, 队列, mybatis, javaweb, Spring, SpringBoot, cpp, leetcode, 栈, 位运算, 链表, 数据库, springmvc, 动态规划, 贪心" />
+      <meta name="keywords" content="DFS,BFS,java, 双指针, 算法与数据结构, hexo, 回溯, 树, 队列, mybatis, javaweb, Spring, SpringBoot, cpp, leetcode, 栈, 位运算, 链表, 数据库, springmvc, 动态规划, 贪心" />
        
       <meta
         name="viewport"
@@ -107,6 +107,143 @@
     
     
     
+    
+    <article
+  id="post-Javaweb/day13 JavaScript RegExp参考手册"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/07/13/Javaweb/day13%20JavaScript%20RegExp%E5%8F%82%E8%80%83%E6%89%8B%E5%86%8C/"
+    >JavaScript RegExp参考手册</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/07/13/Javaweb/day13%20JavaScript%20RegExp%E5%8F%82%E8%80%83%E6%89%8B%E5%86%8C/" class="article-date">
+  <time datetime="2022-07-13T03:12:00.000Z" itemprop="datePublished">2022-07-13</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Javaweb/">Javaweb</a> / <a class="article-category-link" href="/categories/Javaweb/Javaweb/">Javaweb</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="总览"><a class="markdownIt-Anchor" href="#总览"></a> 总览</h1>
+<ol>
+<li>正则表达式的使用三步骤：<br />
+1. 定义正则表达式对象<br />
+正则表达式定义有两个方式：<br />
+1) 对象形式<br />
+var reg = new RegExp(“abc”)<br />
+2) 直接量形式<br />
+var reg = /abc/;<br />
+3) 匹配模式：<br />
+- g 全局匹配<br />
+- i 忽略大小写匹配<br />
+- m 多行匹配<br />
+- gim这三个可以组合使用，不区分先后顺序<br />
+例如： var reg = /abc/gim , var reg = new RegExp(“abc”,“gim”);</li>
+</ol> 
+      <a class="article-more-link" href="/2022/07/13/Javaweb/day13%20JavaScript%20RegExp%E5%8F%82%E8%80%83%E6%89%8B%E5%86%8C/"
+        >more...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Javaweb/" rel="tag">Javaweb</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javaweb/" rel="tag">javaweb</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+    
+</article>
+
+    
+    <article
+  id="post-Javaweb/day13 cookie"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/07/13/Javaweb/day13%20cookie/"
+    >cookie&amp;&amp;正则</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/07/13/Javaweb/day13%20cookie/" class="article-date">
+  <time datetime="2022-07-13T03:11:00.000Z" itemprop="datePublished">2022-07-13</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Javaweb/">Javaweb</a> / <a class="article-category-link" href="/categories/Javaweb/Javaweb/">Javaweb</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="cookie"><a class="markdownIt-Anchor" href="#cookie"></a> cookie</h1>
+<h2 id="1-前言"><a class="markdownIt-Anchor" href="#1-前言"></a> 1. 前言</h2>
+<p>朋友问我cookie是什么，用来干什么的，可是我居然无法<strong>清楚明白简短</strong>地向其阐述cookie，这不禁让我陷入了沉思：为什么我无法解释清楚，我对学习的方法产生了怀疑！在知乎上看到有人推荐使用费尔曼学习技巧，于是在重新学习cookie的过程中使用了该技巧来试验，效果有待验证！</p>
+<p>在学习一个新的知识点前，我们应该明白自己的学习目标，要带着疑问去学习，该小节须要了解：</p>
+<ol>
+<li>什么是cookie，cookie的作用</li>
+<li>cookie的工作机制，即cookie是运作流程</li>
+<li>cookie的基本属性（4个）以及我们如何使用cookie</li>
+</ol> 
+      <a class="article-more-link" href="/2022/07/13/Javaweb/day13%20cookie/"
+        >more...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Javaweb/" rel="tag">Javaweb</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javaweb/" rel="tag">javaweb</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+    
+</article>
+
     
     <article
   id="post-Javaweb/day11 书城项目"
@@ -585,126 +722,6 @@
     <footer class="article-footer">
        
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/BFS/" rel="tag">BFS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DFS/" rel="tag">DFS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Javaweb/" rel="tag">Javaweb</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring/" rel="tag">Spring</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javaweb/" rel="tag">javaweb</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/springmvc/" rel="tag">springmvc</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%91/" rel="tag">树</a></li></ul>
-
-    </footer>
-  </div>
-
-    
- 
-    
-</article>
-
-    
-    <article
-  id="post-MySQL/MySQL练习题"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2022/06/29/MySQL/MySQL%E7%BB%83%E4%B9%A0%E9%A2%98/"
-    >MySQL习题</a> 
-</h2>
- 
-
-      
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2022/06/29/MySQL/MySQL%E7%BB%83%E4%B9%A0%E9%A2%98/" class="article-date">
-  <time datetime="2022-06-29T05:45:39.000Z" itemprop="datePublished">2022-06-29</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/MySQL/">MySQL</a> / <a class="article-category-link" href="/categories/MySQL/MySQL/">MySQL</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <h1 id="mysql课后习题"><a class="markdownIt-Anchor" href="#mysql课后习题"></a> MySQL课后习题</h1>
-<hr />
-<ul>
-<li>⭐️    标记为注意点</li>
-</ul> 
-      <a class="article-more-link" href="/2022/06/29/MySQL/MySQL%E7%BB%83%E4%B9%A0%E9%A2%98/"
-        >more...</a
-      >
-       
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL%E5%85%A5%E9%97%A8/" rel="tag">MySQL入门</a></li></ul>
-
-    </footer>
-  </div>
-
-    
- 
-    
-</article>
-
-    
-    <article
-  id="post-MySQL/Day03"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2022/06/28/MySQL/Day03/"
-    >MySQL_day03</a> 
-</h2>
- 
-
-      
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2022/06/28/MySQL/Day03/" class="article-date">
-  <time datetime="2022-06-28T05:45:39.000Z" itemprop="datePublished">2022-06-28</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/MySQL/">MySQL</a> / <a class="article-category-link" href="/categories/MySQL/MySQL/">MySQL</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <h1 id="mysql课堂笔记-day03txt"><a class="markdownIt-Anchor" href="#mysql课堂笔记-day03txt"></a> MySQL课堂笔记-day03.txt</h1>
-<h2 id="1-约束"><a class="markdownIt-Anchor" href="#1-约束"></a> 1、约束</h2>
-<h3 id="11-唯一性约束unique"><a class="markdownIt-Anchor" href="#11-唯一性约束unique"></a> 1.1、唯一性约束（<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=unique&amp;spm=1001.2101.3001.7020">unique</a>）</h3> 
-      <a class="article-more-link" href="/2022/06/28/MySQL/Day03/"
-        >more...</a
-      >
-       
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL%E5%85%A5%E9%97%A8/" rel="tag">MySQL入门</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li></ul>
 
     </footer>
   </div>

@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+  
+
+    <head>
+      <meta charset="utf-8" />
+       
+      <meta name="keywords" content="DFS,BFS,java, 双指针, 算法与数据结构, hexo, 回溯, 树, 队列, mybatis, javaweb, Spring, SpringBoot, cpp, leetcode, 栈, 位运算, 链表, 数据库, springmvc, 动态规划, 贪心" />
+       
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>算法基础day 6~8 搜索 |  dhx_&#39;blog</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220820231738085.png" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      
+<link rel="stylesheet" href="/css/fonts/remixicon.css">
+
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.staticfile.org/pace/1.2.4/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+      </style>
+    </head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-算法与数据结构/leetcode算法基础勋章/算法基础day 6~8 搜索"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  算法基础day 6~8 搜索
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/08/27/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/leetcode%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80%E5%8B%8B%E7%AB%A0/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80day%206~8%20%E6%90%9C%E7%B4%A2/" class="article-date">
+  <time datetime="2022-08-27T02:39:31.105Z" itemprop="datePublished">2022-08-27</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">算法与数据结构</a> / <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">算法与数据结构</a> / <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/leetcode%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80%E5%8B%8B%E7%AB%A0/">leetcode算法基础勋章</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">7.6k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">32 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="day06-dfsbfs"><a class="markdownIt-Anchor" href="#day06-dfsbfs"></a> 👉day06 DFS/BFS</h1>
+<h2 id="200-岛屿数量"><a class="markdownIt-Anchor" href="#200-岛屿数量"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/number-of-islands/">200. 岛屿数量</a></h2>
+<p>难度中等1854</p>
+<p>给你一个由 <code>'1'</code>（陆地）和 <code>'0'</code>（水）组成的的二维网格，请你计算网格中岛屿的数量。</p>
+<p>岛屿总是被水包围，并且每座岛屿只能由水平方向和/或竖直方向上相邻的陆地连接形成。</p>
+<p>此外，你可以假设该网格的四条边均被水包围。</p>
+<span id="more"></span>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220823110154359.png" alt="image-20220823110154359" /></p>
+<blockquote>
+<p>DFS遍历 , 将走过的1 的网格标记为<code>0</code></p>
+<p>如果可以走通的话 , 维护<code>cnt</code>最后返回即可</p>
+<p>每次dfs , 如果遇到了1 的格子, 那么一定是一个新的岛屿 , 因为前面走过的都是<code>0</code></p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">numIslands</span><span class="hljs-params">(<span class="hljs-type">char</span>[][] grid)</span> &#123;<br>        <span class="hljs-type">int</span> cnt=<span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; grid.length; i++) &#123;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">j</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; j &lt; grid[<span class="hljs-number">0</span>].length; j++) &#123;<br>                <span class="hljs-keyword">if</span>(grid[i][j]==<span class="hljs-string">&#x27;1&#x27;</span>)<br>                    cnt++;<br>                    dfs(grid,i,j);<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> cnt;<br>    &#125;<br>    <span class="hljs-keyword">void</span> <span class="hljs-title function_">dfs</span><span class="hljs-params">(<span class="hljs-type">char</span>[][]grid,<span class="hljs-type">int</span> i,<span class="hljs-type">int</span> j)</span>&#123; <span class="hljs-comment">// 标记一下 , 如果遇到了标记过的或者是 0 ,直接return</span><br>        <span class="hljs-keyword">if</span>(i&lt;<span class="hljs-number">0</span>||j&lt;<span class="hljs-number">0</span>||i&gt;=grid.length|j&gt;=grid[<span class="hljs-number">0</span>].length||grid[i][j]==<span class="hljs-string">&#x27;0&#x27;</span>) <span class="hljs-keyword">return</span> ;<br>        grid[i][j]=<span class="hljs-string">&#x27;0&#x27;</span>;<span class="hljs-comment">// 使用! 标记为走过的</span><br>        dfs(grid,i,j-<span class="hljs-number">1</span>);<br>        dfs(grid,i,j+<span class="hljs-number">1</span>);<br>        dfs(grid,i-<span class="hljs-number">1</span>,j);<br>        dfs(grid,i+<span class="hljs-number">1</span>,j);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="547-省份数量"><a class="markdownIt-Anchor" href="#547-省份数量"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/number-of-provinces/">547. 省份数量</a></h2>
+<p>难度中等853</p>
+<p>有 <code>n</code> 个城市，其中一些彼此相连，另一些没有相连。如果城市 <code>a</code> 与城市 <code>b</code> 直接相连，且城市 <code>b</code> 与城市 <code>c</code> 直接相连，那么城市 <code>a</code> 与城市 <code>c</code> 间接相连。</p>
+<p><strong>省份</strong> 是一组直接或间接相连的城市，组内不含其他没有相连的城市。</p>
+<p>给你一个 <code>n x n</code> 的矩阵 <code>isConnected</code> ，其中 <code>isConnected[i][j] = 1</code> 表示第 <code>i</code> 个城市和第 <code>j</code> 个城市直接相连，而 <code>isConnected[i][j] = 0</code> 表示二者不直接相连。</p>
+<p>返回矩阵中 <strong>省份</strong> 的数量。</p>
+<blockquote>
+<p>题意： n 个城市，有直接/间接相连关系的城市属于同一个省份，求省份的数量。</p>
+<p>分析： 即 求无向图中的连通域的个数，入参<code>int[][] isConnected</code>即为该无向图的邻接矩阵。</p>
+<p>常规做法可以对图进行深度优先搜索计数或使用广度优先搜索计数或者使用并查集。</p>
+</blockquote>
+<p>思路:</p>
+<p>我们使用图搜索算法从各个连通域的任一顶点开始遍历整个连通域，遍历的过程中对<code>boolean[] visited</code>数组进行标记，</p>
+<p>遍历完当前连通域之后，若仍有顶点未被访问，说明又是一个新的连通域，使用 <code>cnt</code> 累计当前遍历过的连通域的数量。</p>
+<p><strong>DFS</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">findCircleNum</span><span class="hljs-params">(<span class="hljs-type">int</span>[][] isConnected)</span> &#123;<br>        <span class="hljs-comment">// int[][] isConnected 是无向图的邻接矩阵，n 为无向图的顶点数量</span><br>        <span class="hljs-type">int</span> <span class="hljs-variable">n</span> <span class="hljs-operator">=</span> isConnected.length;<br>        <span class="hljs-comment">// 定义 boolean 数组标识顶点是否被访问</span><br>        <span class="hljs-type">boolean</span>[] visited = <span class="hljs-keyword">new</span> <span class="hljs-title class_">boolean</span>[n];<br>        <span class="hljs-comment">// 定义 cnt 来累计遍历过的连通域的数量</span><br>        <span class="hljs-type">int</span> <span class="hljs-variable">cnt</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>            <span class="hljs-comment">// 若当前顶点 i 未被访问，说明又是一个新的连通域，则遍历新的连通域且cnt+=1.</span><br>            <span class="hljs-keyword">if</span> (!visited[i]) &#123; <br>                cnt++;<br>                dfs(i, isConnected, visited);<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> cnt;<br>    &#125;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">dfs</span><span class="hljs-params">(<span class="hljs-type">int</span> i, <span class="hljs-type">int</span>[][] isConnected, <span class="hljs-type">boolean</span>[] visited)</span> &#123;<br>        <span class="hljs-comment">// 对当前顶点 i 进行访问标记</span><br>        visited[i] = <span class="hljs-literal">true</span>;<br>        <br>        <span class="hljs-comment">// 继续遍历与顶点 i 相邻的顶点（使用 visited 数组防止重复访问）</span><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">j</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; j &lt; isConnected.length; j++) &#123;<br>            <span class="hljs-keyword">if</span> (isConnected[i][j] == <span class="hljs-number">1</span> &amp;&amp; !visited[j]) &#123;<br>                dfs(j, isConnected, visited);<br>            &#125;<br>        &#125;<br>    &#125;<br><br></code></pre></td></tr></table></figure>
+<p><strong>并查集</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">findCircleNum</span><span class="hljs-params">(<span class="hljs-type">int</span>[][] isConnected)</span> &#123;<br>        UnionFind  uf= <span class="hljs-keyword">new</span> <span class="hljs-title class_">UnionFind</span>(isConnected.length);<span class="hljs-comment">// 初始化集合  </span><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; isConnected.length; i++) &#123; <span class="hljs-comment">// 遍历每个顶点，将当前顶点与其邻接点进行合并</span><br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">j</span> <span class="hljs-operator">=</span> i+<span class="hljs-number">1</span>; j &lt; isConnected[i].length; j++) &#123; <br>                    <span class="hljs-keyword">if</span>(isConnected[i][j]==<span class="hljs-number">1</span>)<br>                        uf.union(i,j);<br>                &#125;<br>            &#125;<br>        <span class="hljs-keyword">return</span> uf.size.size();<br>    &#125;<br>     <span class="hljs-keyword">class</span> <span class="hljs-title class_">UnionFind</span>&#123;<br>        <span class="hljs-keyword">public</span>  Map&lt;Integer,Integer&gt; parents=<span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;&gt;();<br>        <span class="hljs-keyword">public</span>  Map&lt;Integer,Integer&gt; size=<span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;&gt;();<span class="hljs-comment">// 储存集合的大小</span><br>        <span class="hljs-keyword">public</span>  <span class="hljs-title function_">UnionFind</span><span class="hljs-params">(<span class="hljs-type">int</span> n)</span>&#123; <span class="hljs-comment">// 初始化并查集</span><br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>                parents.put(i,i);<br>                size.put(i,<span class="hljs-number">1</span>);<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">findFather</span><span class="hljs-params">(<span class="hljs-type">int</span> p)</span>&#123; <span class="hljs-comment">// 寻找代表节点</span><br>            <span class="hljs-keyword">if</span>(parents.get(p).equals(p))<br>                <span class="hljs-keyword">return</span> p;<br>            <span class="hljs-keyword">else</span> <span class="hljs-keyword">return</span> findFather(parents.get(p));<br>        &#125;<br>        <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">union</span><span class="hljs-params">(<span class="hljs-type">int</span> p,<span class="hljs-type">int</span> q)</span> &#123;<br>            <span class="hljs-type">int</span> phead=findFather(p);<br>            <span class="hljs-type">int</span> qhead=findFather(q);<br>            <span class="hljs-keyword">if</span>(phead==qhead) <span class="hljs-keyword">return</span> ;<br>            <span class="hljs-type">int</span> pSetSize=size.get(phead);<br>            <span class="hljs-type">int</span> qSetSize=size.get(qhead);<br>            <span class="hljs-type">int</span> small=pSetSize&gt;=qSetSize?qhead:phead;<br>            <span class="hljs-type">int</span> big=pSetSize&lt;qSetSize?qhead:phead;<br>            parents.put(small,big);<br>            size.put(big,pSetSize+qSetSize);<br>            size.remove(small);<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/number-of-provinces/solution/dfs-bfs-bing-cha-ji-3-chong-fang-fa-ji-s-edkl/">DFS + BFS + 并查集，3 种方法计算无向图连通域数量 - 省份数量 - 力扣（LeetCode）</a></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">findCircleNum</span><span class="hljs-params">(<span class="hljs-type">int</span>[][] isConnected)</span> &#123;<br>        <span class="hljs-type">int</span> <span class="hljs-variable">n</span> <span class="hljs-operator">=</span> isConnected.length;<br>        <span class="hljs-comment">// 初始化并查集</span><br>        <span class="hljs-type">UnionFind</span> <span class="hljs-variable">uf</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">UnionFind</span>(n);<br>        <span class="hljs-comment">// 遍历每个顶点，将当前顶点与其邻接点进行合并</span><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">j</span> <span class="hljs-operator">=</span> i + <span class="hljs-number">1</span>; j &lt; n; j++) &#123;<br>                <span class="hljs-keyword">if</span> (isConnected[i][j] == <span class="hljs-number">1</span>) &#123;<br>                    uf.union(i, j);<br>                &#125;<br>            &#125;<br>        &#125;<br>        <span class="hljs-comment">// 返回最终合并后的集合的数量</span><br>        <span class="hljs-keyword">return</span> uf.size;<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">// 并查集</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">UnionFind</span> &#123;<br>    <span class="hljs-type">int</span>[] roots;<br>    <span class="hljs-type">int</span> size; <span class="hljs-comment">// 集合数量</span><br>    <br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">UnionFind</span><span class="hljs-params">(<span class="hljs-type">int</span> n)</span> &#123;<br>        roots = <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[n];<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>            roots[i] = i;<br>        &#125;<br>        size = n;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">find</span><span class="hljs-params">(<span class="hljs-type">int</span> i)</span> &#123;<br>       <span class="hljs-keyword">if</span> (i == roots[i]) &#123;<br>           <span class="hljs-keyword">return</span> i;<br>       &#125;<br>       <span class="hljs-keyword">return</span> roots[i] = find(roots[i]);<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">union</span><span class="hljs-params">(<span class="hljs-type">int</span> p, <span class="hljs-type">int</span> q)</span> &#123;<br>        <span class="hljs-type">int</span> <span class="hljs-variable">pRoot</span> <span class="hljs-operator">=</span> find(p);<br>        <span class="hljs-type">int</span> <span class="hljs-variable">qRoot</span> <span class="hljs-operator">=</span> find(q);<br>        <span class="hljs-keyword">if</span> (pRoot != qRoot) &#123;<br>            roots[pRoot] = qRoot;<br>            size--;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h1 id="并查集"><a class="markdownIt-Anchor" href="#并查集"></a> 🔔并查集</h1>
+<ul>
+<li>[<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/number-of-provinces/solution/python-duo-tu-xiang-jie-bing-cha-ji-by-m-vjdr/">Python/C++/Java] 多图详解并查集 - 省份数量 - 力扣（LeetCode）</a></li>
+<li><a target="_blank" rel="noopener" href="https://labuladong.github.io/algo/2/22/53/">并查集（Union-Find）算法 :: labuladong的算法小抄</a></li>
+</ul>
+<h2 id="基本概念"><a class="markdownIt-Anchor" href="#基本概念"></a> <strong>基本概念</strong></h2>
+<ol>
+<li>并查集是一种数据结构</li>
+<li>并查集这三个字，一个字代表一个意思。</li>
+<li>并（<code>Union</code>），代表合并</li>
+<li>查（<code>Find</code>），代表查找</li>
+<li>集（<code>Set</code>），代表这是一个以字典为基础的数据结构，它的基本功能是合并集合中的元素，查找集合中的元素</li>
+<li>并查集的典型应用是有关连通分量的问题</li>
+<li>并查集解决单个问题（添加，合并，查找）的时间复杂度都是<em>O(1)</em></li>
+<li>因此，并查集可以应用到在线算法中</li>
+</ol>
+<h2 id="并查集的实现"><a class="markdownIt-Anchor" href="#并查集的实现"></a> 并查集的实现</h2>
+<blockquote>
+<p>并查集跟树有些类似，只不过她跟树是相反的。在树这个数据结构里面，每个节点会记录它的子节点。在并查集里，每个节点会记录它的父节点。</p>
+</blockquote>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220823125305538.png" alt="image-20220823125305538" /></p>
+<blockquote>
+<p>可以看到，如果节点是相互连通的（从一个节点可以到达另一个节点），</p>
+<p>那么他们在同一棵树里，或者说在同一个集合里，或者说他们的<strong>祖先是相同的</strong>。</p>
+</blockquote>
+<p><strong>代码实现</strong></p>
+<ul>
+<li>泛型</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">UnionFindSet</span>&lt;V&gt; &#123;<br>    <span class="hljs-keyword">public</span> HashMap&lt;V, Element&lt;V&gt;&gt; elementMap;<br>    <span class="hljs-keyword">public</span> HashMap&lt;Element&lt;V&gt;, Element&lt;V&gt;&gt; fatherMap;<br>    <span class="hljs-keyword">public</span> HashMap&lt;Element&lt;V&gt;, Integer&gt; rankMap;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">UnionFindSet</span><span class="hljs-params">(List&lt;V&gt; list)</span> &#123;<br>        elementMap = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;&gt;();<br>        fatherMap = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;&gt;();<br>        rankMap = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;&gt;();<br>        <span class="hljs-keyword">for</span> (V value : list) &#123;<br>            Element&lt;V&gt; element = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Element</span>&lt;V&gt;(value);<br>            elementMap.put(value, element);<br>            fatherMap.put(element, element);<br>            rankMap.put(element, <span class="hljs-number">1</span>);<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">private</span> Element&lt;V&gt; <span class="hljs-title function_">findHead</span><span class="hljs-params">(Element&lt;V&gt; element)</span> &#123;<br>        Stack&lt;Element&lt;V&gt;&gt; path = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Stack</span>&lt;&gt;();<br>        <span class="hljs-keyword">while</span> (element != fatherMap.get(element)) &#123;<br>            path.push(element);<br>            element = fatherMap.get(element);<br>        &#125;<br>        <span class="hljs-keyword">while</span> (!path.isEmpty()) &#123;<br>            fatherMap.put(path.pop(), element);<br>        &#125;<br>        <span class="hljs-keyword">return</span> element;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">isSameSet</span><span class="hljs-params">(V a, V b)</span> &#123;<br>        <span class="hljs-keyword">if</span> (elementMap.containsKey(a) &amp;&amp; elementMap.containsKey(b)) &#123;<br>            <span class="hljs-keyword">return</span> findHead(elementMap.get(a)) == findHead(elementMap.get(b));<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">union</span><span class="hljs-params">(V a, V b)</span> &#123;<br>        <span class="hljs-keyword">if</span> (elementMap.containsKey(a) &amp;&amp; elementMap.containsKey(b)) &#123;<br>            Element&lt;V&gt; aF = findHead(elementMap.get(a));<br>            Element&lt;V&gt; bF = findHead(elementMap.get(b));<br>            <span class="hljs-keyword">if</span> (aF != bF) &#123;<br>                Element&lt;V&gt; big = rankMap.get(aF) &gt;= rankMap.get(bF) ? aF : bF;<br>                Element&lt;V&gt; small = big == aF ? bF : aF;<br>                fatherMap.put(small, big);<br>                rankMap.put(big, rankMap.get(aF) + rankMap.get(bF));<br>                rankMap.remove(small);<br>            &#125;<br>        &#125;<br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+<p><strong>非泛型:</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// Union-Find Set</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">UnionFind</span> &#123;<br>    <span class="hljs-keyword">private</span> HashMap&lt;Node, Node&gt; fatherMap;<br>    <span class="hljs-keyword">private</span> HashMap&lt;Node, Integer&gt; rankMap;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">UnionFind</span><span class="hljs-params">()</span> &#123;<br>        fatherMap = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;Node, Node&gt;();<br>        rankMap = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;Node, Integer&gt;();<br>    &#125;<br><br>    <span class="hljs-keyword">private</span> Node <span class="hljs-title function_">findFather</span><span class="hljs-params">(Node n)</span> &#123;<br>        <span class="hljs-type">Node</span> <span class="hljs-variable">father</span> <span class="hljs-operator">=</span> fatherMap.get(n);<br>        <span class="hljs-keyword">if</span> (father != n) &#123;<br>            father = findFather(father);<br>        &#125;<br>        fatherMap.put(n, father);<br>        <span class="hljs-keyword">return</span> father;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">makeSets</span><span class="hljs-params">(Collection&lt;Node&gt; nodes)</span> &#123;<br>        fatherMap.clear();<br>        rankMap.clear();<br>        <span class="hljs-keyword">for</span> (Node node : nodes) &#123;<br>            fatherMap.put(node, node);<br>            rankMap.put(node, <span class="hljs-number">1</span>);<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">isSameSet</span><span class="hljs-params">(Node a, Node b)</span> &#123;<br>        <span class="hljs-keyword">return</span> findFather(a) == findFather(b);<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">union</span><span class="hljs-params">(Node a, Node b)</span> &#123;<br>        <span class="hljs-keyword">if</span> (a == <span class="hljs-literal">null</span> || b == <span class="hljs-literal">null</span>) &#123;<br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br>        <span class="hljs-type">Node</span> <span class="hljs-variable">aFather</span> <span class="hljs-operator">=</span> findFather(a);<br>        <span class="hljs-type">Node</span> <span class="hljs-variable">bFather</span> <span class="hljs-operator">=</span> findFather(b);<br>        <span class="hljs-keyword">if</span> (aFather != bFather) &#123;<br>            <span class="hljs-type">int</span> <span class="hljs-variable">aFrank</span> <span class="hljs-operator">=</span> rankMap.get(aFather);<br>            <span class="hljs-type">int</span> <span class="hljs-variable">bFrank</span> <span class="hljs-operator">=</span> rankMap.get(bFather);<br>            <span class="hljs-keyword">if</span> (aFrank &lt;= bFrank) &#123;<br>                fatherMap.put(aFather, bFather);<br>                rankMap.put(bFather, aFrank + bFrank);<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                fatherMap.put(bFather, aFather);<br>                rankMap.put(aFather, aFrank + bFrank);<br>            &#125;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h1 id="day-07-dfsbfs"><a class="markdownIt-Anchor" href="#day-07-dfsbfs"></a> 👉day 07 DFS/BFS</h1>
+<h2 id="117-填充每个节点的下一个右侧节点指针-ii"><a class="markdownIt-Anchor" href="#117-填充每个节点的下一个右侧节点指针-ii"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/populating-next-right-pointers-in-each-node-ii/">117. 填充每个节点的下一个右侧节点指针 II</a></h2>
+<p>难度中等626</p>
+<p>给定一个二叉树</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">struct</span> <span class="hljs-title class_">Node</span> &#123;<br>  <span class="hljs-type">int</span> val;<br>  Node *left;<br>  Node *right;<br>  Node *next;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>填充它的每个 next 指针，让这个指针指向其下一个右侧节点。如果找不到下一个右侧节点，则将 next 指针设置为 <code>NULL</code>。</p>
+<p>初始状态下，所有 next 指针都被设置为 <code>NULL</code>。</p>
+<blockquote>
+<p>层序遍历(<strong>BFS</strong>),  依次添加每一层 的节点, 然后更改节点的指向即可</p>
+<p>定义<code>pre</code> 作为每一层的前一个节点, <strong>用来存储当前节点的前一个节点</strong></p>
+<ul>
+<li>
+<p>更好的做法是将<code>pre</code>定义为<code>null</code>  ,然后在存储节点的时候判断<code>pre</code> 是否为<code>null</code></p>
+<blockquote>
+<p>如果不定义pre为<code>null</code>相当于更改了原本的结构</p>
+</blockquote>
+</li>
+</ul>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> Node <span class="hljs-title function_">connect</span><span class="hljs-params">(Node root)</span> &#123;<br>        <span class="hljs-keyword">if</span>(root==<span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> root;<br>        Queue&lt;Node&gt; que=<span class="hljs-keyword">new</span> <span class="hljs-title class_">LinkedList</span>&lt;&gt;();<br>        que.add(root);<br>        <span class="hljs-keyword">while</span>(que.size()!=<span class="hljs-number">0</span>)&#123;<br>            <span class="hljs-type">int</span> size= que.size();<br>            Node pre=<span class="hljs-keyword">new</span> <span class="hljs-title class_">Node</span>(-<span class="hljs-number">1</span>);<br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; size; i++) &#123;<br>                Node cur=que.poll();<br>                pre.next=cur;<br>                <span class="hljs-keyword">if</span>(cur.left!=<span class="hljs-literal">null</span>) que.add(cur.left);<br>                <span class="hljs-keyword">if</span>(cur.right!=<span class="hljs-literal">null</span>) que.add(cur.right);<br>                pre=cur;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> root;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>更新pre最初定义为<code>null</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> Node <span class="hljs-title function_">connect</span><span class="hljs-params">(Node root)</span> &#123;<br>        <span class="hljs-keyword">if</span>(root==<span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> root;<br>        Queue&lt;Node&gt; que=<span class="hljs-keyword">new</span> <span class="hljs-title class_">LinkedList</span>&lt;&gt;();<br>        que.add(root);<br>        <span class="hljs-keyword">while</span>(que.size()!=<span class="hljs-number">0</span>)&#123;<br>            <span class="hljs-type">int</span> size= que.size();<br>            Node pre=<span class="hljs-literal">null</span>;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; size; i++) &#123;<br>                Node cur=que.poll();<br>                <span class="hljs-keyword">if</span>(pre!=<span class="hljs-literal">null</span>)<br>                    pre.next=cur;<br>                <span class="hljs-keyword">if</span>(cur.left!=<span class="hljs-literal">null</span>) que.add(cur.left);<br>                <span class="hljs-keyword">if</span>(cur.right!=<span class="hljs-literal">null</span>) que.add(cur.right);<br>                pre=cur;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> root;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="572-另一棵树的子树"><a class="markdownIt-Anchor" href="#572-另一棵树的子树"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/subtree-of-another-tree/">572. 另一棵树的子树</a></h2>
+<p>难度简单805</p>
+<p>给你两棵二叉树 <code>root</code> 和 <code>subRoot</code> 。检验 <code>root</code> 中是否包含和 <code>subRoot</code> 具有相同结构和节点值的子树。如果存在，返回 <code>true</code> ；否则，返回 <code>false</code> 。</p>
+<p>二叉树 <code>tree</code> 的一棵子树包括 <code>tree</code> 的某个节点和这个节点的所有后代节点。<code>tree</code> 也可以看做它自身的一棵子树。</p>
+<p><strong>BFS</strong></p>
+<blockquote>
+<p>层序遍历 , 当节点的<code>val</code>与目标子树的节点的<code>val</code>相同时 ,就判断两棵树是否相同</p>
+<ul>
+<li>需要注意的是本题的<code>root</code>树的节点的<code>val</code>不唯一 ,因此需要额外的增加一个<code>res</code> , 用来存储判断结果</li>
+</ul>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">isSubtree</span><span class="hljs-params">(TreeNode root, TreeNode subRoot)</span> &#123;<br>        <span class="hljs-type">boolean</span> res=<span class="hljs-literal">false</span>;<br>        Queue&lt;TreeNode&gt; queue=<span class="hljs-keyword">new</span> <span class="hljs-title class_">LinkedList</span>&lt;&gt;();<br>        queue.add(root);<br>        <span class="hljs-keyword">while</span>(queue.size()!=<span class="hljs-number">0</span>)&#123;<br>            <span class="hljs-keyword">if</span>(res) <span class="hljs-keyword">return</span> res;<br>            <span class="hljs-type">int</span> size=queue.size();<br>            <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;size;i++)&#123;<br>                TreeNode tmp=queue.poll();<br>                <span class="hljs-keyword">if</span>(tmp.val==subRoot.val)<br>                    res|=isMatch(tmp,subRoot); <span class="hljs-comment">//[1,1]  [1] 的数据 ,  根节点不满足, 但是子节点满足</span><br>                <span class="hljs-keyword">if</span>(tmp.left!=<span class="hljs-literal">null</span>) queue.add(tmp.left);<br>                <span class="hljs-keyword">if</span>(tmp.right!=<span class="hljs-literal">null</span>) queue.add(tmp.right);<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> res; <span class="hljs-comment">// 没有val匹配的节点</span><br>    &#125;<br><br>    <span class="hljs-type">boolean</span> <span class="hljs-title function_">isMatch</span><span class="hljs-params">(TreeNode r1,TreeNode r2)</span>&#123;<br>        <span class="hljs-keyword">if</span>(r1==<span class="hljs-literal">null</span>&amp;&amp;r2==<span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>        <span class="hljs-keyword">if</span>(r1==<span class="hljs-literal">null</span>||r2==<span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>        <span class="hljs-keyword">return</span> r1.val==r2.val&amp;&amp;isMatch(r1.left,r2.left)&amp;&amp;isMatch(r1.right,r2.right);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><strong>DFS</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">isSubtree</span><span class="hljs-params">(TreeNode s, TreeNode t)</span> &#123;<br>        <span class="hljs-keyword">if</span> (t == <span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;   <span class="hljs-comment">// t 为 null 一定都是 true</span><br>        <span class="hljs-keyword">if</span> (s == <span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;  <span class="hljs-comment">// 这里 t 一定不为 null, 只要 s 为 null，肯定是 false</span><br>        <span class="hljs-keyword">return</span> isSubtree(s.left, t) || isSubtree(s.right, t) || isMatch(s,t);<br>    &#125;<br><br>    <span class="hljs-comment">//判断两棵树是否相同</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">isMatch</span><span class="hljs-params">(TreeNode r1, TreeNode r2)</span>&#123;<br>        <span class="hljs-keyword">if</span>(r1==<span class="hljs-literal">null</span>&amp;&amp;r2==<span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>        <span class="hljs-keyword">if</span>(r1==<span class="hljs-literal">null</span>||r2==<span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>        <span class="hljs-keyword">return</span> r1.val==r2.val&amp;&amp;isMatch(r1.left,r2.left)&amp;&amp;isMatch(r1.right,r2.right);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h1 id="day-08-dfsbfs"><a class="markdownIt-Anchor" href="#day-08-dfsbfs"></a> 👉day 08 DFS/BFS</h1>
+<p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/shortest-path-in-binary-matrix/solution/bfszui-duan-lu-jing-wen-ti-bfsdfsde-si-k-ngc5/">BFS最短路径问题（BFS，DFS的思考） - 二进制矩阵中的最短路径 - 力扣（LeetCode）</a></p>
+<h2 id="图论基础及遍历算法"><a class="markdownIt-Anchor" href="#图论基础及遍历算法"></a> 图论基础及遍历算法</h2>
+<h3 id="1️⃣图概述"><a class="markdownIt-Anchor" href="#1️⃣图概述"></a> 1️⃣图概述</h3>
+<p>一幅图是由<strong>节点</strong>和<strong>边</strong>构成的，逻辑结构如下：</p>
+<p><a target="_blank" rel="noopener" href="https://labuladong.github.io/algo/images/%E5%9B%BE/0.jpg"><img src="https://labuladong.github.io/algo/images/%E5%9B%BE/0.jpg" alt="img" /></a></p>
+<p><strong>什么叫「逻辑结构」？就是说为了方便研究，我们把图抽象成这个样子</strong>。</p>
+<ul>
+<li>根据这个逻辑结构，我们可以认为每个节点的实现如下：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/* 图节点的逻辑结构 */</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Vertex</span> &#123;<br>    <span class="hljs-type">int</span> id;<br>    Vertex[] neighbors;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>它和我们之前说的多叉树节点几乎完全一样：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/* 基本的 N 叉树节点 */</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">TreeNode</span> &#123;<br>    <span class="hljs-type">int</span> val;<br>    TreeNode[] children;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="2️⃣图的存储"><a class="markdownIt-Anchor" href="#2️⃣图的存储"></a> 2️⃣图的存储</h3>
+<ul>
+<li>实际上我们很少用这个 <code>Vertex</code> 类实现图，而是用常说的<strong>邻接表和邻接矩阵</strong>来实现。</li>
+</ul>
+<p>用邻接表和邻接矩阵的存储方式如下：</p>
+<p><a target="_blank" rel="noopener" href="https://labuladong.github.io/algo/images/%E5%9B%BE/2.jpeg"><img src="https://labuladong.github.io/algo/images/图/2.jpeg" alt="img" style="zoom:67%;" /></a></p>
+<p>邻接表很直观，我把每个节点 <code>x</code> 的邻居都存到一个列表里，然后把 <code>x</code> 和这个列表关联起来，这样就可以通过一个节点 <code>x</code> 找到它的所有相邻节点。</p>
+<p>邻接矩阵则是一个二维布尔数组，我们权且称为 <code>matrix</code>，如果节点 <code>x</code> 和 <code>y</code> 是相连的，那么就把 <code>matrix[x][y]</code> 设为 <code>true</code>（上图中绿色的方格代表 <code>true</code>）。如果想找节点 <code>x</code> 的邻居，去扫一圈 <code>matrix[x][..]</code> 就行了。</p>
+<p>如果用代码的形式来表现，邻接表和邻接矩阵大概长这样：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 邻接表</span><br><span class="hljs-comment">// graph[x] 存储 x 的所有邻居节点</span><br>List&lt;Integer&gt;[] graph;<br><br><span class="hljs-comment">// 邻接矩阵</span><br><span class="hljs-comment">// matrix[x][y] 记录 x 是否有一条指向 y 的边</span><br><span class="hljs-type">boolean</span>[][] matrix;<br></code></pre></td></tr></table></figure>
+<h4 id="两种存储方式的对比"><a class="markdownIt-Anchor" href="#两种存储方式的对比"></a> 😄两种存储方式的对比</h4>
+<p>对于邻接表，好处是占用的空间少。</p>
+<p>你看邻接矩阵里面空着那么多位置，肯定需要更多的存储空间。</p>
+<p>但是，邻接表无法快速判断两个节点是否相邻。</p>
+<p>比如说我想判断节点 <code>1</code> 是否和节点 <code>3</code> 相邻，我要去邻接表里 <code>1</code> 对应的邻居列表里查找 <code>3</code> 是否存在。但对于邻接矩阵就简单了，只要看看 <code>matrix[1][3]</code> 就知道了，效率高。</p>
+<p>所以说，使用哪一种方式实现图，要看具体情况。</p>
+<blockquote>
+<p>PS：在常规的算法题中，邻接表的使用会更频繁一些，主要是因为操作起来较为简单，但这不意味着邻接矩阵应该被轻视。矩阵是一个强有力的数学工具，图的一些隐晦性质可以借助精妙的矩阵运算展现出来。不过本文不准备引入数学内容，所以有兴趣的读者可以自行搜索学习。</p>
+</blockquote>
+<p>最后，我们再明确一个图论中特有的<strong>度</strong>（degree）的概念，在无向图中，「度」就是每个节点相连的边的条数。</p>
+<p>由于有向图的边有方向，所以有向图中每个节点「度」被细分为<strong>入度</strong>（indegree）和<strong>出度</strong>（outdegree），比如下图：</p>
+<p><img src="https://labuladong.github.io/algo/images/%E5%9B%BE/0.jpg" alt="" /></p>
+<p>其中节点 <code>3</code> 的入度为 3（有三条边指向它），出度为 1（它有 1 条边指向别的节点）。</p>
+<p>好了，对于「图」这种数据结构，能看懂上面这些就绰绰够用了。</p>
+<p>那你可能会问，我们上面说的这个图的模型仅仅是「有向无权图」，不是还有什么加权图，无向图，等等……</p>
+<p><strong>其实，这些更复杂的模型都是基于这个最简单的图衍生出来的</strong>。</p>
+<p><strong>有向加权图怎么实现</strong>？</p>
+<p>如果是邻接表，我们不仅仅存储某个节点 <code>x</code> 的所有邻居节点，还存储 <code>x</code> 到每个邻居的权重，不就实现加权有向图了吗？</p>
+<p>如果是邻接矩阵，<code>matrix[x][y]</code> 不再是布尔值，而是一个 int 值，0 表示没有连接，其他值表示权重，不就变成加权有向图了吗？</p>
+<p>如果用代码的形式来表现，大概长这样：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 邻接表</span><br><span class="hljs-comment">// graph[x] 存储 x 的所有邻居节点以及对应的权重</span><br>List&lt;<span class="hljs-type">int</span>[]&gt;[] graph;<br><br><span class="hljs-comment">// 邻接矩阵</span><br><span class="hljs-comment">// matrix[x][y] 记录 x 指向 y 的边的权重，0 表示不相邻</span><br><span class="hljs-type">int</span>[][] matrix;<br></code></pre></td></tr></table></figure>
+<p><strong>无向图怎么实现</strong>？也很简单，所谓的「无向」，等同于「双向」</p>
+<img src="https://labuladong.github.io/algo/images/图/3.jpeg" alt="img" style="zoom:67%;" />
+<p>如果连接无向图中的节点 <code>x</code> 和 <code>y</code>，把 <code>matrix[x][y]</code> 和 <code>matrix[y][x]</code> 都变成 <code>true</code> 不就行了；邻接表也是类似的操作，在 <code>x</code> 的邻居列表里添加 <code>y</code>，同时在 <code>y</code> 的邻居列表里添加 <code>x</code>。</p>
+<h3 id="3️⃣图的遍历"><a class="markdownIt-Anchor" href="#3️⃣图的遍历"></a> 3️⃣图的遍历</h3>
+<ul>
+<li><strong>各种数据结构被发明出来无非就是为了遍历和访问，所以「遍历」是所有数据结构的基础</strong>。</li>
+</ul>
+<p>图怎么遍历？还是那句话，参考多叉树，多叉树的 DFS 遍历框架如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/* 多叉树遍历框架 */</span><br><span class="hljs-keyword">void</span> <span class="hljs-title function_">traverse</span><span class="hljs-params">(TreeNode root)</span> &#123;<br>    <span class="hljs-keyword">if</span> (root == <span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span>;<br>    <span class="hljs-comment">// 前序位置</span><br>    <span class="hljs-keyword">for</span> (TreeNode child : root.children) &#123;<br>        traverse(child);<br>    &#125;<br>    <span class="hljs-comment">// 后序位置</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>图和多叉树最大的区别是，图是可能包含环的，你从图的某一个节点开始遍历，有可能走了一圈又回到这个节点，而树不会出现这种情况，从某个节点出发必然走到叶子节点，绝不可能回到它自身。</p>
+<p>所以，如果图包含环，遍历框架就要一个 <code>visited</code> 数组进行辅助：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 记录被遍历过的节点</span><br><span class="hljs-type">boolean</span>[] visited;<br><span class="hljs-comment">// 记录从起点到当前节点的路径</span><br><span class="hljs-type">boolean</span>[] onPath;<br><br><span class="hljs-comment">/* 图遍历框架 */</span><br><span class="hljs-keyword">void</span> <span class="hljs-title function_">traverse</span><span class="hljs-params">(Graph graph, <span class="hljs-type">int</span> s)</span> &#123;<br>    <span class="hljs-keyword">if</span> (visited[s]) <span class="hljs-keyword">return</span>;<br>    <span class="hljs-comment">// 经过节点 s，标记为已遍历</span><br>    visited[s] = <span class="hljs-literal">true</span>;<br>    <span class="hljs-comment">// 做选择：标记节点 s 在路径上</span><br>    onPath[s] = <span class="hljs-literal">true</span>;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> neighbor : graph.neighbors(s)) &#123;<br>        traverse(graph, neighbor);<br>    &#125;<br>    <span class="hljs-comment">// 撤销选择：节点 s 离开路径</span><br>    onPath[s] = <span class="hljs-literal">false</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>注意 <code>visited</code> 数组和 <code>onPath</code> 数组的区别，因为二叉树算是特殊的图，所以用遍历二叉树的过程来理解下这两个数组的区别：</p>
+<img src="https://labuladong.github.io/algo/images/迭代遍历二叉树/1.gif" style="zoom: 50%;" />
+<p><strong>上述 GIF 描述了递归遍历二叉树的过程，在 <code>visited</code> 中被标记为 true 的节点用灰色表示，在 <code>onPath</code> 中被标记为 true 的节点用绿色表示</strong>，类比贪吃蛇游戏，<code>visited</code> 记录蛇经过过的格子，而 <code>onPath</code> 仅仅记录蛇身。在图的遍历过程中，<code>onPath</code> 用于判断是否成环，类比当贪吃蛇自己咬到自己（成环）的场景，这下你可以理解它们二者的区别了吧。</p>
+<p>如果让你处理路径相关的问题，这个 <code>onPath</code> 变量是肯定会被用到的，比如 <a target="_blank" rel="noopener" href="https://labuladong.github.io/algo/2/22/51/">拓扑排序</a> 中就有运用。</p>
+<p>另外，你应该注意到了，这个 <code>onPath</code> 数组的操作很像前文 <a target="_blank" rel="noopener" href="https://labuladong.github.io/algo/4/31/105/">回溯算法核心套路</a> 中做「做选择」和「撤销选择」，区别在于位置：回溯算法的「做选择」和「撤销选择」在 for 循环里面，而对 <code>onPath</code> 数组的操作在 for 循环外面。</p>
+<p>为什么有这个区别呢？</p>
+<p>**回溯关注的不是节点，而是树枝。**不信你看前文画的回溯树，我们需要在「树枝」上做选择和撤销选择：</p>
+<img src="https://labuladong.github.io/algo/images/backtracking/5.jpg" style="zoom:50%;" />
+<p>他们的区别可以这样反应到代码上：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// DFS 算法，关注点在节点</span><br><span class="hljs-keyword">void</span> <span class="hljs-title function_">traverse</span><span class="hljs-params">(TreeNode root)</span> &#123;<br>    <span class="hljs-keyword">if</span> (root == <span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span>;<br>    printf(<span class="hljs-string">&quot;进入节点 %s&quot;</span>, root);<br>    <span class="hljs-keyword">for</span> (TreeNode child : root.children) &#123;<br>        traverse(child);<br>    &#125;<br>    printf(<span class="hljs-string">&quot;离开节点 %s&quot;</span>, root);<br>&#125;<br><br><span class="hljs-comment">// 回溯算法，关注点在树枝</span><br><span class="hljs-keyword">void</span> <span class="hljs-title function_">backtrack</span><span class="hljs-params">(TreeNode root)</span> &#123;<br>    <span class="hljs-keyword">if</span> (root == <span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span>;<br>    <span class="hljs-keyword">for</span> (TreeNode child : root.children) &#123;<br>        <span class="hljs-comment">// 做选择</span><br>        printf(<span class="hljs-string">&quot;从 %s 到 %s&quot;</span>, root, child);<br>        backtrack(child);<br>        <span class="hljs-comment">// 撤销选择</span><br>        printf(<span class="hljs-string">&quot;从 %s 到 %s&quot;</span>, child, root);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>如果执行这段代码，你会发现根节点被漏掉了：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">void</span> <span class="hljs-title function_">traverse</span><span class="hljs-params">(TreeNode root)</span> &#123;<br>    <span class="hljs-keyword">if</span> (root == <span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span>;<br>    <span class="hljs-keyword">for</span> (TreeNode child : root.children) &#123;<br>        printf(<span class="hljs-string">&quot;进入节点 %s&quot;</span>, child);<br>        traverse(child);<br>        printf(<span class="hljs-string">&quot;离开节点 %s&quot;</span>, child);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>所以对于这里「图」的遍历，我们应该用 DFS 算法，即把 <code>onPath</code> 的操作放到 for 循环外面，否则会漏掉记录起始点的遍历。</p>
+<p>说了这么多 <code>onPath</code> 数组，再说下 <code>visited</code> 数组，其目的很明显了，由于图可能含有环，<code>visited</code> 数组就是防止递归重复遍历同一个节点进入死循环的。</p>
+<p>当然，如果题目告诉你图中不含环，可以把 <code>visited</code> 数组都省掉，基本就是多叉树的遍历。</p>
+<h2 id="1091-二进制矩阵中的最短路径"><a class="markdownIt-Anchor" href="#1091-二进制矩阵中的最短路径"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/shortest-path-in-binary-matrix/">1091. 二进制矩阵中的最短路径</a></h2>
+<p>难度中等218</p>
+<p>给你一个 <code>n x n</code> 的二进制矩阵 <code>grid</code> 中，返回矩阵中最短 <strong>畅通路径</strong> 的长度。如果不存在这样的路径，返回 <code>-1</code> 。</p>
+<p>二进制矩阵中的 畅通路径 是一条从 <strong>左上角</strong> 单元格（即，<code>(0, 0)</code>）到 右下角 单元格（即，<code>(n - 1, n - 1)</code>）的路径，该路径同时满足下述要求：</p>
+<ul>
+<li>路径途经的所有单元格都的值都是 <code>0</code> 。</li>
+<li>路径中所有相邻的单元格应当在 <strong>8 个方向之一</strong> 上连通（即，相邻两单元之间彼此不同且共享一条边或者一个角）。</li>
+</ul>
+<p><strong>畅通路径的长度</strong> 是该路径途经的单元格总数。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220825232320762.png" alt="" /></p>
+<blockquote>
+<p>一般这种找最短路径, 最少次数的题目, 都是<strong>BFS</strong></p>
+</blockquote>
+<p><strong>BFS</strong></p>
+<ol>
+<li>
+<p>每个节点每次可以向8个方向前进</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">&#123;&#123;<span class="hljs-number">0</span>,<span class="hljs-number">1</span>&#125;,&#123;<span class="hljs-number">0</span>,-<span class="hljs-number">1</span>&#125;,&#123;<span class="hljs-number">1</span>,<span class="hljs-number">0</span>&#125;,&#123;-<span class="hljs-number">1</span>,<span class="hljs-number">0</span>&#125;,&#123;-<span class="hljs-number">1</span>,-<span class="hljs-number">1</span>&#125;,&#123;-<span class="hljs-number">1</span>,<span class="hljs-number">1</span>&#125;,&#123;<span class="hljs-number">1</span>,-<span class="hljs-number">1</span>&#125;,&#123;<span class="hljs-number">1</span>,<span class="hljs-number">1</span>&#125;&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li>
+<p>前进的条件是</p>
+<ul>
+<li>边界内</li>
+<li>值=0</li>
+<li>未访问过</li>
+</ul>
+</li>
+</ol>
+<p><strong>成功的条件为遍历到右下角位置</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-type">int</span>[][] dirs = &#123;&#123;<span class="hljs-number">1</span>, <span class="hljs-number">0</span>&#125;, &#123;-<span class="hljs-number">1</span>, <span class="hljs-number">0</span>&#125;, &#123;<span class="hljs-number">0</span>, <span class="hljs-number">1</span>&#125;, &#123;<span class="hljs-number">0</span>, -<span class="hljs-number">1</span>&#125;, &#123;<span class="hljs-number">1</span>, <span class="hljs-number">1</span>&#125;, &#123;<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>&#125;, &#123;-<span class="hljs-number">1</span>, <span class="hljs-number">1</span>&#125;, &#123;-<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>&#125;&#125;;<br>    <span class="hljs-type">boolean</span> [][]vis;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">shortestPathBinaryMatrix</span><span class="hljs-params">(<span class="hljs-type">int</span>[][] grid)</span> &#123;<br>        <span class="hljs-type">int</span> path=<span class="hljs-number">1</span>;<span class="hljs-comment">// 初始化为1 , 因为depth 为 路径的单元格总数</span><br>        <span class="hljs-type">int</span> n= grid.length;<br>        vis=<span class="hljs-keyword">new</span> <span class="hljs-title class_">boolean</span>[n][n];<br>        <span class="hljs-keyword">if</span>(grid.length == <span class="hljs-number">0</span> || grid[<span class="hljs-number">0</span>].length == <span class="hljs-number">0</span> || grid[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>] == <span class="hljs-number">1</span> || grid[n - <span class="hljs-number">1</span>][n - <span class="hljs-number">1</span>] == <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;<br>        Queue&lt;<span class="hljs-type">int</span>[]&gt; queue=<span class="hljs-keyword">new</span> <span class="hljs-title class_">LinkedList</span>&lt;&gt;();<br>        queue.add(<span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[]&#123;<span class="hljs-number">0</span>,<span class="hljs-number">0</span>&#125;);<br>        <span class="hljs-keyword">while</span>(queue.size()!=<span class="hljs-number">0</span>)&#123;<br>            <span class="hljs-type">int</span> size=queue.size();<br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; size; i++) &#123;<br>                <span class="hljs-type">int</span> []tmp=queue.poll();<br>                <span class="hljs-type">int</span> x=tmp[<span class="hljs-number">0</span>],y=tmp[<span class="hljs-number">1</span>];<br>                <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span>[] d : dirs) &#123;<br>                    <span class="hljs-type">int</span> nx=x+d[<span class="hljs-number">0</span>];<br>                    <span class="hljs-type">int</span> ny=y+d[<span class="hljs-number">1</span>];<br>                    <span class="hljs-comment">// 数组不越界 并且 val==1 并且是没有访问过的点</span><br>                    <span class="hljs-keyword">if</span>(nx&gt;=<span class="hljs-number">0</span>&amp;&amp;ny&gt;=<span class="hljs-number">0</span>&amp;&amp;nx&lt;n&amp;&amp;ny&lt;n&amp;&amp;grid[nx][ny]==<span class="hljs-number">0</span>&amp;&amp;!vis[nx][ny])&#123;<br>                        queue.add(<span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[]&#123;nx,ny&#125;);<br>                        vis[nx][ny]=<span class="hljs-literal">true</span>;<span class="hljs-comment">// 标记这个点已经访问</span><br>                    &#125;<br>                &#125;<br>                <span class="hljs-keyword">if</span>(x==n-<span class="hljs-number">1</span>&amp;&amp;y==n-<span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> path; <span class="hljs-comment">// 访问到目标坐标了</span><br>            &#125;<br>            path++;<br>        &#125;<br>        <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="130-被围绕的区域"><a class="markdownIt-Anchor" href="#130-被围绕的区域"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/surrounded-regions/">130. 被围绕的区域</a></h2>
+<p>难度中等855</p>
+<p>给你一个 <code>m x n</code> 的矩阵 <code>board</code> ，由若干字符 <code>'X'</code> 和 <code>'O'</code> ，找到所有被 <code>'X'</code> 围绕的区域，并将这些区域里所有的 <code>'O'</code> 用 <code>'X'</code> 填充。</p>
+<p><strong>思路</strong></p>
+<p>题目中解释说被包围的区间不会存在于边界上，所以我们会想到边界上的 O 要特殊处理，</p>
+<p>只要把边界上的 O 特殊处理了，那么剩下的 O 替换成 X 就可以了。问题转化为，如何寻找和边界联通的 OO，我们需要考虑如下情况。</p>
+<p><strong>从边开始搜索</strong></p>
+<blockquote>
+<p>从边界开始递归, 如果是与边界上的<code>O</code>联通的 <code>O</code> , 那么最终一定是不会变成<code>X</code> 的, 因此 只需要从边界递归, 遇到<code>X</code>就<code>return</code> ,</p>
+<p>把所有的与边界联通的<code>O</code>全部标记为<code>#</code> , 最后再做统一的转换</p>
+<ul>
+<li>将<code>#</code>全部变为<code>o</code> ,</li>
+<li>剩余的那一部分不与边界联通的<code>O</code> , 转换为<code>X</code> , 因为这一部分必定是被 <code>X</code>包裹的</li>
+</ul>
+</blockquote>
+<p><strong>代码实现</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">solve</span><span class="hljs-params">(<span class="hljs-type">char</span>[][] board)</span> &#123;<br>        <span class="hljs-keyword">if</span> (board == <span class="hljs-literal">null</span> || board.length == <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span>;<br>        <span class="hljs-type">int</span> <span class="hljs-variable">m</span> <span class="hljs-operator">=</span> board.length,n = board[<span class="hljs-number">0</span>].length;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; m; i++) &#123; <span class="hljs-comment">//最后的转换</span><br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">j</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; j &lt; n; j++) &#123;<br>                <span class="hljs-type">boolean</span> isEdge=i==<span class="hljs-number">0</span>||j==n-<span class="hljs-number">1</span>||i==m-<span class="hljs-number">1</span>||j==<span class="hljs-number">0</span>; <span class="hljs-comment">// 判断当前的格子是否位于边上</span><br>                <span class="hljs-keyword">if</span>(isEdge&amp;&amp;board[i][j]==<span class="hljs-string">&#x27;O&#x27;</span>)&#123; <span class="hljs-comment">//从边缘开始搜索</span><br>                    dfs(board,i,j);<br>                &#125;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; m; i++) &#123; <span class="hljs-comment">//最后的转换</span><br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">j</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; j &lt; n; j++) &#123;<br>                <span class="hljs-keyword">if</span>(board[i][j]==<span class="hljs-string">&#x27;O&#x27;</span>)<br>                    board[i][j]=<span class="hljs-string">&#x27;X&#x27;</span>;<br>                <span class="hljs-keyword">if</span>(board[i][j]==<span class="hljs-string">&#x27;#&#x27;</span>)<br>                    board[i][j]=<span class="hljs-string">&#x27;O&#x27;</span>;<br>            &#125;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">void</span> <span class="hljs-title function_">dfs</span><span class="hljs-params">(<span class="hljs-type">char</span>[][] board, <span class="hljs-type">int</span> i, <span class="hljs-type">int</span> j)</span> &#123;<br>        <span class="hljs-keyword">if</span>(i&lt;<span class="hljs-number">0</span>||j&lt;<span class="hljs-number">0</span>||i&gt;=board.length||j&gt;=board[<span class="hljs-number">0</span>].length||board[i][j]==<span class="hljs-string">&#x27;X&#x27;</span>||board[i][j]==<span class="hljs-string">&#x27;#&#x27;</span>) <span class="hljs-keyword">return</span> ;<br>        board[i][j]=<span class="hljs-string">&#x27;#&#x27;</span>;<br>        dfs(board,i+<span class="hljs-number">1</span>,j);<br>        dfs(board,i-<span class="hljs-number">1</span>,j);<br>        dfs(board,i,j+<span class="hljs-number">1</span>);<br>        dfs(board,i,j-<span class="hljs-number">1</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="797-所有可能的路径"><a class="markdownIt-Anchor" href="#797-所有可能的路径"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/all-paths-from-source-to-target/">797. 所有可能的路径</a></h2>
+<p>难度中等322</p>
+<p>给你一个有 <code>n</code> 个节点的 <strong>有向无环图（DAG）</strong>，请你找出所有从节点 <code>0</code> 到节点 <code>n-1</code> 的路径并输出（<strong>不要求按特定顺序</strong>）</p>
+<p><code>graph[i]</code> 是一个从节点 <code>i</code> 可以访问的所有节点的列表（即从节点 <code>i</code> 到节点 <code>graph[i][j]</code>存在一条有向边）。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220825232707999.png" alt="image-20220825232707999" style="zoom:80%;" /><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220825232721969.png" alt="image-20220825232721969" style="zoom:80%;" /></p>
+<blockquote>
+<p>话不多说, 图的DFS , 直接上代码</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    List&lt;List&lt;Integer&gt;&gt; res = <span class="hljs-keyword">new</span> <span class="hljs-title class_">LinkedList</span>&lt;&gt;(); <span class="hljs-comment">// 记录所有路径</span><br>    <span class="hljs-keyword">public</span> List&lt;List&lt;Integer&gt;&gt; <span class="hljs-title function_">allPathsSourceTarget</span><span class="hljs-params">(<span class="hljs-type">int</span>[][] graph)</span> &#123;<br>        traverse(graph,<span class="hljs-number">0</span>,<span class="hljs-keyword">new</span> <span class="hljs-title class_">LinkedList</span>&lt;&gt;());<br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br>    <span class="hljs-comment">/* 图的遍历框架 */</span><br>    <span class="hljs-keyword">void</span> <span class="hljs-title function_">traverse</span><span class="hljs-params">(<span class="hljs-type">int</span>[][] graph, <span class="hljs-type">int</span> s, LinkedList&lt;Integer&gt; path)</span> &#123;<br>        <span class="hljs-type">int</span> n=graph.length;<br>        path.addLast(s); <span class="hljs-comment">// 添加节点 s 到路径</span><br>        <span class="hljs-keyword">if</span>(s==n-<span class="hljs-number">1</span>)&#123;<span class="hljs-comment">// 到达终点</span><br>            res.add(<span class="hljs-keyword">new</span> <span class="hljs-title class_">LinkedList</span>&lt;&gt;(path));<br>            path.removeLast();<br>            <span class="hljs-keyword">return</span> ;<br>        &#125;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> v : graph[s]) &#123; <span class="hljs-comment">// 递归每个相邻节点</span><br>            traverse(graph,v,path);<br>        &#125;<br>        path.removeLast(); <span class="hljs-comment">// 从路径移出节点 s</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h1 id="类似题目"><a class="markdownIt-Anchor" href="#类似题目"></a> 👈类似题目</h1>
+<h3 id="98-验证二叉搜索树"><a class="markdownIt-Anchor" href="#98-验证二叉搜索树"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/validate-binary-search-tree/">98. 验证二叉搜索树</a></h3>
+<p>难度中等1726</p>
+<p>给你一个二叉树的根节点 <code>root</code> ，判断其是否是一个有效的二叉搜索树。</p>
+<p><strong>有效</strong> 二叉搜索树定义如下：</p>
+<ul>
+<li>节点的左子树只包含 <strong>小于</strong> 当前节点的数。</li>
+<li>节点的右子树只包含 <strong>大于</strong> 当前节点的数。</li>
+<li>所有左子树和右子树自身必须也是二叉搜索树。</li>
+</ul>
+<h4 id="暴力解法"><a class="markdownIt-Anchor" href="#暴力解法"></a> <strong>暴力解法</strong></h4>
+<ul>
+<li>中序遍历, 存储每个节点的元素, 如果存在前面的节点的<code>val</code>大于等于后面的节点的<code>val</code> 就<code>return false</code>;</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    List&lt;Integer&gt; list=<span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">isValidBST</span><span class="hljs-params">(TreeNode root)</span> &#123;<br>        inOrder(root); <span class="hljs-comment">// 中序遍历二叉树, 如果是二叉搜索树, 那么得到的序列 一定是有序的</span><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; list.size()-<span class="hljs-number">1</span>; i++) &#123;<br>            <span class="hljs-keyword">if</span>(list.get(i)&gt;=list.get(i+<span class="hljs-number">1</span>))&#123;<br>                <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">inOrder</span><span class="hljs-params">(TreeNode root)</span>&#123;<br>        <span class="hljs-keyword">if</span>(root==<span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> ;<br>        inOrder(root.left);<br>        list.add(root.val);<br>        inOrder(root.right);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="不存储元素的解法"><a class="markdownIt-Anchor" href="#不存储元素的解法"></a> <strong>不存储元素的解法</strong></h4>
+<blockquote>
+<p>中序遍历, 每次都存储前面的节点的<code>val</code>, 如果下一个需要遍历的节点的<code>val</code>大于前面的那个节点的<code>val</code> <code>return false</code> 即可</p>
+<ul>
+<li>使用全局变量存储前置节点的<code>val</code></li>
+</ul>
+<p>左中右遍历<strong>二叉搜索树</strong> ,</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-type">long</span> <span class="hljs-variable">pre</span> <span class="hljs-operator">=</span> Long.MIN_VALUE;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">isValidBST</span><span class="hljs-params">(TreeNode root)</span> &#123;<br>        <span class="hljs-keyword">if</span> (root == <span class="hljs-literal">null</span>) &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>        &#125;<br>        <span class="hljs-comment">// 访问左子树</span><br>        <span class="hljs-keyword">if</span> (!isValidBST(root.left)) &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>        &#125;<br>        <span class="hljs-comment">// 访问当前节点：如果当前节点小于等于中序遍历的前一个节点，说明不满足BST，返回 false；否则继续遍历。</span><br>        <span class="hljs-keyword">if</span> (root.val &lt;= pre) &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>        &#125;<br>        pre = root.val;<br>        <span class="hljs-comment">// 访问右子树</span><br>        <span class="hljs-keyword">return</span> isValidBST(root.right);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="101-对称二叉树"><a class="markdownIt-Anchor" href="#101-对称二叉树"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/symmetric-tree/">101. 对称二叉树</a></h3>
+<p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/symmetric-tree/#">思路</a></p>
+<p>难度简单2077</p>
+<p>给你一个二叉树的根节点 <code>root</code> ， 检查它是否轴对称。</p>
+<blockquote>
+<p>关键在于 比较</p>
+<ul>
+<li><code>left.left == right.right</code></li>
+<li><code>left.right== right.left</code></li>
+</ul>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">isSymmetric</span><span class="hljs-params">(TreeNode root)</span> &#123;<br>        <span class="hljs-keyword">if</span>(root==<span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>        <span class="hljs-keyword">return</span> dfs(root.left,root.right);<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">dfs</span><span class="hljs-params">(TreeNode left,TreeNode right)</span>&#123;<br>        <span class="hljs-type">boolean</span> res=<span class="hljs-literal">true</span>;<br>        <span class="hljs-keyword">if</span>(left==<span class="hljs-literal">null</span>&amp;&amp;right==<span class="hljs-literal">null</span>)&#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>        &#125;<br>        <span class="hljs-keyword">if</span>(right==<span class="hljs-literal">null</span>||left==<span class="hljs-literal">null</span>)&#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>        &#125;<br>        <span class="hljs-keyword">if</span>(left.val!=right.val) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>        <span class="hljs-keyword">return</span> dfs(left.left,right.right)&amp;&amp;dfs(right.left,left.right);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="114-二叉树展开为链表"><a class="markdownIt-Anchor" href="#114-二叉树展开为链表"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/flatten-binary-tree-to-linked-list/">114. 二叉树展开为链表</a></h3>
+<p>难度中等1280</p>
+<p>给你二叉树的根结点 <code>root</code> ，请你将它展开为一个单链表：</p>
+<ul>
+<li>展开后的单链表应该同样使用 <code>TreeNode</code> ，其中 <code>right</code> 子指针指向链表中下一个结点，而左子指针始终为 <code>null</code> 。</li>
+<li>展开后的单链表应该与二叉树 <a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%85%88%E5%BA%8F%E9%81%8D%E5%8E%86/6442839?fr=aladdin"><strong>先序遍历</strong></a> 顺序相同。</li>
+</ul>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220823230918537.png" alt="image-20220823230918537" style="zoom: 80%;" />
+<p><strong>注意</strong>:</p>
+<ul>
+<li>虽然题目说的顺序是要求<strong>先序遍历</strong> , 但是这并不代表我们的做法一定是先序遍历, 不要局限住自己的思想</li>
+</ul>
+<p><strong>思路</strong></p>
+<p>从二叉树的右子树开始遍历,</p>
+<p>遍历的顺序是<strong>右左根</strong> , 我们假设<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220823234738183.png" alt="image-20220823234738183" style="zoom: 35%;" /><br />
+当前的节点是<code>5</code>这个节点, 那么</p>
+<p><code>flatten(root.right)</code> 先进入 <code>6</code> , 此时<code>last</code>为<strong>null</strong> , 我们通过<code>last</code>存储上一个遍历的节点, 此时<code>last=6</code>,那么直接跳到下一步(这一步没有操作)</p>
+<p><code>flatten(root.left)</code>  进入<code>4</code> , 对于4 ,他应该连接的是上一个遍历的节点 <code>4.right=last</code> , 然后使 <code>left</code>置空 , <code>last</code>存储4</p>
+<p>接着进入<code>5</code> , <code>5.right=last</code> , 然后<code>left</code>置空, 接着存储<code>last=5</code></p>
+<p>通过这样的操作,</p>
+<p>原本的<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220823235138232.png" alt="image-20220823235138232" style="zoom:33%;" />变成了<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220823235241986.png" alt="image-20220823235241986" style="zoom:33%;" />,</p>
+<p>接着我们重复同样的操作, 区别就是<code>last</code> 不同了, 别的操作是一样的</p>
+<p><strong>代码实现</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<span class="hljs-comment">// 根左右 </span><br>    TreeNode last=<span class="hljs-literal">null</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">flatten</span><span class="hljs-params">(TreeNode root)</span> &#123;<br>        <span class="hljs-keyword">if</span>(root==<span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> ;<br>        flatten(root.right);<br>        flatten(root.left);<br>        root.right=last;<br>        root.left=<span class="hljs-literal">null</span>;<br>        last=root;<br>    &#125;<br>&#125; <br></code></pre></td></tr></table></figure>
+<h1 id="注意点"><a class="markdownIt-Anchor" href="#注意点"></a> 😈注意点</h1>
+<p><strong>在二维矩阵中搜索，什么时候用BFS，什么时候用DFS？</strong></p>
+<ol>
+<li>
+<p><strong>如果只是要找到某一个结果是否存在，那么DFS会更高效</strong>。</p>
+<p>因为DFS会首先把一种可能的情况尝试到底，才会回溯去尝试下一种情况，只要找到一种情况，就可以返回了。</p>
+<p>但是BFS必须所有可能的情况同时尝试，在找到一种满足条件的结果的同时，也尝试了很多不必要的路径；</p>
+</li>
+<li>
+<p><strong>如果是要找所有可能结果中最短的，那么BFS回更高效</strong>。</p>
+<p>因为DFS是一种一种的尝试，在把所有可能情况尝试完之前，无法确定哪个是最短，所以DFS必须把所有情况都找一遍，才能确定最终答案（DFS的优化就是剪枝，不剪枝很容易超时）。</p>
+<p>而BFS从一开始就是尝试所有情况，所以只要找到第一个达到的那个点，那就是最短的路径，可以直接返回了，其他情况都可以省略了，所以这种情况下，BFS更高效。</p>
+</li>
+</ol>
+<p><strong>BFS解法中的visited为什么可以全局使用？</strong></p>
+<p><u>BFS是在尝试所有的可能路径，哪个最快到达终点，哪个就是最短。那么每一条路径走过的路不同，</u><br />
+<u>visited（也就是这条路径上走过的点）也应该不同，那么为什么visited可以全局使用呢？</u></p>
+<p>因为我们要找的是最短路径，那么如果在此之前某个点已经在visited中，也就是说有其他路径在小于或等于当前步数的情况下，</p>
+<p>到达过这个点，证明到达这个点的最短路径已经被找到。那么显然这个点没必要再尝试了，</p>
+<p>因为即便去尝试了，最终的结果也不会是最短路径了，所以直接放弃这个点即可。</p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://adorabled4.github.io/2022/08/27/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/leetcode%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80%E5%8B%8B%E7%AB%A0/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80day%206~8%20%E6%90%9C%E7%B4%A2/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/BFS/" rel="tag">BFS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DFS/" rel="tag">DFS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9B%9E%E6%BA%AF/" rel="tag">回溯</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%91/" rel="tag">树</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">算法与数据结构</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%93%BE%E8%A1%A8/" rel="tag">链表</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2022/08/27/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/leetcode%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80%E5%8B%8B%E7%AB%A0/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80day%209~11%20%E9%80%92%E5%BD%92%E5%9B%9E%E6%BA%AF/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            算法基础day 9~11 递归回溯
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2022/08/25/SpringBoot/day04/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">springboot(4)</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.staticfile.org/valine/1.4.16/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "BMxcpVMjh3EMOP7tyImO6aLR-gzGzoHsz",
+    app_key: "HpcPO68bneKDaeq3H1G1xuIN",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+   
+    
+    <script src="https://cdn.staticfile.org/twikoo/1.4.18/twikoo.all.min.js"></script>
+    <div id="twikoo" class="twikoo"></div>
+    <script>
+        twikoo.init({
+            envId: ""
+        })
+    </script>
+ 
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2022
+        <i class="ri-heart-fill heart_icon"></i> dhx_
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/avater.png" alt="dhx_&#39;blog"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.staticfile.org/justifiedGallery/3.8.1/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.staticfile.org/clipboard.js/2.0.10/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+ 
+<script src="/js/dz.js"></script>
+ 
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    <div id="music">
+    
+    
+    
+    <iframe frameborder="no" border="1" marginwidth="0" marginheight="0" width="200" height="52"
+        src="//music.163.com/outchain/player?type=2&id=29480187&auto=1&height=32"></iframe>
+</div>
+
+<style>
+    #music {
+        position: fixed;
+        right: 15px;
+        bottom: 0;
+        z-index: 998;
+    }
+</style>
+    
+    
+
+  </div>
+</body>
+
+</html>
