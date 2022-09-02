@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">7.6k</span>
+            <span class="post-count">8.6k</span>
         </span>
     </span>
 
@@ -95,7 +95,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">32 分钟</span>
+            <span class="post-count">36 分钟</span>
         </span>
     </span>
 </div>
@@ -399,6 +399,51 @@
 <p>接着我们重复同样的操作, 区别就是<code>last</code> 不同了, 别的操作是一样的</p>
 <p><strong>代码实现</strong></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;<span class="comment">// 根左右 </span></span><br><span class="line">    TreeNode last=<span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">flatten</span><span class="params">(TreeNode root)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span>(root==<span class="literal">null</span>) <span class="keyword">return</span> ;</span><br><span class="line">        flatten(root.right);</span><br><span class="line">        flatten(root.left);</span><br><span class="line">        root.right=last;</span><br><span class="line">        root.left=<span class="literal">null</span>;</span><br><span class="line">        last=root;</span><br><span class="line">    &#125;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+<h3 id="️687-最长同值路径"><a class="markdownIt-Anchor" href="#️687-最长同值路径"></a> ⭐️<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/longest-univalue-path/">687. 最长同值路径</a></h3>
+<p>难度中等722</p>
+<p>给定一个二叉树的 <code>root</code> ，返回 <em>最长的路径的长度</em> ，这个路径中的 <em>每个节点具有相同值</em> 。 这条路径可以经过也可以不经过根节点。</p>
+<p><strong>两个节点之间的路径长度</strong> 由它们之间的边数表示。</p>
+<blockquote>
+<p>设计递归函数<code>int dfs(TreeNode root)</code>，含义为传入根节点 <code>root</code>，</p>
+<p>返回以该节点为起点，往下走同值路径所能经过的最大路径长度(<strong>即不能同时往左右节点走</strong>)，同时使用全局变量 max 记录答案路径所能经过最大路径长度。</p>
+<p>在递归函数内部，先通过递归 root 的左右子节点，拿到以 root.left 和 root.right 为起点的最大路径长度 <code>l</code> 和<code>r</code>，</p>
+<p>然后根据当前节点值和左右子节点值的相等关系来更新<code>ans</code>，</p>
+<p>同时用 <code>cur</code> 维护**「以当前节点 root 为目标路径中深度最小（位置最高）节点时」**所经过的最大路径长度。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">longestUnivaluePath</span><span class="params">(TreeNode root)</span> &#123;</span><br><span class="line">        dfs(root);</span><br><span class="line">        <span class="keyword">return</span> max;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> max=<span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> <span class="title function_">dfs</span><span class="params">(TreeNode root)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(root==<span class="literal">null</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> ans=<span class="number">0</span>,cur=<span class="number">0</span>,l=dfs(root.left),r=dfs(root.right);<span class="comment">//cur 表示的是当前节点的最大值, </span></span><br><span class="line"><span class="comment">//ans表示的是当前相同的个数的最多的情况(取左右一个分支,因为对于当前的节点,如果他有父节点, 那么当前的节点只能取左右子树其中的较大的一个)</span></span><br><span class="line">        <span class="keyword">if</span>(root.left!=<span class="literal">null</span>&amp;&amp;root.left.val==root.val)&#123;</span><br><span class="line">            ans=l+<span class="number">1</span>;cur=l+<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(root.right!=<span class="literal">null</span>&amp;&amp;root.right.val==root.val)&#123;</span><br><span class="line">            ans=Math.max(ans,r+<span class="number">1</span>);</span><br><span class="line">            cur+=r+<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        max=Math.max(max,cur); <span class="comment">// 更新最大值 , </span></span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="543-二叉树的直径"><a class="markdownIt-Anchor" href="#543-二叉树的直径"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/diameter-of-binary-tree/">543. 二叉树的直径</a></h3>
+<p><a target="_blank" rel="noopener" href="https://labuladong.github.io/article/?qno=543">labuladong 题解</a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/diameter-of-binary-tree/#">思路</a></p>
+<p>难度简单1147</p>
+<p>给定一棵二叉树，你需要计算它的直径长度。一棵二叉树的直径长度是任意两个结点路径长度中的最大值。这条路径可能穿过也可能不穿过根结点。</p>
+<p><strong>思路与上一题基本相似</strong></p>
+<blockquote>
+<p>首先遍历左右孩子,获取左右孩子的最大的直径,</p>
+<p>那么对于当前的节点来说, <strong>他的最大直径= 左右孩子直径之和</strong></p>
+<p>对于当前节点的父节点来说, 当前的节点作为左右孩子的直径是<strong>左右孩子的最大直径+1</strong></p>
+<ul>
+<li>其中1 表示的是当前的节点</li>
+</ul>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="type">int</span> max=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">diameterOfBinaryTree</span><span class="params">(TreeNode root)</span> &#123;</span><br><span class="line">        dfs(root);</span><br><span class="line">        <span class="keyword">return</span> max;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> <span class="title function_">dfs</span><span class="params">(TreeNode root)</span>&#123; <span class="comment">// 自底向上统计直径 , 最大的直径= 左子树的深度+右子树的深度</span></span><br><span class="line">        <span class="keyword">if</span>(root==<span class="literal">null</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> cur,ans,l=dfs(root.left),r=dfs(root.right);</span><br><span class="line">        cur=l+r;</span><br><span class="line">        max=Math.max(cur,max);</span><br><span class="line">        ans=Math.max(l,r);</span><br><span class="line">        <span class="keyword">return</span> ans+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="124-二叉树中的最大路径和"><a class="markdownIt-Anchor" href="#124-二叉树中的最大路径和"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/binary-tree-maximum-path-sum/">124. 二叉树中的最大路径和</a></h3>
+<p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/binary-tree-maximum-path-sum/#">思路</a></p>
+<p>难度困难1710</p>
+<p><strong>路径</strong> 被定义为一条从树中任意节点出发，沿父节点-子节点连接，达到任意节点的序列。同一个节点在一条路径序列中 <strong>至多出现一次</strong> 。该路径 <strong>至少包含一个</strong> 节点，且不一定经过根节点。</p>
+<p><strong>路径和</strong> 是路径中各节点值的总和。</p>
+<p>给你一个二叉树的根节点 <code>root</code> ，返回其 <strong>最大路径和</strong> 。</p>
+<p><strong>思路与前两题基本一致</strong></p>
+<blockquote>
+<p>需要注意的是本题的题意是至少要选一个节点,</p>
+<ul>
+<li>即使根节点是负的, 也要选, 因此要初始化<code>max</code>尽量小</li>
+</ul>
+<p><strong>其次是遍历的过程中如果左右子树的最大路径和小于0 , 就不选了</strong></p>
+<ul>
+<li>体现在<code>l=Math.max(dfs(root.left),0)</code></li>
+</ul>
+<p>对于<code>cur</code> 以及<code>ans</code>的维护, 与前两题完全一致</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="type">int</span> max=-<span class="number">0x3f3f3f3f</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">maxPathSum</span><span class="params">(TreeNode root)</span> &#123;</span><br><span class="line">        dfs(root);</span><br><span class="line">        <span class="keyword">return</span> max;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> <span class="title function_">dfs</span><span class="params">(TreeNode root)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(root==<span class="literal">null</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> l=Math.max(dfs(root.left),<span class="number">0</span>),r=Math.max(dfs(root.right),<span class="number">0</span>),cur=<span class="number">0</span>,ans=<span class="number">0</span>;</span><br><span class="line">        cur=l+r+root.val;</span><br><span class="line">        ans=Math.max(l,r)+root.val;</span><br><span class="line">        max=Math.max(cur,max);</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h1 id="注意点"><a class="markdownIt-Anchor" href="#注意点"></a> 😈注意点</h1>
 <p><strong>在二维矩阵中搜索，什么时候用BFS，什么时候用DFS？</strong></p>
 <ol>
