@@ -169,20 +169,20 @@
 </blockquote>
 <p>正确的做法是使用动态规划:</p>
 <blockquote>
-<p>我们首先将这个问题 当做一个**「n, m 问题」**</p>
+<p>我们首先将这个问题 当做一个 <strong>「n, m 问题」</strong></p>
 </blockquote>
 <ul>
 <li>
-<p>由于删除的是第m个数字, 因此实际删除的数字是(m-1) , 又因为 m可能大于n , 所以实际删除的数字是 (m-1)%n</p>
+<p>由于删除的是第m个数字, 因此实际删除的数字是<code>(m-1)</code>, 又因为 m可能大于<code>n</code> , 所以实际删除的数字是<code>(m-1)%n</code></p>
 </li>
 <li>
-<p>删除后的数字环从下一个数字开始 (将这个数字视为第一个数字, ) ,即m%n, 设 t= m%n</p>
+<p>删除后的数字环从下一个数字开始 (将这个数字视为第一个数字, ) ,即<code>m%n</code>, 设<code>t= m%n</code></p>
 </li>
 <li>
 <p>那么可以得到新的数字环是:</p>
 <blockquote>
-<p><code>t, t+1, t+2 , t+3 .......0 , 1 , t-3 ,t-2</code> , <strong>(t-1刚刚被删除了)</strong></p>
-<p>**「n -1 , m 问题」**的数字环是:</p>
+<p><code>t, t+1, t+2 , t+3 .......0 , 1 , t-3 ,t-2</code> ,  <strong>(t-1刚刚被删除了)</strong></p>
+<p><strong>「n -1 , m 问题」</strong>  的数字环是:</p>
 <p><code>0 , 1 , 2 , 3 , ...... t, t+1 ... n-2</code></p>
 </blockquote>
 </li>
@@ -244,8 +244,8 @@
 <ul>
 <li><code>dp[i]=(dp[i−1]+m)%i</code></li>
 </ul>
-<p>初始状态：<strong>「1, m1,m 问题」*<em>的解恒为 00 ，即 <code>dp[1] = 0</code> ；<br />
-返回值： 返回*</em>「n, m问题」的</strong>解 dp[n] ；</p>
+<p>初始状态：<strong>「1, m1,m 问题」<strong>的解恒为 00 ，即 <code>dp[1] = 0</code> ；<br />
+返回值： 返回</strong>「n, m问题」的</strong>解 dp[n] ；</p>
 </blockquote>
 <p>时间复杂度: <em>O(n)</em></p>
 <p>空间复杂度: <em>O(1)</em></p>
@@ -254,7 +254,7 @@
 <h3 id="63-股票的最大利润"><a class="markdownIt-Anchor" href="#63-股票的最大利润"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/gu-piao-de-zui-da-li-run-lcof/">63. 股票的最大利润</a></h3>
 <p>难度中等278</p>
 <p>假设把某股票的价格按照时间先后顺序存储在数组中，请问买卖该股票一次可能获得的最大利润是多少？</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082image-20220810160020674.png" alt="image-20220810160020674" />image-20220810160020674</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082image-20220810160020674.png" alt="题目示例" /></p>
 <blockquote>
 <p>暴力解法时间复杂度 达到<em>O(n2)</em> ,舍弃</p>
 <p>正确的做法是使用动态规划, <strong>随着天数的增加</strong>获得最低价格以及最高的售价 , 然后每次统计利润是否增加</p>
@@ -307,7 +307,7 @@
 <ul>
 <li>左右累乘, 通过 <code>b[]</code>来记录左边的累乘的结果, 通过temp 来记录右边的累乘的结果,</li>
 <li>注意<code>temp</code>计算的时候是从右下角开始累乘</li>
-<li><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082image-20220811093232439.png" alt="image-20220811093232439" />image-20220811093232439</li>
+<li><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082image-20220811093232439.png" alt="计算过程" /></li>
 </ul>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span>[] constructArr( <span class="type">int</span> []a)&#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">len</span> <span class="operator">=</span>a.length;</span><br><span class="line">        <span class="keyword">if</span>(len==<span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">0</span>];</span><br><span class="line">        <span class="type">int</span>[]b =<span class="keyword">new</span> <span class="title class_">int</span>[len];</span><br><span class="line">        <span class="type">int</span> temp=<span class="number">1</span>;</span><br><span class="line">        b[<span class="number">0</span>]=<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt; b.length; i++) &#123;</span><br><span class="line">                b[i]=a[i-<span class="number">1</span>]*b[i-<span class="number">1</span>]; <span class="comment">// a[i] 表示当前的元素, b[i-1] 表示的是前面的元素的累乘的结果</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span>len-<span class="number">2</span> ; i &gt;=<span class="number">0</span> ; i--) &#123; <span class="comment">// 由于 a[n] 不需要乘以他本身, 因此 少循环一次, --&gt; i=len-2;</span></span><br><span class="line">            temp*=a[i+<span class="number">1</span>];</span><br><span class="line">            b[i]*=temp;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> b;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="67-把字符串转换成整数"><a class="markdownIt-Anchor" href="#67-把字符串转换成整数"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/ba-zi-fu-chuan-zhuan-huan-cheng-zheng-shu-lcof/">67. 把字符串转换成整数</a></h3>
@@ -324,7 +324,7 @@
 <p>难度简单252</p>
 <p>给定一个<strong>二叉搜索树</strong>, 找到该树中两个指定节点的最近公共祖先。</p>
 <p><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E6%9C%80%E8%BF%91%E5%85%AC%E5%85%B1%E7%A5%96%E5%85%88/8918834?fr=aladdin">百度百科</a>中最近公共祖先的定义为：“对于有根树 T 的两个结点 p、q，最近公共祖先表示为一个结点 x，满足 x 是 p、q 的祖先且 x 的深度尽可能大（<strong>一个节点也可以是它自己的祖先</strong>）。”</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082image-20220811100343943.png" alt="image-20220811100343943" />image-20220811100343943</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082image-20220811100343943.png" alt="举例" /></p>
 <blockquote>
 <p>对于两个节点, 他们的对于祖先的分布有三种情况:</p>
 <ol>
@@ -355,7 +355,7 @@
 </ul>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"> * public class TreeNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     TreeNode left;</span></span><br><span class="line"><span class="comment"> *     TreeNode right;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int x) &#123; val = x; &#125;</span></span><br><span class="line"><span class="comment"> * &#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> TreeNode <span class="title function_">lowestCommonAncestor</span><span class="params">(TreeNode root, TreeNode p, TreeNode q)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span>(root==<span class="literal">null</span>) <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">if</span>(root.val==p.val||root.val==q.val) <span class="keyword">return</span> root;</span><br><span class="line">        <span class="keyword">if</span>(isSon(root.left,p)&amp;&amp;isSon(root.left,q))<span class="comment">// 两个子节点都在左子树</span></span><br><span class="line">            <span class="keyword">return</span>  lowestCommonAncestor(root.left,p,q); </span><br><span class="line">        <span class="keyword">if</span>(isSon(root.right,p)&amp;&amp;isSon(root.right,q)) <span class="comment">// 两个子节点都在右子树</span></span><br><span class="line">            <span class="keyword">return</span>  lowestCommonAncestor(root.right,p,q);</span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">isSon</span><span class="params">(TreeNode root, TreeNode t)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(root==<span class="literal">null</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">if</span>(root.val==t.val) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">return</span> isSon(root.left,t)||isSon(root.right,t);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>通过递归对二叉树进行先序遍历, 当遇到节点 p或 q 时返回。从底至顶回溯，当节点 p,q 在节点 root的异侧时，节点 root即为最近公共祖先，则向上返回 root。</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082image-20220811105929600.png" alt="" />image-20220811105929600</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082image-20220811105929600.png" alt="递推过程" />image-20220811105929600</p>
 <blockquote>
 <p>分别递归左右子树, 如果遇到了<code>p</code> <code>q</code> 节点就返回,</p>
 <p>对于<code>left</code> 以及<code>right</code> 共有三种情况</p>
@@ -380,7 +380,7 @@
 </li>
 </ol>
 </blockquote>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082image-20220811111200039.png" alt="" /></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//1082image-20220811111200039.png" alt="案例图" /></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> TreeNode <span class="title function_">lowestCommonAncestor</span><span class="params">(TreeNode root, TreeNode p, TreeNode q)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span>(root==<span class="literal">null</span>||root==q||root==q) <span class="keyword">return</span> root;</span><br><span class="line">		TreeNode left=lowestCommonAncestor(root.left, p,q);</span><br><span class="line">		TreeNode right=lowestCommonAncestor(root.right, p,q);</span><br><span class="line">        <span class="keyword">if</span>(left==<span class="literal">null</span>) <span class="keyword">return</span> right;</span><br><span class="line">        <span class="keyword">if</span>(right==<span class="literal">null</span>) <span class="keyword">return</span> left;</span><br><span class="line">        r</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <iframe frameborder="no" border="1" marginwidth="0" marginheight="0" width="200" height="52" src="https://music.163.com/outchain/player?type=2&amp;id=29480187&amp;auto=1&amp;height=32" style="box-sizing: border-box;"></iframe>
  
