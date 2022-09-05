@@ -7,7 +7,7 @@
     <head>
       <meta charset="utf-8" />
        
-      <meta name="keywords" content="DFS,BFS,java, 双指针, 算法与数据结构, hexo, 回溯, 树, 队列, mybatis, javaweb, Spring, SpringBoot, cpp, leetcode, 栈, 位运算, 链表, 数据库, springmvc, 动态规划, 贪心" />
+      <meta name="keywords" content="DFS,BFS,java, 双指针, 算法与数据结构, hexo, 回溯, 树, 队列, mybatis, javaweb, Spring, cpp, leetcode, 栈, 位运算, 链表, 数据库, springmvc, 动态规划, 贪心" />
        
       <meta
         name="viewport"
@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">1.3k</span>
+            <span class="post-count">1.4k</span>
         </span>
     </span>
 
@@ -153,16 +153,7 @@
 <p>给你一个整数数组 <code>coins</code> ，表示不同面额的硬币；以及一个整数 <code>amount</code> ，表示总金额。</p>
 <p>计算并返回可以凑成总金额所需的 <strong>最少的硬币个数</strong> 。如果没有任何一种硬币组合能组成总金额，返回 <code>-1</code> 。</p>
 <p>你可以认为每种硬币的数量是无限的。</p>
-<h2 id="343-整数拆分"><a class="markdownIt-Anchor" href="#343-整数拆分"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/integer-break/">343. 整数拆分</a></h2>
-<p>难度中等923</p>
-<p>给定一个正整数 <code>n</code> ，将其拆分为 <code>k</code> 个 <strong>正整数</strong> 的和（ <code>k &gt;= 2</code> ），并使这些整数的乘积最大化。</p>
-<p>返回 <em>你可以获得的最大乘积</em> 。</p>
-<ul>
-<li><strong>本题的数学定理 , 对于每一项, 拆分成 3 可以使乘积最大</strong></li>
-<li>对于 4 , 拆分成 2*2 最大(也可以直接*4)</li>
-</ul>
-<p><strong>代码如下</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">integerBreak</span><span class="params">(<span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span>(n&lt;=<span class="number">3</span> )<span class="keyword">return</span> n-<span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> res=<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span>(n&gt;<span class="number">4</span>)&#123;</span><br><span class="line">            n-=<span class="number">3</span>;</span><br><span class="line">            res*=<span class="number">3</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> n*res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## [<span class="number">343.</span> 整数拆分](https:<span class="comment">//leetcode.cn/problems/integer-break/)</span></span><br><span class="line"></span><br><span class="line">难度中等<span class="number">923</span></span><br><span class="line"></span><br><span class="line">给定一个正整数 `n` ，将其拆分为 `k` 个 **正整数** 的和（ `k &gt;= <span class="number">2</span>` ），并使这些整数的乘积最大化。</span><br><span class="line"></span><br><span class="line">返回 *你可以获得的最大乘积* 。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">- **本题的数学定理 , 对于每一项, 拆分成 <span class="number">3</span> 可以使乘积最大**</span><br><span class="line">-  对于 <span class="number">4</span> , 拆分成 <span class="number">2</span>*<span class="number">2</span> 最大(也可以直接\*<span class="number">4</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">**代码如下**</span><br><span class="line"></span><br><span class="line">```java</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">integerBreak</span><span class="params">(<span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span>(n&lt;=<span class="number">3</span> )<span class="keyword">return</span> n-<span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> res=<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span>(n&gt;<span class="number">4</span>)&#123;</span><br><span class="line">            n-=<span class="number">3</span>;</span><br><span class="line">            res*=<span class="number">3</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> n*res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h1 id="dp的四种常见模型"><a class="markdownIt-Anchor" href="#dp的四种常见模型"></a> 😈DP的四种常见模型</h1>
 <h2 id="1️⃣线性模型"><a class="markdownIt-Anchor" href="#1️⃣线性模型"></a> 1️⃣线性模型</h2>
 <h3 id="91-解码方法"><a class="markdownIt-Anchor" href="#91-解码方法"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/decode-ways/">91. 解码方法</a></h3>
@@ -268,17 +259,17 @@
    
   <nav class="article-nav">
     
-      <a href="/2022/09/04/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/" class="article-nav-link">
+      <a href="/2022/09/03/springboot/day07springboot%E6%8C%87%E6%A0%87%E7%9B%91%E6%8E%A7/" class="article-nav-link">
         <strong class="article-nav-caption">上一篇</strong>
         <div class="article-nav-title">
           
-            背包问题
+            springboot指标监控&amp;高级特性
           
         </div>
       </a>
     
     
-      <a href="/2022/09/01/SpringBoot/day06%20springboot%20%E6%95%B0%E6%8D%AE%E8%AE%BF%E9%97%AE&%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" class="article-nav-link">
+      <a href="/2022/09/01/springboot/day06springboot%20%E6%95%B0%E6%8D%AE%E8%AE%BF%E9%97%AE&%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
         <div class="article-nav-title">springboot 数据访问&amp;单元测试</div>
       </a>

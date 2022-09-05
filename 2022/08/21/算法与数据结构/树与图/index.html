@@ -7,7 +7,7 @@
     <head>
       <meta charset="utf-8" />
        
-      <meta name="keywords" content="DFS,BFS,java, 双指针, 算法与数据结构, hexo, 回溯, 树, 队列, mybatis, javaweb, Spring, SpringBoot, cpp, leetcode, 栈, 位运算, 链表, 数据库, springmvc, 动态规划, 贪心" />
+      <meta name="keywords" content="DFS,BFS,java, 双指针, 算法与数据结构, hexo, 回溯, 树, 队列, mybatis, javaweb, Spring, cpp, leetcode, 栈, 位运算, 链表, 数据库, springmvc, 动态规划, 贪心" />
        
       <meta
         name="viewport"
@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">4.9k</span>
+            <span class="post-count">5.4k</span>
         </span>
     </span>
 
@@ -95,7 +95,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">17 分钟</span>
+            <span class="post-count">19 分钟</span>
         </span>
     </span>
 </div>
@@ -370,6 +370,17 @@
 <p>三元组存储类似于COO将每个元素的按照(行索引，列索引，值)的方式存储，所有元素按照行的存储顺序构成单链表。</p>
 <p>行单链表的每个元素也是按照三元组的方式存储的，只不过将每一行的元素单独构成一个链表</p>
 <p>十字链表参考上文。</p>
+<h1 id="题目"><a class="markdownIt-Anchor" href="#题目"></a> 😈题目:</h1>
+<h2 id="297-二叉树的序列化与反序列化"><a class="markdownIt-Anchor" href="#297-二叉树的序列化与反序列化"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/serialize-and-deserialize-binary-tree/">297. 二叉树的序列化与反序列化</a></h2>
+<p>难度困难966</p>
+<p>序列化是将一个数据结构或者对象转换为连续的比特位的操作，进而可以将转换后的数据存储在一个文件或者内存中，同时也可以通过网络传输到另一个计算机环境，采取相反方式重构得到原数据。</p>
+<p>请设计一个算法来实现二叉树的序列化与反序列化。这里不限定你的序列 / 反序列化算法执行逻辑，你只需要保证一个二叉树可以被序列化为一个字符串并且将这个字符串反序列化为原始的树结构。</p>
+<p><strong>提示:</strong> 输入输出格式与 LeetCode 目前使用的方式一致，详情请参阅 <a target="_blank" rel="noopener" href="https://leetcode.cn/faq/#binary-tree">LeetCode 序列化二叉树的格式</a>。你并非必须采取这种方式，你也可以采用其他的方法解决这个问题。</p>
+<p><a target="_blank" rel="noopener" href="https://labuladong.github.io/algo/2/21/39/">二叉树（序列化篇） :: labuladong的算法小抄</a></p>
+<blockquote>
+<p>按照前序遍历的方式分别保存数据以及构造节点即可</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Codec</span> &#123;</span><br><span class="line">    LinkedList&lt;Integer&gt; list=<span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line">    <span class="comment">// Encodes a tree to a single string.</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">serialize</span><span class="params">(TreeNode root)</span> &#123;</span><br><span class="line">        list.clear();</span><br><span class="line">        dfsSerialize(root);</span><br><span class="line">        StringBuilder sb=<span class="keyword">new</span> <span class="title class_">StringBuilder</span>();</span><br><span class="line">        <span class="keyword">for</span> (Integer integer : list) &#123;</span><br><span class="line">            <span class="keyword">if</span>(integer!=<span class="number">1001</span>)&#123;</span><br><span class="line">                sb.append(integer).append(<span class="string">&quot;,&quot;</span>);</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                sb.append(<span class="string">&quot;null,&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sb.substring(<span class="number">0</span>,sb.length()-<span class="number">1</span>); <span class="comment">// 去除最后面的那个,</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">dfsSerialize</span><span class="params">(TreeNode root)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(root==<span class="literal">null</span>)&#123;</span><br><span class="line">            list.add(<span class="number">1001</span>);</span><br><span class="line">            <span class="keyword">return</span> ;</span><br><span class="line">        &#125;</span><br><span class="line">        list.add(root.val);</span><br><span class="line">        dfsSerialize(root.left);</span><br><span class="line">        dfsSerialize(root.right);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// Decodes your encoded data to tree.</span></span><br><span class="line">    TreeNode root=<span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">public</span> TreeNode <span class="title function_">deserialize</span><span class="params">(String data)</span> &#123;</span><br><span class="line">        LinkedList&lt;String&gt; nodes=<span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (String s : data.split(<span class="string">&quot;,&quot;</span>)) &#123;</span><br><span class="line">            nodes.add(s);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dfsDeserialize(nodes);</span><br><span class="line">    &#125;</span><br><span class="line">    TreeNode <span class="title function_">dfsDeserialize</span><span class="params">(LinkedList&lt;String&gt; nodes)</span>&#123; <span class="comment">// 先序遍历构造树</span></span><br><span class="line">        <span class="keyword">if</span>(nodes.size()==<span class="number">0</span>) <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        String val=nodes.removeFirst(); <span class="comment">// LinkedList.removeList() 返回被删除</span></span><br><span class="line">        <span class="keyword">if</span>(val.equals(<span class="string">&quot;null&quot;</span>)) <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        TreeNode root= <span class="keyword">new</span> <span class="title class_">TreeNode</span>(Integer.parseInt(val));</span><br><span class="line">        root.left=dfsDeserialize(nodes);</span><br><span class="line">        root.right=dfsDeserialize(nodes);</span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
  
       <!-- reward -->
       
@@ -439,7 +450,7 @@
 </div>
 
 <div id="share-mask"></div>  
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%91/" rel="tag">树</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">算法与数据结构</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%93%BE%E8%A1%A8/" rel="tag">链表</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DFS/" rel="tag">DFS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%91/" rel="tag">树</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">算法与数据结构</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%93%BE%E8%A1%A8/" rel="tag">链表</a></li></ul>
 
     </footer>
   </div>
