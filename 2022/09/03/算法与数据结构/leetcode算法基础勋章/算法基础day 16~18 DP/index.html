@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">1.4k</span>
+            <span class="post-count">2.6k</span>
         </span>
     </span>
 
@@ -95,7 +95,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">5 分钟</span>
+            <span class="post-count">11 分钟</span>
         </span>
     </span>
 </div>
@@ -117,12 +117,24 @@
 <p>给你一个整数数组 <code>nums</code> ，找到其中最长严格递增子序列的长度。</p>
 <p><strong>子序列</strong> 是由数组派生而来的序列，删除（或不删除）数组中的元素而不改变其余元素的顺序。例如，<code>[3,6,2,7]</code> 是数组 <code>[0,3,1,6,2,2,7]</code> 的子序列。</p>
 <span id="more"></span>
+<blockquote>
+<p><strong>注意子序列以及子串, 对于子序列, 只需要保证顺序就行, 而子串需要保证连续</strong></p>
+</blockquote>
+<ol>
+<li>dp数组含义, : <strong>dp[i] 代表以nums[i] 结尾时, 数组的最长递增子序列</strong></li>
+<li>状态转移:  我们从当前的数组往前遍历 , 当遇到了比当前的<code>num[i]</code> 小的数时, 那么<code>dp[i]=Math.max(dp[i],dp[j]+1)</code></li>
+<li>dp数组初始化 :  由于每一个子序列至少含有一个元素, 因此<strong>dp</strong>数组的所有元素都应该初始化为 1</li>
+<li>遍历方向以及范围: 从左向右顺序遍历 ,  范围就是<strong>dp数组的所有数字</strong></li>
+<li>返回值 : 在遍历的过程中, 维护<strong>res</strong> , 每次都取最大值, 最后返回 , 记为最长递增子序列</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">lengthOfLIS</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span>(nums.length==<span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> res=<span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span>[]dp=<span class="keyword">new</span> <span class="title class_">int</span>[nums.length]; <span class="comment">//dp[i]表示 以nums[i]结尾的最长的递增的子序列的长度</span></span><br><span class="line">        </span><br><span class="line">        Arrays.fill(dp,<span class="number">1</span>); <span class="comment">// 初始化为 1</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> i-<span class="number">1</span> ; j &gt;= <span class="number">0</span>; j--) &#123; </span><br><span class="line">                <span class="keyword">if</span>(nums[i]&gt;nums[j])&#123; <span class="comment">// 注意不能执行完了一次if就直接跳出循环了, 因为元素的顺序与子序列的长度没关系</span></span><br><span class="line">                    dp[i]=Math.max(dp[i],dp[j]+<span class="number">1</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            res=Math.max(res,dp[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="673-最长递增子序列的个数"><a class="markdownIt-Anchor" href="#673-最长递增子序列的个数"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/number-of-longest-increasing-subsequence/">673. 最长递增子序列的个数</a></h2>
 <p>难度中等651</p>
 <p>给定一个未排序的整数数组 <code>nums</code> ， <em>返回最长递增子序列的个数</em> 。</p>
 <p><strong>注意</strong> 这个数列必须是 <strong>严格</strong> 递增的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
 <h1 id="day-17"><a class="markdownIt-Anchor" href="#day-17"></a> 👉day 17</h1>
-<h2 id="1143-最长公共子序列"><a class="markdownIt-Anchor" href="#1143-最长公共子序列"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/longest-common-subsequence/">1143. 最长公共子序列</a></h2>
+<h2 id="1143-最长公共子序列"><a class="markdownIt-Anchor" href="#1143-最长公共子序列"></a> 🎈<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/longest-common-subsequence/">1143. 最长公共子序列</a></h2>
 <p><a target="_blank" rel="noopener" href="https://labuladong.github.io/article/?qno=1143">labuladong 题解</a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/longest-common-subsequence/?envType=study-plan&amp;id=suan-fa-ji-chu#">思路</a></p>
 <p>难度中等1102</p>
 <p>给定两个字符串 <code>text1</code> 和 <code>text2</code>，返回这两个字符串的最长 <strong>公共子序列</strong> 的长度。如果不存在 <strong>公共子序列</strong> ，返回 <code>0</code> 。</p>
@@ -131,6 +143,79 @@
 <li>例如，<code>&quot;ace&quot;</code> 是 <code>&quot;abcde&quot;</code> 的子序列，但 <code>&quot;aec&quot;</code> 不是 <code>&quot;abcde&quot;</code> 的子序列。</li>
 </ul>
 <p>两个字符串的 <strong>公共子序列</strong> 是这两个字符串所共同拥有的子序列。</p>
+<blockquote>
+<p>小套路:</p>
+<ul>
+<li>单个数组或者字符串要用动态规划时，可以把动态规划 <code>dp[i]</code> 定义为 <code>nums[0:i]</code>中想要求的结果；</li>
+<li>当两个数组或者字符串要用动态规划时，可以把动态规划定义成两维的 <code>dp[i][j]</code>，其含义是在<code>A[0:i]</code> 与 B<code>[0:j]</code> 之间匹配得到的想要的结果。</li>
+</ul>
+</blockquote>
+<p>动态规划步骤:</p>
+<ol>
+<li>dp数组定义: 本题是两个字符串, 那么优先采用 二维数组,  <code>dp[i][j]</code> 表示的是 第一个字符串的<code>[0:i]</code> 与第二个字符串的<code>[0:j</code>的最长公共子序列</li>
+<li>状态转移:
+<ul>
+<li>当<code>s1[i]</code>与<code>s2[j]</code> 相等时, 说明两个子串的最后一位相等, 此时最长公共子序列+1  <code>dp[i][j]=dp[i-1][j-1]+1</code></li>
+<li>如果当前的两个字符不相同, 那么当前的dp数组的值根据之前的值得出, <code>dp[i][j]=Math.max(dp[i-1][j],dp[i][j-1])</code></li>
+</ul>
+</li>
+<li>状态的初始化 : 初始化也就是看 <code>i=0</code>或者<code>,j=0</code>的时候,<code>dp[i][j]</code>取多少,
+<ul>
+<li>当 i = 0 时，<code>dp[0][j]</code>表示的是 <strong>text1</strong> 中取空字符串 跟 <strong>text2</strong> 的最长公共子序列，结果肯定为 0.</li>
+<li>当 j = 0 时，<code>dp[i][0]</code>表示的是 <strong>text2</strong> 中取空字符串 跟<strong>text1</strong> 的最长公共子序列，结果肯定为 0</li>
+</ul>
+</li>
+<li>遍历方向与范围:
+<ul>
+<li>遍历方向: 顺序遍历</li>
+<li>范围, 注意dp数组的大小是<code>new int[s1.length+1][s2.length+1]</code> ,  由于 i=0, j=0已经初始化, 所以直接从 i=1 ,j=1开始遍历, 遍历应该在遍历完字符串的时候结束, 也就是 <code>i&lt;=s1.length ;j&lt;s2.length</code></li>
+</ul>
+</li>
+<li>最终返回结果: 结合dp数组的含义  ,最终返回 <code>dp[s1.length][s2.length]</code></li>
+</ol>
+<p><strong>代码如下</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">longestCommonSubsequence</span><span class="params">(String text1, String text2)</span> &#123;</span><br><span class="line">        <span class="type">char</span>[]s1=text1.toCharArray();</span><br><span class="line">        <span class="type">char</span>[]s2=text2.toCharArray();</span><br><span class="line">        <span class="comment">// dp[i] 表示的是 前i 项中 公共子序列的长度</span></span><br><span class="line">        <span class="type">int</span> len=Math.max(s1.length,s2.length);</span><br><span class="line">        <span class="type">int</span> [][]dp=<span class="keyword">new</span> <span class="title class_">int</span>[s1.length+<span class="number">1</span>][s2.length+<span class="number">1</span>];</span><br><span class="line">        dp[<span class="number">0</span>][<span class="number">0</span>]=<span class="number">0</span>; <span class="comment">// 空字符串 , 序列都为0 ,因此初始化为0</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt;= s1.length; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">1</span>; j &lt;= s2.length; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span>(s1[i-<span class="number">1</span>]==s2[j-<span class="number">1</span>])&#123;</span><br><span class="line">                    dp[i][j]=dp[i-<span class="number">1</span>][j-<span class="number">1</span>]+<span class="number">1</span>;</span><br><span class="line">                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                    dp[i][j]=Math.max(dp[i][j-<span class="number">1</span>],dp[i-<span class="number">1</span>][j]); <span class="comment">// 左边的位置或者是上边的位置取最大的值</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[s1.length][s2.length];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="718-最长重复子数组"><a class="markdownIt-Anchor" href="#718-最长重复子数组"></a> 🎈<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/maximum-length-of-repeated-subarray/">718. 最长重复子数组</a></h2>
+<p>难度中等785</p>
+<p>给两个整数数组 <code>nums1</code> 和 <code>nums2</code> ，返回 <em>两个数组中 <strong>公共的</strong> 、长度最长的子数组的长度</em> 。</p>
+<ul>
+<li>本题与上一题:🎈<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/longest-common-subsequence/">1143. 最长公共子序列</a> 几乎一模一样,
+<ul>
+<li>区别在于上一题是子序列, 本题需要的是子数组</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>注意子序列默认不连续, 子数组默认连续</p>
+<ul>
+<li>那么本题主要解决的问题就是子数组连续的问题</li>
+</ul>
+</blockquote>
+<p>其实解决这个问题看起来难 , 实施起来只需要<strong>稍加改动</strong></p>
+<p><strong>dp思路</strong></p>
+<ul>
+<li>参考上一题</li>
+</ul>
+<p><strong>本题做出的改动:</strong></p>
+<ul>
+<li>状态转移部分:
+<ul>
+<li>上一题是 :
+<ul>
+<li>当<code>s1[i]</code>与<code>s2[j]</code> 相等时, 说明两个子串的最后一位相等, 此时最长公共子序列+1  <code>dp[i][j]=dp[i-1][j-1]+1</code></li>
+<li>如果当前的两个字符不相同, 那么当前的dp数组的值根据之前的值得出, <code>dp[i][j]=Math.max(dp[i-1][j],dp[i][j-1])</code></li>
+</ul>
+</li>
+<li>本题 : 由于子数组要求连续, 因此只有在当前的两个元素相等的时候, 我们才可以进行状态转移 , 状态转移方程为:
+<ul>
+<li><code>dp[i][j]=dp[i-1][j-1]+1;</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>代码如下</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">findLength</span><span class="params">(<span class="type">int</span>[] nums1, <span class="type">int</span>[] nums2)</span> &#123;</span><br><span class="line">        <span class="type">int</span> res=<span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span>[][]dp=<span class="keyword">new</span> <span class="title class_">int</span>[nums1.length+<span class="number">1</span>][nums2.length+<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt; dp.length; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">1</span>; j &lt; dp[<span class="number">0</span>].length; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span>(nums1[i-<span class="number">1</span>]==nums2[j-<span class="number">1</span>])&#123;</span><br><span class="line">                    dp[i][j]=dp[i-<span class="number">1</span>][j-<span class="number">1</span>]+<span class="number">1</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                res=Math.max(res,dp[i][j]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="583-两个字符串的删除操作"><a class="markdownIt-Anchor" href="#583-两个字符串的删除操作"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/delete-operation-for-two-strings/">583. 两个字符串的删除操作</a></h2>
 <p><a target="_blank" rel="noopener" href="https://labuladong.github.io/article/?qno=583">labuladong 题解</a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/delete-operation-for-two-strings/?plan=algorithms&amp;plan_progress=gwlb8t3#">思路</a></p>
 <p>难度中等488</p>
@@ -154,9 +239,8 @@
 <p>计算并返回可以凑成总金额所需的 <strong>最少的硬币个数</strong> 。如果没有任何一种硬币组合能组成总金额，返回 <code>-1</code> 。</p>
 <p>你可以认为每种硬币的数量是无限的。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## [<span class="number">343.</span> 整数拆分](https:<span class="comment">//leetcode.cn/problems/integer-break/)</span></span><br><span class="line"></span><br><span class="line">难度中等<span class="number">923</span></span><br><span class="line"></span><br><span class="line">给定一个正整数 `n` ，将其拆分为 `k` 个 **正整数** 的和（ `k &gt;= <span class="number">2</span>` ），并使这些整数的乘积最大化。</span><br><span class="line"></span><br><span class="line">返回 *你可以获得的最大乘积* 。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">- **本题的数学定理 , 对于每一项, 拆分成 <span class="number">3</span> 可以使乘积最大**</span><br><span class="line">-  对于 <span class="number">4</span> , 拆分成 <span class="number">2</span>*<span class="number">2</span> 最大(也可以直接\*<span class="number">4</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">**代码如下**</span><br><span class="line"></span><br><span class="line">```java</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">integerBreak</span><span class="params">(<span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span>(n&lt;=<span class="number">3</span> )<span class="keyword">return</span> n-<span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> res=<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span>(n&gt;<span class="number">4</span>)&#123;</span><br><span class="line">            n-=<span class="number">3</span>;</span><br><span class="line">            res*=<span class="number">3</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> n*res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="dp的四种常见模型"><a class="markdownIt-Anchor" href="#dp的四种常见模型"></a> 😈DP的四种常见模型</h1>
-<h2 id="1️⃣线性模型"><a class="markdownIt-Anchor" href="#1️⃣线性模型"></a> 1️⃣线性模型</h2>
-<h3 id="91-解码方法"><a class="markdownIt-Anchor" href="#91-解码方法"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/decode-ways/">91. 解码方法</a></h3>
+<h1 id="其他题目"><a class="markdownIt-Anchor" href="#其他题目"></a> 😈其他题目</h1>
+<h2 id="91-解码方法"><a class="markdownIt-Anchor" href="#91-解码方法"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/decode-ways/">91. 解码方法</a></h2>
 <p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/decode-ways/#">思路</a></p>
 <p>难度中等1239</p>
 <p>一条包含字母 <code>A-Z</code> 的消息通过以下映射进行了 <strong>编码</strong> ：</p>
@@ -178,9 +262,9 @@
 <ul>
 <li>思路类似于斐波那契数列, 注意需要考虑情况</li>
 </ul>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220903195647054.png" alt="分析过程" /></p>
-<p><img src="https://pic.leetcode-cn.com/c09dc70d3085792b2b8417843e297f6841fd12f921b0e4fe28a2c4a8dc86dd1e-image.png" alt="DP思路" /></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">numDecodings</span><span class="params">(String s)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span>(s.length()==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="type">char</span>[]chars=s.toCharArray();</span><br><span class="line">        <span class="type">int</span> pre=<span class="number">1</span>,cur=<span class="number">1</span>; <span class="comment">// dp[-1]=dp[0]=1</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;s.length();i++)&#123;</span><br><span class="line">            <span class="type">int</span> tmp=cur;</span><br><span class="line">            <span class="keyword">if</span>(chars[i]==<span class="number">0x30</span>)&#123;</span><br><span class="line">                <span class="keyword">if</span>(chars[i-<span class="number">1</span>]==<span class="number">0x31</span>||chars[i-<span class="number">1</span>]==<span class="number">0x32</span>)&#123;</span><br><span class="line">                    cur=pre;</span><br><span class="line">                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(chars[i-<span class="number">1</span>]==<span class="number">0x31</span>||(chars[i-<span class="number">1</span>]==<span class="number">0x32</span>&amp;&amp;chars[i]&lt;=<span class="number">0x36</span>))&#123;</span><br><span class="line">                cur+=pre;</span><br><span class="line">            &#125;</span><br><span class="line">            pre=tmp;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> cur;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/** str[0...i-1]已经转换完了,固定了</span></span><br><span class="line"><span class="comment">     i以后有几种转换的结果</span></span><br><span class="line"><span class="comment">     &#x27;A&#x27; -&gt; &quot;1&quot;</span></span><br><span class="line"><span class="comment">     &#x27;B&#x27; -&gt; &quot;2&quot;</span></span><br><span class="line"><span class="comment">     ...</span></span><br><span class="line"><span class="comment">     &#x27;Z&#x27; -&gt; &quot;26&quot;</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220903195647054.png" alt="" /></p>
+<p><img src="https://pic.leetcode-cn.com/c09dc70d3085792b2b8417843e297f6841fd12f921b0e4fe28a2c4a8dc86dd1e-image.png" alt="" /></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">numDecodings</span><span class="params">(String s)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span>(s.length()==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="type">char</span>[]chars=s.toCharArray();</span><br><span class="line">        <span class="type">int</span> pre=<span class="number">1</span>,cur=<span class="number">1</span>; <span class="comment">// dp[-1]=dp[0]=1</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;s.length();i++)&#123;</span><br><span class="line">            <span class="type">int</span> tmp=cur;</span><br><span class="line">            <span class="keyword">if</span>(chars[i]==<span class="number">0x30</span>)&#123;</span><br><span class="line">                <span class="keyword">if</span>(chars[i-<span class="number">1</span>]==<span class="number">0x31</span>||chars[i-<span class="number">1</span>]==<span class="number">0x32</span>)&#123;</span><br><span class="line">                    cur=pre;</span><br><span class="line">                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(chars[i-<span class="number">1</span>]==<span class="number">0x31</span>||(chars[i-<span class="number">1</span>]==<span class="number">0x32</span>&amp;&amp;chars[i]&lt;=<span class="number">0x36</span>))&#123;</span><br><span class="line">                cur+=pre;</span><br><span class="line">            &#125;</span><br><span class="line">            pre=tmp;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> cur;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id=""><a class="markdownIt-Anchor" href="#"></a> </h2>
  
       <!-- reward -->
@@ -251,7 +335,7 @@
 </div>
 
 <div id="share-mask"></div>  
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">算法与数据结构</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag">动态规划</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">算法与数据结构</a></li></ul>
 
     </footer>
   </div>
