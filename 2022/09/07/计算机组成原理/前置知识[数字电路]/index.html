@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+  
+
+    <head>
+      <meta charset="utf-8" />
+       
+      <meta name="keywords" content="DFS,BFS,java, 双指针, 算法与数据结构, hexo, 回溯, 树, 队列, mybatis, javaweb, Spring, cpp, leetcode, 栈, 位运算, 链表, 数据库, springmvc, 动态规划, 贪心" />
+       
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>(零)前置知识--数字电路[计组] |  dhx_&#39;blog</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220820231738085.png" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      
+<link rel="stylesheet" href="/css/fonts/remixicon.css">
+
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.staticfile.org/pace/1.2.4/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+      </style>
+    </head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-计算机组成原理/前置知识[数字电路]"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  (零)前置知识--数字电路[计组]
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/09/07/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86%5B%E6%95%B0%E5%AD%97%E7%94%B5%E8%B7%AF%5D/" class="article-date">
+  <time datetime="2022-09-07T08:25:45.000Z" itemprop="datePublished">2022-09-07</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/">计算机组成原理</a> / <a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/">计算机组成原理</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">2.3k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">8 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="前置知识数字电路计组"><a class="markdownIt-Anchor" href="#前置知识数字电路计组"></a> 前置知识–数字电路[计组]</h1>
+<h2 id="一晶体三极管与数字电路"><a class="markdownIt-Anchor" href="#一晶体三极管与数字电路"></a> 一.晶体三极管与数字电路</h2>
+<p><strong>物体按导电性可以分为</strong>:</p>
+<ul>
+<li>
+<p>绝缘体:不导电 (塑料, 橡胶 , 陶瓷)</p>
+</li>
+<li>
+<p>导体: 双向导电(金银铜铁等)</p>
+</li>
+<li>
+<p>半导体:单项导电(硅锗等)</p>
+<blockquote>
+<p>导电性介于绝缘体和导体之间, <strong>加热单向导电,冷却绝缘</strong></p>
+</blockquote>
+<span id="more"></span>
+</li>
+</ul>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220907160658196.png" alt="" /></p>
+<p>三极管: 集电极,发射极,基极 (相当于一个电子开关)<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220907161318508.png" alt="" /></p>
+<blockquote>
+<p>实现<strong>逻辑取反</strong>的功能</p>
+<ul>
+<li>输入1 =&gt; 0</li>
+<li>输入0 =&gt; 1</li>
+</ul>
+</blockquote>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/4{6R96OP}W`TJULV9%$K19T.png" style="zoom:67%;" />
+<p><strong>如果我们把两个晶体三极管并联在一起</strong>:</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220907161754927.png" alt="" /></p>
+<h3 id="1两种基础的门电路"><a class="markdownIt-Anchor" href="#1两种基础的门电路"></a> 1.两种基础的门电路:</h3>
+<ul>
+<li>与非门</li>
+<li>或非门</li>
+</ul>
+<h4 id="1与非门"><a class="markdownIt-Anchor" href="#1与非门"></a> (1)与非门</h4>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220907161907888.png" alt="与非门示意图" /></p>
+<h5 id="输入输出"><a class="markdownIt-Anchor" href="#输入输出"></a> <strong>输入输出</strong></h5>
+<table>
+<thead>
+<tr>
+<th>A</th>
+<th>B</th>
+<th>输出</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p>总结:</p>
+<ul>
+<li>两路输入都高, 才为低</li>
+</ul>
+<blockquote>
+<p>两个三极管都导通 , 输出低电平</p>
+</blockquote>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220907162253261.png" alt="与非门电路图" /></p>
+<h4 id="2或非门"><a class="markdownIt-Anchor" href="#2或非门"></a> (2)或非门</h4>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220907162449358.png" alt="或非门示意图" /></p>
+<h5 id="输入输出-2"><a class="markdownIt-Anchor" href="#输入输出-2"></a> <strong>输入输出</strong></h5>
+<table>
+<thead>
+<tr>
+<th>A</th>
+<th>B</th>
+<th>输出</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p>总结:</p>
+<ul>
+<li>任何一路输入为高, 输出都为低</li>
+</ul>
+<blockquote>
+<p>两个三极管都导通 , 输出低电平</p>
+</blockquote>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220907162530145.png" alt="或非门电路图" /></p>
+<p>在此基础上可以制作 <strong>与门,  或门</strong> 电路</p>
+<h3 id="2三态门电路"><a class="markdownIt-Anchor" href="#2三态门电路"></a> 2.三态门电路</h3>
+<ul>
+<li>是具有三种逻辑状态的门电路, 是构成计算机总线的理想电路</li>
+</ul>
+<blockquote>
+<p>输出状态取决于输入信号与控制信号</p>
+</blockquote>
+<h4 id="三态"><a class="markdownIt-Anchor" href="#三态"></a> <strong>三态</strong></h4>
+<ul>
+<li>低电平(0)</li>
+<li>高电平(1)</li>
+<li>高阻态(截止)</li>
+</ul>
+<p>输出高阻态:</p>
+<ul>
+<li>输入与输出信号直接处于截止状态, 电路与所连接的线路断开</li>
+</ul>
+<p>![三态门电路图](<a target="_blank" rel="noopener" href="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/D(MAVAIZOREYV(_1)GJL%25H4.png">https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/D(MAVAIZOREYV(_1)GJL%H4.png</a>)</p>
+<h4 id="输入输出-3"><a class="markdownIt-Anchor" href="#输入输出-3"></a> <strong>输入输出</strong></h4>
+<table>
+<thead>
+<tr>
+<th>G</th>
+<th>D</th>
+<th>输出: Q</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>任意</td>
+<td>高阻</td>
+</tr>
+</tbody>
+</table>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220907163121073.png" alt="image-20220907163121073" /></p>
+<p><strong>通过三态门我们可以改变信号传输的方向</strong></p>
+<h2 id="二逻辑运算与数字电路"><a class="markdownIt-Anchor" href="#二逻辑运算与数字电路"></a> 二.逻辑运算与数字电路</h2>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220907163420731.png" alt="" /></p>
+<h3 id="1电路中的信号"><a class="markdownIt-Anchor" href="#1电路中的信号"></a> 1.电路中的信号</h3>
+<ul>
+<li>
+<p><strong>模拟信号</strong> :随着时间连续变化的信号</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220907163504475.png" alt="" /></p>
+</li>
+<li>
+<p><strong>数字信号</strong>: 时间和幅度都是离散的</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220907163529479.png" alt="" /></p>
+</li>
+</ul>
+<h3 id="2基础逻辑运算️"><a class="markdownIt-Anchor" href="#2基础逻辑运算️"></a> 2.基础逻辑运算⭐️</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>逻辑表达式</th>
+<th>运算逻辑符号</th>
+<th>逻辑真值表</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>与</td>
+<td><img src="https://img-blog.csdnimg.cn/20200410133847427.png#pic_center" alt="在这里插入图片描述" /></td>
+<td><img src="https://img-blog.csdnimg.cn/20200410133937399.png#pic_center" alt="在这里插入图片描述" /></td>
+<td><img src="https://img-blog.csdnimg.cn/20200410133956280.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzOTIzMTU1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述" /></td>
+</tr>
+<tr>
+<td>或</td>
+<td>Y=A+B</td>
+<td><img src="https://img-blog.csdnimg.cn/20200410134201121.png#pic_center" alt="在这里插入图片描述" /></td>
+<td><img src="https://img-blog.csdnimg.cn/20200410134216496.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzOTIzMTU1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述" /></td>
+</tr>
+<tr>
+<td>非</td>
+<td><img src="https://img-blog.csdnimg.cn/20200410134110222.png#pic_center" alt="在这里插入图片描述" /></td>
+<td><img src="https://img-blog.csdnimg.cn/20200410134317384.png#pic_center" alt="在这里插入图片描述" /></td>
+<td><img src="https://img-blog.csdnimg.cn/20200410134331704.png#pic_center" alt="在这里插入图片描述" /></td>
+</tr>
+<tr>
+<td>与非</td>
+<td><img src="https://img-blog.csdnimg.cn/2020041013450450.png#pic_center" alt="在这里插入图片描述" /></td>
+<td><img src="https://img-blog.csdnimg.cn/20200410134709718.png#pic_center" alt="在这里插入图片描述" /></td>
+<td><img src="https://img-blog.csdnimg.cn/20200410134725527.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzOTIzMTU1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述" /></td>
+</tr>
+<tr>
+<td>或非</td>
+<td><img src="https://img-blog.csdnimg.cn/2020041013483791.png#pic_center" alt="在这里插入图片描述" /></td>
+<td><img src="https://img-blog.csdnimg.cn/20200410134900166.png#pic_center" alt="在这里插入图片描述" /></td>
+<td><img src="https://img-blog.csdnimg.cn/20200410134935681.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzOTIzMTU1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述" /></td>
+</tr>
+<tr>
+<td>与或非</td>
+<td><img src="https://img-blog.csdnimg.cn/20200410135217955.png#pic_center" alt="在这里插入图片描述" /></td>
+<td><img src="https://img-blog.csdnimg.cn/20200410135247244.png#pic_center" alt="在这里插入图片描述" /></td>
+<td><img src="https://img-blog.csdnimg.cn/20200410135258595.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzOTIzMTU1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述" /></td>
+</tr>
+<tr>
+<td>同或</td>
+<td><img src="https://img-blog.csdnimg.cn/20200410135322829.png#pic_center" alt="在这里插入图片描述" /></td>
+<td><img src="https://img-blog.csdnimg.cn/20200410135335879.png#pic_center" alt="在这里插入图片描述" /></td>
+<td><img src="https://img-blog.csdnimg.cn/2020041013534863.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzOTIzMTU1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述" /></td>
+</tr>
+<tr>
+<td>异或</td>
+<td><img src="https://img-blog.csdnimg.cn/20200410135415290.png#pic_center" alt="在这里插入图片描述" /></td>
+<td><img src="https://img-blog.csdnimg.cn/20200410135428891.png#pic_center" alt="在这里插入图片描述" /></td>
+<td><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/20200410135439923.png" alt="在这里插入图片描述" /></td>
+</tr>
+</tbody>
+</table>
+<h3 id="3基础门电路️"><a class="markdownIt-Anchor" href="#3基础门电路️"></a> 3.基础门电路⭐️</h3>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/V~%7DY7FUIJP9P%5B1CWW9_DV38.png" alt="基础门电路" /></p>
+<p><strong>注意电路中的&quot;小圆圈&quot; ,  表示的是取非的意思</strong></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220907164118008.png" alt="与非门 或非门" /></p>
+<p>异或: 相异为一 ,相同为零</p>
+<p>同或: 相异为零 ,相同为一</p>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220907164332607.png" style="zoom:67%;" />
+<h3 id="4异或电路的特殊功能举例"><a class="markdownIt-Anchor" href="#4异或电路的特殊功能举例"></a> 4.异或电路的特殊功能举例</h3>
+<h4 id="1控制输入输出信号之间的关系"><a class="markdownIt-Anchor" href="#1控制输入输出信号之间的关系"></a> (1)控制输入输出信号之间的关系</h4>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220907182900178.png" alt="示意图" /></p>
+<p>记为 <code>F=A^c</code></p>
+<ul>
+<li>设置控制信号<code>C=0</code><br />
+此时，输出信号等于输入信号F=A<br />
+<code>A=1 F=1A=0 F=0</code></li>
+<li>设置控制信号<code>C=1</code><br />
+此时，输出信号等于输入信号取反<code>F=A</code><br />
+<code>A=1 F=0A=0 F=1</code></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>输入</th>
+<th></th>
+<th>输出</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p>借助异或的特性,我们也可以用来实现<strong>加法</strong></p>
+<p>再次不做赘述</p>
+<ul>
+<li><a href="https://adorabled4.github.io/2022/07/26/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%89%91%E6%8C%87offer/%E5%89%91%E6%8C%87offer59~69%E9%A2%98/#65-%E4%B8%8D%E7%94%A8%E5%8A%A0%E5%87%8F%E4%B9%98%E9%99%A4%E5%81%9A%E5%8A%A0%E6%B3%95">剑指offer59~69题 | dhx_'blog (adorabled4.github.io)</a></li>
+</ul>
+<p>代码如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">add</span><span class="params">(<span class="type">int</span> n, <span class="type">int</span> p)</span> &#123;</span><br><span class="line">        <span class="keyword">while</span>(p!=<span class="number">0</span>)&#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">temp</span> <span class="operator">=</span> (n&amp;p)&lt;&lt;<span class="number">1</span>;<span class="comment">// 存储上一轮的进位和结果  ,如果还有进位那么就继续执行操作</span></span><br><span class="line">            n=n^p; <span class="comment">// 进位和+ 非进位和</span></span><br><span class="line">            p=temp; <span class="comment">//如果还有进位那么就继续执行操作</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> n;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2奇偶校验电路"><a class="markdownIt-Anchor" href="#2奇偶校验电路"></a> (2)奇偶校验电路</h4>
+<ul>
+<li>
+<p><strong>奇数个1 相异的结果为1 ,偶数个1相异的结果为0</strong></p>
+<p><strong>因为 1 只有^ 1才为0</strong></p>
+</li>
+</ul>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220907164515472.png" alt="校验原理" style="zoom:67%;" />
+<h3 id="5复合逻辑功能"><a class="markdownIt-Anchor" href="#5复合逻辑功能"></a> 5.复合逻辑功能</h3>
+<blockquote>
+<p>所有的逻辑表达式都可以用电路画出来</p>
+<ul>
+<li>基础逻辑运算与 基础门电路 一一对应</li>
+</ul>
+</blockquote>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220907164901789.png" alt="" /></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220907164831624.png" alt="" /></p>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220907164940133.png" style="zoom: 50%;" />
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220907174341798.png" alt="image-20220907174341798" style="zoom: 67%;" />
+<h2 id="三数字电路的设计思想️"><a class="markdownIt-Anchor" href="#三数字电路的设计思想️"></a> 三.数字电路的设计思想⭐️</h2>
+<h3 id="1概述"><a class="markdownIt-Anchor" href="#1概述"></a> 1.概述</h3>
+<ul>
+<li>设计思想:给出数字电路输入与输出之间的关系</li>
+</ul>
+<blockquote>
+<p>与软件的设计思想相同</p>
+</blockquote>
+<p><strong>数字电路设计步骤</strong></p>
+<ul>
+<li><strong>逻辑功能描述 =&gt; 真值表 =&gt; 逻辑表达式 =&gt; (公式,化简 =&gt; 最简单逻辑表达式 =&gt;) 数字电路图</strong></li>
+</ul>
+<blockquote>
+<p>反之, <strong>通过数字电路分析实现其功能的逻辑功能</strong></p>
+</blockquote>
+<p>不看电路图, 用手盖住图, 只看输入输出 , 信号逻辑功能表</p>
+<h3 id="2举例"><a class="markdownIt-Anchor" href="#2举例"></a> 2.举例</h3>
+<p>数字电路要解决的问题一般为逻辑问题 , 每一个输入或输出信号用 1 和 0 分别表示两种不同的状态</p>
+<h4 id="例一"><a class="markdownIt-Anchor" href="#例一"></a> 例一</h4>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220907170051358.png" alt="举例" style="zoom:67%;" />
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220907170503671.png" alt="image-20220907170503671" style="zoom:67%;" />
+<h3 id="化简逻辑运算表达式"><a class="markdownIt-Anchor" href="#化简逻辑运算表达式"></a> 化简逻辑运算表达式</h3>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220907171025102.png" alt="image-20220907171025102" /></p>
+<h4 id="例二"><a class="markdownIt-Anchor" href="#例二"></a> 例二</h4>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220907171106715.png" alt="image-20220907171106715" style="zoom:67%;" />
+<h2 id="四常见的数字电路"><a class="markdownIt-Anchor" href="#四常见的数字电路"></a> 四.常见的数字电路</h2>
+<ul>
+<li>计算机组成原理需要用到的</li>
+</ul>
+<p>计算机常用逻辑电路分为两大类</p>
+<h3 id="1组合逻辑电路"><a class="markdownIt-Anchor" href="#1组合逻辑电路"></a> 1.组合逻辑电路</h3>
+<blockquote>
+<p>没有记忆功能</p>
+</blockquote>
+<p><strong>组合逻辑电路的输出状态只取决于当前输入信号的状态，与过去输入信号的状态无关，即电路没有记忆功能。</strong></p>
+<ul>
+<li>例如︰加法器、ALU、编码器、译码器、数据选择器等电路。</li>
+</ul>
+<h3 id="2时序逻辑电路"><a class="markdownIt-Anchor" href="#2时序逻辑电路"></a> 2.时序逻辑电路</h3>
+<p><strong>时序逻辑电路的输出状态不仅和当时输入信号的状态有关，还与过去输入信号的状态有关，即电路具有记忆功能。</strong></p>
+<ul>
+<li>例如∶最基本的记忆电路是触发器。</li>
+<li>由基本的触发器可以构成寄存器，计数器等电路。</li>
+</ul>
+<h3 id="3组合逻辑电路加法器"><a class="markdownIt-Anchor" href="#3组合逻辑电路加法器"></a> 3.组合逻辑电路:加法器</h3>
+<p><strong>加法器是计算机中最常用、最基本的组合逻辑电路。</strong></p>
+<p>功能:主要完成两个数值的补码加法运算。</p>
+<ul>
+<li>
+<p><strong>减法∶计算机中没有专门用于减法的电路，因为补码减法可使用加法器实现。</strong></p>
+<ul>
+<li>
+<p><strong>例如∶A减B等于A加B的补</strong></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220907171428091.png" alt="加法器实现减法举例" /></p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>乘除法∶可以利用加法器，通过多次循环迭代完成，或使用专门的乘除法电路实现。</strong></p>
+</li>
+</ul>
+<h4 id="半加器"><a class="markdownIt-Anchor" href="#半加器"></a> 半加器</h4>
+<ul>
+<li>输入两个二进制数X<sub>n</sub>Y<sub>n</sub>,相加，输出和H<sub>n</sub>，不考虑进位。</li>
+</ul>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220907171659973.png" alt="" /></p>
+<h4 id="一位全加器"><a class="markdownIt-Anchor" href="#一位全加器"></a> 一位全加器</h4>
+<ul>
+<li><strong>三输入, 两输出</strong></li>
+</ul>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220907171736127.png" alt="image-20220907171736127" style="zoom:67%;" />
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220907171805806.png" alt="image-20220907171805806" style="zoom:67%;" />
+<h4 id="n位全加器"><a class="markdownIt-Anchor" href="#n位全加器"></a> n位全加器</h4>
+<p><strong>n位加法器∶将n个一位全加器相连，完成对多位数的相加运算。</strong></p>
+<blockquote>
+<p>一位加法器之间的进位信号是串行传送的，被称为串行进位。本位全加和F;必须等低位进位C;.1输入后才能输出;<br />
+当加法器的位数较多时，会使加法运算的速度大大降低。</p>
+</blockquote>
+<h4 id="超前进位加法器当前计算机使用的"><a class="markdownIt-Anchor" href="#超前进位加法器当前计算机使用的"></a> 超前进位加法器(当前计算机使用的)</h4>
+<ul>
+<li>并行加法器</li>
+</ul>
+<p>从加快进位信号的传送速度考虑，可以实现多位并行进位。采用“超前进位电路”来同时形成各进位，从而实现快速加法。</p>
+<blockquote>
+<p>同时输入X<sub>1</sub>~X<sub>4</sub>，Y<sub>1</sub>~Y<sub>4</sub>和C<sub>0</sub>，几乎同时输出C<sub>4</sub>和F<sub>1</sub>~F<sub>4</sub></p>
+</blockquote>
+<h3 id="4组合逻辑电路-算术逻辑单元"><a class="markdownIt-Anchor" href="#4组合逻辑电路-算术逻辑单元"></a> 4.组合逻辑电路: 算术逻辑单元</h3>
+<p><strong>算术逻辑单元(简称ALU arithmetic and logic unit )</strong></p>
+<ol>
+<li>同一套电路，既实现算术运算功能又实现逻辑运算功能。对数值数据的算术运算∶加、减、乘、除等对逻辑数据的逻辑运算:与、或、非运算等</li>
+<li>一种功能较强的组合逻辑电路(由与、或、非等门电路组合实现)</li>
+<li>其基本逻辑结构是超前进位加法器。</li>
+</ol>
+<blockquote>
+<p><strong>ALU不仅给出算术运算结果，还给出运算结果的特征标志。</strong></p>
+<ul>
+<li>例如︰算术运算是否产生了向更高位的进位，结果是否为零，结果的符号为正还是为负，结果是否溢出等。</li>
+</ul>
+<blockquote>
+<p><strong>逻辑运算通常只检查结果是否为零，不存在进位和溢出等问题。</strong></p>
+</blockquote>
+</blockquote>
+<h4 id="四位alu逻辑电路"><a class="markdownIt-Anchor" href="#四位alu逻辑电路"></a> <strong>四位ALU逻辑电路</strong></h4>
+<ul>
+<li>分析逻辑电路：<strong>只看输入输出信号，不看电路图</strong>！</li>
+</ul>
+<h5 id="电路图"><a class="markdownIt-Anchor" href="#电路图"></a> 电路图:</h5>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220907184256778.png" style="zoom:67%;" />
+<h5 id="分析"><a class="markdownIt-Anchor" href="#分析"></a> 分析:</h5>
+<ul>
+<li>
+<p><strong>S<sub>0</sub>~S<sub>3</sub></strong></p>
+<p><strong>运算选择控制决定电路执行哪种算术运算或哪种逻辑运算。</strong></p>
+</li>
+<li>
+<p><strong>M: 状态控制</strong></p>
+<ul>
+<li>1 执行逻辑运算</li>
+<li>0 执行算术运算</li>
+</ul>
+</li>
+<li>
+<p><strong>两个参加运算的数：</strong></p>
+<p><strong>A<sub>3</sub>A<sub>0</sub>，B<sub>3</sub>～B<sub>0</sub></strong></p>
+<p><strong>C<sub>n</sub> : ALU最低进位</strong></p>
+</li>
+</ul>
+<p>分析逻辑电路：看输入输出信号的逻辑功能表！</p>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220907184755629.png" alt="逻辑功能表" style="zoom:80%;" />
+<p>菜鸡表示什么都看不懂。。。QwQ</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220907184839781.png" alt="ALU功能框架图" /></p>
+<h3 id="5组合逻辑电路-编码器"><a class="markdownIt-Anchor" href="#5组合逻辑电路-编码器"></a> 5.组合逻辑电路: 编码器</h3>
+<ul>
+<li>将特定含义的输入信号(文字/数字/符号）转换成二进制代码。即∶:实现把2n个输入变量，编码成N个输出信号。</li>
+</ul>
+<p><strong>主要功能∶处理输入变量之间的优先级关系。</strong></p>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220907173040283.png" alt="举例" style="zoom:67%;" />
+<h4 id="1普通编码器"><a class="markdownIt-Anchor" href="#1普通编码器"></a> (1)普通编码器</h4>
+<ul>
+<li>任何时刻只允许一个输入信号</li>
+</ul>
+<p>😈回顾<strong>数字电路设计步骤</strong></p>
+<ul>
+<li><strong>逻辑功能描述 =&gt; 真值表 =&gt; 逻辑表达式 =&gt; (公式,化简 =&gt; 最简单逻辑表达式 =&gt;) 数字电路图</strong></li>
+</ul>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220907173316135.png" alt="举例" style="zoom:67%;" />
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220907173418274.png" style="zoom:67%;" />
+<h3 id="6组合逻辑电路-译码器"><a class="markdownIt-Anchor" href="#6组合逻辑电路-译码器"></a> 6.组合逻辑电路: 译码器</h3>
+<p><strong>实现对n个输入变量，给出2n个(或少于2n个）输出信号的功能，每个输出信号对应n个输入变量的一个最小项。</strong><br />
+<strong>是否需要译码，通常可以用一或几个控制信号E加以控制。</strong></p>
+<p><strong>主要用途︰区分N个输入变量的组合状态。从多个互斥信号中选择其一。</strong></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220907173525509.png" alt="示意图" /></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220907185001280.png" alt="image-20220907185001280" /></p>
+<p><strong>显像管亮=1,不亮=0</strong><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220907185039391.png" alt="" /></p>
+<p><strong>显示译码器</strong></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220907185057890.png" alt="" /></p>
+<p><strong>3-8译码器：3输入8输出</strong></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220907185138624.png" alt="" /></p>
+<h3 id="7组合逻辑电路数据选择器"><a class="markdownIt-Anchor" href="#7组合逻辑电路数据选择器"></a> 7.组合逻辑电路：数据选择器</h3>
+<p><strong>数据选择器又称多路开关（多个输入，一个输出）</strong></p>
+<ul>
+<li><strong>功能</strong>:<strong>在选择信号的作用下，从多个输入信号中选择一个输出。</strong></li>
+<li><strong>例如：从多个寄存器中取出某一个寄存器的内容送ALU。</strong></li>
+</ul>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220907185333060.png" alt="" /></p>
+<p><strong>分析电路：不看电路图，看输入输出信号的逻辑功能表。</strong></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220907185803826.png" alt="功能表" /></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220907185737494.png" alt="电路图" /></p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://adorabled4.github.io/2022/09/07/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86[%E6%95%B0%E5%AD%97%E7%94%B5%E8%B7%AF]/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">算法与数据结构</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2022/09/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/1.%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E5%88%86%E7%B1%BB/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            (一)计算机系统概述[计组]
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2022/09/06/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/leetcode%E9%A2%98%E7%9B%AE/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">leetcode题目(1)--2022-9</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.staticfile.org/valine/1.4.16/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "BMxcpVMjh3EMOP7tyImO6aLR-gzGzoHsz",
+    app_key: "HpcPO68bneKDaeq3H1G1xuIN",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+   
+    
+    <script src="https://cdn.staticfile.org/twikoo/1.4.18/twikoo.all.min.js"></script>
+    <div id="twikoo" class="twikoo"></div>
+    <script>
+        twikoo.init({
+            envId: ""
+        })
+    </script>
+ 
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2022
+        <i class="ri-heart-fill heart_icon"></i> dhx_
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/avater.png" alt="dhx_&#39;blog"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.staticfile.org/justifiedGallery/3.8.1/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.staticfile.org/clipboard.js/2.0.10/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+ 
+<script src="/js/dz.js"></script>
+ 
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    <div id="music">
+    
+    
+    
+    <iframe frameborder="no" border="1" marginwidth="0" marginheight="0" width="200" height="52"
+        src="//music.163.com/outchain/player?type=2&id=29480187&auto=1&height=32"></iframe>
+</div>
+
+<style>
+    #music {
+        position: fixed;
+        right: 15px;
+        bottom: 0;
+        z-index: 998;
+    }
+</style>
+    
+    
+
+  </div>
+</body>
+
+</html>
