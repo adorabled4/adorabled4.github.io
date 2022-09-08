@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">2.6k</span>
+            <span class="post-count">5.1k</span>
         </span>
     </span>
 
@@ -95,7 +95,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">11 分钟</span>
+            <span class="post-count">22 分钟</span>
         </span>
     </span>
 </div>
@@ -221,6 +221,49 @@
 <p>难度中等488</p>
 <p>给定两个单词 <code>word1</code> 和 <code>word2</code> ，返回使得 <code>word1</code> 和 <code>word2</code> <strong>相同</strong>所需的<strong>最小步数</strong>。</p>
 <p><strong>每步</strong> 可以删除任意一个字符串中的一个字符。</p>
+<p>动态规划步骤:</p>
+<ol>
+<li>
+<p>dp数组定义: 本题是两个字符串, 那么优先采用 二维数组, <code>dp[i][j]</code>表示  word1以<code>i-1</code>结尾出现的word2以<code>j-1</code>结尾 达到相同 需要删除的次数</p>
+</li>
+<li>
+<p>状态转移:</p>
+<ul>
+<li>
+<p>当<code>w1[i]</code>与<code>w2[j]</code> 相等时, <strong>此时不需要删除任何字符</strong> <code>dp[i][j]=dp[i-1][j-1]</code></p>
+</li>
+<li>
+<p>如果当前的两个字符不相同, 那么当前的dp数组的值根据之前的值得出</p>
+<ol>
+<li>删除<code>w2[j-1]</code>   对应的方程就是 <code>dp[i][j]=dp[i][j-1]+1;</code></li>
+<li>删除<code>w1[i-1]</code>   对应的方程就是 <code>dp[i][j]=dp[i-1][j]+1;</code></li>
+<li>同时删除<code>w1[i-1] w2[j-1]</code>   对应的方程就是 <code>dp[i][j]=dp[i-1][j-1]+2;</code></li>
+</ol>
+<p>那么当然是选最小值删除, 因此递推公式为:</p>
+<p><code>dp[i][j]=Math.min(Math.min(dp[i-1][j]+1,dp[i-1][j-1]+2),dp[i][j-1]+1);</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p>状态的初始化 : 初始化也就是看 <code>i=0</code>或者<code>,j=0</code>的时候,<code>dp[i][j]</code>取多少,</p>
+<ul>
+<li>当 i = 0 时，<code>dp[i][0] i</code>一个字符到空串需要删除i次</li>
+<li>当 j = 0 时，<code>dp[0][j] j</code>个字符到空串需要删除j次</li>
+</ul>
+</li>
+<li>
+<p>遍历方向与范围:</p>
+<ul>
+<li>遍历方向: 顺序遍历</li>
+<li>范围, 注意dp数组的大小是<code>new int[s1.length+1][s2.length+1]</code> ,  由于 i=0, j=0已经初始化, 所以直接从 i=1 ,j=1开始遍历, 遍历应该在遍历完字符串的时候结束, 也就是 <code>i&lt;=s1.length ;j&lt;s2.length</code></li>
+</ul>
+</li>
+<li>
+<p>最终返回结果: 结合dp数组的含义  ,最终返回 <code>dp[w1.length][w2.length]</code></p>
+</li>
+</ol>
+<p><strong>代码如下</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">minDistance</span><span class="params">(String word1, String word2)</span> &#123;</span><br><span class="line">        <span class="type">int</span>[][]dp=<span class="keyword">new</span> <span class="title class_">int</span>[word1.length()+<span class="number">1</span>][word2.length()+<span class="number">1</span>]; </span><br><span class="line">        <span class="comment">// dp[i][j]表示  word1以i-1结尾出现的word2以j-1 结尾 达到相同 需要删除的最小次数</span></span><br><span class="line">        <span class="type">char</span>[]w1=word1.toCharArray();</span><br><span class="line">        <span class="type">char</span>[]w2=word2.toCharArray();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; dp.length; i++) &#123; <span class="comment">//初始化    i一个字符到空串需要删除i次</span></span><br><span class="line">            dp[i][<span class="number">0</span>]=i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; dp[<span class="number">0</span>].length; j++) &#123;<span class="comment">//初始化   j个字符到空串需要删除j次</span></span><br><span class="line">            dp[<span class="number">0</span>][j]=j; </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt; dp.length; i++) &#123;<span class="comment">//bagg  bag</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">1</span>; j &lt; dp[i].length; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span>(w1[i-<span class="number">1</span>]==w2[j-<span class="number">1</span>])&#123; <span class="comment">// 两个相同, 不需要删除</span></span><br><span class="line">                    dp[i][j]=dp[i-<span class="number">1</span>][j-<span class="number">1</span>];</span><br><span class="line">                &#125;<span class="keyword">else</span>&#123; <span class="comment">// 不相同 , 需要删除当前的字符  可以删除 w1[i-1][j]  w2[i][j-1]  或者都删除 =&gt;dp[i][j]=dp[i-1][j-1]+2</span></span><br><span class="line">                    dp[i][j]=Math.min(Math.min(dp[i-<span class="number">1</span>][j]+<span class="number">1</span>,dp[i-<span class="number">1</span>][j-<span class="number">1</span>]+<span class="number">2</span>),dp[i][j-<span class="number">1</span>]+<span class="number">1</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[w1.length][w2.length];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h1 id="day-18"><a class="markdownIt-Anchor" href="#day-18"></a> 👉day 18</h1>
 <h2 id="72-编辑距离"><a class="markdownIt-Anchor" href="#72-编辑距离"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/edit-distance/">72. 编辑距离</a></h2>
 <p><a target="_blank" rel="noopener" href="https://labuladong.github.io/article/?qno=72">labuladong 题解</a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/edit-distance/?plan=algorithms&amp;plan_progress=gwlb8t3#">思路</a></p>
@@ -232,13 +275,92 @@
 <li>删除一个字符</li>
 <li>替换一个字符</li>
 </ul>
+<blockquote>
+<p>本题与前面的<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/delete-operation-for-two-strings/">583. 两个字符串的删除操作</a> 非常类似</p>
+<ul>
+<li>除了一点思路之外<strong>代码与动态规划步骤</strong>相差无几</li>
+</ul>
+</blockquote>
+<p>动态规划步骤:</p>
+<ol>
+<li>
+<p>dp数组定义: 本题是两个字符串, 那么优先采用 二维数组, <code>dp[i][j]</code>表示  word1以<code>i-1</code>结尾出现的word2以<code>j-1</code>结尾 达到相同 需要删除的次数</p>
+</li>
+<li>
+<p>状态转移:</p>
+<ul>
+<li>
+<p>当<code>w1[i]</code>与<code>w2[j]</code> 相等时, <strong>此时不需要删除任何字符</strong> <code>dp[i][j]=dp[i-1][j-1]</code></p>
+</li>
+<li>
+<p>如果当前的两个字符不相同, 那么当前的dp数组的值根据之前的值得出</p>
+<ol>
+<li>删除<code>w1[i-1]</code>   对应的方程就是 <code>dp[i][j]=dp[i-1][j]+1;</code></li>
+<li>删除<code>w2[j-1]</code>   对应的方程就是 <code>dp[i][j]=dp[i][j-1]+1;</code></li>
+<li>替换元素, <strong>直接把w1 或者 w2 的当前的元素替换, 使其与另一个元素相同,</strong>  此时不需要添加或者删除元素, 操作数就是<code>dp[i][j]+1</code></li>
+</ol>
+<p>那么当然是选最小值删除, 因此递推公式为:</p>
+<p><code>dp[i][j]=Math.min(dp[i-1][j-1],Math.min(dp[i-1][j],dp[i][j-1]))+1;</code></p>
+</li>
+</ul>
+<blockquote>
+<p><strong>为什么这里都是删除元素, 没有添加元素呢?</strong></p>
+<ul>
+<li><code>word2</code>删除一个元素, 就相当于<code>word1</code>添加一个元素</li>
+</ul>
+<p><strong>举例</strong></p>
+<ul>
+<li>word1=“ad” ,word2=“a” ,</li>
+<li>word1 删除’d’ 与 word2 增加’d’  , <strong>最终的操作数是一样的</strong></li>
+</ul>
+</blockquote>
+</li>
+<li>
+<p>状态的初始化 : 初始化也就是看 <code>i=0</code>或者<code>,j=0</code>的时候,<code>dp[i][j]</code>取多少,</p>
+<ul>
+<li>当 i = 0 时，<code>dp[i][0] i</code>个字符到空串需要删除i次</li>
+<li>当 j = 0 时，<code>dp[0][j] j</code>个字符到空串需要删除j次</li>
+</ul>
+</li>
+<li>
+<p>遍历方向与范围:</p>
+<ul>
+<li>遍历方向: 顺序遍历</li>
+<li>范围, 注意dp数组的大小是<code>new int[w1.length+1][w2.length+1]</code> ,</li>
+<li>由于 i=0, j=0已经初始化, 所以直接从 i=1 ,j=1开始遍历, 遍历应该在遍历完字符串的时候结束, 也就是 <code>i&lt;=w1.length ;j&lt;=w2.length</code></li>
+</ul>
+</li>
+<li>
+<p>最终返回结果: 结合dp数组的含义  ,最终返回 <code>dp[w1.length][w2.length]</code></p>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">minDistance</span><span class="params">(String word1, String word2)</span> &#123;</span><br><span class="line">        <span class="type">int</span>[][]dp=<span class="keyword">new</span> <span class="title class_">int</span>[word1.length()+<span class="number">1</span>][word2.length()+<span class="number">1</span>]; <span class="comment">//// dp[i][j]表示  word1以i-1结尾出现的word2以j-1 结尾 达到相同 需要删除的次数</span></span><br><span class="line">        <span class="type">char</span>[]w1=word1.toCharArray();</span><br><span class="line">        <span class="type">char</span>[]w2=word2.toCharArray();</span><br><span class="line">        <span class="comment">// 变成空串只能删除</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; dp.length; i++) &#123; <span class="comment">//初始化 一个字符到空串需要删除一次 ,</span></span><br><span class="line">            dp[i][<span class="number">0</span>]=i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; dp[<span class="number">0</span>].length; j++) &#123;<span class="comment">//初始化 一个字符到空串需要删除一次</span></span><br><span class="line">            dp[<span class="number">0</span>][j]=j;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt; dp.length; i++) &#123;<span class="comment">//bagg  bag</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">1</span>; j &lt; dp[i].length; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span>(w1[i-<span class="number">1</span>]==w2[j-<span class="number">1</span>])&#123; <span class="comment">// 两个相同, 不需要操作</span></span><br><span class="line">                    dp[i][j]=dp[i-<span class="number">1</span>][j-<span class="number">1</span>];</span><br><span class="line">                &#125;<span class="keyword">else</span>&#123; <span class="comment">// 不相同 , 增/删/换  添加是相对的, w1添加,就相当于w2删除, 注意理解这一部分</span></span><br><span class="line">                    dp[i][j]=Math.min(dp[i][j-<span class="number">1</span>],Math.min(dp[i-<span class="number">1</span>][j],dp[i-<span class="number">1</span>][j-<span class="number">1</span>]))+<span class="number">1</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[w1.length][w2.length];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="322-零钱兑换"><a class="markdownIt-Anchor" href="#322-零钱兑换"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/coin-change/">322. 零钱兑换</a></h2>
 <p><a target="_blank" rel="noopener" href="https://labuladong.github.io/article/?qno=322">labuladong 题解</a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/coin-change/?plan=algorithms&amp;plan_progress=gwlb8t3#">思路</a></p>
 <p>难度中等2118</p>
 <p>给你一个整数数组 <code>coins</code> ，表示不同面额的硬币；以及一个整数 <code>amount</code> ，表示总金额。</p>
 <p>计算并返回可以凑成总金额所需的 <strong>最少的硬币个数</strong> 。如果没有任何一种硬币组合能组成总金额，返回 <code>-1</code> 。</p>
 <p>你可以认为每种硬币的数量是无限的。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## [<span class="number">343.</span> 整数拆分](https:<span class="comment">//leetcode.cn/problems/integer-break/)</span></span><br><span class="line"></span><br><span class="line">难度中等<span class="number">923</span></span><br><span class="line"></span><br><span class="line">给定一个正整数 `n` ，将其拆分为 `k` 个 **正整数** 的和（ `k &gt;= <span class="number">2</span>` ），并使这些整数的乘积最大化。</span><br><span class="line"></span><br><span class="line">返回 *你可以获得的最大乘积* 。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">- **本题的数学定理 , 对于每一项, 拆分成 <span class="number">3</span> 可以使乘积最大**</span><br><span class="line">-  对于 <span class="number">4</span> , 拆分成 <span class="number">2</span>*<span class="number">2</span> 最大(也可以直接\*<span class="number">4</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">**代码如下**</span><br><span class="line"></span><br><span class="line">```java</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">integerBreak</span><span class="params">(<span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span>(n&lt;=<span class="number">3</span> )<span class="keyword">return</span> n-<span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> res=<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span>(n&gt;<span class="number">4</span>)&#123;</span><br><span class="line">            n-=<span class="number">3</span>;</span><br><span class="line">            res*=<span class="number">3</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> n*res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>完全背包问题</strong></li>
+</ul>
+<p>1、<strong>确定 base case</strong>，显然目标金额 <code>amount</code> 为 0 时算法返回 0，因为不需要任何硬币就已经凑出目标金额了。</p>
+<p>2、<strong>确定「状态」，也就是原问题和子问题中会变化的变量</strong>。由于硬币数量无限，硬币的面额也是题目给定的，只有目标金额会不断地向 base case 靠近，所以唯一的「状态」就是目标金额 <code>amount</code>。</p>
+<p>3、<strong>确定初始化</strong> ,  凑成 <code>amount</code> 金额的***数最多只可能等于 <code>amount</code>（全用 1 元面值的***），所以初始化为 <code>amount + 1</code> 就相当于初始化为正无穷，便于后续取最小值。</p>
+<p>4、<strong>确定「选择」，也就是导致「状态」产生变化的行为</strong>。目标金额为什么变化呢，因为你在选择硬币，你每选择一枚硬币，就相当于减少了目标金额。所以说所有硬币的面值，就是你的「选择」。</p>
+<p>5、<strong>明确 <code>dp</code> 函数/数组的定义</strong>：输入一个目标金额 <code>n</code>，返回凑出目标金额 <code>n</code> 的最少硬币数量。</p>
+<p>按照 <code>dp</code> 函数的定义描述「选择」，得到最终答案 <code>dp(amount)</code>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">coinChange</span><span class="params">(<span class="type">int</span>[] coins, <span class="type">int</span> amount)</span> &#123; <span class="comment">//先物品再背包</span></span><br><span class="line">        <span class="type">int</span>[]dp=<span class="keyword">new</span> <span class="title class_">int</span>[amount+<span class="number">1</span>]; <span class="comment">// dp[i] 表示集齐i value 需要的最小的硬币的数目</span></span><br><span class="line">        Arrays.fill(dp,amount+<span class="number">1</span>);</span><br><span class="line">        dp[<span class="number">0</span>]=<span class="number">0</span>;</span><br><span class="line">        <span class="comment">// 本题 coins 的每个硬币的面额就相当于value ,  每个硬币的weight 都是1 , dp[i]的i 就相当于 bagWeight ,</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; coins.length; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> coins[i]; j &lt;= amount; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span>(dp[j-coins[i]]!=amount+<span class="number">1</span>)&#123;</span><br><span class="line">                    dp[j]=Math.min(dp[j],dp[j-coins[i]]+<span class="number">1</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[amount]==amount+<span class="number">1</span>?-<span class="number">1</span>:dp[amount];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="343-整数拆分"><a class="markdownIt-Anchor" href="#343-整数拆分"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/integer-break/">343. 整数拆分</a></h2>
+<p>难度中等923</p>
+<p>给定一个正整数 <code>n</code> ，将其拆分为 <code>k</code> 个 <strong>正整数</strong> 的和（ <code>k &gt;= 2</code> ），并使这些整数的乘积最大化。</p>
+<p>返回 <em>你可以获得的最大乘积</em> 。</p>
+<ul>
+<li><strong>本题的数学定理 , 对于每一项, 拆分成 3 可以使乘积最大</strong></li>
+<li>对于 4 , 拆分成 2*2 最大(也可以直接*4)</li>
+</ul>
+<p><strong>代码如下</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">integerBreak</span><span class="params">(<span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span>(n&lt;=<span class="number">3</span> )<span class="keyword">return</span> n-<span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> res=<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span>(n&gt;<span class="number">4</span>)&#123;</span><br><span class="line">            n-=<span class="number">3</span>;</span><br><span class="line">            res*=<span class="number">3</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> n*res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h1 id="其他题目"><a class="markdownIt-Anchor" href="#其他题目"></a> 😈其他题目</h1>
 <h2 id="91-解码方法"><a class="markdownIt-Anchor" href="#91-解码方法"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/decode-ways/">91. 解码方法</a></h2>
 <p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/decode-ways/#">思路</a></p>
@@ -265,7 +387,36 @@
 <p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220903195647054.png" alt="" /></p>
 <p><img src="https://pic.leetcode-cn.com/c09dc70d3085792b2b8417843e297f6841fd12f921b0e4fe28a2c4a8dc86dd1e-image.png" alt="" /></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">numDecodings</span><span class="params">(String s)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span>(s.length()==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="type">char</span>[]chars=s.toCharArray();</span><br><span class="line">        <span class="type">int</span> pre=<span class="number">1</span>,cur=<span class="number">1</span>; <span class="comment">// dp[-1]=dp[0]=1</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;s.length();i++)&#123;</span><br><span class="line">            <span class="type">int</span> tmp=cur;</span><br><span class="line">            <span class="keyword">if</span>(chars[i]==<span class="number">0x30</span>)&#123;</span><br><span class="line">                <span class="keyword">if</span>(chars[i-<span class="number">1</span>]==<span class="number">0x31</span>||chars[i-<span class="number">1</span>]==<span class="number">0x32</span>)&#123;</span><br><span class="line">                    cur=pre;</span><br><span class="line">                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(chars[i-<span class="number">1</span>]==<span class="number">0x31</span>||(chars[i-<span class="number">1</span>]==<span class="number">0x32</span>&amp;&amp;chars[i]&lt;=<span class="number">0x36</span>))&#123;</span><br><span class="line">                cur+=pre;</span><br><span class="line">            &#125;</span><br><span class="line">            pre=tmp;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> cur;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id=""><a class="markdownIt-Anchor" href="#"></a> </h2>
+<h2 id="115-不同的子序列"><a class="markdownIt-Anchor" href="#115-不同的子序列"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/distinct-subsequences/">115. 不同的子序列</a></h2>
+<p><a target="_blank" rel="noopener" href="https://labuladong.github.io/article/?qno=115">labuladong 题解</a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/distinct-subsequences/#">思路</a></p>
+<p>难度困难862</p>
+<p>给定一个字符串 <code>s</code> 和一个字符串 <code>t</code> ，计算在 <code>s</code> 的子序列中 <code>t</code> 出现的个数。</p>
+<p>字符串的一个 <strong>子序列</strong> 是指，通过删除一些（也可以不删除）字符且不干扰剩余字符相对位置所组成的新字符串。（例如，<code>&quot;ACE&quot;</code> 是 <code>&quot;ABCDE&quot;</code> 的一个子序列，而 <code>&quot;AEC&quot;</code> 不是）</p>
+<p>题目数据保证答案符合 32 位带符号整数范围。</p>
+<p>动态规划步骤:</p>
+<ol>
+<li>dp数组定义: 本题是两个字符串, 那么优先采用 二维数组, <code>dp[i][j]</code> 表示  s以<code>i-1</code>结尾出现的 t以<code>j-1</code> 结尾的子序列的个数</li>
+<li>状态转移:
+<ul>
+<li>当<code>s1[i]</code>与<code>s2[j]</code> 相等时, 说明两个子串的最后一位相等, 此时最长公共子序列+1  <code>dp[i][j]=dp[i-1][j-1]+1</code></li>
+<li>如果当前的两个字符不相同, 那么当前的dp数组的值根据之前的值得出, <code>dp[i][j]=Math.max(dp[i-1][j],dp[i][j-1])</code></li>
+</ul>
+</li>
+<li>状态的初始化 : 初始化也就是看 <code>i=0</code>或者<code>,j=0</code>的时候,<code>dp[i][j]</code>取多少,
+<ul>
+<li>当 i = 0 时，<code>dp[0][j]</code>表示的是 <strong>text1</strong> 中取空字符串 跟 <strong>text2</strong> 的最长公共子序列，结果肯定为 0.</li>
+<li>当 j = 0 时，<code>dp[i][0]</code>表示的是 <strong>text2</strong> 中取空字符串 跟<strong>text1</strong> 的最长公共子序列，结果肯定为 0</li>
+</ul>
+</li>
+<li>遍历方向与范围:
+<ul>
+<li>遍历方向: 顺序遍历</li>
+<li>范围, 注意dp数组的大小是<code>new int[s1.length+1][s2.length+1]</code> ,  由于 i=0, j=0已经初始化, 所以直接从 i=1 ,j=1开始遍历, 遍历应该在遍历完字符串的时候结束, 也就是 <code>i&lt;=s1.length ;j&lt;s2.length</code></li>
+</ul>
+</li>
+<li>最终返回结果: 结合dp数组的含义  ,最终返回 <code>dp[s1.length][s2.length]</code></li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">numDistinct</span><span class="params">(String s, String t)</span> &#123;</span><br><span class="line">        <span class="type">int</span>[][]dp=<span class="keyword">new</span> <span class="title class_">int</span>[s.length()+<span class="number">1</span>][t.length()+<span class="number">1</span>]; <span class="comment">// Dp[i][j]表示  s以i-1结尾出现的 t以j-1 结尾的子序列的个数</span></span><br><span class="line">        <span class="comment">// 初始化为 0,</span></span><br><span class="line">        <span class="type">char</span>[]s1=s.toCharArray();</span><br><span class="line">        <span class="type">char</span>[]t1=t.toCharArray();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; dp.length; i++) &#123; <span class="comment">// t为空串的时候, i=1 此时的s只需要删除一个字符就可以变成 t</span></span><br><span class="line">            dp[i][<span class="number">0</span>]=<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt; dp.length; i++) &#123; <span class="comment">// baegsg  bag</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">1</span>; j &lt; dp[<span class="number">0</span>].length; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span>(s1[i-<span class="number">1</span>]==t1[j-<span class="number">1</span>])&#123;</span><br><span class="line">                    dp[i][j]=dp[i-<span class="number">1</span>][j-<span class="number">1</span>]+dp[i-<span class="number">1</span>][j];</span><br><span class="line">                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                    dp[i][j]=dp[i-<span class="number">1</span>][j];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[s.length()][t.length()];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
  
       <!-- reward -->
       
