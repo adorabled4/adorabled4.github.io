@@ -164,7 +164,7 @@ P142-P153 面试题</p>
 <ul>
 <li>他就是一个独立的系统，不和外界发生联系</li>
 </ul>
-<h1 id="二-linux目录结构重点"><a class="markdownIt-Anchor" href="#二-linux目录结构重点"></a> 二、Linux目录结构（重点）</h1>
+<h1 id="二-linux目录结构️"><a class="markdownIt-Anchor" href="#二-linux目录结构️"></a> 二、Linux目录结构⭐️</h1>
 <h2 id="21基本介绍"><a class="markdownIt-Anchor" href="#21基本介绍"></a> 2.1基本介绍</h2>
 <ul>
 <li>linux的文件系统是采用级层式的树状目录结构，在此结构上的最上层是根目录“/&quot;，然后在此目录下在创建其他的目录。</li>
@@ -945,39 +945,39 @@ P142-P153 面试题</p>
 <ul>
 <li>
 <ol>
-<li>Linux来说无论有几个分区，分给哪一目录使用，它归根结底就只有一个根目录，一个独立且唯一的文件结构，Linux中每个分区都是用来组成整个文件系统的一部分</li>
+<li>Linux来说无论有几个分区，分给哪一目录使用，<strong>它归根结底就只有一个根目录，一个独立且唯一的文件结构，Linux中每个分区都是用来组成整个文件系统的一部分</strong></li>
 <li>Linux采用了一种叫”载入“的处理方法，它的整个文件系统包含了一整套的目录，且将一个分区和一个目录联系起来。这时要载入的一个分区将使它的存储空间在一个目录下获得</li>
 </ol>
 </li>
 </ul>
 </li>
 </ul>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/20210702232431315.png" alt="在这里插入图片描述" /></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/20210702232431315.png" alt="" /></p>
 <ul>
 <li>
-<p>硬盘shuo’ming</p>
+<p>硬盘</p>
 <ul>
-<li>Linux硬盘分IDE硬盘和SCSI硬盘，目前基本上是SCSI硬盘</li>
-<li>对于IDE硬盘，驱动驱动标识符为” hdx~ “，其中”hd“表明分区所在的设备类型，这里是指IDE硬盘了。”x“为盘号（a为基本盘，b为基本从属盘，c为辅助主盘，d为辅助从属盘），”~“代表分区，前四个分区用数字1到4表示，他们是主分区和拓展分区；从5开始就是逻辑分区。例，hda3表示为第一个IDE硬盘上的第三个主分区或拓展分区，hdb2表示为第二个IDE硬盘上的第二个主分区或拓展分区</li>
+<li>Linux硬盘分<strong>IDE硬盘</strong>和<strong>SCSI硬盘</strong>，目前基本上是<strong>SCSI硬盘</strong></li>
+<li>对于<strong>IDE硬盘</strong>，驱动驱动标识符为” hdx~ “，其中”hd“表明分区所在的设备类型，这里是指IDE硬盘了。”x“为盘号（a为基本盘，b为基本从属盘，c为辅助主盘，d为辅助从属盘），”~“代表分区，前四个分区用数字1到4表示，他们是主分区和拓展分区；从5开始就是逻辑分区。例，hda3表示为第一个IDE硬盘上的第三个主分区或拓展分区，hdb2表示为第二个IDE硬盘上的第二个主分区或拓展分区</li>
 <li>对于SCSI硬盘则标识为”sdx~“，SCSI硬盘是用”sd“来表示分区所在设备的类型的，其余则和IDE硬盘的标识方式一样</li>
 </ul>
 </li>
 <li>
 <p>查看所有的设备挂载情况</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">命令：lsblk  或者 lsblk -f</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">命令：lsblk  或者 lsblk -f</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/20210702232451239.png" alt="在这里插入图片描述" /></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220909092200845.png" alt="" /></p>
 <ul>
 <li>针对第二张图
 <ul>
-<li>sda下指得是分区情况
+<li><strong>sda</strong>下指得是分区情况
 <ul>
-<li>FSTYPE 指的是文件类型</li>
+<li><strong>FSTYPE</strong> 指的是文件类型</li>
 </ul>
 </li>
-<li>UUID值得是分区得唯一标识符（40个位）</li>
-<li>MOUNTPOIN 挂载点</li>
+<li><strong>UUID</strong>值得是分区得唯一标识符（40个位）</li>
+<li><strong>MOUNTPOIN</strong> 挂载点</li>
 </ul>
 </li>
 </ul>
@@ -992,7 +992,7 @@ P142-P153 面试题</p>
 <li>在vmware上实现</li>
 <li>重启虚拟机</li>
 <li>重启后的分区情况[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传<br />
-<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/20210702232544259.png" alt="在这里插入图片描述" /></li>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/20210702232544259.png" alt="" /></li>
 </ul>
 </li>
 <li>
@@ -1000,7 +1000,7 @@ P142-P153 面试题</p>
 <ul>
 <li>
 <p>分区命令</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fdisk /dev/sdb</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fdisk /dev/sdb</span><br></pre></td></tr></table></figure>
 </li>
 <li>
 <p>(dev（device)这个目录中包含了所有Linux系统中使用的外部设备。但是不是存放外部设备的驱动程序。它实际上是一个访问这些外部设备的端口就。我们可以非常方便的去访问这些外部设备，和访问一个文件，一个目录没有任何区别）</p>
@@ -1009,7 +1009,7 @@ P142-P153 面试题</p>
 <p>开始对 /sdb分区</p>
 </li>
 </ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">m	显示命令列表</span><br><span class="line">p	显示磁盘分区 同 fdisk -l</span><br><span class="line">n	新增分区</span><br><span class="line">d	删除分区</span><br><span class="line">w	写入并退出</span><br><span class="line">说明：开始分区后输入n，新增分区，然后选者p，分区类型为主分区。两次回车默认剩余全部空间。最后输入w写入分区并退出，若不保存退出输入q</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">m	显示命令列表</span><br><span class="line">p	显示磁盘分区 同 fdisk -l</span><br><span class="line">n	新增分区</span><br><span class="line">d	删除分区</span><br><span class="line">w	写入并退出</span><br><span class="line">说明：开始分区后输入n，新增分区，然后选者p，分区类型为主分区。两次回车默认剩余全部空间。最后输入w写入分区并退出，若不保存退出输入q</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/20210702232616137.png" alt="在这里插入图片描述" /></p>
@@ -1020,23 +1020,23 @@ P142-P153 面试题</p>
 <li>格式化磁盘</li>
 <li>分区命令：</li>
 </ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkfs -f ext4 /dev/sdb1</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<ul>
-<li>其中ext4是分区类型</li>
-</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkfs -f ext4 /dev/sdb1</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>其中ext4是分区类型</p>
 </li>
 </ul>
 <p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/2021070223263787.png" alt="在这里插入图片描述" /></p>
 <ul>
 <li>
 <p>4.挂载（将一个分区与一个目录联系起来）</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">挂载令： mount 设备名称 挂载目录</span><br><span class="line">！！卸载命令： umout 设备名称（或者已挂载的目录）</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">挂载令： mount 设备名称 挂载目录</span><br><span class="line">！！卸载命令： umout 设备名称（或者已挂载的目录）</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/20210702232656279.png" alt="在这里插入图片描述" /></p>
 <p>用命令行挂载，重启后就会失效</p>
 <ul>
-<li>5设置可以自动挂载
+<li>5.设置可以自动挂载
 <ul>
 <li>永久挂载：通过修改/etc/fstab实现挂载</li>
 <li>添加完成后，执行mount -a立即生效</li>
@@ -1063,12 +1063,12 @@ P142-P153 面试题</p>
 <ul>
 <li>基本语法</li>
 </ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">du 选型 /目录</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">du 选型 /目录</span><br></pre></td></tr></table></figure>
 <ul>
 <li>查询指定目录的磁盘占用情况，默认为当前目录</li>
 <li>选项</li>
 </ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">-s		指定目录占用大小汇总</span><br><span class="line">-h		带计量单位</span><br><span class="line">-a		含文件</span><br><span class="line">--max-depth=1 子目录深度</span><br><span class="line">-c 		列出明细的同时，增加汇总值</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-s		指定目录占用大小汇总</span><br><span class="line">-h		带计量单位</span><br><span class="line">-a		含文件</span><br><span class="line">--max-depth=1 子目录深度</span><br><span class="line">-c 		列出明细的同时，增加汇总值</span><br></pre></td></tr></table></figure>
 <ul>
 <li>案例：查询opt目录的磁盘占用情况，深度为1</li>
 </ul>
@@ -1081,23 +1081,27 @@ P142-P153 面试题</p>
 <ul>
 <li>
 <p>1.统计/opt文件夹下文件的个数</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ls -l /opt | grep &quot;^-&quot; | wc -l</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -l /opt | grep &quot;^-&quot; | wc -l</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
 </li>
 <li>
 <p>2.统计/opt文件夹下目录的个数</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ls -l /opt | grep &quot;^d&quot; | wc -l</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-</li>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -l /opt | grep &quot;^d&quot; | wc -l</span><br></pre></td></tr></table></figure>
+<ul>
 <li>
 <p>3.统计/opt文件夹下文件的个数，包括子文件夹里的</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ls -lR /opt | grep &quot;^-&quot; | wc -l</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -lR /opt | grep &quot;^-&quot; | wc -l</span><br></pre></td></tr></table></figure>
 </li>
 <li>
 <p>4.统计/opt文件夹下目录的个数，包括子文件夹里的</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ls -lR /opt | grep &quot;^d&quot; | wc -l</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 </li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -lR /opt | grep &quot;^d&quot; | wc -l</span><br></pre></td></tr></table></figure>
+<ul>
 <li>
 <p>5.以树状显示目录结构</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum install tree</span><br><span class="line">tree /home</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum install tree</span><br><span class="line">  tree /home</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 </li>
@@ -1244,7 +1248,7 @@ P142-P153 面试题</p>
 </li>
 <li>
 <p>以全格式显示当前所有的进程，查看进程的父进程</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ps -ef   是以全格式显示当前所有的进程</span><br><span class="line"></span><br><span class="line">-e	显示所有的进程</span><br><span class="line">-f	全格式</span><br><span class="line"></span><br><span class="line">ps -ef|grep xxx</span><br><span class="line">是BSD风格</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ps -ef   是以全格式显示当前所有的进程</span><br><span class="line"></span><br><span class="line">-e	显示所有的进程</span><br><span class="line">-f	全格式</span><br><span class="line"></span><br><span class="line">ps -ef|grep xxx</span><br><span class="line">是BSD风格</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/845ba59fa2664edf95f4df53e8cb4259.png" alt="" /></p>
