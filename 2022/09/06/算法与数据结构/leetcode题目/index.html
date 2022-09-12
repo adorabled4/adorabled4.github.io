@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">1.6k</span>
+            <span class="post-count">5k</span>
         </span>
     </span>
 
@@ -95,7 +95,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">6 分钟</span>
+            <span class="post-count">21 分钟</span>
         </span>
     </span>
 </div>
@@ -194,7 +194,7 @@
 <li>题目给的是正序数组, 因此可以考虑使用二分解法</li>
 </ul>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">double</span> <span class="title function_">findMedianSortedArrays</span><span class="params">(<span class="type">int</span>[] nums1, <span class="type">int</span>[] nums2)</span> &#123;</span><br><span class="line">        <span class="type">double</span>[]nums=<span class="keyword">new</span> <span class="title class_">double</span>[nums1.length+ nums2.length];</span><br><span class="line">        <span class="type">int</span> i=<span class="number">0</span>,p1=<span class="number">0</span>,p2=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(i&lt;nums.length&amp;&amp;p1&lt;nums1.length&amp;&amp;p2&lt;nums2.length)&#123;</span><br><span class="line">            nums[i++]=nums1[p1]&lt;nums2[p2]?nums1[p1++]:nums2[p2++];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span>(i&lt;nums.length&amp;&amp;p1&lt;nums1.length)&#123;</span><br><span class="line">            nums[i++]=nums1[p1++];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span>(i&lt;nums.length&amp;&amp;p2&lt;nums2.length)&#123;</span><br><span class="line">            nums[i++]=nums2[p2++];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> nums.length%<span class="number">2</span>==<span class="number">0</span>? (nums[nums.length/<span class="number">2</span>]+nums[nums.length/<span class="number">2</span>-<span class="number">1</span>])/<span class="number">2</span>:nums[nums.length/<span class="number">2</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="152-乘积最大子数组"><a class="markdownIt-Anchor" href="#152-乘积最大子数组"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/maximum-product-subarray/">152. 乘积最大子数组</a></h2>
+<h2 id="152-乘积最大子数组-dp"><a class="markdownIt-Anchor" href="#152-乘积最大子数组-dp"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/maximum-product-subarray/">152. 乘积最大子数组 :DP</a></h2>
 <p>难度中等1782</p>
 <p>给你一个整数数组 <code>nums</code> ，请你找出数组中乘积最大的非空连续子数组（该子数组中至少包含一个数字），并返回该子数组所对应的乘积。</p>
 <p>测试用例的答案是一个 <strong>32-位</strong> 整数。</p>
@@ -208,6 +208,219 @@
 </ul>
 <p><strong>代码如下</strong></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">maxProduct</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">max</span> <span class="operator">=</span> Integer.MIN_VALUE, imax = <span class="number">1</span>, imin = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;nums.length; i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(nums[i] &lt; <span class="number">0</span>)&#123; </span><br><span class="line">              <span class="type">int</span> <span class="variable">tmp</span> <span class="operator">=</span> imax;</span><br><span class="line">              imax = imin;</span><br><span class="line">              imin = tmp;</span><br><span class="line">            &#125;</span><br><span class="line">            imax = Math.max(imax*nums[i], nums[i]);</span><br><span class="line">            imin = Math.min(imin*nums[i], nums[i]);</span><br><span class="line">            </span><br><span class="line">            max = Math.max(max, imax);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> max;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="105-从前序与中序遍历序列构造二叉树"><a class="markdownIt-Anchor" href="#105-从前序与中序遍历序列构造二叉树"></a> 🌲<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/construct-binary-tree-from-preorder-and-inorder-traversal/">105. 从前序与中序遍历序列构造二叉树</a></h2>
+<p><a target="_blank" rel="noopener" href="https://labuladong.github.io/article/?qno=105">labuladong 题解</a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/construct-binary-tree-from-preorder-and-inorder-traversal/#">思路</a></p>
+<p>难度中等1724</p>
+<p>给定两个整数数组 <code>preorder</code> 和 <code>inorder</code> ，其中 <code>preorder</code> 是二叉树的<strong>先序遍历</strong>， <code>inorder</code> 是同一棵树的<strong>中序遍历</strong>，请构造二叉树并返回其根节点。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220910191751051.png" alt="" /></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;<span class="comment">//前序:   3 9 20 15 7 中序: 9 3 15 20 7</span></span><br><span class="line"><span class="comment">/*前序遍历的第一个节点就是根节点, 需要通过中序遍历来判断当前的子树是否结束</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">    <span class="type">int</span> preIdx=<span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> inIdx=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">public</span> TreeNode <span class="title function_">buildTree</span><span class="params">(<span class="type">int</span>[] preorder, <span class="type">int</span>[] inorder)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> dfs(<span class="literal">null</span>,preorder,inorder);</span><br><span class="line">    &#125;</span><br><span class="line">    TreeNode <span class="title function_">dfs</span><span class="params">(TreeNode finish,<span class="type">int</span>[]preorder,<span class="type">int</span>[]inorder)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(preIdx&gt;=preorder.length||(finish!=<span class="literal">null</span>&amp;&amp;inorder[inIdx]==finish.val))</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">null</span>;<span class="comment">// 遍历完了</span></span><br><span class="line">        TreeNode root=<span class="keyword">new</span> <span class="title class_">TreeNode</span>(preorder[preIdx++]);</span><br><span class="line">        root.left=dfs(root,preorder,inorder);</span><br><span class="line">        inIdx++;</span><br><span class="line">        root.right=dfs(finish,preorder,inorder);</span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="889-根据前序和后序遍历构造二叉树"><a class="markdownIt-Anchor" href="#889-根据前序和后序遍历构造二叉树"></a> 🌲<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/construct-binary-tree-from-preorder-and-postorder-traversal/">889. 根据前序和后序遍历构造二叉树</a></h2>
+<p><a target="_blank" rel="noopener" href="https://labuladong.github.io/article/?qno=889">labuladong 题解</a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/construct-binary-tree-from-preorder-and-postorder-traversal/#">思路</a></p>
+<p>难度中等275</p>
+<p>给定两个整数数组，<code>preorder</code> 和 <code>postorder</code> ，其中 <code>preorder</code> 是一个具有 <strong>无重复</strong> 值的二叉树的前序遍历，<code>postorder</code> 是同一棵树的后序遍历，重构并返回二叉树。</p>
+<p>如果存在多个答案，您可以返回其中 <strong>任何</strong> 一个。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220910191854012.png" alt="" /></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> TreeNode <span class="title function_">constructFromPrePost</span><span class="params">(<span class="type">int</span>[] preorder, <span class="type">int</span>[] postorder)</span> &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id=""><a class="markdownIt-Anchor" href="#"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/construct-binary-tree-from-inorder-and-postorder-traversal/">🌲106. 从中序与后序遍历序列构造二叉树</a></h2>
+<p><a target="_blank" rel="noopener" href="https://labuladong.github.io/article/?qno=106">labuladong 题解</a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/construct-binary-tree-from-inorder-and-postorder-traversal/#">思路</a></p>
+<p>难度中等835</p>
+<p>给定两个整数数组 <code>inorder</code> 和 <code>postorder</code> ，其中 <code>inorder</code> 是二叉树的中序遍历， <code>postorder</code> 是同一棵树的后序遍历，请你构造并返回这颗 <em>二叉树</em> 。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220910191908432.png" alt="" /></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> TreeNode <span class="title function_">buildTree</span><span class="params">(<span class="type">int</span>[] inorder, <span class="type">int</span>[] postorder)</span> &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="120-三角形最小路径和-dp"><a class="markdownIt-Anchor" href="#120-三角形最小路径和-dp"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/triangle/">120. 三角形最小路径和 :DP</a></h2>
+<p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/triangle/#">思路</a></p>
+<p>难度中等1101</p>
+<p>给定一个三角形 <code>triangle</code> ，找出自顶向下的最小路径和。</p>
+<p>每一步只能移动到下一行中相邻的结点上。<strong>相邻的结点</strong> 在这里指的是 <strong>下标</strong> 与 <strong>上一层结点下标</strong> 相同或者等于 <strong>上一层结点下标 + 1</strong> 的两个结点。也就是说，如果正位于当前行的下标 <code>i</code> ，那么下一步可以移动到下一行的下标 <code>i</code> 或 <code>i + 1</code></p>
+<p><strong>本题需要用到自底向上DP</strong></p>
+<p><strong>二维数组解法 :</strong></p>
+<ul>
+<li>便于理解</li>
+</ul>
+<blockquote>
+<p>由于题目给的三角形的特殊性, 自底向上的最终目标一定是顶点</p>
+</blockquote>
+<ol>
+<li>
+<p>dp数组 : <code>dp[i][j]</code> 表示的是 从最后一行到第<code>i</code> 行的<code>[j]位置</code>最短路径 ,</p>
+</li>
+<li>
+<p>状态转移 : 从最后一行走到当前行的最短路径 = 当前元素在下一行的相邻元素的较小值</p>
+<p>状态转移方程为: <code>dp[i][j]=Math.min(dp[i+1][j],dp[i+1][j+1]) + triangle.get(i).get(j)</code></p>
+</li>
+<li>
+<p>dp数组初始化: 初始化数组的规模为 <code>new int[n+1][n+1]</code> , 防止越界, 在计算最后一层的时候由于多了一层0 ,所以不用担心会多算的问题</p>
+</li>
+<li>
+<p>遍历范围以及方向:</p>
+<ul>
+<li>范围 : 纵向: <code>[n-1,0]</code> , 横向: <code>[0,i]</code></li>
+<li>方向 :自底向上遍历, 反向求出最小的路径</li>
+</ul>
+</li>
+<li>
+<p>返回结果, <code>return dp[0][0]</code></p>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">minimumTotal</span><span class="params">(List&lt;List&lt;Integer&gt;&gt; triangle)</span> &#123;  <span class="comment">//这个 list 就是个二维数组</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span>triangle.size(); <span class="comment">// 表示行数</span></span><br><span class="line">        <span class="type">int</span> [][]dp =<span class="keyword">new</span> <span class="title class_">int</span>[n+<span class="number">1</span>][n+<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=n-<span class="number">1</span>;i&gt;=<span class="number">0</span>;i--)&#123;<span class="comment">// 自底向上DP , 通过dp数组的下一行的元素与当前的list中的元素累加,最终得到dp[0][0]    </span></span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt;=i ; j++) &#123;</span><br><span class="line">                dp[i][j]=Math.min(dp[i+<span class="number">1</span>][j],dp[i+<span class="number">1</span>][j+<span class="number">1</span>]) + triangle.get(i).get(j);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[<span class="number">0</span>][<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>一维数组解法</strong></p>
+<ul>
+<li>
+<p>我们在状态转移的过程中发现当前的元素只与上一层的元素有关, 之前的元素的空间相当于都浪费了, 因此可以选择直接覆盖上一层的结果</p>
+<p>将空间复杂度由 <em>O(n<sup>2</sup>)</em> 降低至<em>O(n)</em></p>
+</li>
+</ul>
+<blockquote>
+<p>思路与二维数组的思路是完全相同的, 只是优化写法</p>
+</blockquote>
+<p><strong>代码如下</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">minimumTotal</span><span class="params">(List&lt;List&lt;Integer&gt;&gt; list)</span> &#123;  <span class="comment">//这个 list 就是个二维数组</span></span><br><span class="line">        <span class="type">int</span> n=list.size();</span><br><span class="line">        <span class="type">int</span>[]dp=<span class="keyword">new</span> <span class="title class_">int</span>[n+<span class="number">1</span>]; <span class="comment">//dp[i] 表示的是第i 层的最小路径</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> n - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt;=i ; j++) &#123;</span><br><span class="line">                dp[j]=list.get(i).get(j)+Math.min(dp[j],dp[j+<span class="number">1</span>]); <span class="comment">// 当前层的最小路径 </span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[<span class="number">0</span>]; <span class="comment">// 自底向上 DP , 最终返回dp[0]</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="655-输出二叉树"><a class="markdownIt-Anchor" href="#655-输出二叉树"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/print-binary-tree/">655. 输出二叉树</a></h2>
+<blockquote>
+<p><strong>本题需要注意题目给的提示</strong></p>
+</blockquote>
+<p>难度中等202</p>
+<p>给你一棵二叉树的根节点 <code>root</code> ，请你构造一个下标从 <strong>0</strong> 开始、大小为 <code>m x n</code> 的字符串矩阵 <code>res</code> ，用以表示树的 <strong>格式化布局</strong> 。构造此格式化布局矩阵需要遵循以下规则：</p>
+<ul>
+<li>树的 <strong>高度</strong> 为 <code>height</code> ，矩阵的行数 <code>m</code> 应该等于 <code>height + 1</code> 。</li>
+<li>矩阵的列数 <code>n</code> 应该等于 <code>2height+1 - 1</code> 。</li>
+<li><strong>根节点</strong> 需要放置在 <strong>顶行</strong> 的 <strong>正中间</strong> ，对应位置为 <code>res[0][(n-1)/2]</code> 。</li>
+<li>对于放置在矩阵中的每个节点，设对应位置为 <code>res[r][c]</code> ，将其左子节点放置在 <code>res[r+1][c-2height-r-1]</code> ，右子节点放置在 <code>res[r+1][c+2height-r-1]</code> 。</li>
+<li>继续这一过程，直到树中的所有节点都妥善放置。</li>
+<li>任意空单元格都应该包含空字符串 <code>&quot;&quot;</code> 。</li>
+</ul>
+<p>返回构造得到的矩阵 <code>res</code> 。</p>
+<p><u>根据题目的提示, 可以想到先用二维数组来操作元素, 然后再将其存入<code>List</code>中</u></p>
+<p><strong>步骤</strong></p>
+<ol>
+<li>
+<p>通过<code>int depth(TreeNode root )</code> 求出二叉树的深度与宽度</p>
+<p>这里视 单个节点的高度为<code>1</code></p>
+<p><code>height=depth(root) , wide= Math.pow(2,height)-1;</code></p>
+</li>
+<li>
+<p>初始化矩阵,</p>
+<ul>
+<li>
+<p>初始化矩阵的大小</p>
+<blockquote>
+<p>注意这里矩阵的规格与二叉树的高度宽度的关系 :<code>m=hegiht</code> ,<code>n=Math.pow(2,m)-1</code></p>
+</blockquote>
+</li>
+<li>
+<p>填充元素 : 利用<code>Arrays.fill()</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p>递归填充矩阵</p>
+<ul>
+<li>
+<p><code>matrix[0][(n-1)/2]=String.valueOf(root.val);</code></p>
+</li>
+<li>
+<p>根据题目的提示 分别递归左右孩子即可</p>
+<p><code>dfs(root.right,r+1, (int) (c+Math.pow(2,m-2-r)));</code></p>
+<p><code>dfs(root.left,r+1, (int) (c-Math.pow(2,m-2-r)));</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p>将矩阵的元素复制到<code>List</code>并返回</p>
+</li>
+</ol>
+<blockquote>
+<p>注意<code>Arrays.fill()</code>不能直接填充二维矩阵</p>
+</blockquote>
+<p><strong>代码如下</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    String[][]matrix;</span><br><span class="line">    <span class="type">int</span> m,n; <span class="comment">// 分别表示二叉树的深度以及宽度  n=pow(2,m)-1; 依照题意: m=height+1 n=2^(height+1) -1</span></span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;String&gt;&gt; <span class="title function_">printTree</span><span class="params">(TreeNode root)</span> &#123;</span><br><span class="line">        m=depth(root); <span class="comment">// 先求出 二叉树的深度 , 通过树的深度 求出宽度 len= pow(2,depth)-1 ;</span></span><br><span class="line">        n= (<span class="type">int</span>) (Math.pow(<span class="number">2</span>,m)-<span class="number">1</span>);</span><br><span class="line">        matrix=<span class="keyword">new</span> <span class="title class_">String</span>[m][n];</span><br><span class="line">        <span class="keyword">for</span> (String[] strings : matrix) &#123;</span><br><span class="line">            Arrays.fill(strings,<span class="string">&quot;&quot;</span>);<span class="comment">// 先填充好所有的位置为 空字符串 , 然后修改相应位置的元素即可</span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="comment">//        </span></span><br><span class="line">        dfs(root,<span class="number">0</span>,(n-<span class="number">1</span>)/<span class="number">2</span>);</span><br><span class="line">        List&lt;List&lt;String&gt;&gt; res=<span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (String[] strings : matrix) &#123;</span><br><span class="line">            List&lt;String&gt; track=<span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">            <span class="keyword">for</span>(String s:strings)&#123;</span><br><span class="line">                track.add(s);</span><br><span class="line">            &#125;</span><br><span class="line">            res.add(track);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">dfs</span><span class="params">(TreeNode root,<span class="type">int</span> r,<span class="type">int</span> c)</span>&#123;<span class="comment">// 递归填充矩阵</span></span><br><span class="line">        <span class="keyword">if</span>(root==<span class="literal">null</span>||r&gt;=m||c&gt;=n) <span class="keyword">return</span>; <span class="comment">// 节点为空或者 越界 就return</span></span><br><span class="line">        matrix[r][c]= String.valueOf(root.val);</span><br><span class="line">        dfs(root.left,r+<span class="number">1</span>, (<span class="type">int</span>) (c-Math.pow(<span class="number">2</span>,m-<span class="number">2</span>-r)));</span><br><span class="line">        dfs(root.right,r+<span class="number">1</span>, (<span class="type">int</span>) (c+Math.pow(<span class="number">2</span>,m-<span class="number">2</span>-r)));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> <span class="title function_">depth</span><span class="params">(TreeNode root)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(root==<span class="literal">null</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">return</span> Math.max(depth(root.left),depth(root.right))+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="1567-乘积为正数的最长子数组长度dp"><a class="markdownIt-Anchor" href="#1567-乘积为正数的最长子数组长度dp"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/maximum-length-of-subarray-with-positive-product/">1567. 乘积为正数的最长子数组长度:DP</a></h2>
+<p>难度中等177</p>
+<p>给你一个整数数组 <code>nums</code> ，请你求出乘积为正数的最长子数组的长度。</p>
+<p>一个数组的子数组是由原数组中零个或者更多个连续数字组成的数组。</p>
+<p>请你返回乘积为正数的最长子数组长度。</p>
+<ol>
+<li>
+<p>dp数组定义:  定义两个规模与nums 相当的数组</p>
+<p><code>pos[i]</code>表示下标为0~i的元素的乘积为 正数的子数组的长度<br />
+<code>neg[i]</code>表示下标为0~i的元素的乘积为 负数的子数组的长度</p>
+</li>
+<li>
+<p>状态转移: 对于当前的<code>nums[i]</code></p>
+<ul>
+<li>
+<p><code>nums[i]&gt;0</code> :</p>
+<p><code>pos[i]=pos[i-1]+1;</code>  正数直接就是之前的长度+1<br />
+<code>neg[i]=neg[i-1]&gt;0?neg[i-1]+1:0;</code> // 负数乘以一个正数还是负数</p>
+</li>
+<li>
+<p><code>nums[i]=0</code> : <code>pos[i]=0; neg[i]=0;</code>  0直接截断之前的数组</p>
+</li>
+<li>
+<p><code>nums[i]&lt;0</code> :</p>
+<p>如果之前的负数子数组的最大长度不小于0 , <strong>那么正数序列就是 负数子数组+1 ,否则为0</strong></p>
+<p>负数序列的长度= 之前的正数序列的长度+1</p>
+</li>
+</ul>
+</li>
+<li>
+<p>dp数组初始化:</p>
+</li>
+</ol>
+<ul>
+<li>
+<p>初始化<code>pos[]</code> ,<code>neg[]</code> , 回顾dp数组的定义, 可以得出初始化方式为</p>
+<p><code>pos[i]=nums[i]&gt;0?1:0;</code> <code>neg[i]=nums[i]&lt;0?1:0;</code></p>
+</li>
+</ul>
+<ol start="4">
+<li>返回值: 在dp的过程中维护<code>res</code> , 作为乘积为正数的最长的子数组的规模 ,最后返回即可</li>
+</ol>
+<p><strong>代码如下</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getMaxLen</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;</span><br><span class="line">        <span class="type">int</span>[]pos=<span class="keyword">new</span> <span class="title class_">int</span>[nums.length];<span class="comment">// pos[i]表示下标为0~i的元素的乘积为 正数的子数组的长度</span></span><br><span class="line">        <span class="type">int</span>[]neg=<span class="keyword">new</span> <span class="title class_">int</span>[nums.length];<span class="comment">// neg[i]表示下标为0~i的元素的乘积为 负数的子数组的长度</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            pos[i]=nums[i]&gt;<span class="number">0</span>?<span class="number">1</span>:<span class="number">0</span>;</span><br><span class="line">            neg[i]=nums[i]&lt;<span class="number">0</span>?<span class="number">1</span>:<span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span> res=pos[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span>(nums[i]&gt;<span class="number">0</span>)&#123;</span><br><span class="line">                pos[i]=pos[i-<span class="number">1</span>]+<span class="number">1</span>;</span><br><span class="line">                neg[i]=neg[i-<span class="number">1</span>]&gt;<span class="number">0</span>?neg[i-<span class="number">1</span>]+<span class="number">1</span>:<span class="number">0</span>; <span class="comment">// 负数乘以一个正数还是负数</span></span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(nums[i]==<span class="number">0</span>)&#123;</span><br><span class="line">                pos[i]=<span class="number">0</span>;</span><br><span class="line">                neg[i]=<span class="number">0</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123; <span class="comment">//nums[i] &lt; 0</span></span><br><span class="line">                pos[i]=neg[i-<span class="number">1</span>]&gt;<span class="number">0</span>?neg[i-<span class="number">1</span>]+<span class="number">1</span>:<span class="number">0</span>; <span class="comment">// 如果之前的负数序列的长度不为0 , 那么正数序列就 +1 ,否则为0</span></span><br><span class="line">                neg[i]=pos[i-<span class="number">1</span>]+<span class="number">1</span>; <span class="comment">// 负数序列的长度= 之前的正数序列的长度+1</span></span><br><span class="line">            &#125;</span><br><span class="line">            res=Math.max(res,pos[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="740-删除并获得点数-dp"><a class="markdownIt-Anchor" href="#740-删除并获得点数-dp"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/delete-and-earn/">740. 删除并获得点数 : DP</a></h2>
+<p>难度中等675</p>
+<p>给你一个整数数组 <code>nums</code> ，你可以对它进行一些操作。</p>
+<p>每次操作中，选择任意一个 <code>nums[i]</code> ，删除它并获得 <code>nums[i]</code> 的点数。之后，你必须删除 <strong>所有</strong> 等于 <code>nums[i] - 1</code> 和 <code>nums[i] + 1</code> 的元素。</p>
+<p>开始你拥有 <code>0</code> 个点数。返回你能通过这些操作获得的最大点数。</p>
+<blockquote>
+<p>本题的精髓是把题目转换成打家劫舍的问题</p>
+<ul>
+<li><em>在偷了三处村庄后这个小偷有来到了第四个村庄进行偷窃。他发现这个村庄得居民变得聪明了，将房屋打乱了顺序，并且报警器也变得更加得灵敏，在偷了<code>5块钱后</code>，偷<code>6块钱</code>跟<code>4块钱</code>它都会报警，但是由于性能的提升，报警器也有&quot;bug&quot;, 那就是偷了<code>5块钱后</code>继续偷<code>5块钱</code> 报警器不会触发。这小偷还是个程序员呢！&quot;</em></li>
+</ul>
+</blockquote>
+<p>话不多说, 直接上代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">deleteAndEarn</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;</span><br><span class="line">        <span class="comment">// 将 每个值 都存储起来,那么如果我们使用了trans[i] , 那么就不能使用 trans[i-1] 以及trans[i+1]</span></span><br><span class="line">        <span class="type">int</span>[]trans=<span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">10001</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> num : nums) &#123;</span><br><span class="line">            trans[num] += num;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span>[]dp=<span class="keyword">new</span> <span class="title class_">int</span>[trans.length+<span class="number">1</span>];<span class="comment">//dp[i]表示前i 个房间的最大的抢劫的金额</span></span><br><span class="line">        <span class="comment">//状态转移: dp[i]= Math.max(dp[i-1],trans[i]+dp[i-2])</span></span><br><span class="line">        dp[<span class="number">0</span>]=<span class="number">0</span>;</span><br><span class="line">        dp[<span class="number">1</span>]=trans[<span class="number">0</span>];</span><br><span class="line">        <span class="type">int</span> res=dp[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">2</span>; i &lt; dp.length; i++) &#123;</span><br><span class="line">            dp[i]=Math.max(dp[i-<span class="number">1</span>],trans[i-<span class="number">1</span>]+dp[i-<span class="number">2</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[dp.length-<span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="918-环形子数组的最大和"><a class="markdownIt-Anchor" href="#918-环形子数组的最大和"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/maximum-sum-circular-subarray/">918. 环形子数组的最大和</a></h2>
+<p>难度中等404</p>
+<p>给定一个长度为 <code>n</code> 的<strong>环形整数数组</strong> <code>nums</code> ，返回 <em><code>nums</code> 的非空 <strong>子数组</strong> 的最大可能和</em> 。</p>
+<p><strong>环形数组</strong> 意味着数组的末端将会与开头相连呈环状。形式上， <code>nums[i]</code> 的下一个元素是 <code>nums[(i + 1) % n]</code> ， <code>nums[i]</code> 的前一个元素是 <code>nums[(i - 1 + n) % n]</code> 。</p>
+<p><strong>子数组</strong> 最多只能包含固定缓冲区 <code>nums</code> 中的每个元素一次。形式上，对于子数组 <code>nums[i], nums[i + 1], ..., nums[j]</code> ，不存在 <code>i &lt;= k1, k2 &lt;= j</code> 其中 <code>k1 % n == k2 % n</code> 。</p>
+<p>思路:</p>
+<p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/maximum-sum-circular-subarray/solution/wo-hua-yi-bian-jiu-kan-dong-de-ti-jie-ni-892u/">我花一遍就看懂的题解，你也可以！ - 环形子数组的最大和 - 力扣（LeetCode）</a></p>
+<p>题目相较于<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/maximum-subarray/">53. 最大子数组和 - 力扣（LeetCode）</a>, 也就是多了一种情况:</p>
+<blockquote>
+<p>第一种情况：这个子数组不是环状的，就是说首尾不相连。<br />
+第二种情况：这个子数组一部分在首部，一部分在尾部，我们可以将这第二种情况转换成第一种情况</p>
+</blockquote>
+ <img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220912205625856.png" style="zoom:80%;" />
+<p><strong>所以这最大的环形子数组和 = max(最大子数组和，数组总和-最小子数组和)</strong></p>
+<p>**证明如下: **</p>
+<blockquote>
+<p><em>证明一下第二种情况（最大子数组是环形的）</em><br />
+<em>max<code>(前缀数组+后缀数组)</code></em><br />
+<em>= max(数组总和 - subarray) <code>subarray指的是前缀数组和后缀数组中间的数组</code></em><br />
+<em>= 数组总和 + max(-subarray) <code>数组总和是不变的，直接提出来</code></em></p>
+<p>​	<em>= 数组总和 - min(subarry) <code>。。。这个都懂吧，把负号提出来，max变成min</code></em></p>
+<p><em><strong>极端情况</strong>：</em></p>
+<ul>
+<li><em>如果说这数组的所有数都是负数，那么上面的公式还需要变一下，</em>*</li>
+<li>*<em>因为这种情况，对于上面的第一种情况sum会等于数组中的最大值，</em></li>
+<li><em>而对二种情况sum=0（最小的子数组就是本数组，total-total=0）。</em></li>
+<li><em>所以多加一个case，判断最大子数组和是否小于0，小于0，直接返回该maxSubArray</em></li>
+</ul>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">maxSubarraySumCircular</span><span class="params">(<span class="type">int</span>[] A)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">total</span> <span class="operator">=</span> <span class="number">0</span>, maxSum = A[<span class="number">0</span>], curMax = <span class="number">0</span>, minSum = A[<span class="number">0</span>], curMin = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> a : A) &#123;</span><br><span class="line">            curMax = Math.max(curMax + a, a);</span><br><span class="line">            maxSum = Math.max(maxSum, curMax);</span><br><span class="line">            curMin = Math.min(curMin + a, a);</span><br><span class="line">            minSum = Math.min(minSum, curMin);</span><br><span class="line">            total += a;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> maxSum &gt; <span class="number">0</span> ? Math.max(maxSum, total - minSum) : maxSum;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
  
       <!-- reward -->
       
@@ -277,7 +490,7 @@
 </div>
 
 <div id="share-mask"></div>  
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">算法与数据结构</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%93%BE%E8%A1%A8/" rel="tag">链表</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DFS/" rel="tag">DFS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%91/" rel="tag">树</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">算法与数据结构</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%93%BE%E8%A1%A8/" rel="tag">链表</a></li></ul>
 
     </footer>
   </div>
