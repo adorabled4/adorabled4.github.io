@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+  
+
+    <head>
+      <meta charset="utf-8" />
+       
+      <meta name="keywords" content="DFS,BFS,java, 双指针, 算法与数据结构, hexo, 回溯, 树, 队列, mybatis, javaweb, Spring, cpp, leetcode, 栈, 位运算, 链表, 数据库, springmvc, 动态规划, 贪心" />
+       
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>MySQL(2) |  dhx_&#39;blog</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220820231738085.png" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      
+<link rel="stylesheet" href="/css/fonts/remixicon.css">
+
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.staticfile.org/pace/1.2.4/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+      </style>
+    </head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-SQL/MySQL/Day02"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  MySQL(2)
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/06/27/SQL/MySQL/Day02/" class="article-date">
+  <time datetime="2022-06-27T13:38:46.000Z" itemprop="datePublished">2022-06-27</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/SQL/">SQL</a> / <a class="article-category-link" href="/categories/SQL/SQL/">SQL</a> / <a class="article-category-link" href="/categories/SQL/SQL/MySQL/">MySQL</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">6.9k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">33 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="mysql-day02"><a class="markdownIt-Anchor" href="#mysql-day02"></a> MySQL day02</h1>
+<h2 id="1-关于查询结果集的去重"><a class="markdownIt-Anchor" href="#1-关于查询结果集的去重"></a> 1、关于查询结果集的去重？</h2>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// select job from emp group by job;</span></span><br><span class="line">mysql&gt; select distinct job from emp; <span class="comment">// distinct关键字去除重复记录。</span></span><br><span class="line">+-----------+</span><br><span class="line">| job       |</span><br><span class="line">+-----------+</span><br><span class="line">| CLERK     |</span><br><span class="line">| SALESMAN  |</span><br><span class="line">| MANAGER   |</span><br><span class="line">| ANALYST   |</span><br><span class="line">| PRESIDENT |</span><br><span class="line">+-----------+	</span><br><span class="line"></span><br><span class="line">mysql&gt; select ename,distinct job from emp;</span><br><span class="line">以上的sql语句是错误的。</span><br><span class="line">记住：distinct只能出现在所有字段的最前面。</span><br><span class="line"></span><br><span class="line">mysql&gt; select distinct deptno,job from emp;</span><br><span class="line">+--------+-----------+</span><br><span class="line">| deptno | job       |</span><br><span class="line">+--------+-----------+</span><br><span class="line">|     <span class="number">20</span> | CLERK     |</span><br><span class="line">|     <span class="number">30</span> | SALESMAN  |</span><br><span class="line">|     <span class="number">20</span> | MANAGER   |</span><br><span class="line">|     <span class="number">30</span> | MANAGER   |</span><br><span class="line">|     <span class="number">10</span> | MANAGER   |</span><br><span class="line">|     <span class="number">20</span> | ANALYST   |</span><br><span class="line">|     <span class="number">10</span> | PRESIDENT |</span><br><span class="line">|     <span class="number">30</span> | CLERK     |</span><br><span class="line">|     <span class="number">10</span> | CLERK     |</span><br><span class="line">+--------+-----------+</span><br><span class="line"></span><br><span class="line">案例：统计岗位的数量？</span><br><span class="line">select <span class="title function_">count</span><span class="params">(distinct job)</span> from emp;</span><br><span class="line"></span><br><span class="line">+---------------------+</span><br><span class="line">| count(distinct job) |</span><br><span class="line">+---------------------+</span><br><span class="line">|                   <span class="number">5</span> |</span><br><span class="line">+---------------------+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="2-连接查询"><a class="markdownIt-Anchor" href="#2-连接查询"></a> 2、连接查询</h2>
+<h3 id="21-什么是连接查询"><a class="markdownIt-Anchor" href="#21-什么是连接查询"></a> 2.1、什么是连接查询？</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">在实际开发中，大部分的情况下都不是从单表中查询数据，一般都是多张表联合查询取出最终的结果。</span><br><span class="line">在实际开发中，一般一个业务都会对应多张表，比如：学生和班级，起码两张表。</span><br><span class="line">stuno		stuname			classno		classname</span><br><span class="line">-----------------------------------------------------------------------------------</span><br><span class="line">1			zs					1				北京大兴区亦庄经济技术开发区第二中学高三1班</span><br><span class="line">2			ls					1				北京大兴区亦庄经济技术开发区第二中学高三1班</span><br><span class="line">	...</span><br><span class="line">	学生和班级信息存储到一张表中，结果就像上面一样，数据会存在大量的重复，导致数据的冗余。</span><br></pre></td></tr></table></figure>
+<h3 id="22-连接查询的分类"><a class="markdownIt-Anchor" href="#22-连接查询的分类"></a> 2.2、连接查询的分类？</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">根据语法出现的年代来划分的话，包括：</span><br><span class="line">	SQL92（一些老的DBA可能还在使用这种语法。DBA：DataBase Administrator，数据库管理员）</span><br><span class="line">	SQL99（比较新的语法）</span><br><span class="line"></span><br><span class="line">根据表的连接方式来划分，包括：</span><br><span class="line">	内连接：</span><br><span class="line">		等值连接</span><br><span class="line">		非等值连接</span><br><span class="line">		自连接</span><br><span class="line">	外连接：</span><br><span class="line">		左外连接（左连接）</span><br><span class="line">		右外连接（右连接）</span><br><span class="line">	全连接（这个不讲，很少用！）</span><br></pre></td></tr></table></figure>
+<h3 id="23-在表的连接查询方面有一种现象被称为笛卡尔积现象-笛卡尔乘积现象"><a class="markdownIt-Anchor" href="#23-在表的连接查询方面有一种现象被称为笛卡尔积现象-笛卡尔乘积现象"></a> 2.3、在表的连接查询方面有一种现象被称为：<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E7%AC%9B%E5%8D%A1%E5%B0%94%E7%A7%AF&amp;spm=1001.2101.3001.7020">笛卡尔积</a>现象。（笛卡尔乘积现象）</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">案例：找出每一个员工的部门名称，要求显示员工名和部门名。</span><br><span class="line">EMP表</span><br><span class="line">+--------+--------+</span><br><span class="line">| ename  | deptno |</span><br><span class="line">+--------+--------+</span><br><span class="line">| SMITH  |     20 |</span><br><span class="line">| ALLEN  |     30 |</span><br><span class="line">| WARD   |     30 |</span><br><span class="line">| JONES  |     20 |</span><br><span class="line">| MARTIN |     30 |</span><br><span class="line">| BLAKE  |     30 |</span><br><span class="line">| CLARK  |     10 |</span><br><span class="line">| SCOTT  |     20 |</span><br><span class="line">| KING   |     10 |</span><br><span class="line">| TURNER |     30 |</span><br><span class="line">| ADAMS  |     20 |</span><br><span class="line">| JAMES  |     30 |</span><br><span class="line">| FORD   |     20 |</span><br><span class="line">| MILLER |     10 |</span><br><span class="line">+--------+--------+</span><br><span class="line">DEPT表</span><br><span class="line">+--------+------------+----------+</span><br><span class="line">| DEPTNO | DNAME      | LOC      |</span><br><span class="line">+--------+------------+----------+</span><br><span class="line">|     10 | ACCOUNTING | NEW YORK |</span><br><span class="line">|     20 | RESEARCH   | DALLAS   |</span><br><span class="line">|     30 | SALES      | CHICAGO  |</span><br><span class="line">|     40 | OPERATIONS | BOSTON   |</span><br><span class="line">+--------+------------+----------+</span><br><span class="line"></span><br><span class="line">select ename,dname from emp,dept;</span><br><span class="line">+--------+------------+</span><br><span class="line">| ename  | dname      |</span><br><span class="line">+--------+------------+</span><br><span class="line">| SMITH  | ACCOUNTING |</span><br><span class="line">| SMITH  | RESEARCH   |</span><br><span class="line">| SMITH  | SALES      |</span><br><span class="line">| SMITH  | OPERATIONS |</span><br><span class="line">| ALLEN  | ACCOUNTING |</span><br><span class="line">| ALLEN  | RESEARCH   |</span><br><span class="line">| ALLEN  | SALES      |</span><br><span class="line">| ALLEN  | OPERATIONS |</span><br><span class="line">............</span><br><span class="line">56 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">笛卡尔积现象：当两张表进行连接查询的时候，没有任何条件进行限制，最终的查询结果条数是两张表记录条数的乘积。</span><br><span class="line"></span><br><span class="line">关于表的别名：</span><br><span class="line">	select e.ename,d.dname from emp e,dept d;</span><br><span class="line">	表的别名有什么好处？</span><br><span class="line">		第一：执行效率高。</span><br><span class="line">		第二：可读性好。</span><br></pre></td></tr></table></figure>
+<h3 id="24-怎么避免笛卡尔积现象当然是加条件进行过滤"><a class="markdownIt-Anchor" href="#24-怎么避免笛卡尔积现象当然是加条件进行过滤"></a> 2.4、怎么避免笛卡尔积现象？当然是加条件进行过滤。</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">思考：避免了笛卡尔积现象，会减少记录的匹配次数吗？</span><br><span class="line">	不会，次数还是56次。只不过显示的是有效记录。</span><br><span class="line"></span><br><span class="line">案例：找出每一个员工的部门名称，要求显示员工名和部门名。</span><br><span class="line">	select	</span><br><span class="line">		e.ename,d.dname</span><br><span class="line">	from</span><br><span class="line">		emp e , dept d</span><br><span class="line">	where</span><br><span class="line">		e.deptno = d.deptno; //SQL92，以后不用。</span><br><span class="line"></span><br><span class="line">	+--------+------------+</span><br><span class="line">	| ename  | dname      |</span><br><span class="line">	+--------+------------+</span><br><span class="line">	| CLARK  | ACCOUNTING |</span><br><span class="line">	| KING   | ACCOUNTING |</span><br><span class="line">	| MILLER | ACCOUNTING |</span><br><span class="line">	| SMITH  | RESEARCH   |</span><br><span class="line">	| JONES  | RESEARCH   |</span><br><span class="line">	| SCOTT  | RESEARCH   |</span><br><span class="line">	| ADAMS  | RESEARCH   |</span><br><span class="line">	| FORD   | RESEARCH   |</span><br><span class="line">	| ALLEN  | SALES      |</span><br><span class="line">	| WARD   | SALES      |</span><br><span class="line">	| MARTIN | SALES      |</span><br><span class="line">	| BLAKE  | SALES      |</span><br><span class="line">	| TURNER | SALES      |</span><br><span class="line">	| JAMES  | SALES      |</span><br><span class="line">	+--------+------------+</span><br><span class="line">1234567891011121314151617181920212223242526272829</span><br></pre></td></tr></table></figure>
+<h3 id="25-内连接之等值连接最大特点是条件是等量关系"><a class="markdownIt-Anchor" href="#25-内连接之等值连接最大特点是条件是等量关系"></a> 2.5、内连接之<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E7%AD%89%E5%80%BC%E8%BF%9E%E6%8E%A5&amp;spm=1001.2101.3001.7020">等值连接</a>：最大特点是：条件是等量关系。</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">案例：查询每个员工的部门名称，要求显示员工名和部门名。</span><br><span class="line"></span><br><span class="line">SQL92:（太老，不用了）</span><br><span class="line">//	select </span><br><span class="line">//		e.ename,d.dname</span><br><span class="line">//	from</span><br><span class="line">//		emp e, dept d</span><br><span class="line">//	where</span><br><span class="line">//		e.deptno = d.deptno;</span><br><span class="line"></span><br><span class="line">SQL99：（常用的）</span><br><span class="line">	select </span><br><span class="line">		e.ename,d.dname</span><br><span class="line">	from</span><br><span class="line">		emp e</span><br><span class="line">	join</span><br><span class="line">		dept d</span><br><span class="line">	on</span><br><span class="line">		e.deptno = d.deptno;</span><br><span class="line"></span><br><span class="line">	// inner可以省略的，带着inner目的是可读性好一些。</span><br><span class="line">	//inner表明是内连接</span><br><span class="line">	select </span><br><span class="line">		e.ename,d.dname</span><br><span class="line">	from</span><br><span class="line">		emp e</span><br><span class="line">	inner join</span><br><span class="line">		dept d</span><br><span class="line">	on</span><br><span class="line">		e.deptno = d.deptno; //条件是等量关系，所以叫等值连接</span><br><span class="line">	</span><br><span class="line">	语法：</span><br><span class="line">		...</span><br><span class="line">			A</span><br><span class="line">		join</span><br><span class="line">			B</span><br><span class="line">		on</span><br><span class="line">			连接条件</span><br><span class="line">		where</span><br><span class="line">			...</span><br><span class="line">	</span><br><span class="line">	SQL99语法结构更清晰一些：表的连接条件和后来的where条件分离了。</span><br><span class="line"></span><br><span class="line">	+--------+------------+</span><br><span class="line">	| ename  | dname      |</span><br><span class="line">	+--------+------------+</span><br><span class="line">	| CLARK  | ACCOUNTING |</span><br><span class="line">	| KING   | ACCOUNTING |</span><br><span class="line">	| MILLER | ACCOUNTING |</span><br><span class="line">	| SMITH  | RESEARCH   |</span><br><span class="line">	| JONES  | RESEARCH   |</span><br><span class="line">	| SCOTT  | RESEARCH   |</span><br><span class="line">	| ADAMS  | RESEARCH   |</span><br><span class="line">	| FORD   | RESEARCH   |</span><br><span class="line">	| ALLEN  | SALES      |</span><br><span class="line">	| WARD   | SALES      |</span><br><span class="line">	| MARTIN | SALES      |</span><br><span class="line">	| BLAKE  | SALES      |</span><br><span class="line">	| TURNER | SALES      |</span><br><span class="line">	| JAMES  | SALES      |</span><br><span class="line">	+--------+------------+</span><br></pre></td></tr></table></figure>
+<h3 id="26-内连接之非等值连接最大的特点是连接条件中的关系是非等量关系"><a class="markdownIt-Anchor" href="#26-内连接之非等值连接最大的特点是连接条件中的关系是非等量关系"></a> 2.6、内连接之非等值连接：最大的特点是：连接条件中的关系是非等量关系。</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">案例：找出每个员工的工资等级，要求显示员工名、工资、工资等级。</span><br><span class="line">mysql&gt; select ename,sal from emp; e</span><br><span class="line">+--------+---------+</span><br><span class="line">| ename  | sal     |</span><br><span class="line">+--------+---------+</span><br><span class="line">| SMITH  |  800.00 |</span><br><span class="line">| ALLEN  | 1600.00 |</span><br><span class="line">| WARD   | 1250.00 |</span><br><span class="line">| JONES  | 2975.00 |</span><br><span class="line">| MARTIN | 1250.00 |</span><br><span class="line">| BLAKE  | 2850.00 |</span><br><span class="line">| CLARK  | 2450.00 |</span><br><span class="line">| SCOTT  | 3000.00 |</span><br><span class="line">| KING   | 5000.00 |</span><br><span class="line">| TURNER | 1500.00 |</span><br><span class="line">| ADAMS  | 1100.00 |</span><br><span class="line">| JAMES  |  950.00 |</span><br><span class="line">| FORD   | 3000.00 |</span><br><span class="line">| MILLER | 1300.00 |</span><br><span class="line">+--------+---------+</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from salgrade; s</span><br><span class="line">+-------+-------+-------+ </span><br><span class="line">| GRADE | LOSAL | HISAL |</span><br><span class="line">+-------+-------+-------+</span><br><span class="line">|     1 |   700 |  1200 |</span><br><span class="line">|     2 |  1201 |  1400 |</span><br><span class="line">|     3 |  1401 |  2000 |</span><br><span class="line">|     4 |  2001 |  3000 |</span><br><span class="line">|     5 |  3001 |  9999 |</span><br><span class="line">+-------+-------+-------+</span><br><span class="line"></span><br><span class="line">select </span><br><span class="line">	e.ename,e.sal,s.grade</span><br><span class="line">from</span><br><span class="line">	emp e</span><br><span class="line">join</span><br><span class="line">	salgrade s</span><br><span class="line">on</span><br><span class="line">	e.sal between s.losal and s.hisal;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">select e.ename, s.grade</span><br><span class="line">from emp e </span><br><span class="line">join salgrade s </span><br><span class="line">on e.sal between s.losal and s.hisal;</span><br><span class="line">// inner可以省略</span><br><span class="line">select </span><br><span class="line">	e.ename,e.sal,s.grade</span><br><span class="line">from</span><br><span class="line">	emp e</span><br><span class="line">inner join</span><br><span class="line">	salgrade s</span><br><span class="line">on</span><br><span class="line">	e.sal between s.losal and s.hisal;</span><br><span class="line"></span><br><span class="line">+--------+---------+-------+</span><br><span class="line">| ename  | sal     | grade |</span><br><span class="line">+--------+---------+-------+</span><br><span class="line">| SMITH  |  800.00 |     1 |</span><br><span class="line">| ALLEN  | 1600.00 |     3 |</span><br><span class="line">| WARD   | 1250.00 |     2 |</span><br><span class="line">| JONES  | 2975.00 |     4 |</span><br><span class="line">| MARTIN | 1250.00 |     2 |</span><br><span class="line">| BLAKE  | 2850.00 |     4 |</span><br><span class="line">| CLARK  | 2450.00 |     4 |</span><br><span class="line">| SCOTT  | 3000.00 |     4 |</span><br><span class="line">| KING   | 5000.00 |     5 |</span><br><span class="line">| TURNER | 1500.00 |     3 |</span><br><span class="line">| ADAMS  | 1100.00 |     1 |</span><br><span class="line">| JAMES  |  950.00 |     1 |</span><br><span class="line">| FORD   | 3000.00 |     4 |</span><br><span class="line">| MILLER | 1300.00 |     2 |</span><br><span class="line">+--------+---------+-------+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="27-自连接最大的特点是一张表看做两张表-自己连接自己"><a class="markdownIt-Anchor" href="#27-自连接最大的特点是一张表看做两张表-自己连接自己"></a> 2.7、自连接：最大的特点是：一张表看做两张表。自己连接自己。</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">案例：找出每个员工的上级领导，要求显示员工名和对应的领导名。</span><br><span class="line">mysql&gt; select empno,ename,mgr from emp;</span><br><span class="line">emp a 员工表</span><br><span class="line">+-------+--------+------+</span><br><span class="line">| empno | ename  | mgr  |</span><br><span class="line">+-------+--------+------+</span><br><span class="line">|  7369 | SMITH  | 7902 |</span><br><span class="line">|  7499 | ALLEN  | 7698 |</span><br><span class="line">|  7521 | WARD   | 7698 |</span><br><span class="line">|  7566 | JONES  | 7839 |</span><br><span class="line">|  7654 | MARTIN | 7698 |</span><br><span class="line">|  7698 | BLAKE  | 7839 |</span><br><span class="line">|  7782 | CLARK  | 7839 |</span><br><span class="line">|  7788 | SCOTT  | 7566 |</span><br><span class="line">|  7839 | KING   | NULL |</span><br><span class="line">|  7844 | TURNER | 7698 |</span><br><span class="line">|  7876 | ADAMS  | 7788 |</span><br><span class="line">|  7900 | JAMES  | 7698 |</span><br><span class="line">|  7902 | FORD   | 7566 |</span><br><span class="line">|  7934 | MILLER | 7782 |</span><br><span class="line">+-------+--------+------+</span><br><span class="line">emp b 领导表</span><br><span class="line">+-------+--------+</span><br><span class="line">| empno | ename  |</span><br><span class="line">+-------+--------+</span><br><span class="line">|  7566 | JONES  |</span><br><span class="line">|  7698 | BLAKE  |</span><br><span class="line">|  7782 | CLARK  |</span><br><span class="line">|  7788 | SCOTT  |</span><br><span class="line">|  7839 | KING   |</span><br><span class="line">|  7902 | FORD   |</span><br><span class="line">+-------+--------+</span><br><span class="line"></span><br><span class="line">员工的领导编号 = 领导的员工编号</span><br><span class="line"></span><br><span class="line">select </span><br><span class="line">	a.ename as &#x27;员工名&#x27;,b.ename as &#x27;领导名&#x27;</span><br><span class="line">from</span><br><span class="line">	emp a</span><br><span class="line">inner join</span><br><span class="line">	emp b</span><br><span class="line">on</span><br><span class="line">	a.mgr = b.empno;</span><br><span class="line"></span><br><span class="line">+--------+--------+</span><br><span class="line">| 员工名 | 领导名 |</span><br><span class="line">+--------+--------+</span><br><span class="line">| SMITH  | FORD   |</span><br><span class="line">| ALLEN  | BLAKE  |</span><br><span class="line">| WARD   | BLAKE  |</span><br><span class="line">| JONES  | KING   |</span><br><span class="line">| MARTIN | BLAKE  |</span><br><span class="line">| BLAKE  | KING   |</span><br><span class="line">| CLARK  | KING   |</span><br><span class="line">| SCOTT  | JONES  |</span><br><span class="line">| TURNER | BLAKE  |</span><br><span class="line">| ADAMS  | SCOTT  |</span><br><span class="line">| JAMES  | BLAKE  |</span><br><span class="line">| FORD   | JONES  |</span><br><span class="line">| MILLER | CLARK  |</span><br><span class="line">+--------+--------+</span><br></pre></td></tr></table></figure>
+<h3 id="28-外连接"><a class="markdownIt-Anchor" href="#28-外连接"></a> 2.8、外连接</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br></pre></td><td class="code"><pre><span class="line">什么是外连接，和内连接有什么区别？</span><br><span class="line"></span><br><span class="line">	内连接：</span><br><span class="line">		假设A和B表进行连接，使用内连接的话，凡是A表和B表能够匹配上的记录查询出来，这就是内连接。</span><br><span class="line">		AB两张表没有主副之分，两张表是平等的。</span><br><span class="line"></span><br><span class="line">	外连接：</span><br><span class="line">		假设A和B表进行连接，使用外连接的话，AB两张表中有一张表是主表，一张表是副表，主要查询主表中的数据，捎带着查询副表，当副表中的数据没有和主表中的数据匹配上，副表自动模拟出NULL与之匹配。</span><br><span class="line">	</span><br><span class="line">	外连接的分类？</span><br><span class="line">		左外连接（左连接）：表示左边的这张表是主表。</span><br><span class="line">		右外连接（右连接）：表示右边的这张表是主表。</span><br><span class="line"></span><br><span class="line">		左连接有右连接的写法，右连接也会有对应的左连接的写法。</span><br><span class="line">	</span><br><span class="line">案例：找出每个员工的上级领导？（所有员工必须全部查询出来。）</span><br><span class="line"></span><br><span class="line">emp a 员工表</span><br><span class="line">+-------+--------+------+</span><br><span class="line">| empno | ename  | mgr  |</span><br><span class="line">+-------+--------+------+</span><br><span class="line">|  7369 | SMITH  | 7902 |</span><br><span class="line">|  7499 | ALLEN  | 7698 |</span><br><span class="line">|  7521 | WARD   | 7698 |</span><br><span class="line">|  7566 | JONES  | 7839 |</span><br><span class="line">|  7654 | MARTIN | 7698 |</span><br><span class="line">|  7698 | BLAKE  | 7839 |</span><br><span class="line">|  7782 | CLARK  | 7839 |</span><br><span class="line">|  7788 | SCOTT  | 7566 |</span><br><span class="line">|  7839 | KING   | NULL |</span><br><span class="line">|  7844 | TURNER | 7698 |</span><br><span class="line">|  7876 | ADAMS  | 7788 |</span><br><span class="line">|  7900 | JAMES  | 7698 |</span><br><span class="line">|  7902 | FORD   | 7566 |</span><br><span class="line">|  7934 | MILLER | 7782 |</span><br><span class="line">+-------+--------+------+</span><br><span class="line">emp b 领导表</span><br><span class="line">+-------+--------+</span><br><span class="line">| empno | ename  |</span><br><span class="line">+-------+--------+</span><br><span class="line">|  7566 | JONES  |</span><br><span class="line">|  7698 | BLAKE  |</span><br><span class="line">|  7782 | CLARK  |</span><br><span class="line">|  7788 | SCOTT  |</span><br><span class="line">|  7839 | KING   |</span><br><span class="line">|  7902 | FORD   |</span><br><span class="line">+-------+--------+</span><br><span class="line"></span><br><span class="line">内连接：</span><br><span class="line">select </span><br><span class="line">	a.ename &#x27;员工&#x27;, b.ename &#x27;领导&#x27;</span><br><span class="line">from</span><br><span class="line">	emp a</span><br><span class="line">join</span><br><span class="line">	emp b</span><br><span class="line">on</span><br><span class="line">	a.mgr = b.empno;</span><br><span class="line"></span><br><span class="line">外连接：（左外连接/左连接）</span><br><span class="line">select </span><br><span class="line">	a.ename &#x27;员工&#x27;, b.ename &#x27;领导&#x27;</span><br><span class="line">from</span><br><span class="line">	emp a</span><br><span class="line">left join</span><br><span class="line">	emp b</span><br><span class="line">on</span><br><span class="line">	a.mgr = b.empno;</span><br><span class="line"></span><br><span class="line">// outer是可以省略的。</span><br><span class="line">select </span><br><span class="line">	a.ename &#x27;员工&#x27;, b.ename &#x27;领导&#x27;</span><br><span class="line">from</span><br><span class="line">	emp a</span><br><span class="line">left outer join</span><br><span class="line">	emp b</span><br><span class="line">on</span><br><span class="line">	a.mgr = b.empno;</span><br><span class="line"></span><br><span class="line">外连接：（右外连接/右连接）</span><br><span class="line">select </span><br><span class="line">	a.ename &#x27;员工&#x27;, b.ename &#x27;领导&#x27;</span><br><span class="line">from</span><br><span class="line">	emp b</span><br><span class="line">right join</span><br><span class="line">	emp a</span><br><span class="line">on</span><br><span class="line">	a.mgr = b.empno;</span><br><span class="line"></span><br><span class="line">// outer可以省略。</span><br><span class="line">select </span><br><span class="line">	a.ename &#x27;员工&#x27;, b.ename &#x27;领导&#x27;</span><br><span class="line">from</span><br><span class="line">	emp b</span><br><span class="line">right outer join</span><br><span class="line">	emp a</span><br><span class="line">on</span><br><span class="line">	a.mgr = b.empno;</span><br><span class="line"></span><br><span class="line">+--------+-------+</span><br><span class="line">| 员工      | 领导    |</span><br><span class="line">+--------+-------+</span><br><span class="line">| SMITH  | FORD  |</span><br><span class="line">| ALLEN  | BLAKE |</span><br><span class="line">| WARD   | BLAKE |</span><br><span class="line">| JONES  | KING  |</span><br><span class="line">| MARTIN | BLAKE |</span><br><span class="line">| BLAKE  | KING  |</span><br><span class="line">| CLARK  | KING  |</span><br><span class="line">| SCOTT  | JONES |</span><br><span class="line">| KING   | NULL  |</span><br><span class="line">| TURNER | BLAKE |</span><br><span class="line">| ADAMS  | SCOTT |</span><br><span class="line">| JAMES  | BLAKE |</span><br><span class="line">| FORD   | JONES |</span><br><span class="line">| MILLER | CLARK |</span><br><span class="line">+--------+-------+</span><br><span class="line"></span><br><span class="line">外连接最重要的特点是：主表的数据无条件的全部查询出来。</span><br><span class="line"></span><br><span class="line">案例：找出哪个部门没有员工？</span><br><span class="line">EMP表</span><br><span class="line">+-------+--------+-----------+------+------------+---------+---------+--------+</span><br><span class="line">| EMPNO | ENAME  | JOB       | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO |</span><br><span class="line">+-------+--------+-----------+------+------------+---------+---------+--------+</span><br><span class="line">|  7369 | SMITH  | CLERK     | 7902 | 1980-12-17 |  800.00 |    NULL |     20 |</span><br><span class="line">|  7499 | ALLEN  | SALESMAN  | 7698 | 1981-02-20 | 1600.00 |  300.00 |     30 |</span><br><span class="line">|  7521 | WARD   | SALESMAN  | 7698 | 1981-02-22 | 1250.00 |  500.00 |     30 |</span><br><span class="line">|  7566 | JONES  | MANAGER   | 7839 | 1981-04-02 | 2975.00 |    NULL |     20 |</span><br><span class="line">|  7654 | MARTIN | SALESMAN  | 7698 | 1981-09-28 | 1250.00 | 1400.00 |     30 |</span><br><span class="line">|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 | 2850.00 |    NULL |     30 |</span><br><span class="line">|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 | 2450.00 |    NULL |     10 |</span><br><span class="line">|  7788 | SCOTT  | ANALYST   | 7566 | 1987-04-19 | 3000.00 |    NULL |     20 |</span><br><span class="line">|  7839 | KING   | PRESIDENT | NULL | 1981-11-17 | 5000.00 |    NULL |     10 |</span><br><span class="line">|  7844 | TURNER | SALESMAN  | 7698 | 1981-09-08 | 1500.00 |    0.00 |     30 |</span><br><span class="line">|  7876 | ADAMS  | CLERK     | 7788 | 1987-05-23 | 1100.00 |    NULL |     20 |</span><br><span class="line">|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 |  950.00 |    NULL |     30 |</span><br><span class="line">|  7902 | FORD   | ANALYST   | 7566 | 1981-12-03 | 3000.00 |    NULL |     20 |</span><br><span class="line">|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 | 1300.00 |    NULL |     10 |</span><br><span class="line">+-------+--------+-----------+------+------------+---------+---------+--------+</span><br><span class="line">DEPT</span><br><span class="line">+--------+------------+----------+</span><br><span class="line">| DEPTNO | DNAME      | LOC      |</span><br><span class="line">+--------+------------+----------+</span><br><span class="line">|     10 | ACCOUNTING | NEW YORK |</span><br><span class="line">|     20 | RESEARCH   | DALLAS   |</span><br><span class="line">|     30 | SALES      | CHICAGO  |</span><br><span class="line">|     40 | OPERATIONS | BOSTON   |</span><br><span class="line">+--------+------------+----------+</span><br><span class="line"></span><br><span class="line">select </span><br><span class="line">	d.*</span><br><span class="line">from</span><br><span class="line">	emp e</span><br><span class="line">right join</span><br><span class="line">	dept d</span><br><span class="line">on</span><br><span class="line">	e.deptno = d.deptno</span><br><span class="line">where</span><br><span class="line">	e.empno is null;</span><br><span class="line"></span><br><span class="line">+--------+------------+--------+</span><br><span class="line">| DEPTNO | DNAME      | LOC    |</span><br><span class="line">+--------+------------+--------+</span><br><span class="line">|     40 | OPERATIONS | BOSTON |</span><br><span class="line">+--------+------------+--------+</span><br></pre></td></tr></table></figure>
+<h3 id="29-三张表怎么连接查询"><a class="markdownIt-Anchor" href="#29-三张表怎么连接查询"></a> 2.9、三张表怎么连接查询？</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br></pre></td><td class="code"><pre><span class="line">案例：找出每一个员工的部门名称以及工资等级。</span><br><span class="line">EMP e</span><br><span class="line">+-------+--------+---------+--------+</span><br><span class="line">| empno | ename  | sal     | deptno |</span><br><span class="line">+-------+--------+---------+--------+</span><br><span class="line">|  7369 | SMITH  |  800.00 |     20 |</span><br><span class="line">|  7499 | ALLEN  | 1600.00 |     30 |</span><br><span class="line">|  7521 | WARD   | 1250.00 |     30 |</span><br><span class="line">|  7566 | JONES  | 2975.00 |     20 |</span><br><span class="line">|  7654 | MARTIN | 1250.00 |     30 |</span><br><span class="line">|  7698 | BLAKE  | 2850.00 |     30 |</span><br><span class="line">|  7782 | CLARK  | 2450.00 |     10 |</span><br><span class="line">|  7788 | SCOTT  | 3000.00 |     20 |</span><br><span class="line">|  7839 | KING   | 5000.00 |     10 |</span><br><span class="line">|  7844 | TURNER | 1500.00 |     30 |</span><br><span class="line">|  7876 | ADAMS  | 1100.00 |     20 |</span><br><span class="line">|  7900 | JAMES  |  950.00 |     30 |</span><br><span class="line">|  7902 | FORD   | 3000.00 |     20 |</span><br><span class="line">|  7934 | MILLER | 1300.00 |     10 |</span><br><span class="line">+-------+--------+---------+--------+</span><br><span class="line">DEPT d</span><br><span class="line">+--------+------------+----------+</span><br><span class="line">| DEPTNO | DNAME      | LOC      |</span><br><span class="line">+--------+------------+----------+</span><br><span class="line">|     10 | ACCOUNTING | NEW YORK |</span><br><span class="line">|     20 | RESEARCH   | DALLAS   |</span><br><span class="line">|     30 | SALES      | CHICAGO  |</span><br><span class="line">|     40 | OPERATIONS | BOSTON   |</span><br><span class="line">+--------+------------+----------+</span><br><span class="line">SALGRADE s</span><br><span class="line">+-------+-------+-------+</span><br><span class="line">| GRADE | LOSAL | HISAL |</span><br><span class="line">+-------+-------+-------+</span><br><span class="line">|     1 |   700 |  1200 |</span><br><span class="line">|     2 |  1201 |  1400 |</span><br><span class="line">|     3 |  1401 |  2000 |</span><br><span class="line">|     4 |  2001 |  3000 |</span><br><span class="line">|     5 |  3001 |  9999 |</span><br><span class="line">+-------+-------+-------+</span><br><span class="line"></span><br><span class="line">注意，解释一下：</span><br><span class="line">	....</span><br><span class="line">		A</span><br><span class="line">	join</span><br><span class="line">		B</span><br><span class="line">	join</span><br><span class="line">		C</span><br><span class="line">	on</span><br><span class="line">		...</span><br><span class="line">	</span><br><span class="line">	表示：A表和B表先进行表连接，连接之后A表继续和C表进行连接。</span><br><span class="line"></span><br><span class="line">	select </span><br><span class="line">		e.ename,d.dname,s.grade</span><br><span class="line">	from</span><br><span class="line">		emp e</span><br><span class="line">	join</span><br><span class="line">		dept d</span><br><span class="line">	on</span><br><span class="line">		e.deptno = d.deptno</span><br><span class="line">	join</span><br><span class="line">		salgrade s</span><br><span class="line">	on</span><br><span class="line">		e.sal between s.losal and s.hisal;</span><br><span class="line">	</span><br><span class="line">	+--------+------------+-------+</span><br><span class="line">	| ename  | dname      | grade |</span><br><span class="line">	+--------+------------+-------+</span><br><span class="line">	| SMITH  | RESEARCH   |     1 |</span><br><span class="line">	| ALLEN  | SALES      |     3 |</span><br><span class="line">	| WARD   | SALES      |     2 |</span><br><span class="line">	| JONES  | RESEARCH   |     4 |</span><br><span class="line">	| MARTIN | SALES      |     2 |</span><br><span class="line">	| BLAKE  | SALES      |     4 |</span><br><span class="line">	| CLARK  | ACCOUNTING |     4 |</span><br><span class="line">	| SCOTT  | RESEARCH   |     4 |</span><br><span class="line">	| KING   | ACCOUNTING |     5 |</span><br><span class="line">	| TURNER | SALES      |     3 |</span><br><span class="line">	| ADAMS  | RESEARCH   |     1 |</span><br><span class="line">	| JAMES  | SALES      |     1 |</span><br><span class="line">	| FORD   | RESEARCH   |     4 |</span><br><span class="line">	| MILLER | ACCOUNTING |     2 |</span><br><span class="line">	+--------+------------+-------+</span><br><span class="line"></span><br><span class="line">案例：找出每一个员工的部门名称、工资等级、以及上级领导。</span><br><span class="line">	select </span><br><span class="line">		e.ename &#x27;员工&#x27;,d.dname,s.grade,e1.ename &#x27;领导&#x27;</span><br><span class="line">	from</span><br><span class="line">		emp e</span><br><span class="line">	join</span><br><span class="line">		dept d</span><br><span class="line">	on</span><br><span class="line">		e.deptno = d.deptno</span><br><span class="line">	join</span><br><span class="line">		salgrade s</span><br><span class="line">	on</span><br><span class="line">		e.sal between s.losal and s.hisal</span><br><span class="line">	left join</span><br><span class="line">		emp e1</span><br><span class="line">	on</span><br><span class="line">		e.mgr = e1.empno;</span><br><span class="line"></span><br><span class="line">	+--------+------------+-------+-------+</span><br><span class="line">	| 员工      | dname      | grade | 领导    |</span><br><span class="line">	+--------+------------+-------+-------+</span><br><span class="line">	| SMITH  | RESEARCH   |     1 | FORD  |</span><br><span class="line">	| ALLEN  | SALES      |     3 | BLAKE |</span><br><span class="line">	| WARD   | SALES      |     2 | BLAKE |</span><br><span class="line">	| JONES  | RESEARCH   |     4 | KING  |</span><br><span class="line">	| MARTIN | SALES      |     2 | BLAKE |</span><br><span class="line">	| BLAKE  | SALES      |     4 | KING  |</span><br><span class="line">	| CLARK  | ACCOUNTING |     4 | KING  |</span><br><span class="line">	| SCOTT  | RESEARCH   |     4 | JONES |</span><br><span class="line">	| KING   | ACCOUNTING |     5 | NULL  |</span><br><span class="line">	| TURNER | SALES      |     3 | BLAKE |</span><br><span class="line">	| ADAMS  | RESEARCH   |     1 | SCOTT |</span><br><span class="line">	| JAMES  | SALES      |     1 | BLAKE |</span><br><span class="line">	| FORD   | RESEARCH   |     4 | JONES |</span><br><span class="line">	| MILLER | ACCOUNTING |     2 | CLARK |</span><br><span class="line">	+--------+------------+-------+-------+</span><br></pre></td></tr></table></figure>
+<h2 id="3-子查询"><a class="markdownIt-Anchor" href="#3-子查询"></a> 3、<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E5%AD%90%E6%9F%A5%E8%AF%A2&amp;spm=1001.2101.3001.7020">子查询</a></h2>
+<h3 id="31-什么是子查询子查询都可以出现在哪里"><a class="markdownIt-Anchor" href="#31-什么是子查询子查询都可以出现在哪里"></a> 3.1、什么是子查询？子查询都可以出现在哪里？</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">select语句当中嵌套select语句，被嵌套的select语句是子查询。</span><br><span class="line">子查询可以出现在哪里？</span><br><span class="line">	select</span><br><span class="line">		..(select).</span><br><span class="line">	from</span><br><span class="line">		..(select).</span><br><span class="line">	where</span><br><span class="line">		..(select).</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="32-where子句中使用子查询"><a class="markdownIt-Anchor" href="#32-where子句中使用子查询"></a> 3.2、where子句中使用子查询</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">案例：找出高于平均薪资的员工信息。</span><br><span class="line">select * from emp where sal &gt; avg(sal); //错误的写法，where后面不能直接使用分组函数。</span><br><span class="line"></span><br><span class="line">第一步：找出平均薪资</span><br><span class="line">	select avg(sal) from emp;</span><br><span class="line">	+-------------+</span><br><span class="line">	| avg(sal)    |</span><br><span class="line">	+-------------+</span><br><span class="line">	| 2073.214286 |</span><br><span class="line">	+-------------+</span><br><span class="line">第二步：where过滤</span><br><span class="line">	select * from emp where sal &gt; 2073.214286;</span><br><span class="line">	+-------+-------+-----------+------+------------+---------+------+--------+</span><br><span class="line">	| EMPNO | ENAME | JOB       | MGR  | HIREDATE   | SAL     | COMM | DEPTNO |</span><br><span class="line">	+-------+-------+-----------+------+------------+---------+------+--------+</span><br><span class="line">	|  7566 | JONES | MANAGER   | 7839 | 1981-04-02 | 2975.00 | NULL |     20 |</span><br><span class="line">	|  7698 | BLAKE | MANAGER   | 7839 | 1981-05-01 | 2850.00 | NULL |     30 |</span><br><span class="line">	|  7782 | CLARK | MANAGER   | 7839 | 1981-06-09 | 2450.00 | NULL |     10 |</span><br><span class="line">	|  7788 | SCOTT | ANALYST   | 7566 | 1987-04-19 | 3000.00 | NULL |     20 |</span><br><span class="line">	|  7839 | KING  | PRESIDENT | NULL | 1981-11-17 | 5000.00 | NULL |     10 |</span><br><span class="line">	|  7902 | FORD  | ANALYST   | 7566 | 1981-12-03 | 3000.00 | NULL |     20 |</span><br><span class="line">	+-------+-------+-----------+------+------------+---------+------+--------+</span><br><span class="line">第一步和第二步合并：</span><br><span class="line">	select * from emp where sal &gt; (select avg(sal) from emp);</span><br></pre></td></tr></table></figure>
+<h3 id="33-from后面嵌套子查询"><a class="markdownIt-Anchor" href="#33-from后面嵌套子查询"></a> 3.3、from后面嵌套子查询</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">案例：找出每个部门平均薪水的等级。</span><br><span class="line">第一步：找出每个部门平均薪水（按照部门编号分组，求sal的平均值）</span><br><span class="line">select deptno,avg(sal) as avgsal from emp group by deptno;</span><br><span class="line">+--------+-------------+</span><br><span class="line">| deptno | avgsal      |</span><br><span class="line">+--------+-------------+</span><br><span class="line">|     10 | 2916.666667 |</span><br><span class="line">|     20 | 2175.000000 |</span><br><span class="line">|     30 | 1566.666667 |</span><br><span class="line">+--------+-------------+</span><br><span class="line">第二步：将以上的查询结果当做临时表t，让t表和salgrade s表连接，条件是：t.avgsal between s.losal and s.hisal</span><br><span class="line">select </span><br><span class="line">	t.*,s.grade</span><br><span class="line">from</span><br><span class="line">	(select deptno,avg(sal) as avgsal </span><br><span class="line">     from emp </span><br><span class="line">     group by deptno) t //当作一张临时表</span><br><span class="line">join</span><br><span class="line">	salgrade s</span><br><span class="line">on</span><br><span class="line">	t.avgsal between s.losal and s.hisal;</span><br><span class="line"></span><br><span class="line">+--------+-------------+-------+</span><br><span class="line">| deptno | avgsal      | grade |</span><br><span class="line">+--------+-------------+-------+</span><br><span class="line">|     30 | 1566.666667 |     3 |</span><br><span class="line">|     10 | 2916.666667 |     4 |</span><br><span class="line">|     20 | 2175.000000 |     4 |</span><br><span class="line">+--------+-------------+-------+</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">案例：找出每个部门平均的薪水等级。</span><br><span class="line">第一步：找出每个员工的薪水等级。</span><br><span class="line">select e.ename,e.sal,e.deptno,s.grade from emp e join salgrade s on e.sal between s.losal and s.hisal;</span><br><span class="line">+--------+---------+--------+-------+</span><br><span class="line">| ename  | sal     | deptno | grade |</span><br><span class="line">+--------+---------+--------+-------+</span><br><span class="line">| SMITH  |  800.00 |     20 |     1 |</span><br><span class="line">| ALLEN  | 1600.00 |     30 |     3 |</span><br><span class="line">| WARD   | 1250.00 |     30 |     2 |</span><br><span class="line">| JONES  | 2975.00 |     20 |     4 |</span><br><span class="line">| MARTIN | 1250.00 |     30 |     2 |</span><br><span class="line">| BLAKE  | 2850.00 |     30 |     4 |</span><br><span class="line">| CLARK  | 2450.00 |     10 |     4 |</span><br><span class="line">| SCOTT  | 3000.00 |     20 |     4 |</span><br><span class="line">| KING   | 5000.00 |     10 |     5 |</span><br><span class="line">| TURNER | 1500.00 |     30 |     3 |</span><br><span class="line">| ADAMS  | 1100.00 |     20 |     1 |</span><br><span class="line">| JAMES  |  950.00 |     30 |     1 |</span><br><span class="line">| FORD   | 3000.00 |     20 |     4 |</span><br><span class="line">| MILLER | 1300.00 |     10 |     2 |</span><br><span class="line">+--------+---------+--------+-------+</span><br><span class="line">第二步：基于以上结果，继续按照deptno分组，求grade平均值。</span><br><span class="line">select </span><br><span class="line">	e.deptno,avg(s.grade)</span><br><span class="line">from </span><br><span class="line">	emp e </span><br><span class="line">join </span><br><span class="line">	salgrade s </span><br><span class="line">on </span><br><span class="line">	e.sal between s.losal and s.hisal</span><br><span class="line">group by</span><br><span class="line">	e.deptno;</span><br><span class="line"></span><br><span class="line">+--------+--------------+</span><br><span class="line">| deptno | avg(s.grade) |</span><br><span class="line">+--------+--------------+</span><br><span class="line">|     10 |       3.6667 |</span><br><span class="line">|     20 |       2.8000 |</span><br><span class="line">|     30 |       2.5000 |</span><br><span class="line">+--------+--------------+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="34-在select后面嵌套子查询"><a class="markdownIt-Anchor" href="#34-在select后面嵌套子查询"></a> 3.4、在select后面嵌套子查询。</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">案例：找出每个员工所在的部门名称，要求显示员工名和部门名。</span><br><span class="line"></span><br><span class="line">select </span><br><span class="line">	e.ename,d.dname</span><br><span class="line">from</span><br><span class="line">	emp e</span><br><span class="line">join</span><br><span class="line">	dept d</span><br><span class="line">on</span><br><span class="line">	e.deptno = d.deptno;</span><br><span class="line"></span><br><span class="line">select </span><br><span class="line">	e.ename,(select d.dname from dept d where e.deptno = d.deptno) as dname </span><br><span class="line">from </span><br><span class="line">	emp e;</span><br><span class="line"></span><br><span class="line">+--------+------------+</span><br><span class="line">| ename  | dname      |</span><br><span class="line">+--------+------------+</span><br><span class="line">| SMITH  | RESEARCH   |</span><br><span class="line">| ALLEN  | SALES      |</span><br><span class="line">| WARD   | SALES      |</span><br><span class="line">| JONES  | RESEARCH   |</span><br><span class="line">| MARTIN | SALES      |</span><br><span class="line">| BLAKE  | SALES      |</span><br><span class="line">| CLARK  | ACCOUNTING |</span><br><span class="line">| SCOTT  | RESEARCH   |</span><br><span class="line">| KING   | ACCOUNTING |</span><br><span class="line">| TURNER | SALES      |</span><br><span class="line">| ADAMS  | RESEARCH   |</span><br><span class="line">| JAMES  | SALES      |</span><br><span class="line">| FORD   | RESEARCH   |</span><br><span class="line">| MILLER | ACCOUNTING |</span><br><span class="line">+--------+------------+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="4-union-可以将查询结果集相加"><a class="markdownIt-Anchor" href="#4-union-可以将查询结果集相加"></a> 4、union （可以将查询结果集相加）</h2>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">案例：找出工作岗位是SALESMAN和MANAGER的员工？</span><br><span class="line">第一种：select ename,job from emp where job = &#x27;MANAGER&#x27; or job = &#x27;SALESMAN&#x27;;</span><br><span class="line">第二种：select ename,job from emp where job in(&#x27;MANAGER&#x27;,&#x27;SALESMAN&#x27;);</span><br><span class="line">+--------+----------+</span><br><span class="line">| ename  | job      |</span><br><span class="line">+--------+----------+</span><br><span class="line">| ALLEN  | SALESMAN |</span><br><span class="line">| WARD   | SALESMAN |</span><br><span class="line">| JONES  | MANAGER  |</span><br><span class="line">| MARTIN | SALESMAN |</span><br><span class="line">| BLAKE  | MANAGER  |</span><br><span class="line">| CLARK  | MANAGER  |</span><br><span class="line">| TURNER | SALESMAN |</span><br><span class="line">+--------+----------+</span><br><span class="line">第三种：union</span><br><span class="line">select ename,job from emp where job = &#x27;MANAGER&#x27;</span><br><span class="line">union</span><br><span class="line">select ename,job from emp where job = &#x27;SALESMAN&#x27;;</span><br><span class="line">+--------+----------+</span><br><span class="line">| ename  | job      |</span><br><span class="line">+--------+----------+</span><br><span class="line">| JONES  | MANAGER  |</span><br><span class="line">| BLAKE  | MANAGER  |</span><br><span class="line">| CLARK  | MANAGER  |</span><br><span class="line">| ALLEN  | SALESMAN |</span><br><span class="line">| WARD   | SALESMAN |</span><br><span class="line">| MARTIN | SALESMAN |</span><br><span class="line">| TURNER | SALESMAN |</span><br><span class="line">+--------+----------+</span><br><span class="line"></span><br><span class="line">两张不相干的表中的数据拼接在一起显示？</span><br><span class="line">select ename from emp</span><br><span class="line">union</span><br><span class="line">select dname from dept;</span><br><span class="line"></span><br><span class="line">+------------+</span><br><span class="line">| ename      |</span><br><span class="line">+------------+</span><br><span class="line">| SMITH      |</span><br><span class="line">| ALLEN      |</span><br><span class="line">| WARD       |</span><br><span class="line">| JONES      |</span><br><span class="line">| MARTIN     |</span><br><span class="line">| BLAKE      |</span><br><span class="line">| CLARK      |</span><br><span class="line">| SCOTT      |</span><br><span class="line">| KING       |</span><br><span class="line">| TURNER     |</span><br><span class="line">| ADAMS      |</span><br><span class="line">| JAMES      |</span><br><span class="line">| FORD       |</span><br><span class="line">| MILLER     |</span><br><span class="line">| ACCOUNTING |</span><br><span class="line">| RESEARCH   |</span><br><span class="line">| SALES      |</span><br><span class="line">| OPERATIONS |</span><br><span class="line">+------------+</span><br><span class="line"></span><br><span class="line">mysql&gt; select ename,sal from emp</span><br><span class="line">    -&gt; union</span><br><span class="line">    -&gt; select dname from dept;</span><br><span class="line">ERROR 1222 (21000): The used SELECT statements have a different number of columns</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>1.union在进行结果集合并的时候，要求两个结果集的列数相同。</p>
+<p>2.要求：结果集合并时列和列的数据类型也要一致。</p>
+<h2 id="5-limit-重点中的重点以后分页查询全靠它了"><a class="markdownIt-Anchor" href="#5-limit-重点中的重点以后分页查询全靠它了"></a> 5、limit (重点中的重点，以后分页查询全靠它了。)</h2>
+<h3 id="51-limit是mysql特有的其他数据库中没有不通用-oracle中有一个相同的机制叫做rownum"><a class="markdownIt-Anchor" href="#51-limit是mysql特有的其他数据库中没有不通用-oracle中有一个相同的机制叫做rownum"></a> 5.1、limit是mysql特有的，其他数据库中没有，不通用。（Oracle中有一个相同的机制，叫做rownum）</h3>
+<h3 id="52-limit取结果集中的部分数据这时它的作用"><a class="markdownIt-Anchor" href="#52-limit取结果集中的部分数据这时它的作用"></a> 5.2、limit取结果集中的部分数据，这时它的作用。</h3>
+<h3 id="53-语法机制"><a class="markdownIt-Anchor" href="#53-语法机制"></a> 5.3、语法机制：</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">limit startIndex, length</span><br><span class="line">	startIndex表示起始位置，从0开始，0表示第一条数据。</span><br><span class="line">	length表示取几个</span><br><span class="line"></span><br><span class="line">案例：取出工资前5名的员工（思路：降序取前5个）</span><br><span class="line">select ename,sal from emp order by sal desc;</span><br><span class="line">取前5个：</span><br><span class="line">select ename,sal from emp order by sal desc limit 0, 5;</span><br><span class="line">select ename,sal from emp order by sal desc limit 5;</span><br></pre></td></tr></table></figure>
+<h3 id="54-limit是sql语句最后执行的一个环节"><a class="markdownIt-Anchor" href="#54-limit是sql语句最后执行的一个环节"></a> 5.4、limit是sql语句最后执行的一个环节：</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">select		5</span><br><span class="line">	...</span><br><span class="line">from			1</span><br><span class="line">	...		</span><br><span class="line">where			2</span><br><span class="line">	...	</span><br><span class="line">group by		3</span><br><span class="line">	...</span><br><span class="line">having		4</span><br><span class="line">	...</span><br><span class="line">order by		6</span><br><span class="line">	...</span><br><span class="line">limit			7</span><br><span class="line">	...;</span><br><span class="line">1234567891011121314</span><br></pre></td></tr></table></figure>
+<h3 id="55-案例找出工资排名在第4到第9名的员工"><a class="markdownIt-Anchor" href="#55-案例找出工资排名在第4到第9名的员工"></a> 5.5、案例：找出工资排名在第4到第9名的员工？</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">select ename,sal from emp order by sal desc limit 3,6;</span><br><span class="line">+--------+---------+</span><br><span class="line">| ename  | sal     |</span><br><span class="line">+--------+---------+</span><br><span class="line">| JONES  | 2975.00 |</span><br><span class="line">| BLAKE  | 2850.00 |</span><br><span class="line">| CLARK  | 2450.00 |</span><br><span class="line">| ALLEN  | 1600.00 |</span><br><span class="line">| TURNER | 1500.00 |</span><br><span class="line">| MILLER | 1300.00 |</span><br><span class="line">+--------+---------+</span><br><span class="line">1234567891011</span><br></pre></td></tr></table></figure>
+<h3 id="56-通用的标准分页sql"><a class="markdownIt-Anchor" href="#56-通用的标准分页sql"></a> 5.6、通用的标准分页sql？</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">每页显示3条记录：</span><br><span class="line">第1页：0, 3</span><br><span class="line">第2页：3, 3</span><br><span class="line">第3页：6, 3</span><br><span class="line">第4页：9, 3</span><br><span class="line">第5页：12, 3</span><br><span class="line"></span><br><span class="line">每页显示pageSize条记录：</span><br><span class="line">第pageNo页：(pageNo - 1) * pageSize, pageSize</span><br><span class="line"></span><br><span class="line">pageSize是什么？是每页显示多少条记录</span><br><span class="line">pageNo是什么？显示第几页</span><br><span class="line"></span><br><span class="line">java代码&#123;</span><br><span class="line">	int pageNo = 2; // 页码是2</span><br><span class="line">	int pageSize = 10; // 每页显示10条</span><br><span class="line">	</span><br><span class="line">	limit (pageNo - 1) * pageSize, pageSize</span><br><span class="line">&#125;</span><br><span class="line">12345678910111213141516171819</span><br></pre></td></tr></table></figure>
+<h2 id="6-创建表"><a class="markdownIt-Anchor" href="#6-创建表"></a> 6、创建表：</h2>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">建表语句的语法格式：</span><br><span class="line">	create table 表名(</span><br><span class="line">		字段名1 数据类型,</span><br><span class="line">		字段名2 数据类型,</span><br><span class="line">		字段名3 数据类型,</span><br><span class="line">		....</span><br><span class="line">	);</span><br><span class="line"></span><br><span class="line">关于MySQL当中字段的数据类型？以下只说常见的</span><br><span class="line">	int		整数型(java中的int)</span><br><span class="line">	bigint	长整型(java中的long)</span><br><span class="line">	float		浮点型(java中的float double)</span><br><span class="line">	char		定长字符串(String)</span><br><span class="line">	varchar	可变长字符串(StringBuffer/StringBuilder)</span><br><span class="line">	date		日期类型 （对应Java中的java.sql.Date类型）</span><br><span class="line">	BLOB		二进制大对象（存储图片、视频等流媒体信息） Binary Large OBject （对应java中的Object）</span><br><span class="line">	CLOB		字符大对象（存储较大文本，比如，可以存储4G的字符串。） Character Large OBject（对应java中的Object）</span><br><span class="line">	......</span><br><span class="line"></span><br><span class="line">char和varchar怎么选择？</span><br><span class="line">	在实际的开发中，当某个字段中的数据长度不发生改变的时候，是定长的，例如：性别、生日等都是采用char。</span><br><span class="line">	当一个字段的数据长度不确定，例如：简介、姓名等都是采用varchar。</span><br><span class="line"></span><br><span class="line">BLOB和CLOB类型的使用？</span><br><span class="line">	电影表: t_movie</span><br><span class="line">	id(int)	name(varchar)		playtime(date/char)		haibao(BLOB)		history(CLOB)</span><br><span class="line">	----------------------------------------------------------------------------------------</span><br><span class="line">	1			蜘蛛侠	</span><br><span class="line">	2</span><br><span class="line">	3</span><br><span class="line"></span><br><span class="line">表名在数据库当中一般建议以：t_或者tbl_开始。</span><br><span class="line"></span><br><span class="line">创建学生表：</span><br><span class="line">	学生信息包括：</span><br><span class="line">		学号、姓名、性别、班级编号、生日</span><br><span class="line">		学号：bigint</span><br><span class="line">		姓名：varchar</span><br><span class="line">		性别：char</span><br><span class="line">		班级编号：int</span><br><span class="line">		生日：char</span><br><span class="line">	</span><br><span class="line">	create table t_student(</span><br><span class="line">		no bigint,</span><br><span class="line">		name varchar(255),</span><br><span class="line">		sex char(1) default &#x27;男&#x27;, </span><br><span class="line">		classno varchar(255),</span><br><span class="line">		birth char(10)</span><br><span class="line">	);</span><br><span class="line">	</span><br><span class="line">	//注意使用default 设置默认值</span><br><span class="line">	//char 和varchar必须设置长度</span><br></pre></td></tr></table></figure>
+<h2 id="7-insert语句插入数据"><a class="markdownIt-Anchor" href="#7-insert语句插入数据"></a> 7、insert语句插入数据</h2>
+<blockquote>
+<p>可以使用表头的属性顺序添加数据，此时不需要写类型，直接value()</p>
+<p>注意顺序一定要和表头一样；</p>
+</blockquote>
+<p><code>insert into t_student value(3,24,'TOm','男','63453474567@163.com');</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line">语法格式：</span><br><span class="line">	insert into 表名(字段名1,字段名2,字段名3,....) values(值1,值2,值3,....)</span><br><span class="line">	要求：字段的数量和值的数量相同，并且数据类型要对应相同。</span><br><span class="line"></span><br><span class="line">insert into t_student(no,name,sex,classno,birth) values(1,&#x27;zhangsan&#x27;,&#x27;1&#x27;,&#x27;gaosan1ban&#x27;);</span><br><span class="line">ERROR 1136 (21S01): Column count doesn&#x27;t match value count at row 1</span><br><span class="line"></span><br><span class="line">insert into t_student(no,name,sex,classno,birth) values(1,&#x27;zhangsan&#x27;,&#x27;1&#x27;,&#x27;gaosan1ban&#x27;, &#x27;1950-10-12&#x27;);</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from t_student;</span><br><span class="line">+------+----------+------+------------+------------+</span><br><span class="line">| no   | name     | sex  | classno    | birth      |</span><br><span class="line">+------+----------+------+------------+------------+</span><br><span class="line">|    1 | zhangsan | 1    | gaosan1ban | 1950-10-12 |</span><br><span class="line">+------+----------+------+------------+------------+</span><br><span class="line"></span><br><span class="line">insert into t_student(name,sex,classno,birth,no) values(&#x27;lisi&#x27;,&#x27;1&#x27;,&#x27;gaosan1ban&#x27;, &#x27;1950-10-12&#x27;,2);</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from t_student;</span><br><span class="line">+------+----------+------+------------+------------+</span><br><span class="line">| no   | name     | sex  | classno    | birth      |</span><br><span class="line">+------+----------+------+------------+------------+</span><br><span class="line">|    1 | zhangsan | 1    | gaosan1ban | 1950-10-12 |</span><br><span class="line">|    2 | lisi     | 1    | gaosan1ban | 1950-10-12 |</span><br><span class="line">+------+----------+------+------------+------------+</span><br><span class="line"></span><br><span class="line">insert into t_student(name) values(&#x27;wangwu&#x27;); // 除name字段之外，剩下的所有字段自动插入NULL。</span><br><span class="line">mysql&gt; select * from t_student;</span><br><span class="line">+------+----------+------+------------+------------+</span><br><span class="line">| no   | name     | sex  | classno    | birth      |</span><br><span class="line">+------+----------+------+------------+------------+</span><br><span class="line">|    1 | zhangsan | 1    | gaosan1ban | 1950-10-12 |</span><br><span class="line">|    2 | lisi     | 1    | gaosan1ban | 1950-10-12 |</span><br><span class="line">| NULL | wangwu   | NULL | NULL       | NULL       |</span><br><span class="line">+------+----------+------+------------+------------+</span><br><span class="line"></span><br><span class="line">insert into t_student(no) values(3); </span><br><span class="line">mysql&gt; select * from t_student;</span><br><span class="line">+------+----------+------+------------+------------+</span><br><span class="line">| no   | name     | sex  | classno    | birth      |</span><br><span class="line">+------+----------+------+------------+------------+</span><br><span class="line">|    1 | zhangsan | 1    | gaosan1ban | 1950-10-12 |</span><br><span class="line">|    2 | lisi     | 1    | gaosan1ban | 1950-10-12 |</span><br><span class="line">| NULL | wangwu   | NULL | NULL       | NULL       |</span><br><span class="line">|    3 | NULL     | NULL | NULL       | NULL       |</span><br><span class="line">+------+----------+------+------------+------------+</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">drop table if exists t_student; // 当这个表存在的话删除。</span><br><span class="line">create table t_student(</span><br><span class="line">	no bigint,</span><br><span class="line">	name varchar(255),</span><br><span class="line">	sex char(1) default 1,</span><br><span class="line">	classno varchar(255),</span><br><span class="line">	birth char(10)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">insert into t_student(name) values(&#x27;zhangsan&#x27;);</span><br><span class="line">mysql&gt; select * from t_student;</span><br><span class="line">+------+----------+------+---------+-------+</span><br><span class="line">| no   | name     | sex  | classno | birth |</span><br><span class="line">+------+----------+------+---------+-------+</span><br><span class="line">| NULL | zhangsan | 1    | NULL    | NULL  |</span><br><span class="line">+------+----------+------+---------+-------+</span><br><span class="line"></span><br><span class="line">需要注意的地方：</span><br><span class="line">	当一条insert语句执行成功之后，表格当中必然会多一行记录。</span><br><span class="line">	即使多的这一行记录当中某些字段是NULL，后期也没有办法在执行</span><br><span class="line">	insert语句插入数据了，只能使用update进行更新。</span><br><span class="line"></span><br><span class="line">// 字段可以省略不写，但是后面的value对数量和顺序都有要求。</span><br><span class="line">insert into t_student values(1,&#x27;jack&#x27;,&#x27;0&#x27;,&#x27;gaosan2ban&#x27;,&#x27;1986-10-23&#x27;);</span><br><span class="line">mysql&gt; select * from t_student;</span><br><span class="line">+------+----------+------+------------+------------+</span><br><span class="line">| no   | name     | sex  | classno    | birth      |</span><br><span class="line">+------+----------+------+------------+------------+</span><br><span class="line">| NULL | zhangsan | 1    | NULL       | NULL       |</span><br><span class="line">|    1 | jack     | 0    | gaosan2ban | 1986-10-23 |</span><br><span class="line">+------+----------+------+------------+------------+</span><br><span class="line"></span><br><span class="line">insert into t_student values(1,&#x27;jack&#x27;,&#x27;0&#x27;,&#x27;gaosan2ban&#x27;);</span><br><span class="line">ERROR 1136 (21S01): Column count doesn&#x27;t match value count at row 1</span><br><span class="line"></span><br><span class="line">// 一次插入多行数据</span><br><span class="line">insert into t_student</span><br><span class="line">	(no,name,sex,classno,birth) </span><br><span class="line">values</span><br><span class="line">	(3,&#x27;rose&#x27;,&#x27;1&#x27;,&#x27;gaosi2ban&#x27;,&#x27;1952-12-14&#x27;),(4,&#x27;laotie&#x27;,&#x27;1&#x27;,&#x27;gaosi2ban&#x27;,&#x27;1955-12-14&#x27;);</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from t_student;</span><br><span class="line">+------+----------+------+------------+------------+</span><br><span class="line">| no   | name     | sex  | classno    | birth      |</span><br><span class="line">+------+----------+------+------------+------------+</span><br><span class="line">| NULL | zhangsan | 1    | NULL       | NULL       |</span><br><span class="line">|    1 | jack     | 0    | gaosan2ban | 1986-10-23 |</span><br><span class="line">|    3 | rose     | 1    | gaosi2ban  | 1952-12-14 |</span><br><span class="line">|    4 | laotie   | 1    | gaosi2ban  | 1955-12-14 |</span><br><span class="line">+------+----------+------+------------+------------+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="insert插入日期"><a class="markdownIt-Anchor" href="#insert插入日期"></a> insert插入日期</h3>
+<pre><code>数字格式化：format
+	select ename,sal from emp;
+	+--------+---------+
+	| ename  | sal     |
+	+--------+---------+
+	| SMITH  |  800.00 |
+	| ALLEN  | 1600.00 |
+	| WARD   | 1250.00 |
+	| JONES  | 2975.00 |
+	| MARTIN | 1250.00 |
+	| BLAKE  | 2850.00 |
+	| CLARK  | 2450.00 |
+	| SCOTT  | 3000.00 |
+	| KING   | 5000.00 |
+	| TURNER | 1500.00 |
+	| ADAMS  | 1100.00 |
+	| JAMES  |  950.00 |
+	| FORD   | 3000.00 |
+	| MILLER | 1300.00 |
+	+--------+---------+
+
+	格式化数字：format(数字, '格式')
+		select ename,format(sal, '$999,999') as sal from emp;
+		+--------+-------+
+		| ename  | sal   |
+		+--------+-------+
+		| SMITH  | 800   |
+		| ALLEN  | 1,600 |
+		| WARD   | 1,250 |
+		| JONES  | 2,975 |
+		| MARTIN | 1,250 |
+		| BLAKE  | 2,850 |
+		| CLARK  | 2,450 |
+		| SCOTT  | 3,000 |
+		| KING   | 5,000 |
+		| TURNER | 1,500 |
+		| ADAMS  | 1,100 |
+		| JAMES  | 950   |
+		| FORD   | 3,000 |
+		| MILLER | 1,300 |
+		+--------+-------+
+
+str_to_date：将字符串varchar类型转换成date类型
+date_format：将date类型转换成具有一定格式的varchar字符串类型。
+
+drop table if exists t_user;
+create table t_user(
+	id int,
+	name varchar(32),
+	birth date // 生日也可以使用date日期类型
+);
+
+create table t_user(
+	id int,
+	name varchar(32),
+	birth char(10) // 生日可以使用字符串，没问题。
+);
+
+生日：1990-10-11 （10个字符）
+
+注意：数据库中的有一条命名规范：
+	所有的标识符都是全部小写，单词和单词之间使用下划线进行衔接。
+
+mysql&gt; desc t_user;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | int(11)     | YES  |     | NULL    |       |
+| name  | varchar(32) | YES  |     | NULL    |       |
+| birth | date        | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+
+插入数据？
+	insert into t_user(id,name,birth) values(1, 'zhangsan', '01-10-1990'); // 1990年10月1日
+	出问题了：原因是类型不匹配。数据库birth是date类型，这里给了一个字符串varchar。
+
+	怎么办？可以使用str_to_date函数进行类型转换。
+	str_to_date函数可以将字符串转换成日期类型date？
+	语法格式：
+		str_to_date('字符串日期', '日期格式')
+
+	mysql的日期格式：
+		%Y	年
+		%m 月
+		%d 日
+		%h	时
+		%i	分
+		%s	秒
+	
+	insert into t_user(id,name,birth) values(1, 'zhangsan', str_to_date('01-10-1990','%d-%m-%Y'));
+
+	str_to_date函数可以把字符串varchar转换成日期date类型数据，
+	通常使用在插入insert方面，因为插入的时候需要一个日期类型的数据，
+	需要通过该函数将字符串转换成date。
+
+好消息？
+	如果你提供的日期字符串是这个格式，str_to_date函数就不需要了！！！
+		%Y-%m-%d
+	insert into t_user(id,name,birth) values(2, 'lisi', '1990-10-01');
+
+查询的时候可以以某个特定的日期格式展示吗？
+	date_format
+	这个函数可以将日期类型转换成特定格式的字符串。
+
+	select id,name,date_format(birth, '%m/%d/%Y') as birth from t_user;
+	+------+----------+------------+
+	| id   | name     | birth      |
+	+------+----------+------------+
+	|    1 | zhangsan | 10/01/1990 |
+	|    2 | lisi     | 10/01/1990 |
+	+------+----------+------------+
+
+	date_format函数怎么用？
+		date_format(日期类型数据, '日期格式')
+		这个函数通常使用在查询日期方面。设置展示的日期格式。
+	
+	mysql&gt; select id,name,birth from t_user;
+	+------+----------+------------+
+	| id   | name     | birth      |
+	+------+----------+------------+
+	|    1 | zhangsan | 1990-10-01 |
+	|    2 | lisi     | 1990-10-01 |
+	+------+----------+------------+
+	以上的SQL语句实际上是进行了默认的日期格式化，
+	自动将数据库中的date类型转换成varchar类型。
+	并且采用的格式是mysql默认的日期格式：'%Y-%m-%d'
+
+	select id,name,date_format(birth,'%Y/%m/%d') as birth from t_user;
+	
+	java中的日期格式？
+		yyyy-MM-dd HH:mm:ss SSS
+</code></pre>
+<h3 id="date和datetime两个类型的区别"><a class="markdownIt-Anchor" href="#date和datetime两个类型的区别"></a> date和datetime两个类型的区别？</h3>
+<p>​	date是短日期：只包括年月日信息。<br />
+​	datetime是长日期：包括年月日时分秒信息。</p>
+<pre><code>drop table if exists t_user;
+create table t_user(
+	id int,
+	name varchar(32),
+	birth date,
+	create_time datetime
+);
+</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">id是整数</span><br><span class="line">name是字符串</span><br><span class="line">birth是短日期</span><br><span class="line">create_time是这条记录的创建时间：长日期类型</span><br><span class="line"></span><br><span class="line">mysql短日期默认格式：%Y-%m-%d</span><br><span class="line">mysql长日期默认格式：%Y-%m-%d %h:%i:%s</span><br><span class="line"></span><br><span class="line">insert into t_user(id,name,birth,create_time) values(1,&#x27;zhangsan&#x27;,&#x27;1990-10-01&#x27;,&#x27;2020-03-18 15:49:50&#x27;);</span><br><span class="line"></span><br><span class="line">在mysql当中怎么获取系统当前时间？</span><br><span class="line">	now() 函数，并且获取的时间带有：时分秒信息！！！！是datetime类型的。</span><br><span class="line"></span><br><span class="line">	insert into t_user(id,name,birth,create_time) values(2,&#x27;lisi&#x27;,&#x27;1991-10-01&#x27;,now());</span><br></pre></td></tr></table></figure>
+<h2 id="8-表的复制"><a class="markdownIt-Anchor" href="#8-表的复制"></a> 8、表的复制</h2>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">语法：</span><br><span class="line">	create table 表名 as select语句;</span><br><span class="line">	将查询结果当做表创建出来。</span><br></pre></td></tr></table></figure>
+<h2 id="9-将查询结果插入到一张表中"><a class="markdownIt-Anchor" href="#9-将查询结果插入到一张表中"></a> 9、将查询结果插入到一张表中</h2>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; insert into dept1 select * from dept;</span><br><span class="line">mysql&gt; select * from dept1;</span><br><span class="line">+--------+------------+----------+</span><br><span class="line">| DEPTNO | DNAME      | LOC      |</span><br><span class="line">+--------+------------+----------+</span><br><span class="line">|     10 | ACCOUNTING | NEW YORK |</span><br><span class="line">|     20 | RESEARCH   | DALLAS   |</span><br><span class="line">|     30 | SALES      | CHICAGO  |</span><br><span class="line">|     40 | OPERATIONS | BOSTON   |</span><br><span class="line">|     10 | ACCOUNTING | NEW YORK |</span><br><span class="line">|     20 | RESEARCH   | DALLAS   |</span><br><span class="line">|     30 | SALES      | CHICAGO  |</span><br><span class="line">|     40 | OPERATIONS | BOSTON   |</span><br><span class="line">+--------+------------+----------+</span><br></pre></td></tr></table></figure>
+<h2 id="10-修改数据update"><a class="markdownIt-Anchor" href="#10-修改数据update"></a> 10、修改数据：update</h2>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">语法格式：</span><br><span class="line">	update 表名 set 字段名1=值1,字段名2=值2... where 条件;</span><br></pre></td></tr></table></figure>
+<p><mark>注意：没有条件整张表数据全部更新。</mark></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">案例：将部门10的LOC修改为SHANGHAI，将部门名称修改为RENSHIBU</span><br><span class="line">update dept1 set loc = &#x27;SHANGHAI&#x27;, dname = &#x27;RENSHIBU&#x27; where deptno = 10;</span><br><span class="line">mysql&gt; select * from dept1;</span><br><span class="line">+--------+------------+----------+</span><br><span class="line">| DEPTNO | DNAME      | LOC      |</span><br><span class="line">+--------+------------+----------+</span><br><span class="line">|     10 | RENSHIBU   | SHANGHAI |</span><br><span class="line">|     20 | RESEARCH   | DALLAS   |</span><br><span class="line">|     30 | SALES      | CHICAGO  |</span><br><span class="line">|     40 | OPERATIONS | BOSTON   |</span><br><span class="line">|     10 | RENSHIBU   | SHANGHAI |</span><br><span class="line">|     20 | RESEARCH   | DALLAS   |</span><br><span class="line">|     30 | SALES      | CHICAGO  |</span><br><span class="line">|     40 | OPERATIONS | BOSTON   |</span><br><span class="line">+--------+------------+----------+</span><br><span class="line"></span><br><span class="line">更新所有记录</span><br><span class="line">	update dept1 set loc = &#x27;x&#x27;, dname = &#x27;y&#x27;;</span><br><span class="line">	mysql&gt; select * from dept1;</span><br><span class="line">	+--------+-------+------+</span><br><span class="line">	| DEPTNO | DNAME | LOC  |</span><br><span class="line">	+--------+-------+------+</span><br><span class="line">	|     10 | y     | x    |</span><br><span class="line">	|     20 | y     | x    |</span><br><span class="line">	|     30 | y     | x    |</span><br><span class="line">	|     40 | y     | x    |</span><br><span class="line">	|     10 | y     | x    |</span><br><span class="line">	|     20 | y     | x    |</span><br><span class="line">	|     30 | y     | x    |</span><br><span class="line">	|     40 | y     | x    |</span><br><span class="line">	+--------+-------+------+</span><br></pre></td></tr></table></figure>
+<h2 id="11-删除数据"><a class="markdownIt-Anchor" href="#11-删除数据"></a> 11、删除数据</h2>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">删除表：</span><br><span class="line">	drop table if exists t_student;</span><br><span class="line"></span><br><span class="line">语法格式：</span><br><span class="line">	delete from 表名 where 条件;</span><br><span class="line"></span><br><span class="line">注意：没有条件全部删除。</span><br><span class="line"></span><br><span class="line">删除10部门数据</span><br><span class="line">	delete from dept1 where deptno = 10;</span><br><span class="line"></span><br><span class="line">删除所有记录</span><br><span class="line">	delete from dept1;</span><br><span class="line"></span><br><span class="line">怎么删除大表中的数据？（重点）</span><br><span class="line">	truncate table 表名; // 表被截断，不可回滚。永久丢失。</span><br><span class="line">删除表？</span><br><span class="line">	drop table 表名; // 这个通用。</span><br><span class="line">	drop table if exists 表名; // oracle不支持这种写法。</span><br></pre></td></tr></table></figure>
+<h1 id="️-综合练习"><a class="markdownIt-Anchor" href="#️-综合练习"></a> ⭐️ 综合练习</h1>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create table t_teacher (no int,name varchar(10),sex char(1) default  &#x27;m&#x27;,age int,email varchar(25),birth varchar(20));</span><br><span class="line">Query OK, 0 rows affected (0.01 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; insert into t_teacher (no,name,age,email,birth)value(4,&#x27;teacher_1&#x27;,26,&#x27;534654@qq.com&#x27;,now());</span><br><span class="line">Query OK, 1 row affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; insert into t_teacher (no,name,age,email,birth)values(1,&#x27;teacher_1&#x27;,26,&#x27;5344@129.com&#x27;,now()),(2,&#x27;teacher_3&#x27;,27,&#x27;2334@129.com&#x27;,now()),(3,&#x27;teacher_3&#x27;,28,&#x27;3264@129.com&#x27;,now());</span><br><span class="line">Query OK, 3 rows affected (0.00 sec)</span><br><span class="line">Records: 3  Duplicates: 0  Warnings: 0</span><br><span class="line"></span><br><span class="line">mysql&gt; select *from t_teacher;</span><br><span class="line">+------+-----------+------+------+---------------+---------------------+</span><br><span class="line">| no   | name      | sex  | age  | email         | birth               |</span><br><span class="line">+------+-----------+------+------+---------------+---------------------+</span><br><span class="line">|    4 | teacher_1 | m    |   26 | 534654@qq.com | 2022-06-28 16:43:25 |</span><br><span class="line">|    1 | teacher_1 | m    |   26 | 5344@129.com  | 2022-06-28 16:44:46 |</span><br><span class="line">|    2 | teacher_3 | m    |   27 | 2334@129.com  | 2022-06-28 16:44:46 |</span><br><span class="line">|    3 | teacher_3 | m    |   28 | 3264@129.com  | 2022-06-28 16:44:46 |</span><br><span class="line">+------+-----------+------+------+---------------+---------------------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; update t_teacher set name=&#x27;Name&#x27; where no=2;</span><br><span class="line">Query OK, 1 row affected (0.00 sec)</span><br><span class="line">Rows matched: 1  Changed: 1  Warnings: 0</span><br><span class="line"></span><br><span class="line">mysql&gt; select *from t_teacher;</span><br><span class="line">+------+-----------+------+------+---------------+---------------------+</span><br><span class="line">| no   | name      | sex  | age  | email         | birth               |</span><br><span class="line">+------+-----------+------+------+---------------+---------------------+</span><br><span class="line">|    4 | teacher_1 | m    |   26 | 534654@qq.com | 2022-06-28 16:43:25 |</span><br><span class="line">|    1 | teacher_1 | m    |   26 | 5344@129.com  | 2022-06-28 16:44:46 |</span><br><span class="line">|    2 | Name      | m    |   27 | 2334@129.com  | 2022-06-28 16:44:46 |</span><br><span class="line">|    3 | teacher_3 | m    |   28 | 3264@129.com  | 2022-06-28 16:44:46 |</span><br><span class="line">+------+-----------+------+------+---------------+---------------------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; delete from t_student where no=3;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select name,age, email from t_teacher where age between 20 and 50 order by no desc;</span><br><span class="line">+-----------+------+---------------+</span><br><span class="line">| name      | age  | email         |</span><br><span class="line">+-----------+------+---------------+</span><br><span class="line">| teacher_1 |   26 | 534654@qq.com |</span><br><span class="line">| teacher_3 |   28 | 3264@129.com  |</span><br><span class="line">| Name      |   27 | 2334@129.com  |</span><br><span class="line">| teacher_1 |   26 | 5344@129.com  |</span><br><span class="line">+-----------+------+---------------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<h2 id="12-表结构的修改"><a class="markdownIt-Anchor" href="#12-表结构的修改"></a> 12、表结构的修改</h2>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">这里不讲了，大家使用工具完成即可，因为在实际开发中表一旦设计好之后，对表结构的修改是很少的，修改表结构就是对之前的设计进行了否定，即使</span><br><span class="line">需要修改表结构，我们也可以直接使用工具操作。修改表结构的语句不会出现在Java代码当中。</span><br><span class="line"></span><br><span class="line">出现在java代码当中的sql包括：insert delete update select（这些都是表中的数据操作。）</span><br><span class="line"></span><br><span class="line">增删改查有一个术语：CRUD操作</span><br><span class="line">Create（增） Retrieve（检索） Update（修改） Delete（删除）</span><br></pre></td></tr></table></figure>
+<h2 id="13-约束constraint"><a class="markdownIt-Anchor" href="#13-约束constraint"></a> 13、约束(Constraint)</h2>
+<h3 id="131-什么是约束常见的约束有哪些呢"><a class="markdownIt-Anchor" href="#131-什么是约束常见的约束有哪些呢"></a> 13.1、什么是约束？常见的约束有哪些呢？</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">在创建表的时候，可以给表的字段添加相应的约束，添加约束的目的是为了保证表中数据的</span><br><span class="line">合法性、有效性、完整性。</span><br><span class="line">常见的约束有哪些呢？</span><br><span class="line">	非空约束(not null)：约束的字段不能为NULL</span><br><span class="line">	唯一约束(unique)：约束的字段不能重复</span><br><span class="line">	主键约束(primary key)：约束的字段既不能为NULL，也不能重复（简称PK）</span><br><span class="line">	外键约束(foreign key)：...（简称FK）</span><br><span class="line">	检查约束(check)：注意Oracle数据库有check约束，但是mysql没有，目前mysql不支持该约束。</span><br><span class="line">12345678</span><br></pre></td></tr></table></figure>
+<h3 id="132-非空约束-not-null"><a class="markdownIt-Anchor" href="#132-非空约束-not-null"></a> 13.2、非空约束 not null</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">drop table if exists t_user;</span><br><span class="line">create table t_user(</span><br><span class="line">	id int,</span><br><span class="line">	username varchar(255) not null,</span><br><span class="line">	password varchar(255)</span><br><span class="line">);</span><br><span class="line">insert into t_user(id,password) values(1,&#x27;123&#x27;);</span><br><span class="line">ERROR 1364 (HY000): Field &#x27;username&#x27; doesn&#x27;t have a default value</span><br><span class="line"></span><br><span class="line">insert into t_user(id,username,password) values(1,&#x27;lisi&#x27;,&#x27;123&#x27;);</span><br></pre></td></tr></table></figure> 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://adorabled4.github.io/2022/06/27/SQL/MySQL/Day02/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2022/06/28/SQL/MySQL/MySQL/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            MySQL(4)
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2022/06/26/SQL/MySQL/Day01/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">MySQL(1)</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.staticfile.org/valine/1.4.16/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "BMxcpVMjh3EMOP7tyImO6aLR-gzGzoHsz",
+    app_key: "HpcPO68bneKDaeq3H1G1xuIN",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+   
+    
+    <script src="https://cdn.staticfile.org/twikoo/1.4.18/twikoo.all.min.js"></script>
+    <div id="twikoo" class="twikoo"></div>
+    <script>
+        twikoo.init({
+            envId: ""
+        })
+    </script>
+ 
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2022
+        <i class="ri-heart-fill heart_icon"></i> dhx_
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/avater.png" alt="dhx_&#39;blog"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.staticfile.org/justifiedGallery/3.8.1/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.staticfile.org/clipboard.js/2.0.10/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+ 
+<script src="/js/dz.js"></script>
+ 
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    <div id="music">
+    
+    
+    
+    <iframe frameborder="no" border="1" marginwidth="0" marginheight="0" width="200" height="52"
+        src="//music.163.com/outchain/player?type=2&id=29480187&auto=1&height=32"></iframe>
+</div>
+
+<style>
+    #music {
+        position: fixed;
+        right: 15px;
+        bottom: 0;
+        z-index: 998;
+    }
+</style>
+    
+    
+
+  </div>
+</body>
+
+</html>
