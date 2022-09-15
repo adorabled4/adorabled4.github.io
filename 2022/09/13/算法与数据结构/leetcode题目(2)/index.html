@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">3.9k</span>
+            <span class="post-count">4.9k</span>
         </span>
     </span>
 
@@ -95,7 +95,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">17 分钟</span>
+            <span class="post-count">22 分钟</span>
         </span>
     </span>
 </div>
@@ -359,6 +359,91 @@
 </blockquote>
 <p><strong>完整代码如下</strong></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">divide</span><span class="params">(<span class="type">int</span> dividend, <span class="type">int</span> divisor)</span> &#123;<span class="comment">// 除数: divisor  被除数: dividend  本题所求: dividend/divisor : a/b</span></span><br><span class="line">        <span class="keyword">if</span>(dividend == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span>(<span class="number">1</span>==divisor) <span class="keyword">return</span> dividend;</span><br><span class="line">        <span class="keyword">if</span>(divisor==-<span class="number">1</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(dividend&gt;Integer.MIN_VALUE) <span class="keyword">return</span> -dividend;</span><br><span class="line">            <span class="keyword">return</span> Integer.MAX_VALUE; <span class="comment">// 越界 ,返回Integer最大值</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">boolean</span> isSameOperate=<span class="literal">true</span>;<span class="comment">// 是否同号</span></span><br><span class="line">        <span class="type">long</span> a=dividend,b=divisor;</span><br><span class="line">        <span class="keyword">if</span>((a&gt;<span class="number">0</span>&amp;&amp;b&lt;<span class="number">0</span>) || (a&lt;<span class="number">0</span>&amp;&amp;b&gt;<span class="number">0</span>))&#123;</span><br><span class="line">            isSameOperate=<span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        a = a&gt;<span class="number">0</span>?a:-a;</span><br><span class="line">        b = b&gt;<span class="number">0</span>?b:-b;</span><br><span class="line">        <span class="type">long</span> res=div(a,b);</span><br><span class="line">        <span class="keyword">if</span>(isSameOperate)&#123;<span class="comment">// 同号</span></span><br><span class="line">            <span class="keyword">return</span> res&gt;Integer.MAX_VALUE?Integer.MAX_VALUE:(<span class="type">int</span>)res;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> (<span class="type">int</span>) -res;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> <span class="title function_">div</span><span class="params">(<span class="type">long</span> a,<span class="type">long</span> b)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(a&lt;b) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="type">long</span> operateB=b;</span><br><span class="line">        <span class="type">int</span> count=<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span>(a-operateB*<span class="number">2</span>&gt;=<span class="number">0</span>)&#123;</span><br><span class="line">            operateB*=<span class="number">2</span>;</span><br><span class="line">            count*=<span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> count+div(a-operateB,b);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="5-最长回文子串"><a class="markdownIt-Anchor" href="#5-最长回文子串"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/longest-palindromic-substring/">5. 最长回文子串</a></h2>
+<p>难度中等5704</p>
+<p>给你一个字符串 <code>s</code>，找到 <code>s</code> 中最长的回文子串。</p>
+<p><strong>中心扩散法</strong></p>
+<blockquote>
+<p>遍历每个字符, 从每个字符为中心, 计算回文子串的最大长度<code>void count()</code></p>
+<ul>
+<li>
+<p><code>left, right</code> 负责统计最长的回文子串的左右下标,</p>
+<blockquote>
+<p>注意计算的时候用的是字符数组, 最后使用<code>substring()</code> 返回的时候需要 <code>right+1</code> , 因为<code>substring</code> 方法的区间是<strong>左闭右开</strong></p>
+</blockquote>
+</li>
+</ul>
+</blockquote>
+<p><strong>具体细节参考代码实现</strong>:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="type">char</span>[]chars;</span><br><span class="line">    <span class="type">int</span> left=<span class="number">0x3f3f3f3f</span>; </span><br><span class="line">    <span class="type">int</span> right=-<span class="number">0x3f3f3f3f</span>;</span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">longestPalindrome</span><span class="params">(String s)</span> &#123;</span><br><span class="line">        chars=s.toCharArray();</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;chars.length;i++)&#123;</span><br><span class="line">            count(i,i); <span class="comment">// 子串长度为奇数</span></span><br><span class="line">            count(i,i+<span class="number">1</span>); <span class="comment">//子串长度为偶数</span></span><br><span class="line">        &#125; <span class="comment">//  12321</span></span><br><span class="line">        <span class="keyword">return</span> s.substring(left,right+<span class="number">1</span>); <span class="comment">// substring  左闭右开</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">count</span><span class="params">(<span class="type">int</span> start, <span class="type">int</span> end)</span>&#123;</span><br><span class="line">        <span class="keyword">while</span>(start &gt;= <span class="number">0</span> &amp;&amp; end &lt; chars.length &amp;&amp; chars[start] == chars[end])&#123; <span class="comment">// 中心拓展法 , 从中间开始 ,向两边扩张</span></span><br><span class="line">            <span class="keyword">if</span>(end-start&gt;right-left)&#123;</span><br><span class="line">                left=start;</span><br><span class="line">                right=end;</span><br><span class="line">            &#125;</span><br><span class="line">            start--;</span><br><span class="line">            end++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>DP做法</strong></p>
+<p>DP<strong>思路</strong></p>
+<ol>
+<li>
+<p><strong>dp数组含义</strong>: <code>dp[l][r]</code>表示 <code>l~r</code> 区间的子串<strong>是否回文</strong>, <code>true</code>表示回文, <code>false</code> 为其他情况 <code>boolean[][]dp</code></p>
+<blockquote>
+<p><strong>另一种做法是<code>dp[i][j]</code> 统计当前的回文子串的长度</strong></p>
+<p><code>dp[i][j]=dp[i+1][j-1]+2</code></p>
+</blockquote>
+<ul>
+<li>其他情况:
+<ul>
+<li><code>s[i, j]</code>本身不是一个回文串；</li>
+<li><code>i&gt;j</code>，此时 <code>s[i, j]</code>本身不合法。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>状态转移</strong> :</p>
+<ul>
+<li><code>chars[i]==char[j]</code>时 , <code>dp[l][r]= dp[l+1][r-1] &amp;&amp; chars[i]==chars[j]</code></li>
+<li>不相等时, <code>dp[i][j]=false</code></li>
+</ul>
+</li>
+<li>
+<p>dp<strong>数组初始化</strong> : 初始化 <code>dp[i][i]=true</code>  , <code>dp[i][i+1]=chars[i]==chars[i+1]</code></p>
+</li>
+<li>
+<p><strong>返回值</strong> : 在DP的过程中维护<code>maxLen</code>以及<code>begin</code>,  最终返回<code>s.substring(begin,begin+maxLen);</code></p>
+</li>
+</ol>
+<p><strong>代码如下</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">longestPalindrome</span><span class="params">(String s)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> s.length();</span><br><span class="line">        <span class="keyword">if</span>(n&lt;<span class="number">2</span>) <span class="keyword">return</span> s;</span><br><span class="line">        <span class="type">int</span> <span class="variable">begin</span> <span class="operator">=</span> <span class="number">0</span>;  <span class="comment">//最长回文串的起点</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">maxLen</span> <span class="operator">=</span> <span class="number">1</span>;  <span class="comment">//最长回文串的长度</span></span><br><span class="line">        <span class="type">char</span>[]chars=s.toCharArray();</span><br><span class="line">        <span class="type">boolean</span>[][] dp = <span class="keyword">new</span> <span class="title class_">boolean</span>[n][n];<span class="comment">// dp[i][j] 表示 i~j 是否为回文子串</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; chars.length; i++) &#123;<span class="comment">// dp数组初始化 :</span></span><br><span class="line">            dp[i][i]=<span class="literal">true</span>;</span><br><span class="line">        &#125;<span class="comment">//abbba</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">L</span> <span class="operator">=</span> <span class="number">2</span>; L &lt;=n; L++) &#123;<span class="comment">// L 表示字串的长度</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">                <span class="type">int</span> l=i;</span><br><span class="line">                <span class="type">int</span> r=L+i-<span class="number">1</span>;<span class="comment">//右下标</span></span><br><span class="line">                <span class="keyword">if</span>(r&gt;=n)&#123;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span>(chars[l]==chars[r])&#123;</span><br><span class="line">                    <span class="keyword">if</span>(r-l&lt;<span class="number">3</span>)&#123;</span><br><span class="line">                        dp[l][r]=<span class="literal">true</span>;</span><br><span class="line">                    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                        dp[l][r]=dp[l+<span class="number">1</span>][r-<span class="number">1</span>];</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span>(dp[l][r]&amp;&amp;maxLen&lt;r+<span class="number">1</span>-l)&#123;</span><br><span class="line">                    maxLen=r+<span class="number">1</span>-l;</span><br><span class="line">                    begin=l;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> s.substring(begin,begin+maxLen);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="516-最长回文子序列-dp"><a class="markdownIt-Anchor" href="#516-最长回文子序列-dp"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/longest-palindromic-subsequence/">516. 最长回文子序列 : DP</a></h2>
+<p>难度中等886</p>
+<p>给你一个字符串 <code>s</code> ，找出其中最长的回文子序列，并返回该序列的长度。</p>
+<p>子序列定义为：不改变剩余字符顺序的情况下，删除某些字符或者不删除任何字符形成的一个序列。</p>
+<p>DP<strong>思路</strong></p>
+<ol>
+<li>
+<p><strong>dp数组含义</strong>: <code>dp[i][j]</code>表示 <code>i~j</code> 区间的最长回文子序列的长度</p>
+<ul>
+<li>其他情况:
+<ul>
+<li><code>s[i, j]</code>本身不是一个回文串；</li>
+<li><code>i&gt;j</code>，此时 <code>s[i, j]</code>本身不合法。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>状态转移</strong> :  <code>chars[i]==char[j]</code>时, 当前的回文子序列长度+2, <code>dp[i][j]=dp[i+1][j-1]+2</code></p>
+<p>不相等的时候, <code>dp[i][j]=Math.max(dp[i][j-1],dp[i+1][j])</code></p>
+<img src="https://img-blog.csdnimg.cn/20210127151420476.jpg" style="zoom:67%;" />
+<blockquote>
+<p>由于这里我们计算<code>dp[i][j]</code>的时候可能会用到<code>dp[i+1][j]</code>, 因此我们需要<strong>倒序遍历</strong> , 使得<code>dp[i+1][j]</code> 是计算之后的, 否则会有错误</p>
+</blockquote>
+</li>
+<li>
+<p>dp<strong>数组初始化</strong> : 初始化 <code>dp[i][i]=1</code></p>
+</li>
+<li>
+<p><strong>返回值</strong> : 在DP的过程中维护<code>res</code>统计最长的回文子序列的长度, 最后返回即可</p>
+</li>
+</ol>
+<p><strong>代码如下</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">longestPalindromeSubseq</span><span class="params">(String s)</span> &#123;</span><br><span class="line">        <span class="type">int</span> n=s.length();</span><br><span class="line">        <span class="keyword">if</span>(s.length()&lt;<span class="number">2</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> res=<span class="number">1</span>; <span class="comment">//返回最长的回文子序列</span></span><br><span class="line">        <span class="type">char</span>[]chars=s.toCharArray();</span><br><span class="line">        <span class="type">int</span>[][]dp=<span class="keyword">new</span> <span class="title class_">int</span>[n][n]; <span class="comment">//dp[i][j] 表示i~j 的最长的回文子序列的长度</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">            dp[i][i]=<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> n-<span class="number">1</span>; i &gt;=<span class="number">0</span>; i--) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> i+<span class="number">1</span>; j &lt; n; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span>(chars[i]==chars[j])&#123;</span><br><span class="line">                    dp[i][j]=dp[i+<span class="number">1</span>][j-<span class="number">1</span>]+<span class="number">2</span>;</span><br><span class="line">                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                    dp[i][j]=Math.max(dp[i+<span class="number">1</span>][j],dp[i][j-<span class="number">1</span>]);</span><br><span class="line">                &#125;</span><br><span class="line">                res=Math.max(res,dp[i][j]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
  
       <!-- reward -->
       
