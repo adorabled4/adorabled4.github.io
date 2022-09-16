@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">5.1k</span>
+            <span class="post-count">5.3k</span>
         </span>
     </span>
 
@@ -95,7 +95,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">19 分钟</span>
+            <span class="post-count">20 分钟</span>
         </span>
     </span>
 </div>
@@ -192,8 +192,38 @@
 </ul>
 <img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220914163535823.png" style="zoom:50%;" />
 <h2 id="212-机器数的表示方法"><a class="markdownIt-Anchor" href="#212-机器数的表示方法"></a> 2.1.2 机器数的表示方法</h2>
+<h3 id="0位置表示法的定义"><a class="markdownIt-Anchor" href="#0位置表示法的定义"></a> 0.位置表示法的定义</h3>
+<p><a target="_blank" rel="noopener" href="https://note.sbwcwso.com/pages/1dd33b/#%E4%BD%8D%E7%BD%AE%E8%A1%A8%E7%A4%BA%E6%B3%95%E7%9A%84%E5%AE%9A%E4%B9%89">反码与补码加法的理解 | mznote (sbwcwso.com)</a></p>
+<ul>
+<li>
+<p>一个 n位的整数 <code>N</code>会按下面的形式书写`：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220916110229380.png" alt="" /></p>
+<ul>
+<li>
+<p>其中 <img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220916110239921.png" alt="" />是与基数 的幂相乘的系数，即有下式成立</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220916110256844.png" alt="" /></p>
+</li>
+<li>
+<p>对于负数，则会在其前面加上负号 <code>-</code> ，即 <img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220916110316260.png" alt="" /></p>
+</li>
+<li>
+<p>对于二进制，则 <code>b=2</code></p>
+<ul>
+<li>例：十进制数 7  ，-7 表示为 位二制数分别为： <code>0111, -0111</code>，</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>人们一般习惯在位置码上进行运算，但计算机不习惯，而且计算机底层不可能用负号来表示负数，</p>
+<p>更不可能让负号参与运算，<strong>因此引入了原码，反码和补码的概念</strong></p>
+</blockquote>
 <img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220914173523409.png" alt="总览" style="zoom:67%;" />
 <h3 id="1-原码表示法"><a class="markdownIt-Anchor" href="#1-原码表示法"></a> 1. 原码表示法</h3>
+<blockquote>
+<p>原码的定义主要是为了引入符号位</p>
+</blockquote>
 <h4 id="1-数学定义"><a class="markdownIt-Anchor" href="#1-数学定义"></a> (1) 数学定义</h4>
 <ul>
 <li>
@@ -203,6 +233,9 @@
 </ul>
 <p>整数的第一位为符号位，用 “,”隔开，0表示正数，1表示负数,x为真值，n为整数的位数。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">printBinary</span><span class="params">(<span class="type">int</span> num)</span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(num!=<span class="number">0</span>)&#123;</span><br><span class="line">        System.out.print(num&amp;<span class="number">1</span>);</span><br><span class="line">        num&gt;&gt;=<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>需要注意的是,  <strong>位置表示法中的负号也会参与运算</strong></p>
+</blockquote>
 <ul>
 <li>
 <p><strong>小数</strong>：</p>
@@ -213,10 +246,10 @@
 </ul>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">printBin</span><span class="params">(<span class="type">double</span> num)</span> &#123;</span><br><span class="line">        StringBuilder sb=<span class="keyword">new</span> <span class="title class_">StringBuilder</span>(<span class="string">&quot;&quot;</span>);</span><br><span class="line">        <span class="type">int</span> cnt=<span class="number">0</span>;<span class="comment">// 统计位数, 如果超过32说明小数无法转换, print &quot;error&quot;</span></span><br><span class="line">        <span class="keyword">while</span>(num%<span class="number">1</span>!=<span class="number">0</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(cnt&gt;=<span class="number">32</span>) <span class="keyword">return</span> <span class="string">&quot;ERROR&quot;</span>;</span><br><span class="line">            num*=<span class="number">2</span>;</span><br><span class="line">            sb.append((<span class="type">int</span>)num);</span><br><span class="line">            <span class="keyword">if</span>(num&gt;=<span class="number">1</span>)&#123;</span><br><span class="line">                num-=<span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">           cnt++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;0.&quot;</span>+sb.toString();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="2-举例"><a class="markdownIt-Anchor" href="#2-举例"></a> (2) 举例</h4>
-<p>[x]<sub>原</sub>=1.001  x=−0.001</p>
-<p>[x]<sub>原</sub>=0.101  x=+0.101</p>
-<p>[x]<sub>原</sub>=1,110  x=−110</p>
-<p>[x]<sub>原</sub>=0,011  x=+011</p>
+<p>[x]<sub>原</sub>=1.001 =&gt; x=−0.001</p>
+<p>[x]<sub>原</sub>=0.101  =&gt;x=+0.101</p>
+<p>[x]<sub>原</sub>=1,110  =&gt;x=−110</p>
+<p>[x]<sub>原</sub>=0,011  =&gt;x=+011</p>
 <blockquote>
 <p>结论：<strong>有逗号表示整数</strong>，<strong>有小数点表示小数</strong>，符号前的数表示符号，0表示正数，1表示负数。</p>
 </blockquote>
@@ -239,7 +272,7 @@
 <ul>
 <li>整数：</li>
 </ul>
-<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220914171020190.png" style="zoom:67%;" />
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220916111433513.png" alt="" /></p>
 <img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220914160057518.png" style="zoom:50%;" />
 <ul>
 <li>小数：
@@ -262,7 +295,7 @@
 <p>树状数组的关键函数lowbit用于求一个数从末尾开始的第一个1所在位置的十进制数，其实现方式就是x &amp; -x，用的就是这里的原理。</p>
 <img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220914160142220.png" style="zoom:50%;" />
 <blockquote>
-<p>按位取反, 末尾加一 , 从后往前</p>
+<p>按位取反(<strong>符号位不需要取反</strong>), 末尾加一 , 从后往前</p>
 </blockquote>
 <h3 id="3反码表示法"><a class="markdownIt-Anchor" href="#3反码表示法"></a> 3.反码表示法</h3>
 <h4 id="1-定义"><a class="markdownIt-Anchor" href="#1-定义"></a> (1) 定义</h4>
@@ -270,14 +303,14 @@
 <ul>
 <li>
 <p>整数：</p>
-<img src="http://fangkaipeng.com/wp-content/uploads/2021/03/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE-2021-03-08-203734.png" style="zoom:67%;" />
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220916111414244.png" alt="" /></p>
 </li>
 <li>
 <p>小数：</p>
 </li>
 </ul>
-<img src="http://fangkaipeng.com/wp-content/uploads/2021/03/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE-2021-03-08-203742.png" style="zoom:50%;" />
-<p>即 当真值为负数时，反码可以用原码除符号位外每位取反得到，正数反码不变，<strong>“+0”和“-0”的反码不同</strong>。</p>
+<img src="http://fangkaipeng.com/wp-content/uploads/2021/03/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE-2021-03-08-203742.png" style="zoom: 67%;" />
+<p>即 <strong>当真值为负数时</strong>，反码可以用原码除符号位外每位取反得到，正数反码不变，<strong>“+0”和“-0”的反码不同</strong>。</p>
 <h3 id="4-三种表示法小结"><a class="markdownIt-Anchor" href="#4-三种表示法小结"></a> 4. 三种表示法小结</h3>
 <ul>
 <li>最高位为符号位，书写上用“,”（整数） 或“.”（小数）将数值部分和符号位隔开。</li>

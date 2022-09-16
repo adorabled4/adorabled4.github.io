@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">4.9k</span>
+            <span class="post-count">6.4k</span>
         </span>
     </span>
 
@@ -95,7 +95,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">22 分钟</span>
+            <span class="post-count">28 分钟</span>
         </span>
     </span>
 </div>
@@ -444,6 +444,88 @@
 </ol>
 <p><strong>代码如下</strong></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">longestPalindromeSubseq</span><span class="params">(String s)</span> &#123;</span><br><span class="line">        <span class="type">int</span> n=s.length();</span><br><span class="line">        <span class="keyword">if</span>(s.length()&lt;<span class="number">2</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> res=<span class="number">1</span>; <span class="comment">//返回最长的回文子序列</span></span><br><span class="line">        <span class="type">char</span>[]chars=s.toCharArray();</span><br><span class="line">        <span class="type">int</span>[][]dp=<span class="keyword">new</span> <span class="title class_">int</span>[n][n]; <span class="comment">//dp[i][j] 表示i~j 的最长的回文子序列的长度</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">            dp[i][i]=<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> n-<span class="number">1</span>; i &gt;=<span class="number">0</span>; i--) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> i+<span class="number">1</span>; j &lt; n; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span>(chars[i]==chars[j])&#123;</span><br><span class="line">                    dp[i][j]=dp[i+<span class="number">1</span>][j-<span class="number">1</span>]+<span class="number">2</span>;</span><br><span class="line">                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                    dp[i][j]=Math.max(dp[i+<span class="number">1</span>][j],dp[i][j-<span class="number">1</span>]);</span><br><span class="line">                &#125;</span><br><span class="line">                res=Math.max(res,dp[i][j]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="300-最长递增子序列-dp"><a class="markdownIt-Anchor" href="#300-最长递增子序列-dp"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/longest-increasing-subsequence/">300. 最长递增子序列 : DP</a></h2>
+<p>难度中等2787</p>
+<p>给你一个整数数组 <code>nums</code> ，找到其中最长严格递增子序列的长度。</p>
+<p><strong>子序列</strong> 是由数组派生而来的序列，删除（或不删除）数组中的元素而不改变其余元素的顺序。例如，<code>[3,6,2,7]</code> 是数组 <code>[0,3,1,6,2,2,7]</code> 的子序列。</p>
+<p><strong>dp思路</strong></p>
+<ol>
+<li>
+<p>dp数组含义, : <strong>dp[i] 代表以nums[i] 结尾时, 数组的最长递增子序列</strong></p>
+</li>
+<li>
+<p>状态转移: <strong>我们从当前的数组往前遍历</strong> , 当遇到了比当前的<code>num[i]</code> 小的数时, 那么<code>dp[i]=Math.max(dp[i],dp[j]+1)</code></p>
+<blockquote>
+<p>对于每个<code>nums[i]</code>都遍历他之前的元素, (倒序遍历), 如果遍历到的元素比当前的元素小, 那么就<code>dp[i]=Math.max(dp[i].dp[j]+1);</code></p>
+</blockquote>
+</li>
+<li>
+<p>dp数组初始化 : 由于每一个子序列至少含有一个元素, 因此<strong>dp</strong>数组的所有元素都应该初始化为 1</p>
+</li>
+<li>
+<p>遍历方向以及范围: 从左向右顺序遍历 , 范围就是<strong>dp数组的所有数字</strong></p>
+</li>
+<li>
+<p>返回值 : 在遍历的过程中, 维护<strong>res</strong> , 每次都取最大值, 最后返回 , 记为最长递增子序列</p>
+</li>
+</ol>
+<blockquote>
+<p><strong>第二层循环正倒序遍历都是可以的</strong></p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    正序遍历与 倒序遍历没啥区别 </span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">lengthOfLIS</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span>(nums.length==<span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> res=<span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span>[]dp=<span class="keyword">new</span> <span class="title class_">int</span>[nums.length]; <span class="comment">//dp[i]表示 以nums[i]结尾的最长的递增的子序列的长度</span></span><br><span class="line">        Arrays.fill(dp,<span class="number">1</span>);</span><br><span class="line">        dp[<span class="number">0</span>]=<span class="number">1</span>;</span><br><span class="line">        <span class="comment">/// 对于每个nums[i] 都遍历他之前的元素, (倒序遍历), 如果遍历到的元素比当前的元素小, 那么就dp[i]=Math.max(dp[i].dp[j]+1);</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line"><span class="comment">//                for (int j = i-1; j &gt;=0; j--) &#123;</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt;i; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span>(nums[i]&gt;nums[j])&#123;</span><br><span class="line">                    dp[i]=Math.max(dp[i],dp[j]+<span class="number">1</span>);</span><br><span class="line">                &#125;</span><br><span class="line">                res=Math.max(res,dp[i]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="376-摆动序列"><a class="markdownIt-Anchor" href="#376-摆动序列"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/wiggle-subsequence/">376. 摆动序列</a></h2>
+<p>难度中等759</p>
+<p>如果连续数字之间的差严格地在正数和负数之间交替，则数字序列称为 **摆动序列 。**第一个差（如果存在的话）可能是正数或负数。仅有一个元素或者含两个不等元素的序列也视作摆动序列。</p>
+<ul>
+<li>例如， <code>[1, 7, 4, 9, 2, 5]</code> 是一个 <strong>摆动序列</strong> ，因为差值 <code>(6, -3, 5, -7, 3)</code> 是正负交替出现的。</li>
+<li>相反，<code>[1, 4, 7, 2, 5]</code> 和 <code>[1, 7, 4, 5, 5]</code> 不是摆动序列，第一个序列是因为它的前两个差值都是正数，第二个序列是因为它的最后一个差值为零。</li>
+</ul>
+<p><strong>子序列</strong> 可以通过从原始序列中删除一些（也可以不删除）元素来获得，剩下的元素保持其原始顺序。</p>
+<p>给你一个整数数组 <code>nums</code> ，返回 <code>nums</code> 中作为 <strong>摆动序列</strong> 的 <strong>最长子序列的长度</strong> 。</p>
+<p><strong>贪心</strong></p>
+<p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/wiggle-subsequence/solution/tan-xin-si-lu-qing-xi-er-zheng-que-de-ti-jie-by-lg/">贪心思路 清晰而正确的题解 - 摆动序列 - 力扣（LeetCode）</a></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220916125052198.png" alt="" /></p>
+<p>新的数字与之前的数字只有三种关系, 大于, 小于, 等于, <strong>对于等于的情况我们不予考虑</strong></p>
+<p>变量含义:</p>
+<ul>
+<li><code>up</code> 表示当前的摆动序列最后的元素是上升的元素的<strong>长度</strong> , 例如<code>1,7,2,3</code><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220916125339497.png" style="zoom:50%;" /></li>
+<li><code>down</code> 表示当前的摆动序列最后的元素是下降的元素的<strong>长度</strong> , 例如<code>1,7,2,3,4</code>  <img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220916125351693.png" style="zoom:50%;" /></li>
+</ul>
+<p>我们在遍历数组元素的过程中统计两种摆动序列的长度, 最终返回两者之中的最大值</p>
+<p><strong>代码如下</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">wiggleMaxLength</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;</span><br><span class="line">        <span class="comment">// 贪心做法</span></span><br><span class="line">        <span class="keyword">if</span>(nums.length&lt;<span class="number">2</span>) <span class="keyword">return</span> nums.length;</span><br><span class="line">        <span class="type">int</span> up=<span class="number">1</span>,down=<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span>(nums[i]&gt;nums[i-<span class="number">1</span>])&#123;</span><br><span class="line">                up=down+<span class="number">1</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(nums[i]&lt;nums[i-<span class="number">1</span>])&#123;</span><br><span class="line">                down=up+<span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> Math.max(up,down);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>DP做法</strong></p>
+<ul>
+<li>一种dp 的思路是使用二维DP, 创建 类似于上面贪心的思路的<code>up</code>  <code>down</code>数组</li>
+</ul>
+<p><strong>贴一个官方代码</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">wiggleMaxLength</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> nums.length;</span><br><span class="line">        <span class="keyword">if</span> (n &lt; <span class="number">2</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> n;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span>[] up = <span class="keyword">new</span> <span class="title class_">int</span>[n];</span><br><span class="line">        <span class="type">int</span>[] down = <span class="keyword">new</span> <span class="title class_">int</span>[n];</span><br><span class="line">        up[<span class="number">0</span>] = down[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt; n; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (nums[i] &gt; nums[i - <span class="number">1</span>]) &#123;</span><br><span class="line">                up[i] = Math.max(up[i - <span class="number">1</span>], down[i - <span class="number">1</span>] + <span class="number">1</span>);</span><br><span class="line">                down[i] = down[i - <span class="number">1</span>];</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums[i] &lt; nums[i - <span class="number">1</span>]) &#123;</span><br><span class="line">                up[i] = up[i - <span class="number">1</span>];</span><br><span class="line">                down[i] = Math.max(up[i - <span class="number">1</span>] + <span class="number">1</span>, down[i - <span class="number">1</span>]);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                up[i] = up[i - <span class="number">1</span>];</span><br><span class="line">                down[i] = down[i - <span class="number">1</span>];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> Math.max(up[n - <span class="number">1</span>], down[n - <span class="number">1</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>其他写法</strong></p>
+<ul>
+<li>
+<p>通过op数组<strong>记录每两个元素的差值</strong>, res<strong>代表最后的摆动序列的长度</strong></p>
+<ul>
+<li><code>res</code> 初始化为2, 因为如果两个元素的差不为<strong>0</strong> , 那么序列的长度至少为2</li>
+</ul>
+</li>
+<li>
+<p>记录前一个差值的状态</p>
+<p>如果相邻的两个元素满足摆动序列的定义, 那么久<code>res++</code></p>
+</li>
+</ul>
+<blockquote>
+<p><strong>中间需要注意的问题</strong></p>
+<ol>
+<li>
+<p><strong>前面有多个元素相等</strong></p>
+<ul>
+<li>通过<code>while</code>循环去除前面的0 元素</li>
+</ul>
+<p><strong>需要注意边界问题</strong></p>
+</li>
+</ol>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">wiggleMaxLength</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;</span><br><span class="line">        <span class="comment">//if(nums.length&lt;2) return nums.length;  这两个特殊情况下面的start 也可以处理</span></span><br><span class="line">        <span class="comment">//if(nums.length==2) return nums[0]==nums[1]?1:2;</span></span><br><span class="line">        <span class="type">int</span>[]op=<span class="keyword">new</span> <span class="title class_">int</span>[nums.length-<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            op[i-<span class="number">1</span>]=nums[i]-nums[i-<span class="number">1</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span> start=<span class="number">0</span>;<span class="comment">// 统计 差不为0的相邻元素的 起始下标</span></span><br><span class="line">        <span class="keyword">while</span>(start&lt;op.length&amp;&amp;op[start]==<span class="number">0</span>)&#123;</span><br><span class="line">            start++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(start&gt;=op.length)&#123;<span class="comment">// 注意边界问题 , 这里是对应的前面的元素全都相等的情况</span></span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">boolean</span> statusBigZero=op[start]&gt;<span class="number">0</span>;<span class="comment">// 表示前面的差与0的关系</span></span><br><span class="line">        <span class="type">int</span> res=<span class="number">2</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> start; i &lt; op.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span>(statusBigZero&amp;&amp;op[i]&lt;<span class="number">0</span>)&#123;</span><br><span class="line">                statusBigZero=<span class="literal">false</span>;</span><br><span class="line">                res++;</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(!statusBigZero&amp;&amp;op[i]&gt;<span class="number">0</span>)&#123;</span><br><span class="line">                statusBigZero=<span class="literal">true</span>;</span><br><span class="line">                res++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
  
       <!-- reward -->
       
@@ -513,7 +595,7 @@
 </div>
 
 <div id="share-mask"></div>  
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8F%8C%E6%8C%87%E9%92%88/" rel="tag">双指针</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">算法与数据结构</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8F%8C%E6%8C%87%E9%92%88/" rel="tag">双指针</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">算法与数据结构</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%B4%AA%E5%BF%83/" rel="tag">贪心</a></li></ul>
 
     </footer>
   </div>
