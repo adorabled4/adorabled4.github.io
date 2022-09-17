@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">5.3k</span>
+            <span class="post-count">5.7k</span>
         </span>
     </span>
 
@@ -95,7 +95,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">20 分钟</span>
+            <span class="post-count">21 分钟</span>
         </span>
     </span>
 </div>
@@ -274,6 +274,28 @@
 </ul>
 <p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220916111433513.png" alt="" /></p>
 <img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220914160057518.png" style="zoom:50%;" />
+<p><strong>特殊的⭐️</strong> :</p>
+<p>首先我们要知道 :</p>
+<blockquote>
+<p>当<strong>数值的大小超出类型范围</strong>的时候, 会发生什么?</p>
+</blockquote>
+<p>例如下面的C代码</p>
+<p><code>printf(&quot;val=%d \n&quot;, (char)128);</code></p>
+<p>我们将 128  强制转换为了<code>char</code> , 显然这已经超出了<code>char</code>类型的范围(<code>-128~127</code>),</p>
+<p>我们知道<strong>计算机使用补码来表示数据</strong>,  127的二进制表示为<code>01111111</code> ,  <code>-128</code>的补码表示为 [x]<sub>补</sub> = <code>128</code> = <code>1000 0000</code></p>
+<p>如果127+1, 那么我们将得到<code>1000 0000</code>, 此时的<code>1000 0000</code> 的真值是<code>-128</code> 。<code>1000 0000</code>是2的补码形式的<code>-128</code>。</p>
+<blockquote>
+<p><strong>因为数值的高位顶飞了正确的符号位</strong></p>
+</blockquote>
+<p>那么我们就得到了 <code>-128</code>,  所以上面的代码的打印结果为<code>val=-128</code></p>
+<p><strong>那么下面的代码我们也就很容易就能理解了</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">test2</span><span class="params">(<span class="type">int</span> n)</span> <span class="comment">// 注意补码的计算方法</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">char</span> c = n;</span><br><span class="line">    <span class="type">char</span> d = -c;</span><br><span class="line">    <span class="comment">// 补码计算 c 的补码为 1000 0000    d=-c = 128 的补码为1000 0000 原码为 0000 1000 0000</span></span><br><span class="line">    <span class="comment">/// d实际存储 补码 100 0000  那么 也就是 dc 的补码相同  所以d=c</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;10 进制 c=%d, d=%d \n&quot;</span>, c, d);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;16 进制 c=%x, d=%x \n&quot;</span>, c, d);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当我们传入<code>n=-128</code> ,</p>
+<p>根据上面的补码的计算方法, <code>c</code>的补码应该是 : <code>1000 0000</code></p>
+<p><code>d=-c = &gt;d=128</code>超出了<code>char</code>的范围  <code>d</code>又变为了 <code>-128</code> ,</p>
+<p>16进制的结果直接进行进制转换即可</p>
+<p>那么上面的代码<code>test2(-128)</code>的打印结果为</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">10</span> 进制 c=<span class="number">-128</span>, d=<span class="number">-128</span></span><br><span class="line"><span class="number">16</span> 进制 c=ffffff80, d=ffffff80</span><br></pre></td></tr></table></figure>
 <ul>
 <li>小数：
 <ul>
@@ -591,7 +613,7 @@ x=x0x1x2…xn则 x¯=x0¯x1¯x2¯…xn¯<br />
 </div>
 
 <div id="share-mask"></div>  
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/" rel="tag">位运算</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%91/" rel="tag">树</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">算法与数据结构</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/" rel="tag">位运算</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%91/" rel="tag">树</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">算法与数据结构</a></li></ul>
 
     </footer>
   </div>
