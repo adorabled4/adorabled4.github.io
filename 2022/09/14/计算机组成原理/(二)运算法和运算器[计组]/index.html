@@ -95,7 +95,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">21 分钟</span>
+            <span class="post-count">22 分钟</span>
         </span>
     </span>
 </div>
@@ -386,20 +386,33 @@ ASCII:用一个字节来表示,低7位用来编码(128),最高位为校验位，
 <p>设x=x0x1…xn−1是一个n位字，奇校验位C定义为：c¯=x0⨁x1⨁…⨁xn−1,即只有x中有奇数个1时才会使得c = 0。<br />
 <strong>奇偶校验码只能检测奇数个错误，无法检测偶数个错误，更不能提供错误的位置。</strong></p>
 <h1 id="22定点加减法运算"><a class="markdownIt-Anchor" href="#22定点加减法运算"></a> 2.2定点加减法运算</h1>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220922185711595.png" style="zoom:50%;" />
 <h2 id="221-补码加法"><a class="markdownIt-Anchor" href="#221-补码加法"></a> 2.2.1 补码加法</h2>
-<p>公式：补补补[x]补+[y]补=[x+y]补</p>
-<img src="http://fangkaipeng.com/wp-content/uploads/2021/03/wp_editor_md_fa75ea72e0f42fe264b6f509585795bf.jpg" style="zoom: 50%;" />
-<p><strong>补码加法特点：</strong> 符号位一起参与运算，在模 2n+1 下运算，即溢出舍去。</p>
+<p>公式：[x]<sub>补</sub>+[y]<sub>补</sub>=[x+y]<sub>补</sub></p>
+<img src="http://fangkaipeng.com/wp-content/uploads/2021/03/wp_editor_md_fa75ea72e0f42fe264b6f509585795bf.jpg" style="zoom: 20%;" />
+<p><strong>补码加法特点：</strong> 符号位一起参与运算，在模 <strong>2n+1</strong> 下运算，即<strong>溢出舍去</strong>。</p>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220922185734988.png" style="zoom:50%;" />
 <h2 id="222-补码减法"><a class="markdownIt-Anchor" href="#222-补码减法"></a> 2.2.2 补码减法</h2>
-<p>公式： 补补补补补[x−y]补=[x]补–[y]补=[x]补+[−y]补</p>
+<p>公式： [x−y]<sub>补</sub>=[x]<sub>补</sub>–[y]<sub>补</sub>=[x]<sub>补</sub>+[−y]<sub>补</sub></p>
 <p><strong>已知y的补求-y的补方法：</strong> 连同符号位取反后末尾+1。</p>
+<p><strong>举例</strong></p>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220922185756201.png" style="zoom:50%;" />
 <h2 id="223-溢出概念与检测方法"><a class="markdownIt-Anchor" href="#223-溢出概念与检测方法"></a> 2.2.3 溢出概念与检测方法</h2>
 <h3 id="1定义"><a class="markdownIt-Anchor" href="#1定义"></a> 1.定义</h3>
 <p>定点整数机器中，数的表示范围|x|&lt;2n−1 ，在运算过程中出现大于字长绝对值的现象称为溢出。两个正数相加，结果大于机器字长所能表示的最大正数（变成负数），称为<strong>正溢</strong>。两个负数相加，结果小于所能表示的最小负数，称为<strong>负溢</strong>。</p>
+<blockquote>
+<p>参加操作的 两个数（减法时即为被减数和“求补” 以后的减数）符号相同，其结果的符号与原操作 数的符号不同，即为溢出</p>
+</blockquote>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220922185851530.png" style="zoom:50%;" />
 <h3 id="2双符号位法判断溢出"><a class="markdownIt-Anchor" href="#2双符号位法判断溢出"></a> 2.双符号位法判断溢出</h3>
-<p>补[x]补=2n+2+x(mod2n+2)</p>
-<p>补补补[x]补+[y]补=[x+y]补(mod2n+2)</p>
-<p><strong>规则：</strong> 两个符号位一起参与模2n+2下的运算，符号位为11表示负数，00表示正数，01和10表示溢出，最高符号位表示正确的符号，01为正溢，10为负溢。</p>
+<p>[x]<sub>补</sub>=2n+2+x(mod2n+2)</p>
+<p>[x]<sub>补</sub>+[y]<sub>补</sub>=[x+y]<sub>补</sub>(mod2n+2)</p>
+<p><strong>规则：</strong> 两个符号位一起参与模2n+2下的运算，</p>
+<p><strong>符号位为11表示负数，00表示正数，01和10表示溢出</strong>，</p>
+<p>最高符号位表示正确的符号，01为正溢，10为负溢。</p>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220922185904114.png" style="zoom:50%;" />
+<p><strong>补码加减法的硬件配置</strong></p>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220922185931855.png" style="zoom:50%;" />
 <h3 id="3单符号判断溢出"><a class="markdownIt-Anchor" href="#3单符号判断溢出"></a> 3.单符号判断溢出</h3>
 <p>当符号位产生进位而最高有效位没进位时发生负溢，当符号位无进位而最高有效位进位时发生正溢。</p>
 <h2 id="224-基本的二进制加法减法器"><a class="markdownIt-Anchor" href="#224-基本的二进制加法减法器"></a> 2.2.4 基本的二进制加法/减法器</h2>
@@ -408,19 +421,19 @@ ASCII:用一个字节来表示,低7位用来编码(128),最高位为校验位，
 <p><strong>减法实现：</strong> 通过 补补补[A−B]补=[A]补+[−B]补 实现，-B的补码就是B连同符号位取反后+1，电路中通过一个异或门将B与1异或实现每位取反，C0输入1实现末尾+1。</p>
 <h1 id="23-定点乘法运算"><a class="markdownIt-Anchor" href="#23-定点乘法运算"></a> 2.3 定点乘法运算</h1>
 <h3 id="231-不带符号的列阵乘法器"><a class="markdownIt-Anchor" href="#231-不带符号的列阵乘法器"></a> 2.3.1 不带符号的列阵乘法器</h3>
-<p><a target="_blank" rel="noopener" href="http://fangkaipeng.com/wp-content/uploads/2021/03/wp_editor_md_605527ab08ec8dfe3b77b4caebf01850.jpg"><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/wp_editor_md_605527ab08ec8dfe3b77b4caebf01850.jpg" alt="img" style="zoom:45%;" /></a></p>
+<p><a target="_blank" rel="noopener" href="http://fangkaipeng.com/wp-content/uploads/2021/03/wp_editor_md_605527ab08ec8dfe3b77b4caebf01850.jpg"><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/wp_editor_md_605527ab08ec8dfe3b77b4caebf01850.jpg" alt="img" style="zoom:13%;" /></a></p>
 <p>如图，设A=am−1…a1a0 以及 B=bn−1…b1b0 ,在二进制的乘法中被乘数 A 和乘数 B 产生 m+n 位乘积 P=pm+n−1…p1p0=∑i=0m−1∑j=0n−1(aibj)2i+j，其中每个aibj称为一个<strong>被加数</strong>。</p>
 <p>对于m∗n 个被加数可以用m∗n 个与门并行产生：</p>
-<p><a target="_blank" rel="noopener" href="http://fangkaipeng.com/wp-content/uploads/2021/03/wp_editor_md_49812277988fbc2f332b90cfe39271d4.jpg"><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/wp_editor_md_49812277988fbc2f332b90cfe39271d4.jpg" alt="img" style="zoom:50%;" /></a></p>
+<p><a target="_blank" rel="noopener" href="http://fangkaipeng.com/wp-content/uploads/2021/03/wp_editor_md_49812277988fbc2f332b90cfe39271d4.jpg"><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/wp_editor_md_49812277988fbc2f332b90cfe39271d4.jpg" alt="img" style="zoom:25%;" /></a></p>
 <p>产生被加数后需要将其按照上述P的计算公式加起来，可以用一组并行的加法器实现，即列阵乘法器：</p>
-<p><a target="_blank" rel="noopener" href="http://fangkaipeng.com/wp-content/uploads/2021/03/wp_editor_md_e5a7f6f9474c59d07e48f00ff20c5b65.jpg"><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/wp_editor_md_e5a7f6f9474c59d07e48f00ff20c5b65.jpg" alt="img" style="zoom:50%;" /></a></p>
+<p><a target="_blank" rel="noopener" href="http://fangkaipeng.com/wp-content/uploads/2021/03/wp_editor_md_e5a7f6f9474c59d07e48f00ff20c5b65.jpg"><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/wp_editor_md_e5a7f6f9474c59d07e48f00ff20c5b65.jpg" alt="img" style="zoom:25%;" /></a></p>
 <h3 id="232-带符号的列阵乘法器"><a class="markdownIt-Anchor" href="#232-带符号的列阵乘法器"></a> 2.3.2 带符号的列阵乘法器</h3>
 <p>求补方法：从右往左扫描，遇到第一个“1”，将1左边的所有取反，右边连同自己不变，结果就是补码。</p>
 <p><strong>求补电路：</strong></p>
-<p><a target="_blank" rel="noopener" href="http://fangkaipeng.com/wp-content/uploads/2021/03/wp_editor_md_c3d3901513eabbf1a8a7b1fb11ebc276.jpg"><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/wp_editor_md_c3d3901513eabbf1a8a7b1fb11ebc276.jpg" alt="img" style="zoom:50%;" /></a></p>
+<p><a target="_blank" rel="noopener" href="http://fangkaipeng.com/wp-content/uploads/2021/03/wp_editor_md_c3d3901513eabbf1a8a7b1fb11ebc276.jpg"><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/wp_editor_md_c3d3901513eabbf1a8a7b1fb11ebc276.jpg" alt="img" style="zoom:25%;" /></a></p>
 <p>如图所示，C−1 始终保持0，E 为控制信号，为1表示进行求补操作。最下方输出的即求补后的结果。</p>
 <p>带符号的列阵乘法器含有三个求补器，其中两个为算前求补器，一个位算后求补器，结构如图所示：</p>
-<p><a target="_blank" rel="noopener" href="http://fangkaipeng.com/wp-content/uploads/2021/03/wp_editor_md_089903db76fa2d899ede8c6d5028c525.jpg"><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/wp_editor_md_089903db76fa2d899ede8c6d5028c525.jpg" alt="img" style="zoom:50%;" /></a></p>
+<p><a target="_blank" rel="noopener" href="http://fangkaipeng.com/wp-content/uploads/2021/03/wp_editor_md_089903db76fa2d899ede8c6d5028c525.jpg"><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/wp_editor_md_089903db76fa2d899ede8c6d5028c525.jpg" alt="img" style="zoom:25%;" /></a></p>
 <p><strong>使用规则（考）：</strong></p>
 <ul>
 <li>
