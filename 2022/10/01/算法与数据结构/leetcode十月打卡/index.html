@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">3.1k</span>
+            <span class="post-count">3.6k</span>
         </span>
     </span>
 
@@ -95,7 +95,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">13 分钟</span>
+            <span class="post-count">15 分钟</span>
         </span>
     </span>
 </div>
@@ -184,6 +184,40 @@
 <p>通过两个函数将域名的访问次数以及各级域名解析出来, 然后通过<code>hashmap</code>统计, 最后在整合成List返回即可</p>
 <p><strong>代码如下</strong></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> List&lt;String&gt; <span class="title function_">subdomainVisits</span><span class="params">(String[] strs)</span> &#123;</span><br><span class="line">        LinkedList&lt;String&gt; res=<span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line">        Map&lt;String,Integer&gt; map=<span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; strs.length; i++) &#123;</span><br><span class="line">            <span class="type">int</span> cnt=getTime(strs[i]);</span><br><span class="line">            String[]ss=divideString(strs[i]);</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; ss.length; j++) &#123;</span><br><span class="line">                map.put(ss[j],map.getOrDefault(ss[j],<span class="number">0</span>)+cnt);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (Map.Entry&lt;String, Integer&gt; kv : map.entrySet()) &#123;</span><br><span class="line">            res.add(kv.getValue() +<span class="string">&quot; &quot;</span>+ kv.getKey());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> <span class="title function_">getTime</span><span class="params">(String s)</span>&#123;</span><br><span class="line">        <span class="type">int</span> idx=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(s.charAt(idx)!=<span class="string">&#x27; &#x27;</span>)&#123;</span><br><span class="line">            idx++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> Integer.parseInt(s.substring(<span class="number">0</span>,idx));</span><br><span class="line">    &#125;</span><br><span class="line">    String[] divideString(String s)&#123;</span><br><span class="line">        <span class="type">int</span> idx=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(s.charAt(idx)!=<span class="string">&#x27; &#x27;</span>)&#123;</span><br><span class="line">            idx++;</span><br><span class="line">        &#125;</span><br><span class="line">        s=s.substring(idx+<span class="number">1</span>);</span><br><span class="line">        String[]res=s.split(<span class="string">&quot;\\.&quot;</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; res.length; i++) &#123;</span><br><span class="line">            String tmp=res[i];</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> i+<span class="number">1</span>; j &lt;res.length; j++) &#123;</span><br><span class="line">                tmp+=<span class="string">&quot;.&quot;</span>+res[j];</span><br><span class="line">            &#125;</span><br><span class="line">            res[i]=tmp;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="921-使括号有效的最少添加"><a class="markdownIt-Anchor" href="#921-使括号有效的最少添加"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/minimum-add-to-make-parentheses-valid/">921. 使括号有效的最少添加</a></h2>
+<p><a target="_blank" rel="noopener" href="https://labuladong.github.io/article/?qno=921">labuladong 题解</a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/minimum-add-to-make-parentheses-valid/#">思路</a></p>
+<p>难度中等232</p>
+<p>只有满足下面几点之一，括号字符串才是有效的：</p>
+<ul>
+<li>它是一个空字符串，或者</li>
+<li>它可以被写成 <code>AB</code> （<code>A</code> 与 <code>B</code> 连接）, 其中 <code>A</code> 和 <code>B</code> 都是有效字符串，或者</li>
+<li>它可以被写作 <code>(A)</code>，其中 <code>A</code> 是有效字符串。</li>
+</ul>
+<p>给定一个括号字符串 <code>s</code> ，移动N次，你就可以在字符串的任何位置插入一个括号。</p>
+<ul>
+<li>例如，如果 <code>s = &quot;()))&quot;</code> ，你可以插入一个开始括号为 <code>&quot;(()))&quot;</code> 或结束括号为 <code>&quot;())))&quot;</code> 。</li>
+</ul>
+<p>返回 <em>为使结果字符串 <code>s</code> 有效而必须添加的最少括号数</em>。</p>
+<p><strong>题意解读</strong></p>
+<blockquote>
+<p>​    // /给定一个括号字符串 s ，在每次操作中，你可以在字符串的任何位置插入一个括号。</p>
+<p>​    // 例如，如果 s = “()))” ，你可以插入一个左括号变成 “(()))”，或者插入一个右括号变成 “())))” 。</p>
+<p>​    // 返回 为使结果字符串 s 有效而必须添加的最少括号数。</p>
+</blockquote>
+<p>我们使用res记录插入的次数, 使用need记录需要右括号的次数</p>
+<p>如果遍历到了左括号, 那么就是</p>
+<ul>
+<li><code>need++</code></li>
+</ul>
+<p>如果是右括号, 那么就是</p>
+<ul>
+<li>
+<p><code>need--</code></p>
+<p>如果此时<code>need==-1</code> , 也就是右括号多了一个, 那么需要插入一个左括号, 此时需要<code>res++</code>  ,同时<code>need</code> 变为0</p>
+</li>
+</ul>
+<p>最后返回需要插入的左括号的数量<code>res</code>以及遍历完仍然需要的右括号的数量之和<code>need</code>即可</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">minAddToMakeValid</span><span class="params">(String s)</span> &#123;</span><br><span class="line">        <span class="comment">// /给定一个括号字符串 s ，在每次操作中，你可以在字符串的任何位置插入一个括号。</span></span><br><span class="line">        <span class="comment">// 例如，如果 s = &quot;()))&quot; ，你可以插入一个左括号变成 &quot;(()))&quot;，或者插入一个右括号变成 &quot;())))&quot; 。</span></span><br><span class="line">        <span class="comment">// 返回 为使结果字符串 s 有效而必须添加的最少括号数。</span></span><br><span class="line">        <span class="comment">//&quot;()))((&quot;</span></span><br><span class="line">        <span class="type">int</span> res=<span class="number">0</span>,need=<span class="number">0</span>; <span class="comment">// res记录插入的次数, need记录需要的右括号的数量</span></span><br><span class="line">        <span class="type">char</span>[]chars=s.toCharArray();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; chars.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span>(chars[i]==<span class="string">&#x27;(&#x27;</span>)&#123;</span><br><span class="line">                need++;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                need--;</span><br><span class="line">                <span class="keyword">if</span>(need==-<span class="number">1</span>)&#123;</span><br><span class="line">                    res++;</span><br><span class="line">                    need=<span class="number">0</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res+need;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h1 id="other-question"><a class="markdownIt-Anchor" href="#other-question"></a> Other Question</h1>
 <h2 id="134-加油站"><a class="markdownIt-Anchor" href="#134-加油站"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/gas-station/">134. 加油站</a></h2>
 <p>难度中等1053</p>
@@ -235,7 +269,7 @@
 <li>相邻两个孩子评分更高的孩子会获得更多的糖果。</li>
 </ul>
 <p>请你给每个孩子分发糖果，计算并返回需要准备的 <strong>最少糖果数目</strong> 。</p>
-<p>采用两次贪心的策略</p>
+<p><strong>采用两次贪心的策略</strong></p>
 <ul>
 <li>一次是从左到右遍历，只比较右边孩子评分比左边大的情况。</li>
 <li>一次是从右到左遍历，只比较左边孩子评分比右边大的情况。</li>
