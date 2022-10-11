@@ -214,7 +214,13 @@
 <h3 id="31-全局唯一id"><a class="markdownIt-Anchor" href="#31-全局唯一id"></a> 3.1 全局唯一ID</h3>
 <blockquote>
 <p>考虑利用redis中string类型的<code>increase</code></p>
-</blockquote> 
+</blockquote>
+<p>每个店铺都可以发布优惠券：<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653362612286.png" alt="" /></p>
+<p>当用户抢购时，就会生成订单并保存到<code>tb_voucher_order</code>这张表中，而订单表如果使用数据库自增ID就存在一些问题：</p>
+<ul>
+<li><strong>id的规律性太明显</strong></li>
+<li><strong>受单表数据量的限制</strong></li>
+</ul> 
       <a class="article-more-link" href="/2022/10/11/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(3)/"
         >more...</a
       >
@@ -279,7 +285,10 @@
 <h2 id="2-商户查询缓存"><a class="markdownIt-Anchor" href="#2-商户查询缓存"></a> 2、商户查询缓存</h2>
 <h3 id="21-什么是缓存"><a class="markdownIt-Anchor" href="#21-什么是缓存"></a> 2.1 什么是缓存?</h3>
 <p><strong>前言</strong>:<strong>什么是缓存?</strong></p>
-<p>就像自行车,越野车的避震器</p> 
+<p>就像自行车,越野车的避震器</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/%E9%81%BF%E9%9C%87%E5%99%A8.gif" alt="避震器" /></p>
+<p>举个例子:越野车,山地自行车,都拥有&quot;避震器&quot;,<strong>防止</strong>车体加速后因惯性,在酷似&quot;U&quot;字母的地形上飞跃,硬着陆导致的<strong>损害</strong>,像个弹簧一样;</p>
+<p>同样,实际开发中,系统也需要&quot;避震器&quot;,防止过高的数据访问猛冲系统,导致其操作线程无法及时处理信息而瘫痪;</p> 
       <a class="article-more-link" href="/2022/10/10/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(2)/"
         >more...</a
       >
@@ -342,7 +351,15 @@
 <p><strong>在原本笔记的基础上作出修改</strong></p>
 </blockquote>
 <h2 id="开篇"><a class="markdownIt-Anchor" href="#开篇"></a> 开篇</h2>
-<p>学习内容</p> 
+<p>学习内容</p>
+<ul>
+<li><strong>短信登录</strong></li>
+</ul>
+<p>这一块我们会使用redis共享session来实现</p>
+<ul>
+<li><strong>商户查询缓存</strong></li>
+</ul>
+<p>通过本章节，我们会理解缓存击穿，缓存穿透，缓存雪崩等问题，让小伙伴的对于这些概念的理解不仅仅是停留在概念上，更是能在代码中看到对应的内容</p> 
       <a class="article-more-link" href="/2022/10/08/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(1)/"
         >more...</a
       >
@@ -406,7 +423,9 @@
 </ul>
 <blockquote>
 <p>当前使用centos7</p>
-</blockquote> 
+</blockquote>
+<h2 id="centos-7-启动与切换图形界面"><a class="markdownIt-Anchor" href="#centos-7-启动与切换图形界面"></a> centos 7 启动与切换图形界面</h2>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">systemctl get-default<span class="comment"># 查看centos当前开机启动模式</span></span><br><span class="line">systemctl set-default graphical.target <span class="comment"># 设置开机启动图形界面(GUI)</span></span><br><span class="line">systemctl set-default multi-user.target  <span class="comment"># 设置开机启动为命令行模式</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#快速切换</span></span><br><span class="line"><span class="comment">#图形到dos：</span></span><br><span class="line">ctrl+alt+f2</span><br><span class="line"><span class="comment">#dos到图形：输入</span></span><br><span class="line">startx</span><br></pre></td></tr></table></figure> 
       <a class="article-more-link" href="/2022/10/06/SQL/Redis/%5B01%5D%E5%9F%BA%E7%A1%80%E7%AF%87/"
         >more...</a
       >
@@ -467,7 +486,19 @@
 <h2 id="1694-重新格式化电话号码"><a class="markdownIt-Anchor" href="#1694-重新格式化电话号码"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/reformat-phone-number/">1694. 重新格式化电话号码</a></h2>
 <p>难度简单65</p>
 <p>给你一个字符串形式的电话号码 <code>number</code> 。<code>number</code> 由数字、空格 <code>' '</code>、和破折号 <code>'-'</code> 组成。</p>
-<p>请你按下述方式重新格式化电话号码。</p> 
+<p>请你按下述方式重新格式化电话号码。</p>
+<ul>
+<li>首先，<strong>删除</strong> 所有的空格和破折号。</li>
+<li>其次，将数组从左到右每 3 个一组分块，直到 剩下 4 个或更少数字。剩下的数字将按下述规定再分块：
+<ul>
+<li>2 个数字：单个含 2 个数字的块。</li>
+<li>3 个数字：单个含 3 个数字的块。</li>
+<li>4 个数字：两个分别含 2 个数字的块。</li>
+</ul>
+</li>
+</ul>
+<p>最后用破折号将这些块连接起来。注意，重新格式化过程中 <strong>不应该</strong> 生成仅含 1 个数字的块，并且 <strong>最多</strong> 生成两个含 2 个数字的块。</p>
+<p><strong>返回格式化后的电话号码。</strong></p> 
       <a class="article-more-link" href="/2022/10/01/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/leetcode/leetcode%E9%A2%98%E7%9B%AE(4)/"
         >more...</a
       >
@@ -529,7 +560,12 @@
 <h2 id="1️⃣翻转整个链表"><a class="markdownIt-Anchor" href="#1️⃣翻转整个链表"></a> 1️⃣翻转整个链表</h2>
 <h3 id="206-反转链表"><a class="markdownIt-Anchor" href="#206-反转链表"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/reverse-linked-list/">206. 反转链表</a></h3>
 <p>难度简单2760</p>
-<p>给你单链表的头节点 <code>head</code> ，请你反转链表，并返回反转后的链表。</p> 
+<p>给你单链表的头节点 <code>head</code> ，请你反转链表，并返回反转后的链表。</p>
+<ul>
+<li>基本的<strong>迭代</strong>写法, 不再赘述</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> ListNode <span class="title function_">reverseList</span><span class="params">(ListNode head)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span>(head==<span class="literal">null</span>||head.next==<span class="literal">null</span>) <span class="keyword">return</span> head;</span><br><span class="line">        ListNode pre=<span class="literal">null</span>;</span><br><span class="line">        ListNode cur=head;</span><br><span class="line">        <span class="keyword">while</span>(cur!=<span class="literal">null</span>)&#123;</span><br><span class="line">            ListNode tmp=cur.next;</span><br><span class="line">            cur.next=pre;</span><br><span class="line">            pre=cur;</span><br><span class="line">            cur=tmp;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> pre;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>递归翻转链表</strong></p> 
       <a class="article-more-link" href="/2022/09/18/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/leetcode/leetcode%E9%A2%98%E7%9B%AE(3)/"
         >more...</a
       >
@@ -658,7 +694,27 @@
 <p>难度中等1542</p>
 <p>一个机器人位于一个 <code>m x n</code> 网格的左上角 （起始点在下图中标记为 “Start” ）。</p>
 <p>机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为 “Finish” ）。</p>
-<p>问总共有多少条不同的路径？</p> 
+<p>问总共有多少条不同的路径？</p>
+<ol>
+<li>
+<p><strong>dp数组定义</strong>: <code>dp[i][j]</code>表示 走到下标为<code>(i,j)</code> 的种数,</p>
+</li>
+<li>
+<p><strong>状态转移</strong>: 由于题目中规定机器人只能向下以及向右走, 那么对于当前的<code>dp[i][j]</code></p>
+<p><code>dp[i][j]=dp[i-1][j]+dp[i][j-1]</code></p>
+<p>走到当前的坐标的路径种数就等于走到当前的坐标的左边以及上边的坐标的路径之和</p>
+</li>
+<li>
+<p><strong>dp数组初始化</strong></p>
+<ul>
+<li>为了方便后续的计算,我们可以直接<strong>初始化 第一行以及第一列的元素为1</strong> , 因为<strong>机器人只能往下往右走</strong></li>
+</ul>
+<p><code>for (int i = 0; i &lt; m; i++) dp[i][0]=1; for (int i = 0; i &lt; n; i++) dp[0][i]=1;</code></p>
+</li>
+<li>
+<p>返回值: 返回<code>dp[m-1][n-1]</code> <strong>表示走到终点的路径总数</strong></p>
+</li>
+</ol> 
       <a class="article-more-link" href="/2022/09/13/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/leetcode/leetcode%E9%A2%98%E7%9B%AE(2)/"
         >more...</a
       >

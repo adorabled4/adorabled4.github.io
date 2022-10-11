@@ -118,9 +118,9 @@
 <blockquote>
 <p>当前使用centos7</p>
 </blockquote>
-<span id="more"></span>
 <h2 id="centos-7-启动与切换图形界面"><a class="markdownIt-Anchor" href="#centos-7-启动与切换图形界面"></a> centos 7 启动与切换图形界面</h2>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">systemctl get-default<span class="comment"># 查看centos当前开机启动模式</span></span><br><span class="line">systemctl set-default graphical.target <span class="comment"># 设置开机启动图形界面(GUI)</span></span><br><span class="line">systemctl set-default multi-user.target  <span class="comment"># 设置开机启动为命令行模式</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#快速切换</span></span><br><span class="line"><span class="comment">#图形到dos：</span></span><br><span class="line">ctrl+alt+f2</span><br><span class="line"><span class="comment">#dos到图形：输入</span></span><br><span class="line">startx</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
 <h2 id="安装redis"><a class="markdownIt-Anchor" href="#安装redis"></a> 安装Redis</h2>
 <blockquote>
 <p>如果一直显示安装失败( 可以检查一下是否是网络出现问题 )</p>

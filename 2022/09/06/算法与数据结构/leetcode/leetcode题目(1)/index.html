@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">5.5k</span>
+            <span class="post-count">5.6k</span>
         </span>
     </span>
 
@@ -95,7 +95,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">23 分钟</span>
+            <span class="post-count">24 分钟</span>
         </span>
     </span>
 </div>
@@ -114,14 +114,19 @@
 <li>没啥想说的, 想到了再说 , 就是写题</li>
 </ul>
 <p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/G5YwE" alt="" /></p>
-<span id="more"></span>
 <h2 id="202-快乐数"><a class="markdownIt-Anchor" href="#202-快乐数"></a> 🎈<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/happy-number/">202. 快乐数</a></h2>
 <p>难度简单1063</p>
 <p>编写一个算法来判断一个数 <code>n</code> 是不是快乐数。</p>
+<p>[快乐数」 定义为：</p>
+<p>对于一个正整数，每一次将该数替换为它每个位置上的数字的平方和。<br />
+然后重复这个过程直到这个数变为 1，也可能是 无限循环 但始终变不到 1。<br />
+如果这个过程 结果为 1，那么这个数就是快乐数。<br />
+如果 n 是 快乐数 就返回 true ；不是，则返回 false 。</p>
 <ul>
 <li>这题目上来就一脸懵逼, 暴力计算肯定就又<strong>TLE</strong>了, 既然是个简单题, 那应该是有什么小窍门</li>
 </ul>
 <p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/happy-number/solution/kuai-le-de-zhi-shi-dian-zeng-jia-liao-by-sweetiee/">快乐的知识点增加了 - 快乐数 - 力扣（LeetCode）</a></p>
+<span id="more"></span>
 <p>链表找环<br />
 每个数字都会根据 各位平方和 指向另一个数字，所以从任意数字开始进行 各位平方和 的迭代操作，就相当于在链表上游走。如果 无限循环 但始终变不到 1，那说明肯定是链表游走到了环。</p>
 <p>为什么呢？ <s>（此处应该有图）</s></p>
