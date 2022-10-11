@@ -13,7 +13,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title>[02]实战篇(2) |  dhx_&#39;blog</title>
+      <title>实战篇(2)[Redis] |  dhx_&#39;blog</title>
   <meta name="generator" content="hexo-theme-ayer">
       
       <link rel="shortcut icon" href="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220820231738085.png" />
@@ -66,7 +66,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  [02]实战篇(2)
+  实战篇(2)[Redis]
 </h1>
  
 
@@ -110,9 +110,7 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p>date: 2022年10月10日08:21:53<br />
-title: 实战篇(2)[Redis]</p>
-<h1 id="实战篇redis1"><a class="markdownIt-Anchor" href="#实战篇redis1"></a> 实战篇Redis[1]</h1>
+  <h1 id="实战篇redis2"><a class="markdownIt-Anchor" href="#实战篇redis2"></a> 实战篇Redis[2]</h1>
 <p>视频教程地址<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1cr4y1671t?p=26&amp;spm_id_from=pageDriver&amp;vd_source=7d0b8be6716aca670df8e800cab6d54c">实战篇哔哩哔哩_bilibili</a></p>
 <blockquote>
 <p><strong>在原本笔记的基础上作出修改</strong></p>
@@ -406,6 +404,9 @@ title: 实战篇(2)[Redis]</p>
 <p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221010141100713.png" alt="" /></p>
 <h3 id="210-利用逻辑过期解决缓存击穿问题"><a class="markdownIt-Anchor" href="#210-利用逻辑过期解决缓存击穿问题"></a> 2.10 利用逻辑过期解决[缓存击穿]问题</h3>
 <p><strong>需求：修改根据id查询商铺的业务，基于逻辑过期方式来解决缓存击穿问题</strong></p>
+<blockquote>
+<p>注意, 使用逻辑过期, 需要现在redis 中插入永久的数据</p>
+</blockquote>
 <p>思路分析：当用户开始查询redis时，判断是否命中，如果没有命中则直接返回空数据，不查询数据库，而一旦命中后，将value取出，判断value中的过期时间是否满足，如果没有过期，则直接返回redis中的数据，如果过期，则在开启独立线程后直接返回之前的数据，独立线程去重构数据，重构完成后释放互斥锁。</p>
 <img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221010153644524.png" alt="image-20221010153644524" style="zoom: 67%;" />
 <img src="C:\Users\lenovo\Desktop\Redis\黑马程序员redis\02-实战篇\讲义\Redis实战篇.assets\1653360308731.png" style="zoom:67%;" />
@@ -525,6 +526,15 @@ title: 实战篇(2)[Redis]</p>
 
    
   <nav class="article-nav">
+    
+      <a href="/2022/10/11/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(3)/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            实战篇(2)[Redis]
+          
+        </div>
+      </a>
     
     
       <a href="/2022/10/08/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(1)/" class="article-nav-link">
