@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">4.4k</span>
+            <span class="post-count">4.9k</span>
         </span>
     </span>
 
@@ -95,7 +95,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">18 分钟</span>
+            <span class="post-count">20 分钟</span>
         </span>
     </span>
 </div>
@@ -306,6 +306,32 @@
 <p><strong>注意边界条件</strong></p>
 </blockquote>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">chalkReplacer</span><span class="params">(<span class="type">int</span>[] chalk, <span class="type">int</span> k)</span> &#123;</span><br><span class="line">        <span class="type">int</span> idx=<span class="number">0</span>;</span><br><span class="line">        <span class="type">long</span> sum=<span class="number">0l</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i : chalk) &#123;</span><br><span class="line">            sum+=i;</span><br><span class="line">        &#125;</span><br><span class="line">        k%=sum;</span><br><span class="line">        <span class="keyword">while</span>(k&gt;<span class="number">0</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(k&gt;=chalk[idx])&#123;</span><br><span class="line">                k-=chalk[idx];</span><br><span class="line">                idx++;</span><br><span class="line">                <span class="keyword">if</span>(idx==chalk.length)&#123;</span><br><span class="line">                    idx=<span class="number">0</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="keyword">return</span> idx;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> idx;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="875-爱吃香蕉的珂珂"><a class="markdownIt-Anchor" href="#875-爱吃香蕉的珂珂"></a> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/koko-eating-bananas/">875. 爱吃香蕉的珂珂</a></h2>
+<p>难度中等440</p>
+<p>珂珂喜欢吃香蕉。这里有 <code>n</code> 堆香蕉，第 <code>i</code> 堆中有 <code>piles[i]</code> 根香蕉。警卫已经离开了，将在 <code>h</code> 小时后回来。</p>
+<p>珂珂可以决定她吃香蕉的速度 <code>k</code> （单位：根/小时）。每个小时，她将会选择一堆香蕉，从中吃掉 <code>k</code> 根。如果这堆香蕉少于 <code>k</code> 根，她将吃掉这堆的所有香蕉，然后这一小时内不会再吃更多的香蕉。</p>
+<p>珂珂喜欢慢慢吃，但仍然想在警卫回来前吃掉所有的香蕉。</p>
+<p>返回她可以在 <code>h</code> 小时内吃掉所有香蕉的最小速度 <code>k</code>（<code>k</code> 为整数）。</p>
+<p>看到本题 , 我们可以思考</p>
+<blockquote>
+<p>t = f(k)     f(x) 表示的是速度为k 的时候, 吃完香蕉需要的最短的时间</p>
+<p>k表示速度, t表示吃完香蕉需要的时间  , 我们需要求的就是 t&lt;=h 的时候, k的最小值</p>
+</blockquote>
+<p>这种题目一般会有类似于下图的关系, 而我们需要求的就是<strong>左临界点</strong> =&gt; <strong>最小速度</strong></p>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011172236511.png" style="zoom: 67%;" />
+<p>值得注意的是本题的数据范围</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011172433724.png" alt="" /></p>
+<p>第一次使用的<code>r=1000 0000</code>由于过小</p>
+<p>导致遇到下面的样例是无法通过的, 因为 k 被限制在了 <code>[l,r]</code>  , 因此 r应取到题目的 <code>piles[i]</code>的最大值</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[10 0000 0000]</span><br><span class="line">2  </span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>r=1000000000+1</code>更加保险  , 但是实际上<code>r= 1000000000</code> 也可以通过,</p>
+<ul>
+<li>只要二分的过程中可以让 m 取到<code>1000000000</code>就行了</li>
+</ul>
+</blockquote>
+<p><strong>代码如下</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">minEatingSpeed</span><span class="params">(<span class="type">int</span>[] piles, <span class="type">int</span> h)</span> &#123;</span><br><span class="line">        <span class="comment">//  t = f(k)   k表示速度, h表示吃完香蕉需要的时间  , 我们需要求的就是 t&lt;=h 的时候, k的最小值</span></span><br><span class="line">        <span class="type">int</span> l=<span class="number">1</span>,r=<span class="number">1000000000</span>;</span><br><span class="line">        <span class="type">int</span> m;</span><br><span class="line">        <span class="keyword">while</span>(l&lt;r)&#123;</span><br><span class="line">            m=l+(r-l)/<span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span>(f(piles,m)&lt;=h) r=m;</span><br><span class="line">            <span class="keyword">else</span> l=m+<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> l;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> <span class="title function_">f</span><span class="params">(<span class="type">int</span>[]piles,<span class="type">int</span> k)</span>&#123;</span><br><span class="line">        <span class="type">int</span> t=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i : piles) &#123;</span><br><span class="line">            t+= (i%k==<span class="number">0</span>? i/k : i/k+<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> t;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
  
       <!-- reward -->
       

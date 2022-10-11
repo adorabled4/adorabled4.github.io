@@ -13,7 +13,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title>实战篇(2)[Redis] |  dhx_&#39;blog</title>
+      <title>实战篇(3)[Redis] |  dhx_&#39;blog</title>
   <meta name="generator" content="hexo-theme-ayer">
       
       <link rel="shortcut icon" href="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220820231738085.png" />
@@ -66,7 +66,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  实战篇(2)[Redis]
+  实战篇(3)[Redis]
 </h1>
  
 
@@ -78,7 +78,7 @@
   <time datetime="2022-10-11T06:44:54.386Z" itemprop="datePublished">2022-10-11</time>
 </a> 
   <div class="article-category">
-    <a class="article-category-link" href="/categories/SQL/">SQL</a> / <a class="article-category-link" href="/categories/SQL/Redis/">Redis</a>
+    <a class="article-category-link" href="/categories/SQL/">SQL</a> / <a class="article-category-link" href="/categories/SQL/SQL/">SQL</a> / <a class="article-category-link" href="/categories/SQL/SQL/Redis/">Redis</a>
   </div>
   
 <div class="word_count">
@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">5.3k</span>
+            <span class="post-count">5.4k</span>
         </span>
     </span>
 
@@ -117,6 +117,10 @@
 </blockquote>
 <h2 id="3-优惠卷秒杀"><a class="markdownIt-Anchor" href="#3-优惠卷秒杀"></a> 3、优惠卷秒杀</h2>
 <h3 id="31-全局唯一id"><a class="markdownIt-Anchor" href="#31-全局唯一id"></a> 3.1 全局唯一ID</h3>
+<blockquote>
+<p>考虑利用redis中string类型的<code>increase</code></p>
+</blockquote>
+<span id="more"></span>
 <p>每个店铺都可以发布优惠券：<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653362612286.png" alt="" /></p>
 <p>当用户抢购时，就会生成订单并保存到<code>tb_voucher_order</code>这张表中，而订单表如果使用数据库自增ID就存在一些问题：</p>
 <ul>

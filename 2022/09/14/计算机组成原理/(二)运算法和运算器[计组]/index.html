@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">5.7k</span>
+            <span class="post-count">6.6k</span>
         </span>
     </span>
 
@@ -95,7 +95,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">22 分钟</span>
+            <span class="post-count">25 分钟</span>
         </span>
     </span>
 </div>
@@ -356,18 +356,6 @@
 <h4 id="2-特点"><a class="markdownIt-Anchor" href="#2-特点"></a> (2) 特点</h4>
 <p>移移[+0]移=[−0]移</p>
 <p>最小真值的移码为全 0,用移码表示浮点数的阶码,能方便地判断浮点数的阶码大小。</p>
-<h3 id="6-ieee754标准"><a class="markdownIt-Anchor" href="#6-ieee754标准"></a> 6. IEEE754标准</h3>
-<p>IEEE二进位浮点数算术标准（IEEE Standard for Floating-Point Arithmetic）的标准编号,它规定了浮点数在计算机当中的存储方式以及算术标准等。</p>
-<p>浮点格式可分为符号位s，指数位e以及尾数位f三部分。</p>
-<p>规定了单精度（32）和双精度（64）两种基本格式（还有其他特殊格式不做介绍），规定尾数用原码，阶码用移码表示，但是不完全等同与移码，真值和阶码的转换为：单精度 E=e+127 ，双精度 E=e+1023 , E 为阶码， e 为指数真值。<strong>尾数域最高位总是1</strong>，隐藏在小数点左边不显示。</p>
-<p><strong>在IEEE-754 标准下，浮点数一共分为：</strong></p>
-<ul>
-<li>NaN：即Not a Number。非数的指数位全部为1 同时尾数位不全为0。在此前提下，根据尾数位首位是否为1，NaN 还可以分为SNaN 和QNaN 两类。前者参与运算时将会发生异常。</li>
-<li>无穷数：指数位全部为1 同时尾数位全为0，根据符号决定正负。</li>
-<li>规格化数：指数位不全为1 同时尾不全为0。此时浮点数的隐含位有效，其值为1。</li>
-<li>非规格化数：指数位全为0 且尾数位不全为0。此时隐含位有效，值为0。另外需要注意，以单精度时为例，真实指数E 并非0-127=-127，而是-126，这样一来就与规格化下最小真实指数E=1-127=-126 达成统一，形成过度。</li>
-<li>0 ：指数位与尾数位都全为0，根据符号位决定正负。</li>
-</ul>
 <h2 id="213字符与字符串的表示方法"><a class="markdownIt-Anchor" href="#213字符与字符串的表示方法"></a> 2.1.3字符与字符串的表示方法</h2>
 <p>符号数据:字符信息用数据表示，如ASCII等;<br />
 ASCII:用一个字节来表示,低7位用来编码(128),最高位为校验位，<br />
@@ -505,15 +493,146 @@ x=x0x1x2…xn则 x¯=x0¯x1¯x2¯…xn¯<br />
 例：x=10101011  y=11001100  x⨁y=01100111<br />
 注意逻辑乘是按位运算，所以<strong>没有进位！</strong></p>
 <h2 id="252-多功能算术逻辑运算单元alu"><a class="markdownIt-Anchor" href="#252-多功能算术逻辑运算单元alu"></a> 2.5.2 多功能算术/逻辑运算单元（ALU）</h2>
+<p><strong>算术逻辑单元(简称ALU arithmetic and logic unit )</strong></p>
+<ol>
+<li>同一套电路，既实现算术运算功能又实现逻辑运算功能。对数值数据的算术运算∶加、减、乘、除等对逻辑数据的逻辑运算:与、或、非运算等</li>
+<li>一种功能较强的组合逻辑电路(由与、或、非等门电路组合实现)</li>
+<li>其基本逻辑结构是超前进位加法器。</li>
+</ol>
+<blockquote>
+<p><strong>ALU不仅给出算术运算结果，还给出运算结果的特征标志。</strong></p>
+<ul>
+<li>例如︰算术运算是否产生了向更高位的进位，结果是否为零，结果的符号为正还是为负，结果是否溢出等。</li>
+</ul>
+<blockquote>
+<p><strong>逻辑运算通常只检查结果是否为零，不存在进位和溢出等问题。</strong></p>
+</blockquote>
+</blockquote>
+<h4 id="四位alu逻辑电路"><a class="markdownIt-Anchor" href="#四位alu逻辑电路"></a> <strong>四位ALU逻辑电路</strong></h4>
+<ul>
+<li>分析逻辑电路：<strong>只看输入输出信号，不看电路图</strong>！</li>
+</ul>
+<h5 id="电路图"><a class="markdownIt-Anchor" href="#电路图"></a> 电路图</h5>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220907184256778.png" style="zoom:67%;" />
+<h5 id="分析"><a class="markdownIt-Anchor" href="#分析"></a> 分析</h5>
+<ul>
+<li>
+<p><strong>S<sub>0</sub>~S<sub>3</sub></strong></p>
+<p><strong>运算选择控制决定电路执行哪种算术运算或哪种逻辑运算。</strong></p>
+</li>
+<li>
+<p><strong>M: 状态控制</strong></p>
+<ul>
+<li>1 执行逻辑运算</li>
+<li>0 执行算术运算</li>
+</ul>
+</li>
+<li>
+<p><strong>两个参加运算的数：</strong></p>
+<p><strong>A<sub>3</sub>A<sub>0</sub>，B<sub>3</sub>～B<sub>0</sub></strong></p>
+<p><strong>C<sub>n</sub> : ALU最低进位</strong></p>
+</li>
+</ul>
+<p>分析逻辑电路：看输入输出信号的逻辑功能表！</p>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220907184755629.png" alt="逻辑功能表" style="zoom:80%;" />
+<p>菜鸡表示什么都看不懂。。。QwQ</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220907184839781.png" alt="ALU功能框架图" /></p>
+<h3 id=""><a class="markdownIt-Anchor" href="#"></a> </h3>
 <h1 id="26-浮点运算方法和浮点运算器"><a class="markdownIt-Anchor" href="#26-浮点运算方法和浮点运算器"></a> 2.6 浮点运算方法和浮点运算器</h1>
-<h2 id="261-浮点加减法"><a class="markdownIt-Anchor" href="#261-浮点加减法"></a> 2.6.1 浮点加减法</h2>
+<h2 id="261-ieee754标准"><a class="markdownIt-Anchor" href="#261-ieee754标准"></a> 2.6.1 IEEE754标准</h2>
+<p>**IEEE二进位浮点数算术标准（IEEE Standard for Floating-Point Arithmetic）**的标准编号,它规定了浮点数在计算机当中的存储方式以及算术标准等。</p>
+<p>浮点格式可分为符号位s，指数位e以及尾数位f三部分。</p>
+<p>规定了单精度（32）和双精度（64）两种基本格式（还有其他特殊格式不做介绍），规定尾数用原码，阶码用移码表示，但是不完全等同与移码，真值和阶码的转换为：单精度 <code>E=e+127</code> ，双精度 <code>E=e+1023</code> , E 为阶码， e 为指数真值。<strong>尾数域最高位总是1</strong>，隐藏在小数点左边不显示。</p>
+<p><strong>在IEEE-754 标准下，浮点数一共分为：</strong></p>
+<ul>
+<li>NaN：即<code>Not a Number</code>。非数的指数位全部为1 同时尾数位不全为0。在此前提下，根据尾数位首位是否为1，<code>NaN</code> 还可以分为<code>SNaN</code> 和<code>QNaN</code> 两类。前者参与运算时将会发生异常。</li>
+<li>无穷数：指数位全部为1 同时尾数位全为0，根据符号决定正负。</li>
+<li>规格化数：指数位不全为1 同时尾不全为0。此时浮点数的隐含位有效，其值为1。</li>
+<li>非规格化数：指数位全为0 且尾数位不全为0。此时隐含位有效，值为0。另外需要注意，以单精度时为例，真实指数E 并非0-127=-127，而是-126，这样一来就与规格化下最小真实指数<code>E=1-127=-126</code> 达成统一，形成过度。</li>
+<li>0 ：指数位与尾数位都全为0，根据符号位决定正负。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>IEEE754国际标准</th>
+<th>数符</th>
+<th>阶符+阶码(移码)</th>
+<th>尾数(原码)</th>
+<th>总位数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>**float ** 短实数/ 单精度</td>
+<td>1</td>
+<td>8</td>
+<td>23</td>
+<td>32</td>
+</tr>
+<tr>
+<td><strong>double</strong> 长实数</td>
+<td>1</td>
+<td>11</td>
+<td>52</td>
+<td>64</td>
+</tr>
+<tr>
+<td><strong>临时实数</strong></td>
+<td>1</td>
+<td>15</td>
+<td>64</td>
+<td>80</td>
+</tr>
+</tbody>
+</table>
+<p>[阶码] =真值＋偏移量</p>
+<ul>
+<li>float偏移量=127 ,double偏移量=1023</li>
+</ul>
+<p>[阶码] =真值+偏移量(浮子偏移量=127，双偏移量=1023)</p>
+<p>[阶码]范围：<code>0000 0001~ 1111 1110</code></p>
+<p>阶码范围：<code>-126~ +127</code></p>
+<p>[尾数]=小数点前数值为1，机器存储时隐藏(尾数实际可表示24位]</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011162735990.png" alt="" /></p>
+<h2 id="262-浮点加减法"><a class="markdownIt-Anchor" href="#262-浮点加减法"></a> 2.6.2 浮点加减法</h2>
+<blockquote>
+<p><strong>任何一个数都可以写成浮点数形式</strong></p>
+</blockquote>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220914165213653.png" alt="举例" /></p>
+<p><strong>小数点随着阶码的不同而浮动，数的范围和精度分别表示。</strong></p>
+<p>格式：<strong>N=S*r<sup>j</sup></strong></p>
+<ul>
+<li><strong>r : 基数, r=2  (与当前的数字的进制有关)</strong></li>
+<li><strong>j : 阶码, 带符号的纯整数(定点整数)</strong></li>
+<li><strong>S: 尾数, 带符号的纯小数(定点小数)</strong></li>
+</ul>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011160830637.png" alt="" /></p>
+<blockquote>
+<p>尾数 真值/原码 规格化, 小数点后面的数值最高为是1</p>
+</blockquote>
+<p>比如 1100.11</p>
+<p>我们可以化简为<strong>0.110011 * 2<sup>4</sup></strong></p>
+<p>也可以化简为 <strong>0.0110011 * 2<sup>5</sup></strong></p>
+<p>那么根据上面的法则,  1100.11 浮点数应该被化简为0.110011 * 2<sup>4</sup></p>
+<ul>
+<li>需要满足<strong>尾数 小数点后面的第一位是1</strong></li>
+</ul>
 <h3 id="1浮点加减法规则"><a class="markdownIt-Anchor" href="#1浮点加减法规则"></a> 1.浮点加减法规则</h3>
-<p><img src="http://fangkaipeng.com/wp-content/uploads/2021/03/wp_editor_md_52a8b752c58d6e0d7d76d7ac2f65aec5.jpg" alt="" /></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011161556318.png" alt="" /></p>
 <h3 id="2-运算步骤"><a class="markdownIt-Anchor" href="#2-运算步骤"></a> 2. 运算步骤</h3>
 <p><strong>0操作数的检查：</strong><br />
 检查x和y中是否存在0，如果存在0则无需计算，直接得出答案。</p>
-<p><strong>对阶：</strong><br />
-将两个浮点数的阶码用补码表示，做相减运算得出需要移动的位数。遵守 <code>小阶向大阶看齐</code> 的原则，即小阶的尾数向右移，每移一位，阶码+1。</p>
+<p><strong>对阶：</strong></p>
+<blockquote>
+<p><strong>对阶的目的是使x 和y 的阶码相等, 使得x y 的尾数可以进行加减</strong></p>
+</blockquote>
+<p>将两个浮点数的阶码用补码表示，做相减运算得出需要移动的位数。遵守 <code>小阶向大阶看齐</code> 的原则，即小阶的尾数向右移，每移一位，阶码+1。</p>
+<p><strong>对阶原则</strong></p>
+<p>小阶向大阶看齐的原则，阶小的那个数字的尾数右移, 右移的位数等于<strong>两个数字的阶码的差值的绝对值</strong></p>
+<ul>
+<li>每移一位，阶码+1。</li>
+</ul>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011161802073.png" alt="" /></p>
 <p><strong>尾数加减运算：</strong><br />
 与定点加减法运算一样，采用补码运算。</p>
 <p><strong>结果规格化：</strong></p>
@@ -557,6 +676,73 @@ x=x0x1x2…xn则 x¯=x0¯x1¯x2¯…xn¯<br />
 <li>右规</li>
 </ul>
 <p><img src="http://fangkaipeng.com/wp-content/uploads/2021/03/wp_editor_md_e03f4470aa2c6ec7eea7d5aaa2f589a4.jpg" alt="" /></p>
+<h2 id="263-浮点数真值与机器数转换"><a class="markdownIt-Anchor" href="#263-浮点数真值与机器数转换"></a> 2.6.3 浮点数真值与机器数转换</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>已知浮点数真值x→求机器数x<sub>[浮]</sub></td>
+<td>真值x  = ± 1.<em>xxx…x</em> * 2<sup>阶码</sup></td>
+</tr>
+<tr>
+<td>x真值:二进制</td>
+<td>178.125 = 10110010.001</td>
+</tr>
+<tr>
+<td>尾数规格化(小数点前是1)</td>
+<td>1.0110010001*27</td>
+</tr>
+<tr>
+<td>[阶码]∶阶码+偏置量127(8位)</td>
+<td>7+127 =134 = 10000110</td>
+</tr>
+<tr>
+<td></td>
+<td>134对应的8位二进制数即为阶码的移码表示</td>
+</tr>
+<tr>
+<td>[尾数]∶隐藏小数点前的1（23位)</td>
+<td>0110010 00100000 00000000</td>
+</tr>
+<tr>
+<td>[x]<sub>faloat</sub>:1位符号＋8位阶码＋23位尾数</td>
+<td>0 10000110 01100100010000000000000</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>已知浮点数机器数[x]<sub>浮</sub>→求真值x</strong></td>
+<td><strong>机器数[x]=1位符号+8位阶码＋23位尾数</strong></td>
+</tr>
+<tr>
+<td>[x]<sub>float</sub>:1位符号＋8位阶码＋23位尾数</td>
+<td>0 10000110 01100100010000000000000</td>
+</tr>
+<tr>
+<td>x符号:</td>
+<td>+</td>
+</tr>
+<tr>
+<td>x阶码:8位阶码–偏置量127</td>
+<td>10000110=134     134-127=7</td>
+</tr>
+<tr>
+<td>x尾数:恢复小数点前隐藏的1</td>
+<td>1.0110010001</td>
+</tr>
+<tr>
+<td>x真值:二进制</td>
+<td>+1.0110010001 * 27</td>
+</tr>
+</tbody>
+</table>
  
       <!-- reward -->
       
