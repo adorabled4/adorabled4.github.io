@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">4.9k</span>
+            <span class="post-count">5.3k</span>
         </span>
     </span>
 
@@ -95,7 +95,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">19 分钟</span>
+            <span class="post-count">21 分钟</span>
         </span>
     </span>
 </div>
@@ -117,7 +117,6 @@
 </blockquote>
 <h2 id="3-优惠卷秒杀"><a class="markdownIt-Anchor" href="#3-优惠卷秒杀"></a> 3、优惠卷秒杀</h2>
 <h3 id="31-全局唯一id"><a class="markdownIt-Anchor" href="#31-全局唯一id"></a> 3.1 全局唯一ID</h3>
-<span id="more"></span>
 <p>每个店铺都可以发布优惠券：<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653362612286.png" alt="" /></p>
 <p>当用户抢购时，就会生成订单并保存到<code>tb_voucher_order</code>这张表中，而订单表如果使用数据库自增ID就存在一些问题：</p>
 <ul>
@@ -316,8 +315,58 @@ tb_seckill_voucher：优惠券的库存、开始抢购时间，结束抢购时�
 <p>所以线程3和线程4可以实现互斥，但是却无法和线程1和线程2实现互斥，</p>
 <p>这就是 集群环境下，<code>syn</code>锁失效的原因，在这种情况下，我们就需要使用<strong>分布式锁</strong>来解决这个问题。</p>
 <img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653374044740.png" style="zoom:80%;" />
-<h2 id=""><a class="markdownIt-Anchor" href="#"></a> </h2>
- 
+<h2 id="idea配置集群"><a class="markdownIt-Anchor" href="#idea配置集群"></a> idea配置集群</h2>
+<p>打开idea , 点击</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011145705811.png" alt="" /></p>
+<p>点击<code>Edit Configurations...</code></p>
+<p>然后点击 右边空白中的 <code>Add new run configuration...</code></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011145735486.png" alt="" /></p>
+<p>然后填写相关的配置信息</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011145803423.png" alt="" /></p>
+<blockquote>
+<p>注意需要修改端口号, 否则会造成</p>
+</blockquote>
+<p>这里设置Name 为 <code>MoreSpringboot</code></p>
+<p><code>Main class</code> 选择springboot的启动类,  这里就是<code>com.hmdp.HmDianPingApplication</code></p>
+<blockquote>
+<p>注意要把类名写全</p>
+</blockquote>
+<p>然脏在 <code>VM options</code> 位置填入 <code>-Dserver.port=8082</code></p>
+<blockquote>
+<p>这个就是运行参数, 设置端口号避免端口冲突,</p>
+<ul>
+<li>如果有其他的需求可以另外设置</li>
+</ul>
+</blockquote>
+<p>然后点击apply</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011150041552.png" alt="" /></p>
+<p>可以看到此时已经多了一个<code>MoreSpringboot</code></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011150103348.png" alt="" /></p>
+<p>右键点击<code>Run</code></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011150127086.png" alt="" /></p>
+<p>可以看到<strong>springboot</strong>启动成功</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011150202656.png" alt="" /></p>
+<p>由于这个工程前端使用<code>Nginx</code>代理,</p>
+<p>因此需要去Nginx的配置文件中更改相关配置</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011150259896.png" alt="" /></p>
+<p>打开<code>nginx.conf</code></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011150348982.png" alt="" /></p>
+<p>修改相关配置<strong>设置负载均衡</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">worker_processes  1;</span><br><span class="line"></span><br><span class="line">events &#123;</span><br><span class="line">    worker_connections  1024;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line">    include       mime.types;</span><br><span class="line">    default_type  application/json;</span><br><span class="line"></span><br><span class="line">    sendfile        on;</span><br><span class="line">    </span><br><span class="line">    keepalive_timeout  65;</span><br><span class="line"></span><br><span class="line">    server &#123;</span><br><span class="line">        listen       8080;</span><br><span class="line">        server_name  localhost;</span><br><span class="line">        # 指定前端项目所在的位置</span><br><span class="line">        location / &#123;</span><br><span class="line">            root   html/hmdp;</span><br><span class="line">            index  index.html index.htm;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        error_page   500 502 503 504  /50x.html;</span><br><span class="line">        location = /50x.html &#123;</span><br><span class="line">            root   html;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        location /api &#123;  </span><br><span class="line">            default_type  application/json;</span><br><span class="line">            #internal;  </span><br><span class="line">            keepalive_timeout   30s;  </span><br><span class="line">            keepalive_requests  1000;  </span><br><span class="line">            #支持keep-alive  </span><br><span class="line">            proxy_http_version 1.1;  </span><br><span class="line">            rewrite /api(/.*) $1 break;  </span><br><span class="line">            proxy_pass_request_headers on;</span><br><span class="line">            #more_clear_input_headers Accept-Encoding;  </span><br><span class="line">            proxy_next_upstream error timeout;  </span><br><span class="line">            # proxy_pass http://127.0.0.1:8081;</span><br><span class="line">            proxy_pass http://backend; # 注意这个地方, 需要与下面的对应</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">      # 这里是关键配置</span><br><span class="line">    upstream backend &#123;</span><br><span class="line">        server 127.0.0.1:8081 max_fails=5 fail_timeout=10s weight=1;</span><br><span class="line">        server 127.0.0.1:8082 max_fails=5 fail_timeout=10s weight=1;</span><br><span class="line">        server 127.0.0.1:8083 max_fails=5 fail_timeout=10s weight=1;</span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><code>server 127.0.0.1:8083 max_fails=5 fail_timeout=10s weight=1;</code></p>
+<p>重新加载nginx  <code>nginx.exe -s reload</code></p>
+<p><strong>接下来使用postman进行测试</strong></p>
+<p>编写controller代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TestController</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/test&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> Result <span class="title function_">test</span><span class="params">()</span>&#123;</span><br><span class="line">        log.info(<span class="string">&quot;测试集群&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> Result.ok(<span class="string">&quot;测试成功!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>创建测试</strong></p>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011151240661.png" style="zoom:80%;" />
+<p>设置100个线程发送请求</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011151303798.png" alt="" /></p>
+<p>查看后端日志</p>
+<p>可以发现<strong>三个springboot均已生效</strong></p>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011154848328.png" style="zoom:67%;" />
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011154931879.png" alt="image-20221011154931879" style="zoom:67%;" />
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011154940478.png" style="zoom:67%;" /> 
       <!-- reward -->
       
     </div>
@@ -393,6 +442,15 @@ tb_seckill_voucher：优惠券的库存、开始抢购时间，结束抢购时�
 
    
   <nav class="article-nav">
+    
+      <a href="/2022/10/11/%E7%90%90%E7%A2%8E%E7%9F%A5%E8%AF%86%E7%82%B9/idea%E9%85%8D%E7%BD%AE%E9%9B%86%E7%BE%A4/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            idea配置集群
+          
+        </div>
+      </a>
     
     
       <a href="/2022/10/10/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(2)/" class="article-nav-link">
