@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+  
+
+    <head>
+      <meta charset="utf-8" />
+       
+      <meta name="keywords" content="DFS,BFS,java, 双指针, 算法与数据结构, hexo, 回溯, 树, 队列, mybatis, javaweb, Spring, cpp, leetcode, 栈, 位运算, 链表, 数据库, springmvc, 动态规划, 贪心" />
+       
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>实战篇(6):秒杀优化&amp;引入消息队列[Redis] |  dhx_&#39;blog</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220820231738085.png" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      
+<link rel="stylesheet" href="/css/fonts/remixicon.css">
+
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.staticfile.org/pace/1.2.4/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+      </style>
+    </head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-SQL/Redis/[02]实战篇(6)"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  实战篇(6):秒杀优化&amp;引入消息队列[Redis]
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/10/13/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(6)/" class="article-date">
+  <time datetime="2022-10-13T00:05:42.000Z" itemprop="datePublished">2022-10-13</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/SQL/">SQL</a> / <a class="article-category-link" href="/categories/SQL/SQL/">SQL</a> / <a class="article-category-link" href="/categories/SQL/SQL/Redis/">Redis</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">5.4k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">22 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h2 id="6-秒杀优化"><a class="markdownIt-Anchor" href="#6-秒杀优化"></a> 6、秒杀优化</h2>
+<h3 id="60-性能测试"><a class="markdownIt-Anchor" href="#60-性能测试"></a> 6.0 性能测试</h3>
+<h4 id="601生成测试数据"><a class="markdownIt-Anchor" href="#601生成测试数据"></a> 6.0.1生成测试数据</h4>
+<p><strong>生成用户数据</strong></p>
+<p>首先在<code>tb_user</code>生成1000个用户, 如下图所示</p>
+<img src="C:/Users/lenovo/AppData/Roaming/Typora/typora-user-images/image-20221013083539339.png" style="zoom:50%;" />
+<p>生成 user 的代码不在赘述</p>
+<span id="more"></span>
+<p><strong>生成token数据</strong></p>
+<p>然后通过复制之前写入token的后端代码 ,  在代码的基础上稍作修改</p>
+<ul>
+<li>减小校验</li>
+<li>在写入redis的同时 , 将token保存在文本文件中,  方便后面使用jmeter 测试的时候读取</li>
+</ul>
+<p>代码如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Resource</span></span><br><span class="line">StringRedisTemplate stringRedisTemplate;    </span><br><span class="line"><span class="meta">@Resource</span></span><br><span class="line">UserMapper userMapper;</span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">FileAndRedisInputTokenTest</span><span class="params">()</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">    List&lt;User&gt; users = userMapper.selectList(<span class="keyword">new</span> <span class="title class_">QueryWrapper</span>&lt;&gt;());</span><br><span class="line">    FileOutputStream fos=<span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(<span class="keyword">new</span> <span class="title class_">File</span>(<span class="string">&quot;C:\\Users\\lenovo\\Desktop\\tokens.txt&quot;</span>));</span><br><span class="line">    <span class="keyword">for</span> (User user : users) &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;user : &quot;</span>+ user.getId());</span><br><span class="line">        <span class="comment">//生成token</span></span><br><span class="line">        String token= UUID.randomUUID().toString();</span><br><span class="line">        String tokenKey= RedisConstants.LOGIN_USER_KEY+token;</span><br><span class="line">        <span class="comment">// 写入txt文件</span></span><br><span class="line">        <span class="type">byte</span>[] bytes=token.getBytes();</span><br><span class="line">        fos.write(bytes);</span><br><span class="line">        fos.write((<span class="type">byte</span>)(<span class="string">&#x27;\n&#x27;</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">//存入redis =&gt; 实际存储使用UserDTO对象</span></span><br><span class="line">        UserDTO userDTO=BeanUtil.copyProperties(user,UserDTO.class);</span><br><span class="line">        <span class="comment">// 使用BeanUtil工具类转换类型</span></span><br><span class="line">        Map&lt;String, Object&gt; userMap = BeanUtil.beanToMap(userDTO,<span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;(),</span><br><span class="line">                                                         CopyOptions.create().</span><br><span class="line">                                                         setIgnoreNullValue(<span class="literal">true</span>).</span><br><span class="line">                                                         setFieldValueEditor((fieldName, fieldValue) -&gt;fieldValue.toString()));</span><br><span class="line">        stringRedisTemplate.opsForHash().putAll(tokenKey,userMap);</span><br><span class="line">        stringRedisTemplate.expire(tokenKey,<span class="number">100000000L</span>, TimeUnit.MINUTES);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">FileInputTest</span><span class="params">()</span> <span class="keyword">throws</span> IOException &#123; <span class="comment">// 测试文件写入</span></span><br><span class="line">    FileOutputStream fos=<span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(<span class="keyword">new</span> <span class="title class_">File</span>(<span class="string">&quot;C:\\Users\\lenovo\\Desktop\\tokens.txt&quot;</span>));</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">        String UUID= String.valueOf(cn.hutool.core.lang.UUID.randomUUID());</span><br><span class="line">        <span class="type">byte</span>[] bytes=UUID.getBytes();</span><br><span class="line">        fos.write(bytes);</span><br><span class="line">        fos.write((<span class="type">byte</span>)(<span class="string">&#x27;\n&#x27;</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>写入数据如下</p>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221013084005666.png" style="zoom:67%;" />
+<h4 id="602测试前准备"><a class="markdownIt-Anchor" href="#602测试前准备"></a> 6.0.2测试前准备</h4>
+<p>打开jmeter ,  创建Plan ,</p>
+<p>添加CSV数据文件,</p>
+<blockquote>
+<p>用来读取我们刚刚存储在tokens.text的数据,</p>
+</blockquote>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221013084210370.png" alt="" /></p>
+<p>设置配置如下</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221013084314511.png" alt="" /></p>
+<p>设置http请求头</p>
+<p><code>$&#123;name&#125;</code>  其中的name就是我们刚刚在CSV中设置的变量名称</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221013084348082.png" alt="" /></p>
+<p>设置线程数为1000, 执行时间为5s</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221013084502554.png" alt="" /></p>
+<p>然后设置http请求</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221013084528469.png" alt="" /></p>
+<p>接下来启动后端</p>
+<blockquote>
+<p>由于我这里前端使用的是nginx代理,  实际后端的端口并不是8080</p>
+</blockquote>
+<h4 id="603执行测试"><a class="markdownIt-Anchor" href="#603执行测试"></a> 6.0.3执行测试</h4>
+<p>确认相关配置完成后 ,  点击绿色三角形按钮,  即可开始执行</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221013084710647.png" alt="" /></p>
+<h4 id="604执行结果"><a class="markdownIt-Anchor" href="#604执行结果"></a> 6.0.4执行结果</h4>
+<p><strong>请求结果</strong></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221013084652378.png" alt="" /></p>
+<p><strong>聚合报告</strong></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221013084825180.png" alt="" /></p>
+<p>可以看到各项指标十分清晰 ,  <strong>此时异常率0%</strong></p>
+<p>由于数据库的并发能力本身就比较差, 并且减库存以及创建订单的过程是对数据库的写操作,  而且为了安全问题,</p>
+<p>我们在之前的代码中还加入了分布式锁 ,  因此整个业务的执行时间就比较慢</p>
+<p><strong>接下来我们进行秒杀的相关优化 ,  提高业务的并发能力</strong></p>
+<hr />
+<h3 id="61-秒杀优化-异步秒杀思路"><a class="markdownIt-Anchor" href="#61-秒杀优化-异步秒杀思路"></a> 6.1 秒杀优化-异步秒杀思路</h3>
+<p>先来回顾一下下单流程</p>
+<p>当用户发起请求，此时会请求nginx，nginx会访问到tomcat，而tomcat中的程序，会进行串行操作，分成如下几个步骤</p>
+<p>1、查询优惠卷</p>
+<p>2、判断秒杀库存是否足够</p>
+<p>3、查询订单</p>
+<p>4、校验是否是一人一单</p>
+<p>5、扣减库存</p>
+<p>6、创建订单</p>
+<p>在这六步操作中，又有很多操作是要去操作数据库的，而且还是<strong>一个线程串行执行</strong>， 这样就会导致我们的程序执行的很慢，</p>
+<p>所以我们需要异步程序执行，那么如何加速呢？</p>
+<p>在这里笔者想给大家分享一下课程内没有的思路，看看有没有小伙伴这么想，比如，我们可以不可以使用异步编排来做，或者说我开启N多线程，</p>
+<p>N多个线程，一个线程执行查询优惠卷，一个执行判断扣减库存，一个去创建订单等等，然后再统一做返回，这种做法和课程中有哪种好呢？</p>
+<p>答案是课程中的好，因为如果你采用我刚说的方式，如果访问的人很多，那么线程池中的线程可能一下子就被消耗完了，而且你使用上述方案，</p>
+<p>最大的特点在于，你觉得时效性会非常重要，但是你想想是吗？并不是，比如我只要确定他能做这件事，然后我后边慢慢做就可以了，</p>
+<p>我并不需要他一口气做完这件事，所以我们应当采用的是课程中，类似<mark>消息队列</mark>的方式来完成我们的需求，</p>
+<p>而不是使用线程池或者是异步编排的方式来完成这个需求</p>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653560986599.png" style="zoom:80%;" />
+<p>优化方案：我们将耗时比较短的逻辑判断放入到redis中，比如是否库存足够，比如是否一人一单，这样的操作，只要这种逻辑可以完成，就意味着我们是一定可以下单完成的，我们只需要进行快速的逻辑判断，根本就不用等下单逻辑走完，我们直接给用户返回成功， 再在后台开一个线程，后台线程慢慢的去执行queue里边的消息，这样程序不就超级快了吗？而且也不用担心线程池消耗殆尽的问题，因为这里我们的程序中并没有手动使用任何线程池，当然这里边有两个难点</p>
+<p>第一个难点是<strong>我们怎么在redis中去快速校验一人一单，还有库存判断</strong></p>
+<p>第二个难点是<u>由于我们校验和tomct下单是两个线程，那么我们如何知道到底哪个单他最后是否成功，或者是下单完成，为了完成这件事我们在redis操作完之后，我们会将一些信息返回给前端，同时也会把这些信息丢到异步queue中去，后续操作中，可以通过这个id来查询我们tomcat中的下单逻辑是否完成了。</u></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653561657295.png" alt="" /></p>
+<p>我们现在来看看整体思路：当用户下单之后，判断库存是否充足只需要导redis中去根据key找对应的value是否大于0即可，如果不充足，则直接结束，如果充足，继续在redis中判断用户是否可以下单，如果set集合中没有这条数据，说明他可以下单，如果set集合中没有这条记录，则将userId和优惠卷存入到redis中，并且返回0，整个过程需要保证是原子性的，我们可以使用lua来操作</p>
+<p>当以上判断逻辑走完之后，我们可以判断当前redis中返回的结果是否是0 ，如果是0，则表示可以下单，则将之前说的信息存入到到queue中去，然后返回，然后再来个线程异步的下单，前端可以通过返回的订单id来判断是否下单成功。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653562234886.png" alt="" /></p>
+<h3 id="62-秒杀优化-redis完成秒杀资格判断"><a class="markdownIt-Anchor" href="#62-秒杀优化-redis完成秒杀资格判断"></a> 6.2 秒杀优化-Redis完成秒杀资格判断</h3>
+<p>需求：</p>
+<ul>
+<li>
+<p>新增秒杀优惠券的同时，将优惠券信息保存到Redis中</p>
+</li>
+<li>
+<p>基于<strong>Lua脚本</strong>，判断秒杀库存、一人一单，决定用户是否抢购成功</p>
+</li>
+<li>
+<p>如果抢购成功，将优惠券id和用户id封装后存入阻塞队列</p>
+</li>
+<li>
+<p>开启线程任务，不断从阻塞队列中获取信息，实现异步下单功能</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1656080546603.png" alt="" /></p>
+</li>
+</ul>
+<p><strong>VoucherServiceImpl</strong></p>
+<ul>
+<li>添加秒杀券的功能</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="meta">@Transactional</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addSeckillVoucher</span><span class="params">(Voucher voucher)</span> &#123;</span><br><span class="line">    <span class="comment">// 保存优惠券</span></span><br><span class="line">    save(voucher);</span><br><span class="line">    <span class="comment">// 保存秒杀信息</span></span><br><span class="line">    <span class="type">SeckillVoucher</span> <span class="variable">seckillVoucher</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">SeckillVoucher</span>();</span><br><span class="line">    seckillVoucher.setVoucherId(voucher.getId());</span><br><span class="line">    seckillVoucher.setStock(voucher.getStock());</span><br><span class="line">    seckillVoucher.setBeginTime(voucher.getBeginTime());</span><br><span class="line">    seckillVoucher.setEndTime(voucher.getEndTime());</span><br><span class="line">    seckillVoucherService.save(seckillVoucher);</span><br><span class="line">    <span class="comment">// 保存秒杀库存到Redis中</span></span><br><span class="line">    <span class="comment">//SECKILL_STOCK_KEY 这个变量定义在RedisConstans中</span></span><br><span class="line">    <span class="comment">//private static final String SECKILL_STOCK_KEY =&quot;seckill:stock:&quot;</span></span><br><span class="line">    stringRedisTemplate.opsForValue().set(SECKILL_STOCK_KEY + voucher.getId(), voucher.getStock().toString());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>基于Lua脚本, 完成 <mark>秒杀库存判断</mark> 以及 <mark>一人一单</mark></strong></p>
+<ul>
+<li>完整Lua代码</li>
+</ul>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 1.参数列表</span></span><br><span class="line"><span class="comment">-- 1.1.优惠券id</span></span><br><span class="line"><span class="keyword">local</span> voucherId = ARGV[<span class="number">1</span>]</span><br><span class="line"><span class="comment">-- 1.2.用户id</span></span><br><span class="line"><span class="keyword">local</span> userId = ARGV[<span class="number">2</span>]</span><br><span class="line"><span class="comment">-- 1.3.订单id</span></span><br><span class="line"><span class="keyword">local</span> orderId = ARGV[<span class="number">3</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 2.数据key</span></span><br><span class="line"><span class="comment">-- 2.1.库存key</span></span><br><span class="line"><span class="keyword">local</span> stockKey = <span class="string">&#x27;seckill:stock:&#x27;</span> .. voucherId</span><br><span class="line"><span class="comment">-- 2.2.订单key</span></span><br><span class="line"><span class="keyword">local</span> orderKey = <span class="string">&#x27;seckill:order:&#x27;</span> .. voucherId</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 3.脚本业务</span></span><br><span class="line"><span class="comment">-- 3.1.判断库存是否充足 get stockKey</span></span><br><span class="line"><span class="keyword">if</span>(<span class="built_in">tonumber</span>(redis.call(<span class="string">&#x27;get&#x27;</span>, stockKey)) &lt;= <span class="number">0</span>) <span class="keyword">then</span></span><br><span class="line">    <span class="comment">-- 3.2.库存不足，返回1</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="comment">-- 3.2.判断用户是否下单 SISMEMBER orderKey userId</span></span><br><span class="line"><span class="keyword">if</span>(redis.call(<span class="string">&#x27;SISMEMBER&#x27;</span>, orderKey, userId) == <span class="number">1</span>) <span class="keyword">then</span>  <span class="comment">-- s is member value是否是集合(key)的成员 </span></span><br><span class="line">    <span class="comment">-- 3.3.存在，说明是重复下单，返回2</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">2</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="comment">-- 3.4.扣库存 incrby stockKey -1</span></span><br><span class="line">redis.call(<span class="string">&#x27;incrby&#x27;</span>, stockKey, <span class="number">-1</span>)</span><br><span class="line"><span class="comment">-- 3.5.下单（保存用户）sadd orderKey userId</span></span><br><span class="line">redis.call(<span class="string">&#x27;sadd&#x27;</span>, orderKey, userId)</span><br><span class="line"><span class="comment">-- 3.6.发送消息到队列中， XADD stream.orders * k1 v1 k2 v2 ...</span></span><br><span class="line">redis.call(<span class="string">&#x27;xadd&#x27;</span>, <span class="string">&#x27;stream.orders&#x27;</span>, <span class="string">&#x27;*&#x27;</span>, <span class="string">&#x27;userId&#x27;</span>, userId, <span class="string">&#x27;voucherId&#x27;</span>, voucherId, <span class="string">&#x27;id&#x27;</span>, orderId)</span><br><span class="line"><span class="keyword">return</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p><strong>测试速度</strong></p>
+<p>可以发现平均值相较之前由 656 变为 12</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221013100804574.png" alt="" /></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221013084825180.png" alt="" /></p>
+<p>当以上lua表达式执行完毕后，剩下的就是根据步骤3,4来执行我们接下来的任务了</p>
+<p><strong>VoucherOrderServiceImpl</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> Result <span class="title function_">seckillVoucher</span><span class="params">(Long voucherId)</span> &#123;</span><br><span class="line">    <span class="comment">//获取用户</span></span><br><span class="line">    <span class="type">Long</span> <span class="variable">userId</span> <span class="operator">=</span> UserHolder.getUser().getId();</span><br><span class="line">    <span class="type">long</span> <span class="variable">orderId</span> <span class="operator">=</span> redisIdWorker.nextId(<span class="string">&quot;order&quot;</span>);</span><br><span class="line">    <span class="comment">// 1.执行lua脚本</span></span><br><span class="line">    <span class="type">Long</span> <span class="variable">result</span> <span class="operator">=</span> stringRedisTemplate.execute(</span><br><span class="line">            SECKILL_SCRIPT,</span><br><span class="line">            Collections.emptyList(),</span><br><span class="line">            voucherId.toString(), userId.toString(), String.valueOf(orderId)</span><br><span class="line">    );</span><br><span class="line">    <span class="type">int</span> <span class="variable">r</span> <span class="operator">=</span> result.intValue();</span><br><span class="line">    <span class="comment">// 2.判断结果是否为0</span></span><br><span class="line">    <span class="keyword">if</span> (r != <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">// 2.1.不为0 ，代表没有购买资格</span></span><br><span class="line">        <span class="keyword">return</span> Result.fail(r == <span class="number">1</span> ? <span class="string">&quot;库存不足&quot;</span> : <span class="string">&quot;不能重复下单&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//TODO 保存阻塞队列</span></span><br><span class="line">    <span class="comment">// 3.返回订单id</span></span><br><span class="line">    <span class="keyword">return</span> Result.ok(orderId);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="63-秒杀优化-基于阻塞队列实现秒杀优化"><a class="markdownIt-Anchor" href="#63-秒杀优化-基于阻塞队列实现秒杀优化"></a> 6.3 秒杀优化-基于阻塞队列实现秒杀优化</h3>
+<p><strong>VoucherOrderServiceImpl</strong></p>
+<p>修改下单动作，现在我们去下单时，是通过lua表达式去原子执行判断逻辑，如果判断我出来不为0 ，则要么是库存不足，</p>
+<p>要么是重复下单，返回错误信息，如果是0，则把下单的逻辑保存到队列中去，然后异步执行</p>
+<blockquote>
+<p>createVoucherOrder(VoucherOrder voucherOrder) 方法中的操作, 有许多其实是没有必要的, 但是以防万一还是先不删除</p>
+<ul>
+<li>有可能redis出现问题</li>
+</ul>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//异步处理线程池</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">ExecutorService</span> <span class="variable">SECKILL_ORDER_EXECUTOR</span> <span class="operator">=</span> Executors.newSingleThreadExecutor();</span><br><span class="line"></span><br><span class="line"><span class="comment">//在类初始化之后执行，因为当这个类初始化好了之后，随时都是有可能要执行的</span></span><br><span class="line"><span class="meta">@PostConstruct</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">init</span><span class="params">()</span> &#123;</span><br><span class="line">   SECKILL_ORDER_EXECUTOR.submit(<span class="keyword">new</span> <span class="title class_">VoucherOrderHandler</span>());</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 用于线程池处理的任务</span></span><br><span class="line"><span class="comment">// 当初始化完毕后，就会去从对列中去拿信息</span></span><br><span class="line"> <span class="keyword">private</span> <span class="keyword">class</span> <span class="title class_">VoucherOrderHandler</span> <span class="keyword">implements</span> <span class="title class_">Runnable</span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">            <span class="keyword">while</span> (<span class="literal">true</span>)&#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    <span class="comment">// 1.获取队列中的订单信息</span></span><br><span class="line">                    <span class="type">VoucherOrder</span> <span class="variable">voucherOrder</span> <span class="operator">=</span> orderTasks.take();</span><br><span class="line">                    <span class="comment">// 2.创建订单</span></span><br><span class="line">                    handleVoucherOrder(voucherOrder);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                    log.error(<span class="string">&quot;处理订单异常&quot;</span>, e);</span><br><span class="line">                &#125;</span><br><span class="line">          	 &#125;</span><br><span class="line">        &#125;</span><br><span class="line">     </span><br><span class="line">       <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">handleVoucherOrder</span><span class="params">(VoucherOrder voucherOrder)</span> &#123;</span><br><span class="line">            <span class="comment">//1.获取用户</span></span><br><span class="line">            <span class="type">Long</span> <span class="variable">userId</span> <span class="operator">=</span> voucherOrder.getUserId();</span><br><span class="line">            <span class="comment">// 2.创建锁对象</span></span><br><span class="line">            <span class="type">RLock</span> <span class="variable">redisLock</span> <span class="operator">=</span> redissonClient.getLock(<span class="string">&quot;lock:order:&quot;</span> + userId);</span><br><span class="line">            <span class="comment">// 3.尝试获取锁</span></span><br><span class="line">            <span class="type">boolean</span> <span class="variable">isLock</span> <span class="operator">=</span> redisLock.lock();</span><br><span class="line">            <span class="comment">// 4.判断是否获得锁成功</span></span><br><span class="line">            <span class="keyword">if</span> (!isLock) &#123;</span><br><span class="line">                <span class="comment">// 获取锁失败，直接返回失败或者重试</span></span><br><span class="line">                log.error(<span class="string">&quot;不允许重复下单！&quot;</span>);</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">				<span class="comment">//注意：由于是spring的事务是放在threadLocal中，此时的是多线程，事务会失效</span></span><br><span class="line">                proxy.createVoucherOrder(voucherOrder);</span><br><span class="line">            &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                <span class="comment">// 释放锁</span></span><br><span class="line">                redisLock.unlock();</span><br><span class="line">            &#125;</span><br><span class="line">    &#125;</span><br><span class="line">     <span class="comment">//a</span></span><br><span class="line">	<span class="keyword">private</span> BlockingQueue&lt;VoucherOrder&gt; orderTasks =<span class="keyword">new</span>  <span class="title class_">ArrayBlockingQueue</span>&lt;&gt;(<span class="number">1024</span> * <span class="number">1024</span>);</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Result <span class="title function_">seckillVoucher</span><span class="params">(Long voucherId)</span> &#123;</span><br><span class="line">        <span class="type">Long</span> <span class="variable">userId</span> <span class="operator">=</span> UserHolder.getUser().getId();</span><br><span class="line">        <span class="type">long</span> <span class="variable">orderId</span> <span class="operator">=</span> redisIdWorker.nextId(<span class="string">&quot;order&quot;</span>);</span><br><span class="line">        <span class="comment">// 1.执行lua脚本</span></span><br><span class="line">        <span class="type">Long</span> <span class="variable">result</span> <span class="operator">=</span> stringRedisTemplate.execute(</span><br><span class="line">                SECKILL_SCRIPT,</span><br><span class="line">                Collections.emptyList(),</span><br><span class="line">                voucherId.toString(), userId.toString(), String.valueOf(orderId)</span><br><span class="line">        );</span><br><span class="line">        <span class="type">int</span> <span class="variable">r</span> <span class="operator">=</span> result.intValue();</span><br><span class="line">        <span class="comment">// 2.判断结果是否为0</span></span><br><span class="line">        <span class="keyword">if</span> (r != <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="comment">// 2.1.不为0 ，代表没有购买资格</span></span><br><span class="line">            <span class="keyword">return</span> Result.fail(r == <span class="number">1</span> ? <span class="string">&quot;库存不足&quot;</span> : <span class="string">&quot;不能重复下单&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">VoucherOrder</span> <span class="variable">voucherOrder</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">VoucherOrder</span>();</span><br><span class="line">        <span class="comment">// 2.3.订单id</span></span><br><span class="line">        <span class="type">long</span> <span class="variable">orderId</span> <span class="operator">=</span> redisIdWorker.nextId(<span class="string">&quot;order&quot;</span>);</span><br><span class="line">        voucherOrder.setId(orderId);</span><br><span class="line">        <span class="comment">// 2.4.用户id</span></span><br><span class="line">        voucherOrder.setUserId(userId);</span><br><span class="line">        <span class="comment">// 2.5.代金券id</span></span><br><span class="line">        voucherOrder.setVoucherId(voucherId);</span><br><span class="line">        <span class="comment">// 2.6.放入阻塞队列</span></span><br><span class="line">        orderTasks.add(voucherOrder);</span><br><span class="line">        <span class="comment">//3.获取代理对象</span></span><br><span class="line">         proxy = (IVoucherOrderService)AopContext.currentProxy();</span><br><span class="line">        <span class="comment">//4.返回订单id</span></span><br><span class="line">        <span class="keyword">return</span> Result.ok(orderId);</span><br><span class="line">    &#125;</span><br><span class="line">     </span><br><span class="line">      <span class="meta">@Transactional</span></span><br><span class="line">    <span class="keyword">public</span>  <span class="keyword">void</span> <span class="title function_">createVoucherOrder</span><span class="params">(VoucherOrder voucherOrder)</span> &#123;</span><br><span class="line">        <span class="type">Long</span> <span class="variable">userId</span> <span class="operator">=</span> voucherOrder.getUserId();</span><br><span class="line">        <span class="comment">// 5.1.查询订单</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> query().eq(<span class="string">&quot;user_id&quot;</span>, userId).eq(<span class="string">&quot;voucher_id&quot;</span>, voucherOrder.getVoucherId()).count();</span><br><span class="line">        <span class="comment">// 5.2.判断是否存在</span></span><br><span class="line">        <span class="keyword">if</span> (count &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="comment">// 用户已经购买过了</span></span><br><span class="line">           log.error(<span class="string">&quot;用户已经购买过了&quot;</span>);</span><br><span class="line">           <span class="keyword">return</span> ;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 6.扣减库存</span></span><br><span class="line">        <span class="type">boolean</span> <span class="variable">success</span> <span class="operator">=</span> seckillVoucherService.update()</span><br><span class="line">                .setSql(<span class="string">&quot;stock = stock - 1&quot;</span>) <span class="comment">// set stock = stock - 1</span></span><br><span class="line">                .eq(<span class="string">&quot;voucher_id&quot;</span>, voucherOrder.getVoucherId()).gt(<span class="string">&quot;stock&quot;</span>, <span class="number">0</span>) <span class="comment">// where id = ? and stock &gt; 0</span></span><br><span class="line">                .update();</span><br><span class="line">        <span class="keyword">if</span> (!success) &#123;</span><br><span class="line">            <span class="comment">// 扣减失败</span></span><br><span class="line">            log.error(<span class="string">&quot;库存不足&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span> ;</span><br><span class="line">        &#125;</span><br><span class="line">        save(voucherOrder);</span><br><span class="line"> </span><br><span class="line">    &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>小总结：</strong></p>
+<p>秒杀业务的优化思路是什么？</p>
+<ul>
+<li>先利用Redis完成库存余量、一人一单判断，完成抢单业务</li>
+<li>再将下单业务放入阻塞队列，利用独立线程异步下单</li>
+<li>基于阻塞队列的异步秒杀存在哪些问题？
+<ul>
+<li>内存限制问题</li>
+<li>数据安全问题</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>关键点在于将原本在数据库中的操作,  改成在redis中进行 (<strong>reids性能较高</strong>)  ,</p>
+<p>时效性问题, 我们对于数据库的写操作,  事实上并不是要求立即完成,  这里就是阻塞队列的思路,</p>
+<p>我们需要立即返回给用户的是订单的ID, 但是数据库是自己用的,  只需要保证数据被写入就可以</p>
+</blockquote>
+<p><strong>再次测试</strong></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221013104135055.png" alt="" /></p>
+<h2 id="7-redis消息队列"><a class="markdownIt-Anchor" href="#7-redis消息队列"></a> 7、Redis消息队列</h2>
+<h3 id="71-redis消息队列-认识消息队列"><a class="markdownIt-Anchor" href="#71-redis消息队列-认识消息队列"></a> 7.1 Redis消息队列-认识消息队列</h3>
+<p>什么是消息队列：字面意思就是存放消息的队列。最简单的消息队列模型包括3个角色：</p>
+<ul>
+<li>消息队列：存储和管理消息，也被称为消息代理（Message Broker）</li>
+<li>生产者：发送消息到消息队列</li>
+<li>消费者：从消息队列获取消息并处理消息</li>
+</ul>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653574849336.png" style="zoom:67%;" />
+<p>使用队列的好处在于 **解耦：**所谓解耦，举一个生活中的例子就是：快递员(生产者)把快递放到快递柜里边(Message Queue)去，我们(消费者)从快递柜里边去拿东西，这就是一个异步，如果耦合，那么这个快递员相当于直接把快递交给你，这事固然好，但是万一你不在家，那么快递员就会一直等你，这就浪费了快递员的时间，所以这种思想在我们日常开发中，是非常有必要的。</p>
+<p>这种场景在我们秒杀中就变成了：我们下单之后，利用redis去进行校验下单条件，再通过队列把消息发送出去，然后再启动一个线程去消费这个消息，完成解耦，同时也加快我们的响应速度。</p>
+<p>这里我们可以使用一些现成的mq，比如kafka，rabbitmq等等，但是呢，如果没有安装mq，我们也可以直接使用redis提供的mq方案，降低我们的部署和学习成本。</p>
+<h3 id="72-redis消息队列-基于list实现消息队列"><a class="markdownIt-Anchor" href="#72-redis消息队列-基于list实现消息队列"></a> 7.2 Redis消息队列-基于List实现消息队列</h3>
+<p><strong>基于List结构模拟消息队列</strong></p>
+<p>消息队列（Message Queue），字面意思就是存放消息的队列。而Redis的list数据结构是一个双向链表，很容易模拟出队列效果。</p>
+<p>队列是入口和出口不在一边，因此我们可以利用：LPUSH 结合 RPOP、或者 RPUSH 结合 LPOP来实现。<br />
+不过要注意的是，当队列中没有消息时RPOP或LPOP操作会返回null，并不像JVM的阻塞队列那样会阻塞并等待消息。因此这里应该使用BRPOP或者BLPOP来实现阻塞效果。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653575176451.png" alt="" /></p>
+<p>基于List的消息队列有哪些优缺点？<br />
+优点：</p>
+<ul>
+<li>利用Redis存储，不受限于JVM内存上限</li>
+<li>基于Redis的持久化机制，数据安全性有保证</li>
+<li>可以满足消息有序性</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>无法避免消息丢失</li>
+<li>只支持单消费者</li>
+</ul>
+<h3 id="73-redis消息队列-基于pubsub的消息队列"><a class="markdownIt-Anchor" href="#73-redis消息队列-基于pubsub的消息队列"></a> 7.3 Redis消息队列-基于PubSub的消息队列</h3>
+<p>PubSub（发布订阅）是Redis2.0版本引入的消息传递模型。顾名思义，消费者可以订阅一个或多个channel，生产者向对应channel发送消息后，所有订阅者都能收到相关消息。</p>
+<p>SUBSCRIBE channel [channel] ：订阅一个或多个频道<br />
+PUBLISH channel msg ：向一个频道发送消息<br />
+PSUBSCRIBE pattern[pattern] ：订阅与pattern格式匹配的所有频道</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653575506373.png" alt="" /></p>
+<p>基于PubSub的消息队列有哪些优缺点？<br />
+优点：</p>
+<ul>
+<li>采用发布订阅模型，支持多生产、多消费</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>不支持数据持久化</li>
+<li>无法避免消息丢失</li>
+<li>消息堆积有上限，超出时数据丢失</li>
+</ul>
+<h3 id="74-redis消息队列-基于stream的消息队列"><a class="markdownIt-Anchor" href="#74-redis消息队列-基于stream的消息队列"></a> 7.4 Redis消息队列-基于Stream的消息队列</h3>
+<p>Stream 是 Redis 5.0 引入的一种新数据类型，可以实现一个功能非常完善的消息队列。</p>
+<p>发送消息的命令：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653577301737.png" alt="" /></p>
+<p>例如：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653577349691.png" alt="" /></p>
+<p>读取消息的方式之一：XREAD</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653577445413.png" alt="" /></p>
+<p>例如，使用XREAD读取第一个消息：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653577643629.png" alt="" /></p>
+<p>XREAD阻塞方式，读取最新的消息：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653577659166.png" alt="" /></p>
+<p>在业务开发中，我们可以循环的调用XREAD阻塞方式来查询最新消息，从而实现持续监听队列的效果，伪代码如下</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653577689129.png" alt="" /></p>
+<p>注意：当我们指定起始ID为$时，代表读取最新的消息，如果我们处理一条消息的过程中，又有超过1条以上的消息到达队列，则下次获取时也只能获取到最新的一条，会出现漏读消息的问题</p>
+<p>STREAM类型消息队列的XREAD命令特点：</p>
+<ul>
+<li>消息可回溯</li>
+<li>一个消息可以被多个消费者读取</li>
+<li>可以阻塞读取</li>
+<li>有消息漏读的风险</li>
+</ul>
+<h3 id="75-redis消息队列-基于stream的消息队列-消费者组"><a class="markdownIt-Anchor" href="#75-redis消息队列-基于stream的消息队列-消费者组"></a> 7.5 Redis消息队列-基于Stream的消息队列-消费者组</h3>
+<p>消费者组（Consumer Group）：将多个消费者划分到一个组中，监听同一个队列。具备下列特点：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653577801668.png" alt="" /></p>
+<p>创建消费者组：<br />
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653577984924.png" alt="" /><br />
+key：队列名称<br />
+groupName：消费者组名称<br />
+ID：起始ID标示，$代表队列中最后一个消息，0则代表队列中第一个消息<br />
+MKSTREAM：队列不存在时自动创建队列<br />
+其它常见命令：</p>
+<p><strong>删除指定的消费者组</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">XGROUP DESTORY key groupName</span><br></pre></td></tr></table></figure>
+<p><strong>给指定的消费者组添加消费者</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">XGROUP CREATECONSUMER key groupname consumername</span><br></pre></td></tr></table></figure>
+<p><strong>删除消费者组中的指定消费者</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">XGROUP DELCONSUMER key groupname consumername</span><br></pre></td></tr></table></figure>
+<p>从消费者组读取消息：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">XREADGROUP GROUP group consumer [COUNT count] [BLOCK milliseconds] [NOACK] STREAMS key [key ...] ID [ID ...]</span><br></pre></td></tr></table></figure>
+<ul>
+<li>group：消费组名称</li>
+<li>consumer：消费者名称，如果消费者不存在，会自动创建一个消费者</li>
+<li>count：本次查询的最大数量</li>
+<li>BLOCK milliseconds：当没有消息时最长等待时间</li>
+<li>NOACK：无需手动ACK，获取到消息后自动确认</li>
+<li>STREAMS key：指定队列名称</li>
+<li>ID：获取消息的起始ID：</li>
+</ul>
+<p>“&gt;”：<strong>从下一个未消费的消息开始</strong></p>
+<blockquote>
+<p><strong>’&gt;'使得消息队列中所有的消息都能被读取</strong></p>
+</blockquote>
+<p>其它：根据指定id从<code>pending-list</code>中获取已消费但未确认的消息，例如0，是从<code>pending-list</code>中的第一个消息开始</p>
+<p><strong>消费者监听消息的基本思路</strong>：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653578211854.png" alt="" />STREAM类型消息队列的XREADGROUP命令特点：</p>
+<ul>
+<li>消息可回溯</li>
+<li>可以多消费者争抢消息，加快消费速度</li>
+<li>可以阻塞读取</li>
+<li>没有消息漏读的风险</li>
+<li>独立于jvm之外,  避免因jvm 而出现消息阻塞</li>
+<li>有消息确认机制，保证消息至少被消费一次</li>
+</ul>
+<p>最后我们来个小对比</p>
+<img src="./Redis实战篇.assets/1653578560691.png" style="zoom:80%;" />
+<h3 id="76-基于redis的stream结构作为消息队列实现异步秒杀下单"><a class="markdownIt-Anchor" href="#76-基于redis的stream结构作为消息队列实现异步秒杀下单"></a> 7.6 基于Redis的Stream结构作为消息队列，实现异步秒杀下单</h3>
+<p>需求：</p>
+<ul>
+<li>创建一个Stream类型的消息队列，名为stream.orders</li>
+<li>修改之前的秒杀下单Lua脚本，在认定有抢购资格后，直接向stream.orders中添加消息，内容包含voucherId、userId、orderId</li>
+<li>项目启动时，开启一个线程任务，尝试获取stream.orders中的消息，完成下单</li>
+</ul>
+<p><strong>在控制台中创建消息队列</strong></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221013150631648.png" alt="" /></p>
+<p>修改lua表达式,新增  <strong>3.6</strong></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1656082824939.png" alt="" /></p>
+<p>seckill.lua</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--传入的参数</span></span><br><span class="line"><span class="keyword">local</span> voucherId= ARGV[<span class="number">1</span>] <span class="comment">-- 优惠券ID</span></span><br><span class="line"><span class="keyword">local</span> userId = ARGV[<span class="number">2</span>] <span class="comment">-- 用户ID</span></span><br><span class="line"><span class="keyword">local</span> orderId= ARGV[<span class="number">3</span>] <span class="comment">-- 订单ID</span></span><br><span class="line"><span class="comment">--数据库</span></span><br><span class="line"><span class="keyword">local</span> stockKey = <span class="string">&#x27;seckill:stock:&#x27;</span>..voucherId <span class="comment">--  库存key   字符串使用 .. 拼接</span></span><br><span class="line"><span class="keyword">local</span> orderKey = <span class="string">&#x27;seckill:order:&#x27;</span>..voucherId <span class="comment">--  订单key</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--脚本业务</span></span><br><span class="line"><span class="keyword">if</span>(<span class="built_in">tonumber</span>(redis.call(<span class="string">&#x27;get&#x27;</span>, stockKey)) &lt;= <span class="number">0</span>) <span class="keyword">then</span> <span class="comment">-- get stockKey 判断是否大于0    使用tunumber将字符串转换为数字, 然后再来作比较</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="comment">-- 判断用户是否下单 , SISMAMBER orderKey userID</span></span><br><span class="line"><span class="keyword">if</span> (redis.call(<span class="string">&#x27;SISMEMBER&#x27;</span>, orderKey,userId)==<span class="number">1</span>) <span class="keyword">then</span></span><br><span class="line">    <span class="comment">-- 存在, 说明是重复下单</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">2</span>;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 创建订单的相关操作</span></span><br><span class="line">    <span class="comment">--1.扣库存  incrby stockKey -1</span></span><br><span class="line">    <span class="comment">--2.下单(保存用户到redis的集合)  sadd orderKey userId</span></span><br><span class="line">    <span class="comment">--3.发送消息到队列 XADD stream.orders[name]  *[消息ID]  k1 v1 k2 v2</span></span><br><span class="line">redis.call(<span class="string">&#x27;incrby&#x27;</span>,stockKey,<span class="number">-1</span>)</span><br><span class="line">redis.call(<span class="string">&#x27;sadd&#x27;</span>, orderKey, userId)</span><br><span class="line">redis.call(<span class="string">&#x27;xadd&#x27;</span>,<span class="string">&#x27;stream.orders&#x27;</span>,<span class="string">&#x27;*&#x27;</span>,<span class="string">&#x27;userId&#x27;</span>,userId, <span class="string">&#x27;voucherId&#x27;</span>,voucherId ,<span class="string">&#x27;Id&#x27;</span>,orderId)</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+<p><strong>VoucherOrderServiceImpl</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">class</span> <span class="title class_">VoucherOrderHandler</span> <span class="keyword">implements</span> <span class="title class_">Runnable</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="comment">// 1.获取消息队列中的订单信息 XREADGROUP GROUP g1 c1 COUNT 1 BLOCK 2000 STREAMS s1 &gt;</span></span><br><span class="line">                List&lt;MapRecord&lt;String, Object, Object&gt;&gt; list = stringRedisTemplate.opsForStream().read(</span><br><span class="line">                    Consumer.from(<span class="string">&quot;g1&quot;</span>, <span class="string">&quot;c1&quot;</span>),</span><br><span class="line">                    StreamReadOptions.empty().count(<span class="number">1</span>).block(Duration.ofSeconds(<span class="number">2</span>)),</span><br><span class="line">                    StreamOffset.create(<span class="string">&quot;stream.orders&quot;</span>, ReadOffset.lastConsumed())</span><br><span class="line">                );</span><br><span class="line">                <span class="comment">// 2.判断订单信息是否为空</span></span><br><span class="line">                <span class="keyword">if</span> (list == <span class="literal">null</span> || list.isEmpty()) &#123;</span><br><span class="line">                    <span class="comment">// 如果为null，说明没有消息，继续下一次循环</span></span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">// 解析数据</span></span><br><span class="line">                MapRecord&lt;String, Object, Object&gt; record = list.get(<span class="number">0</span>);</span><br><span class="line">                Map&lt;Object, Object&gt; value = record.getValue();</span><br><span class="line">                <span class="type">VoucherOrder</span> <span class="variable">voucherOrder</span> <span class="operator">=</span> BeanUtil.fillBeanWithMap(value, <span class="keyword">new</span> <span class="title class_">VoucherOrder</span>(), <span class="literal">true</span>);</span><br><span class="line">                <span class="comment">// 3.创建订单</span></span><br><span class="line">                createVoucherOrder(voucherOrder);</span><br><span class="line">                <span class="comment">// 4.确认消息 XACK</span></span><br><span class="line">                stringRedisTemplate.opsForStream().acknowledge(<span class="string">&quot;s1&quot;</span>, <span class="string">&quot;g1&quot;</span>, record.getId());</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                log.error(<span class="string">&quot;处理订单异常&quot;</span>, e);</span><br><span class="line">                <span class="comment">//处理异常消息</span></span><br><span class="line">                handlePendingList();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">handlePendingList</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="comment">// 1.获取pending-list中的订单信息 XREADGROUP GROUP g1 c1 COUNT 1 BLOCK 2000 STREAMS s1 0</span></span><br><span class="line">                List&lt;MapRecord&lt;String, Object, Object&gt;&gt; list = stringRedisTemplate.opsForStream().read(</span><br><span class="line">                    Consumer.from(<span class="string">&quot;g1&quot;</span>, <span class="string">&quot;c1&quot;</span>),</span><br><span class="line">                    StreamReadOptions.empty().count(<span class="number">1</span>),</span><br><span class="line">                    StreamOffset.create(<span class="string">&quot;stream.orders&quot;</span>, ReadOffset.from(<span class="string">&quot;0&quot;</span>))</span><br><span class="line">                );</span><br><span class="line">                <span class="comment">// 2.判断订单信息是否为空</span></span><br><span class="line">                <span class="keyword">if</span> (list == <span class="literal">null</span> || list.isEmpty()) &#123;</span><br><span class="line">                    <span class="comment">// 如果为null，说明没有异常消息，结束循环</span></span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">// 解析数据</span></span><br><span class="line">                MapRecord&lt;String, Object, Object&gt; record = list.get(<span class="number">0</span>);</span><br><span class="line">                Map&lt;Object, Object&gt; value = record.getValue();</span><br><span class="line">                <span class="type">VoucherOrder</span> <span class="variable">voucherOrder</span> <span class="operator">=</span> BeanUtil.fillBeanWithMap(value, <span class="keyword">new</span> <span class="title class_">VoucherOrder</span>(), <span class="literal">true</span>);</span><br><span class="line">                <span class="comment">// 3.创建订单</span></span><br><span class="line">                createVoucherOrder(voucherOrder);</span><br><span class="line">                <span class="comment">// 4.确认消息 XACK</span></span><br><span class="line">                stringRedisTemplate.opsForStream().acknowledge(<span class="string">&quot;s1&quot;</span>, <span class="string">&quot;g1&quot;</span>, record.getId());</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                log.error(<span class="string">&quot;处理pendding订单异常&quot;</span>, e);</span><br><span class="line">                <span class="keyword">try</span>&#123;</span><br><span class="line">                    Thread.sleep(<span class="number">20</span>);</span><br><span class="line">                &#125;<span class="keyword">catch</span>(Exception e)&#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>再次使用jmeter测试</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221013163011561.png" alt="" /></p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://adorabled4.github.io/2022/10/13/SQL/Redis/[02]%E5%AE%9E%E6%88%98%E7%AF%87(6)/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring/" rel="tag">Spring</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9B%9E%E6%BA%AF/" rel="tag">回溯</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%93%BE%E8%A1%A8/" rel="tag">链表</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%98%9F%E5%88%97/" rel="tag">队列</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+    
+      <a href="/2022/10/12/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(5)/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">实战篇(5):分布式锁优化--redission[Redis]</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.staticfile.org/valine/1.4.16/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "BMxcpVMjh3EMOP7tyImO6aLR-gzGzoHsz",
+    app_key: "HpcPO68bneKDaeq3H1G1xuIN",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+   
+    
+    <script src="https://cdn.staticfile.org/twikoo/1.4.18/twikoo.all.min.js"></script>
+    <div id="twikoo" class="twikoo"></div>
+    <script>
+        twikoo.init({
+            envId: ""
+        })
+    </script>
+ 
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2022
+        <i class="ri-heart-fill heart_icon"></i> dhx_
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/avater.png" alt="dhx_&#39;blog"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.staticfile.org/justifiedGallery/3.8.1/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.staticfile.org/clipboard.js/2.0.10/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+ 
+<script src="/js/dz.js"></script>
+ 
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    <div id="music">
+    
+    
+    
+    <iframe frameborder="no" border="1" marginwidth="0" marginheight="0" width="200" height="52"
+        src="//music.163.com/outchain/player?type=2&id=29480187&auto=1&height=32"></iframe>
+</div>
+
+<style>
+    #music {
+        position: fixed;
+        right: 15px;
+        bottom: 0;
+        z-index: 998;
+    }
+</style>
+    
+    
+
+  </div>
+</body>
+
+</html>

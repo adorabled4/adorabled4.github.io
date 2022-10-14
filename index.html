@@ -109,6 +109,194 @@
     
     
     <article
+  id="post-SQL/Redis/[02]实战篇(6)"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/10/13/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(6)/"
+    >实战篇(6):秒杀优化&amp;引入消息队列[Redis]</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/10/13/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(6)/" class="article-date">
+  <time datetime="2022-10-13T00:05:42.000Z" itemprop="datePublished">2022-10-13</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/SQL/">SQL</a> / <a class="article-category-link" href="/categories/SQL/SQL/">SQL</a> / <a class="article-category-link" href="/categories/SQL/SQL/Redis/">Redis</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h2 id="6-秒杀优化"><a class="markdownIt-Anchor" href="#6-秒杀优化"></a> 6、秒杀优化</h2>
+<h3 id="60-性能测试"><a class="markdownIt-Anchor" href="#60-性能测试"></a> 6.0 性能测试</h3>
+<h4 id="601生成测试数据"><a class="markdownIt-Anchor" href="#601生成测试数据"></a> 6.0.1生成测试数据</h4>
+<p><strong>生成用户数据</strong></p>
+<p>首先在<code>tb_user</code>生成1000个用户, 如下图所示</p>
+<img src="C:/Users/lenovo/AppData/Roaming/Typora/typora-user-images/image-20221013083539339.png" style="zoom:50%;" />
+<p>生成 user 的代码不在赘述</p> 
+      <a class="article-more-link" href="/2022/10/13/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(6)/"
+        >more...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring/" rel="tag">Spring</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9B%9E%E6%BA%AF/" rel="tag">回溯</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%93%BE%E8%A1%A8/" rel="tag">链表</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%98%9F%E5%88%97/" rel="tag">队列</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+    
+</article>
+
+    
+    <article
+  id="post-SQL/Redis/[02]实战篇(5)"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/10/12/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(5)/"
+    >实战篇(5):分布式锁优化--redission[Redis]</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/10/12/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(5)/" class="article-date">
+  <time datetime="2022-10-12T09:06:50.172Z" itemprop="datePublished">2022-10-12</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/SQL/">SQL</a> / <a class="article-category-link" href="/categories/SQL/SQL/">SQL</a> / <a class="article-category-link" href="/categories/SQL/SQL/Redis/">Redis</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <blockquote>
+<p>之前的分布式锁已经足以面对绝大多数情况了,  下面的只是做拓展</p>
+</blockquote>
+<h2 id="5-分布式锁-redission"><a class="markdownIt-Anchor" href="#5-分布式锁-redission"></a> 5、分布式锁-redission</h2>
+<h3 id="51-分布式锁-redission功能介绍"><a class="markdownIt-Anchor" href="#51-分布式锁-redission功能介绍"></a> 5.1 分布式锁-redission功能介绍</h3>
+<p><u>基于setnx实现的分布式锁存在下面的问题：</u></p>
+<p><strong>重入问题</strong>：重入问题是指 获得锁的线程可以再次进入到相同的锁的代码块中，可重入锁的意义在于防止死锁，比如HashTable这样的代码中，他的方法都是使用synchronized修饰的，假如他在一个方法内，调用另一个方法，那么此时如果是不可重入的，不就死锁了吗？所以可重入锁他的主要意义是防止死锁，我们的synchronized和Lock锁都是可重入的。</p>
+<p><strong>不可重试</strong>：是指目前的分布式只能尝试一次，我们认为合理的情况是：当线程在获得锁失败后，他应该能再次尝试获得锁。</p>
+<p>**超时释放：**我们在加锁时增加了过期时间，这样的我们可以防止死锁，但是如果卡顿的时间超长，虽然我们采用了lua表达式防止删锁的时候，误删别人的锁，但是毕竟没有锁住，有安全隐患</p> 
+      <a class="article-more-link" href="/2022/10/12/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(5)/"
+        >more...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+    
+</article>
+
+    
+    <article
+  id="post-SQL/Redis/[02]实战篇(4)"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/10/12/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(4)/"
+    >实战篇(4):分布式锁[Redis]</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/10/12/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(4)/" class="article-date">
+  <time datetime="2022-10-12T09:06:50.170Z" itemprop="datePublished">2022-10-12</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/SQL/">SQL</a> / <a class="article-category-link" href="/categories/SQL/SQL/">SQL</a> / <a class="article-category-link" href="/categories/SQL/SQL/Redis/">Redis</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h2 id="4-分布式锁"><a class="markdownIt-Anchor" href="#4-分布式锁"></a> 4 分布式锁</h2>
+<h3 id="41-基本原理和实现方式对比"><a class="markdownIt-Anchor" href="#41-基本原理和实现方式对比"></a> 4.1  基本原理和实现方式对比</h3>
+<p>分布式锁：满足分布式系统或集群模式下多进程可见并且互斥的锁。</p>
+<p>分布式锁的核心思想就是让大家都使用同一把锁，只要大家使用的是同一把锁，那么我们就能锁住线程，不让线程进行，让程序串行执行，这就是分布式锁的核心思路</p> 
+      <a class="article-more-link" href="/2022/10/12/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(4)/"
+        >more...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring/" rel="tag">Spring</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+    
+</article>
+
+    
+    <article
   id="post-琐碎知识点/idea配置集群"
   class="article article-type-post"
   itemscope
@@ -186,7 +374,7 @@
        
 <h2 itemprop="name">
   <a class="article-title" href="/2022/10/11/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(3)/"
-    >实战篇(3)[Redis]</a> 
+    >实战篇(3):优惠券秒杀[Redis]</a> 
 </h2>
  
 
@@ -205,26 +393,258 @@
       
     <div class="article-entry" itemprop="articleBody">
        
-  <h1 id="实战篇redis3"><a class="markdownIt-Anchor" href="#实战篇redis3"></a> 实战篇Redis[3]</h1>
-<p>视频教程地址<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1cr4y1671t?p=26&amp;spm_id_from=pageDriver&amp;vd_source=7d0b8be6716aca670df8e800cab6d54c">实战篇哔哩哔哩_bilibili</a></p>
-<blockquote>
-<p><strong>在原本笔记的基础上作出修改</strong></p>
-</blockquote>
-<h2 id="3-优惠卷秒杀"><a class="markdownIt-Anchor" href="#3-优惠卷秒杀"></a> 3、优惠卷秒杀</h2>
+  <h2 id="3-优惠卷秒杀"><a class="markdownIt-Anchor" href="#3-优惠卷秒杀"></a> 3、优惠卷秒杀</h2>
 <h3 id="31-全局唯一id"><a class="markdownIt-Anchor" href="#31-全局唯一id"></a> 3.1 全局唯一ID</h3>
-<blockquote>
-<p>考虑利用redis中string类型的<code>increase</code></p>
-</blockquote>
 <p>每个店铺都可以发布优惠券：<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653362612286.png" alt="" /></p>
 <p>当用户抢购时，就会生成订单并保存到<code>tb_voucher_order</code>这张表中，而订单表如果使用数据库自增ID就存在一些问题：</p>
 <ul>
 <li><strong>id的规律性太明显</strong></li>
 <li><strong>受单表数据量的限制</strong></li>
-</ul> 
-      <a class="article-more-link" href="/2022/10/11/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(3)/"
-        >more...</a
-      >
-       
+</ul>
+<p>场景分析：</p>
+<ul>
+<li>如果我们的id具有太明显的规则，用户或者说商业对手很容易猜测出来我们的一些敏感信息，比如商城在一天时间内，卖出了多少单，这明显不合适。</li>
+<li>随着我们商城规模越来越大，mysql的单表的容量不宜超过500W，数据量过大之后，我们要进行拆库拆表，但拆分表了之后，他们从逻辑上讲他们是同一张表，所以他们的id是不能一样的， 于是乎我们需要保证id的唯一性。</li>
+</ul>
+<p><strong>全局ID生成器</strong>，是一种在分布式系统下用来生成<strong>全局唯一ID</strong>的工具，一般要满足下列特性：</p>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653363100502.png" style="zoom:67%;" />
+<p>为了增加ID的安全性，我们可以不直接使用Redis自增的数值，而是拼接一些其它信息：</p>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653363172079.png" style="zoom:67%;" />
+<p>ID的组成部分：符号位：1bit，永远为0</p>
+<p>时间戳：31bit，以秒为单位，可以使用69年</p>
+<p>序列号：32bit，秒内的计数器，支持每秒产生2<sup>32</sup>个不同ID</p>
+<h3 id="32-redis实现全局唯一id"><a class="markdownIt-Anchor" href="#32-redis实现全局唯一id"></a> 3.2 Redis实现全局唯一Id</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RedisIdWorker</span> &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 开始时间戳</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">BEGIN_TIMESTAMP</span> <span class="operator">=</span> <span class="number">1640995200L</span>;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 序列号的位数</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">COUNT_BITS</span> <span class="operator">=</span> <span class="number">32</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> StringRedisTemplate stringRedisTemplate;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">RedisIdWorker</span><span class="params">(StringRedisTemplate stringRedisTemplate)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.stringRedisTemplate = stringRedisTemplate;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">long</span> <span class="title function_">nextId</span><span class="params">(String keyPrefix)</span> &#123;</span><br><span class="line">        <span class="comment">// 1.生成时间戳</span></span><br><span class="line">        <span class="type">LocalDateTime</span> <span class="variable">now</span> <span class="operator">=</span> LocalDateTime.now();</span><br><span class="line">        <span class="type">long</span> <span class="variable">nowSecond</span> <span class="operator">=</span> now.toEpochSecond(ZoneOffset.UTC);</span><br><span class="line">        <span class="type">long</span> <span class="variable">timestamp</span> <span class="operator">=</span> nowSecond - BEGIN_TIMESTAMP;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2.生成序列号</span></span><br><span class="line">        <span class="comment">// 2.1.获取当前日期，精确到天</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">date</span> <span class="operator">=</span> now.format(DateTimeFormatter.ofPattern(<span class="string">&quot;yyyy:MM:dd&quot;</span>));</span><br><span class="line">        <span class="comment">// 2.2.自增长</span></span><br><span class="line">        <span class="type">long</span> <span class="variable">count</span> <span class="operator">=</span> stringRedisTemplate.opsForValue().increment(<span class="string">&quot;icr:&quot;</span> + keyPrefix + <span class="string">&quot;:&quot;</span> + date);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3.拼接并返回</span></span><br><span class="line">        <span class="keyword">return</span> timestamp &lt;&lt; COUNT_BITS | count;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>测试类</strong></p>
+<p>关于<code>countdownlatch</code></p>
+<p><code>countdownlatch</code>名为信号枪：主要的作用是<strong>同步协调在多线程的等待于唤醒问题</strong></p>
+<p>我们如果没有<code>CountDownLatch</code> ，那么由于<strong>程序是异步的，当异步程序没有执行完时，主线程就已经执行完了</strong>，</p>
+<p>然后我们期望的是分线程全部走完之后，主线程再走，所以我们此时需要使用到<code>CountDownLatch</code></p>
+<p><code>CountDownLatch</code> 中有两个最重要的方法</p>
+<ol>
+<li><code>countDown()</code></li>
+<li><code>await()</code></li>
+</ol>
+<p><code>await</code> 方法 是阻塞方法，我们担心分线程没有执行完时，<code>main</code>线程就先执行，所以使用<code>await</code>可以让<code>main</code>线程阻塞，</p>
+<p><strong>那么什么时候main线程不再阻塞呢？</strong></p>
+<p>当<code>CountDownLatch</code>  内部维护的 变量变为0时，就不再阻塞，直接放行，</p>
+<p>那么什么时候<code>CountDownLatch</code>   维护的变量变为0 呢?</p>
+<p>我们只需要调用一次<code>countDown</code> ，内部变量就减少1，我们让分线程和变量绑定， 执行完一个分线程就减少一个变量，</p>
+<p>当分线程全部走完，<code>CountDownLatch</code> 维护的变量就是0，此时await就不再阻塞，统计出来的时间也就是所有分线程执行完后的时间。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">testIdWorker</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException &#123;</span><br><span class="line">    <span class="type">CountDownLatch</span> <span class="variable">latch</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">CountDownLatch</span>(<span class="number">300</span>);</span><br><span class="line"></span><br><span class="line">    <span class="type">Runnable</span> <span class="variable">task</span> <span class="operator">=</span> () -&gt; &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">100</span>; i++) &#123;</span><br><span class="line">            <span class="type">long</span> <span class="variable">id</span> <span class="operator">=</span> redisIdWorker.nextId(<span class="string">&quot;order&quot;</span>);</span><br><span class="line">            System.out.println(<span class="string">&quot;id = &quot;</span> + id);</span><br><span class="line">        &#125;</span><br><span class="line">        latch.countDown();</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="type">long</span> <span class="variable">begin</span> <span class="operator">=</span> System.currentTimeMillis();</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">300</span>; i++) &#123;</span><br><span class="line">        es.submit(task);</span><br><span class="line">    &#125;</span><br><span class="line">    latch.await();</span><br><span class="line">    <span class="type">long</span> <span class="variable">end</span> <span class="operator">=</span> System.currentTimeMillis();</span><br><span class="line">    System.out.println(<span class="string">&quot;time = &quot;</span> + (end - begin));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="33-添加优惠卷"><a class="markdownIt-Anchor" href="#33-添加优惠卷"></a> 3.3 添加优惠卷</h3>
+<p>每个店铺都可以发布优惠券，分为平价券和特价券。平价券可以任意购买，而特价券需要秒杀抢购：</p>
+<img src="C:\Users\lenovo\Desktop\Redis\黑马程序员redis\02-实战篇\讲义\Redis实战篇.assets\1653365145124.png" style="zoom: 67%;" />
+<p>tb_voucher：优惠券的基本信息，优惠金额、使用规则等<br />
+tb_seckill_voucher：优惠券的库存、开始抢购时间，结束抢购时间。特价优惠券才需要填写这些信息</p>
+<p>平价卷由于优惠力度并不是很大，所以是可以任意领取</p>
+<p>而代金券由于优惠力度大，所以像第二种卷，就得限制数量，从表结构上也能看出，</p>
+<p>特价卷除了具有优惠卷的基本信息以外，还具有<strong>库存</strong>，<strong>抢购时间</strong>，<strong>结束时间</strong>等等字段</p>
+<p>**新增普通卷代码：  **</p>
+<p><strong>VoucherController</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PostMapping</span></span><br><span class="line"><span class="keyword">public</span> Result <span class="title function_">addVoucher</span><span class="params">(<span class="meta">@RequestBody</span> Voucher voucher)</span> &#123;</span><br><span class="line">    voucherService.save(voucher);</span><br><span class="line">    <span class="keyword">return</span> Result.ok(voucher.getId());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>新增秒杀卷代码：</strong></p>
+<p><strong>VoucherController</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PostMapping(&quot;seckill&quot;)</span></span><br><span class="line"><span class="keyword">public</span> Result <span class="title function_">addSeckillVoucher</span><span class="params">(<span class="meta">@RequestBody</span> Voucher voucher)</span> &#123;</span><br><span class="line">    voucherService.addSeckillVoucher(voucher);</span><br><span class="line">    <span class="keyword">return</span> Result.ok(voucher.getId());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>VoucherServiceImpl</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="meta">@Transactional</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addSeckillVoucher</span><span class="params">(Voucher voucher)</span> &#123;</span><br><span class="line">    <span class="comment">// 保存优惠券</span></span><br><span class="line">    save(voucher);</span><br><span class="line">    <span class="comment">// 保存秒杀信息</span></span><br><span class="line">    <span class="type">SeckillVoucher</span> <span class="variable">seckillVoucher</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">SeckillVoucher</span>();</span><br><span class="line">    seckillVoucher.setVoucherId(voucher.getId());</span><br><span class="line">    seckillVoucher.setStock(voucher.getStock());</span><br><span class="line">    seckillVoucher.setBeginTime(voucher.getBeginTime());</span><br><span class="line">    seckillVoucher.setEndTime(voucher.getEndTime());</span><br><span class="line">    seckillVoucherService.save(seckillVoucher);</span><br><span class="line">    <span class="comment">// 保存秒杀库存到Redis中</span></span><br><span class="line">    stringRedisTemplate.opsForValue().set(SECKILL_STOCK_KEY + voucher.getId(), voucher.getStock().toString());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="34-实现秒杀下单"><a class="markdownIt-Anchor" href="#34-实现秒杀下单"></a> 3.4 实现秒杀下单</h3>
+<p>下单核心思路：<strong>当我们点击抢购时，会触发右侧的请求</strong>，我们只需要编写对应的<code>controller</code>即可</p>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653365839526.png" style="zoom:67%;" />
+<p>秒杀下单应该思考的内容：</p>
+<p>下单时需要判断两点：</p>
+<ul>
+<li><strong>秒杀是否开始或结束，如果尚未开始或已经结束则无法下单</strong></li>
+<li><strong>库存是否充足，不足则无法下单</strong></li>
+</ul>
+<p>下单核心逻辑分析：</p>
+<p>当用户开始进行下单，我们应当去查询优惠卷信息，查询到优惠卷信息，判断是否满足秒杀条件</p>
+<p>比如时间是否充足，如果时间充足，则进一步判断库存是否足够，如果两者都满足，则扣减库存，创建订单，然后返回订单id，如果有一个条件不满足则直接结束。</p>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653366238564.png" style="zoom: 80%;" />
+<p><strong>VoucherOrderServiceImpl</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> Result <span class="title function_">seckillVoucher</span><span class="params">(Long voucherId)</span> &#123;</span><br><span class="line">    <span class="comment">// 1.查询优惠券</span></span><br><span class="line">    <span class="type">SeckillVoucher</span> <span class="variable">voucher</span> <span class="operator">=</span> seckillVoucherService.getById(voucherId);</span><br><span class="line">    <span class="comment">// 2.判断秒杀是否开始</span></span><br><span class="line">    <span class="keyword">if</span> (voucher.getBeginTime().isAfter(LocalDateTime.now())) &#123;</span><br><span class="line">        <span class="comment">// 尚未开始</span></span><br><span class="line">        <span class="keyword">return</span> Result.fail(<span class="string">&quot;秒杀尚未开始！&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 3.判断秒杀是否已经结束</span></span><br><span class="line">    <span class="keyword">if</span> (voucher.getEndTime().isBefore(LocalDateTime.now())) &#123;</span><br><span class="line">        <span class="comment">// 尚未开始</span></span><br><span class="line">        <span class="keyword">return</span> Result.fail(<span class="string">&quot;秒杀已经结束！&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 4.判断库存是否充足</span></span><br><span class="line">    <span class="keyword">if</span> (voucher.getStock() &lt; <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="comment">// 库存不足</span></span><br><span class="line">        <span class="keyword">return</span> Result.fail(<span class="string">&quot;库存不足！&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//5，扣减库存</span></span><br><span class="line">    <span class="type">boolean</span> <span class="variable">success</span> <span class="operator">=</span> seckillVoucherService.update().</span><br><span class="line">        setSql(<span class="string">&quot;stock= stock -1&quot;</span>) .</span><br><span class="line">         eq(<span class="string">&quot;voucher_id&quot;</span>, voucherId).</span><br><span class="line">        update();</span><br><span class="line">    <span class="keyword">if</span> (!success) &#123;</span><br><span class="line">        <span class="comment">//扣减库存</span></span><br><span class="line">        <span class="keyword">return</span> Result.fail(<span class="string">&quot;库存不足！&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//6.创建订单</span></span><br><span class="line">    <span class="type">VoucherOrder</span> <span class="variable">voucherOrder</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">VoucherOrder</span>();</span><br><span class="line">    <span class="comment">// 6.1.订单id</span></span><br><span class="line">    <span class="type">long</span> <span class="variable">orderId</span> <span class="operator">=</span> redisIdWorker.nextId(<span class="string">&quot;order&quot;</span>);</span><br><span class="line">    voucherOrder.setId(orderId);</span><br><span class="line">    <span class="comment">// 6.2.用户id</span></span><br><span class="line">    <span class="type">Long</span> <span class="variable">userId</span> <span class="operator">=</span> UserHolder.getUser().getId();</span><br><span class="line">    voucherOrder.setUserId(userId);</span><br><span class="line">    <span class="comment">// 6.3.代金券id</span></span><br><span class="line">    voucherOrder.setVoucherId(voucherId);</span><br><span class="line">    save(voucherOrder);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> Result.ok(orderId);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="35-库存超卖问题分析"><a class="markdownIt-Anchor" href="#35-库存超卖问题分析"></a> 3.5 库存超卖问题分析</h3>
+<p>有关超卖问题分析：在我们原有代码中是这么写的</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (voucher.getStock() &lt; <span class="number">1</span>) &#123;</span><br><span class="line">       <span class="comment">// 库存不足</span></span><br><span class="line">       <span class="keyword">return</span> Result.fail(<span class="string">&quot;库存不足！&quot;</span>);</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="comment">//5，扣减库存</span></span><br><span class="line">   <span class="type">boolean</span> <span class="variable">success</span> <span class="operator">=</span> seckillVoucherService.update()</span><br><span class="line">           .setSql(<span class="string">&quot;stock= stock -1&quot;</span>)</span><br><span class="line">           .eq(<span class="string">&quot;voucher_id&quot;</span>, voucherId).update();</span><br><span class="line">   <span class="keyword">if</span> (!success) &#123;</span><br><span class="line">       <span class="comment">//扣减库存</span></span><br><span class="line">       <span class="keyword">return</span> Result.fail(<span class="string">&quot;库存不足！&quot;</span>);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>假设线程1过来查询库存，判断出来库存大于1，正准备去扣减库存，但是还没有来得及去扣减，此时线程2过来，线程2也去查询库存，发现这个数量一定也大于1，那么这两个线程都会去扣减库存，最终多个线程相当于一起去扣减库存，此时就会出现库存的超卖问题。</p>
+<p>使用jmeter进行压力测试 ,</p>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011132023537.png" style="zoom:80%;" />
+<p>查看数据库发现 库存变为了负数</p>
+<p><strong>这就是超卖问题</strong></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011131926314.png" alt="" /></p>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653368335155.png" style="zoom: 67%;" />
+<p>超卖问题是典型的多线程安全问题，针对这一问题的常见解决方案就是加锁：而对于加锁，我们通常有两种解决方案：见下图：</p>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653368562591.png" alt="1653368562591" style="zoom:67%;" />
+<p><strong>悲观锁：</strong></p>
+<blockquote>
+<p>简单粗暴, 但是<strong>性能较差</strong></p>
+</blockquote>
+<ul>
+<li>任务线程安全时间发生率较高, 串行执行</li>
+</ul>
+<p>悲观锁可以实现对于数据的串行化执行，比如<code>sync</code>，和<code>lock</code>都是悲观锁的代表，同时，<strong>悲观锁中又可以再细分为公平锁，非公平锁，可重入锁</strong>，等等</p>
+<p><strong>乐观锁：</strong></p>
+<blockquote>
+<p><strong>乐观锁其实没有加锁</strong></p>
+<p>缺点是容易造成失败, 但是相比悲观锁性能较高</p>
+</blockquote>
+<p>乐观锁：会有一个版本号，<strong>每次操作数据会对版本号+1</strong>，再提交回数据时，<strong>会去校验是否比之前的版本大1</strong> ，</p>
+<p>如果大1 ，<strong>则进行操作成功</strong>，这套机制的核心逻辑在于，如果在操作过程中，<u>版本号只比原来大1 ，那么就意味着操作过程中没有人对他进行过修改</u>，</p>
+<p>他的操作就是安全的，如果不大1，则数据被修改过，当然乐观锁还有一些变种的处理方式比如cas</p>
+<p><strong>乐观锁的典型代表</strong>：就是cas，利用cas进行无锁化机制加锁，var5 是操作前读取的内存值，</p>
+<p>while中的var1+var2 是预估值，如果预估值 == 内存值，则代表中间没有被人修改过，此时就将新值去替换 内存值</p>
+<p>其中<code>do while</code>是为了在操作失败时，再次进行自旋操作，即把之前的逻辑再操作一次。</p>
+<blockquote>
+<p>就是省略之前的version, 将version 的功能放到 stock本身上</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> var5;</span><br><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">    var5 = <span class="built_in">this</span>.getIntVolatile(var1, var2);</span><br><span class="line">&#125; <span class="keyword">while</span>(!<span class="built_in">this</span>.compareAndSwapInt(var1, var2, var5, var5 + var4));</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> var5;</span><br></pre></td></tr></table></figure>
+<p><strong>课程中的使用方式：</strong></p>
+<p>课程中的使用方式是没有像cas一样带自旋的操作，也没有对version的版本号+1 ，他的操作逻辑是在操作时，对版本号进行+1 操作，然后要求version 如果是1 的情况下，才能操作，那么第一个线程在操作后，数据库中的version变成了2，但是他自己满足<code>version=1</code>，所以没有问题，此时线程2执行，线程2 最后也需要加上条件<code>version =1</code> ，但是现在由于线程1已经操作过了，所以线程2，操作时就不满足<code>version=1</code> 的条件了，所以线程2无法执行成功</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653369268550.png" alt="" /></p>
+<h3 id="36-乐观锁解决超卖问题"><a class="markdownIt-Anchor" href="#36-乐观锁解决超卖问题"></a> 3.6 乐观锁解决超卖问题</h3>
+<p><strong>修改代码方案一、</strong></p>
+<p><strong>VoucherOrderServiceImpl</strong> 在扣减库存时，改为：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">boolean</span> <span class="variable">success</span> <span class="operator">=</span> seckillVoucherService.update()</span><br><span class="line">            .setSql(<span class="string">&quot;stock= stock -1&quot;</span>) <span class="comment">//set stock = stock -1</span></span><br><span class="line">            .eq(<span class="string">&quot;voucher_id&quot;</span>, voucherId).eq(<span class="string">&quot;stock&quot;</span>,voucher.getStock()).update(); <span class="comment">//where id = ？ and stock = ?</span></span><br></pre></td></tr></table></figure>
+<p>以上逻辑的核心含义是：只要我扣减库存时的库存和之前我查询到的库存是一样的，</p>
+<p>就意味着没有人在中间修改过库存，那么此时就是安全的，但是以上这种方式通过测试发现会有很多失败的情况，</p>
+<p>失败的原因在于：<strong>在使用乐观锁过程中假设100个线程同时都拿到了100的库存，然后大家一起去进行扣减，但是100个人中只有1个人能扣减成功，其他的人在处理时，他们在扣减时，库存已经被修改过了，所以此时其他线程都会失败</strong></p>
+<p>通过jmeter 测试可以发现, 这样的乐观锁的失败率较高,<br />
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011135140869.png" style="zoom:80%;" /></p>
+<p><strong>修改代码方案二、</strong></p>
+<p>之前的方式要修改前后都保持一致，但是这样我们分析过，成功的概率太低，所以我们的乐观锁需要变一下，改成stock大于0 即可</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">boolean</span> <span class="variable">success</span> <span class="operator">=</span> seckillVoucherService.update()</span><br><span class="line">            .setSql(<span class="string">&quot;stock= stock -1&quot;</span>)</span><br><span class="line">            .eq(<span class="string">&quot;voucher_id&quot;</span>, voucherId).update().gt(<span class="string">&quot;stock&quot;</span>,<span class="number">0</span>); <span class="comment">//where id = ? and stock &gt; 0</span></span><br></pre></td></tr></table></figure>
+<p><strong>知识小扩展：</strong></p>
+<p>针对cas中的自旋压力过大，我们可以使用Longaddr这个类去解决</p>
+<p>Java8 提供的一个对AtomicLong改进后的一个类，LongAdder</p>
+<p>大量线程并发更新一个原子性的时候，天然的问题就是自旋，会导致并发性问题，当然这也比我们直接使用syn来的好</p>
+<p>所以利用这么一个类，LongAdder来进行优化</p>
+<p>如果获取某个值，则会对cell和base的值进行递增，最后返回一个完整的值</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653370271627.png" alt="" /></p>
+<h3 id="36-优惠券秒杀-一人一单"><a class="markdownIt-Anchor" href="#36-优惠券秒杀-一人一单"></a> 3.6 优惠券秒杀-一人一单</h3>
+<blockquote>
+<p>其实就是在业务中多加一个判断</p>
+<ul>
+<li>先进行一个查询</li>
+</ul>
+<p><code>select * from voucher_order where user_id = ? and voucher_id = ?</code></p>
+<p>如果查到了数据, 那么说明这个用户已经买过了, 就不能再次购买</p>
+</blockquote>
+<p>需求：修改秒杀业务，要求同一个优惠券，一个用户只能下一单</p>
+<p><strong>现在的问题在于：</strong></p>
+<p>优惠卷是为了引流，但是目前的情况是，一个人可以无限制的抢这个优惠卷，所以我们应当增加一层逻辑，让一个用户只能下一个单，而不是让一个用户下多个单</p>
+<p>具体操作逻辑如下：比如时间是否充足，如果时间充足，则进一步判断库存是否足够，然后再根据优惠卷id和用户id查询是否已经下过这个订单，如果下过这个订单，则不再下单，否则进行下单</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653371854389.png" alt="" /></p>
+<p>VoucherOrderServiceImpl</p>
+<p><strong>初步代码：增加一人一单逻辑</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> Result <span class="title function_">seckillVoucher</span><span class="params">(Long voucherId)</span> &#123;</span><br><span class="line">    <span class="comment">// 1.查询优惠券</span></span><br><span class="line">    <span class="type">SeckillVoucher</span> <span class="variable">voucher</span> <span class="operator">=</span> seckillVoucherService.getById(voucherId);</span><br><span class="line">    <span class="comment">// 2.判断秒杀是否开始</span></span><br><span class="line">    <span class="keyword">if</span> (voucher.getBeginTime().isAfter(LocalDateTime.now())) &#123;</span><br><span class="line">        <span class="comment">// 尚未开始</span></span><br><span class="line">        <span class="keyword">return</span> Result.fail(<span class="string">&quot;秒杀尚未开始！&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 3.判断秒杀是否已经结束</span></span><br><span class="line">    <span class="keyword">if</span> (voucher.getEndTime().isBefore(LocalDateTime.now())) &#123;</span><br><span class="line">        <span class="comment">// 尚未开始</span></span><br><span class="line">        <span class="keyword">return</span> Result.fail(<span class="string">&quot;秒杀已经结束！&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 4.判断库存是否充足</span></span><br><span class="line">    <span class="keyword">if</span> (voucher.getStock() &lt; <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="comment">// 库存不足</span></span><br><span class="line">        <span class="keyword">return</span> Result.fail(<span class="string">&quot;库存不足！&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 5.一人一单逻辑</span></span><br><span class="line">    <span class="comment">// 5.1.用户id</span></span><br><span class="line">    <span class="type">Long</span> <span class="variable">userId</span> <span class="operator">=</span> UserHolder.getUser().getId();</span><br><span class="line">    <span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> query().eq(<span class="string">&quot;user_id&quot;</span>, userId).eq(<span class="string">&quot;voucher_id&quot;</span>, voucherId).count();</span><br><span class="line">    <span class="comment">// 5.2.判断是否存在</span></span><br><span class="line">    <span class="keyword">if</span> (count &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">// 用户已经购买过了</span></span><br><span class="line">        <span class="keyword">return</span> Result.fail(<span class="string">&quot;用户已经购买过一次！&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//6，扣减库存</span></span><br><span class="line">    <span class="type">boolean</span> <span class="variable">success</span> <span class="operator">=</span> seckillVoucherService.update()</span><br><span class="line">            .setSql(<span class="string">&quot;stock= stock -1&quot;</span>)</span><br><span class="line">            .eq(<span class="string">&quot;voucher_id&quot;</span>, voucherId).update();</span><br><span class="line">    <span class="keyword">if</span> (!success) &#123;</span><br><span class="line">        <span class="comment">//扣减库存</span></span><br><span class="line">        <span class="keyword">return</span> Result.fail(<span class="string">&quot;库存不足！&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//7.创建订单</span></span><br><span class="line">    <span class="type">VoucherOrder</span> <span class="variable">voucherOrder</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">VoucherOrder</span>();</span><br><span class="line">    <span class="comment">// 7.1.订单id</span></span><br><span class="line">    <span class="type">long</span> <span class="variable">orderId</span> <span class="operator">=</span> redisIdWorker.nextId(<span class="string">&quot;order&quot;</span>);</span><br><span class="line">    voucherOrder.setId(orderId);</span><br><span class="line"></span><br><span class="line">    voucherOrder.setUserId(userId);</span><br><span class="line">    <span class="comment">// 7.3.代金券id</span></span><br><span class="line">    voucherOrder.setVoucherId(voucherId);</span><br><span class="line">    save(voucherOrder);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> Result.ok(orderId);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>第一次购买</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011140427206.png" alt="" /></p>
+<p>第二次购买</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011140448066.png" alt="" /></p>
+<p>**存在问题：**现在的问题还是和之前一样，并发过来，查询数据库，<strong>都不存在订单</strong>，所以我们还是需要加锁，<strong>但是乐观锁比较适合更新数据</strong>，</p>
+<p>而现在是插入数据，<strong>所以我们需要使用悲观锁操作</strong></p>
+<blockquote>
+<p><strong>多个线程穿插执行操作</strong></p>
+</blockquote>
+<p>**注意：**在这里提到了非常多的问题，我们需要慢慢的来思考，首先我们的初始方案是封装了一个<code>createVoucherOrder</code>方法，同时为了确保他线程安全，在方法上添加了一把<code>synchronized</code> 锁</p>
+<blockquote>
+<p>需要把 从 查询订单 到完成订单的操作 加锁</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Transactional</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">synchronized</span> Result <span class="title function_">createVoucherOrder</span><span class="params">(Long voucherId)</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="type">Long</span> <span class="variable">userId</span> <span class="operator">=</span> UserHolder.getUser().getId();</span><br><span class="line">    <span class="comment">// 5.1.查询订单</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> query().eq(<span class="string">&quot;user_id&quot;</span>, userId).eq(<span class="string">&quot;voucher_id&quot;</span>, voucherId).count();</span><br><span class="line">    <span class="comment">// 5.2.判断是否存在</span></span><br><span class="line">    <span class="keyword">if</span> (count &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">// 用户已经购买过了</span></span><br><span class="line">        <span class="keyword">return</span> Result.fail(<span class="string">&quot;用户已经购买过一次！&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 6.扣减库存</span></span><br><span class="line">    <span class="type">boolean</span> <span class="variable">success</span> <span class="operator">=</span> seckillVoucherService.update()</span><br><span class="line">        .setSql(<span class="string">&quot;stock = stock - 1&quot;</span>) <span class="comment">// set stock = stock - 1</span></span><br><span class="line">        .eq(<span class="string">&quot;voucher_id&quot;</span>, voucherId).gt(<span class="string">&quot;stock&quot;</span>, <span class="number">0</span>) <span class="comment">// where id = ? and stock &gt; 0</span></span><br><span class="line">        .update();</span><br><span class="line">    <span class="keyword">if</span> (!success) &#123;</span><br><span class="line">        <span class="comment">// 扣减失败</span></span><br><span class="line">        <span class="keyword">return</span> Result.fail(<span class="string">&quot;库存不足！&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 7.创建订单</span></span><br><span class="line">    <span class="type">VoucherOrder</span> <span class="variable">voucherOrder</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">VoucherOrder</span>();</span><br><span class="line">    <span class="comment">// 7.1.订单id</span></span><br><span class="line">    <span class="type">long</span> <span class="variable">orderId</span> <span class="operator">=</span> redisIdWorker.nextId(<span class="string">&quot;order&quot;</span>);</span><br><span class="line">    voucherOrder.setId(orderId);</span><br><span class="line">    <span class="comment">// 7.2.用户id</span></span><br><span class="line">    voucherOrder.setUserId(userId);</span><br><span class="line">    <span class="comment">// 7.3.代金券id</span></span><br><span class="line">    voucherOrder.setVoucherId(voucherId);</span><br><span class="line">    save(voucherOrder);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 7.返回订单id</span></span><br><span class="line">    <span class="keyword">return</span> Result.ok(orderId);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是这样添加锁，锁的粒度太粗了，在使用锁过程中，控制<strong>锁粒度</strong> 是一个非常重要的事情，</p>
+<p>因为如果锁的粒度太大，会导致每个线程进来都会锁住，所以我们<strong>需要去控制锁的粒度</strong>，以下这段代码需要修改为：</p>
+<blockquote>
+<p>intern() 这个方法是从常量池中拿到数据，如果我们直接使用userId.toString() 他拿到的对象实际上是不同的对象，new出来的对象，我们使用锁必须保证锁必须是同一把，所以我们需要使用intern()方法</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Transactional</span></span><br><span class="line"><span class="keyword">public</span>  Result <span class="title function_">createVoucherOrder</span><span class="params">(Long voucherId)</span> &#123;     </span><br><span class="line">	<span class="type">Long</span> <span class="variable">userId</span> <span class="operator">=</span> UserHolder.getUser().getId();</span><br><span class="line">	<span class="keyword">synchronized</span>(userId.toString().intern())&#123;</span><br><span class="line">         <span class="comment">// 5.1.查询订单</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> query().eq(<span class="string">&quot;user_id&quot;</span>, userId).eq(<span class="string">&quot;voucher_id&quot;</span>, voucherId).count();</span><br><span class="line">        <span class="comment">// 5.2.判断是否存在</span></span><br><span class="line">        <span class="keyword">if</span> (count &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="comment">// 用户已经购买过了</span></span><br><span class="line">            <span class="keyword">return</span> Result.fail(<span class="string">&quot;用户已经购买过一次！&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 6.扣减库存</span></span><br><span class="line">        <span class="type">boolean</span> <span class="variable">success</span> <span class="operator">=</span> seckillVoucherService.update()</span><br><span class="line">                .setSql(<span class="string">&quot;stock = stock - 1&quot;</span>) <span class="comment">// set stock = stock - 1</span></span><br><span class="line">                .eq(<span class="string">&quot;voucher_id&quot;</span>, voucherId).gt(<span class="string">&quot;stock&quot;</span>, <span class="number">0</span>) <span class="comment">// where id = ? and stock &gt; 0</span></span><br><span class="line">                .update();</span><br><span class="line">        <span class="keyword">if</span> (!success) &#123;</span><br><span class="line">            <span class="comment">// 扣减失败</span></span><br><span class="line">            <span class="keyword">return</span> Result.fail(<span class="string">&quot;库存不足！&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 7.创建订单</span></span><br><span class="line">        <span class="type">VoucherOrder</span> <span class="variable">voucherOrder</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">VoucherOrder</span>();</span><br><span class="line">        <span class="comment">// 7.1.订单id</span></span><br><span class="line">        <span class="type">long</span> <span class="variable">orderId</span> <span class="operator">=</span> redisIdWorker.nextId(<span class="string">&quot;order&quot;</span>);</span><br><span class="line">        voucherOrder.setId(orderId);</span><br><span class="line">        <span class="comment">// 7.2.用户id</span></span><br><span class="line">        voucherOrder.setUserId(userId);</span><br><span class="line">        <span class="comment">// 7.3.代金券id</span></span><br><span class="line">        voucherOrder.setVoucherId(voucherId);</span><br><span class="line">        save(voucherOrder);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 8.返回订单id</span></span><br><span class="line">        <span class="keyword">return</span> Result.ok(orderId);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是以上代码还是存在问题，问题的原因在于<strong>当前方法被spring的事务控制</strong>，如果你在<strong>方法内部加锁</strong>，可能会导致<strong>当前方法事务还没有提交</strong>，</p>
+<p>但是锁已经释放也会导致问题，所以我们选择将<strong>当前方法整体包裹起来</strong>，<strong>确保事务不会出现问题</strong>：如下：</p>
+<p>在<code>seckillVoucher()</code> 方法中，添加以下逻辑，这样就能保证事务的特性，同时也控制了锁的粒度</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653373434815.png" alt="" /></p>
+<p>但是以上做法依然有问题，因为你调用的方法，其实是**this.**的方式调用的，<strong>事务想要生效，还得利用代理来生效</strong>，所以这个地方，我们需要获得原始的事务对象， 来操作事务</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">synchronized</span> (userId.toString().intern()) &#123;</span><br><span class="line">    <span class="comment">//获取事务有关的代理对象, spring事务是代理这个bean, 然后再去执行事务</span></span><br><span class="line">    <span class="type">IVoucherOrderService</span> <span class="variable">proxy</span> <span class="operator">=</span> (IVoucherOrderService) AopContext.currentProxy();</span><br><span class="line">    <span class="keyword">return</span>  proxy.createVoucherOrder(voucherId);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意想要获取代理对象, 需要在springbootApplication类上面添加 <code>@EnableAspectJAutoProxy</code>注解</p>
+</blockquote>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011142323659.png" alt="" /></p>
+<h4 id="关于引入aspectj依赖出现的问题"><a class="markdownIt-Anchor" href="#关于引入aspectj依赖出现的问题"></a> 关于引入<code>aspectj</code>依赖出现的问题</h4>
+<p>⚠️教程中使用的是</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span>    </span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.aspectj<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span>    </span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>aspectj<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span>    </span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.8.7<span class="tag">&lt;/<span class="name">version</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>但是在启动springboot的时候, 启动失败</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011143405409.png" alt="" /></p>
+<p>大概意思似乎是库加载失败</p>
+<p>必应到<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/35392851/exception-java-lang-noclassdeffounderror-org-aspectj-lang-annotation-aspect">spring - Exception java.lang.NoClassDefFoundError: org/aspectj/lang/annotation/Aspect - Stack Overflow</a></p>
+<p>将上面的依赖更改为</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-aop<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>成功启动</strong></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011143551684.png" alt="" /></p>
+<h3 id="37-集群环境下的并发问题"><a class="markdownIt-Anchor" href="#37-集群环境下的并发问题"></a> 3.7 集群环境下的并发问题</h3>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1cr4y1671t?p=55&amp;vd_source=7d0b8be6716aca670df8e800cab6d54c">实战篇-08.优惠券秒杀-集群下的线程并发安全问题_哔哩哔哩_bilibili</a></p>
+<p>通过加锁可以解决在单机情况下的一人一单安全问题，但是在集群模式下就不行了。</p>
+<p>1、我们将服务启动两份，端口分别为8081和8082：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653373887844.png" alt="" /></p>
+<p>2、然后修改nginx的conf目录下的nginx.conf文件，配置反向代理和负载均衡：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653373908620.png" alt="1653373908620" /></p>
+<p><strong>具体操作(略)</strong></p>
+<p><strong>有关锁失效原因分析</strong></p>
+<p>由于现在我们部署了多个<code>tomcat</code>，每个<code>tomcat</code>都有一个属于自己的<code>jvm</code>，那么假设在服务器A的tomcat内部，</p>
+<p>有两个线程，这两个线程由于使用的是同一份代码，那么他们的锁对象是同一个，是可以实现互斥的，</p>
+<p>但是如果现在是服务器B的<code>tomcat</code>内部，又有两个线程，但是他们的锁对象写的虽然和服务器A一样，但是锁对象却不是同一个，</p>
+<p>所以线程3和线程4可以实现互斥，但是却无法和线程1和线程2实现互斥，</p>
+<p>这就是 集群环境下，<code>syn</code>锁失效的原因，在这种情况下，我们就需要使用<strong>分布式锁</strong>来解决这个问题。</p>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653374044740.png" style="zoom:80%;" />
+<h2 id="idea配置集群"><a class="markdownIt-Anchor" href="#idea配置集群"></a> idea配置集群</h2>
+<p>打开idea , 点击</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011145705811.png" alt="" /></p>
+<p>点击<code>Edit Configurations...</code></p>
+<p>然后点击 右边空白中的 <code>Add new run configuration...</code></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011145735486.png" alt="" /></p>
+<p>然后填写相关的配置信息</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011145803423.png" alt="" /></p>
+<blockquote>
+<p>注意需要修改端口号, 否则会造成</p>
+</blockquote>
+<p>这里设置Name 为 <code>MoreSpringboot</code></p>
+<p><code>Main class</code> 选择springboot的启动类,  这里就是<code>com.hmdp.HmDianPingApplication</code></p>
+<blockquote>
+<p>注意要把类名写全</p>
+</blockquote>
+<p>然脏在 <code>VM options</code> 位置填入 <code>-Dserver.port=8082</code></p>
+<blockquote>
+<p>这个就是运行参数, 设置端口号避免端口冲突,</p>
+<ul>
+<li>如果有其他的需求可以另外设置</li>
+</ul>
+</blockquote>
+<p>然后点击apply</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011150041552.png" alt="" /></p>
+<p>可以看到此时已经多了一个<code>MoreSpringboot</code></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011150103348.png" alt="" /></p>
+<p>右键点击<code>Run</code></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011150127086.png" alt="" /></p>
+<p>可以看到<strong>springboot</strong>启动成功</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011150202656.png" alt="" /></p>
+<p>由于这个工程前端使用<code>Nginx</code>代理,</p>
+<p>因此需要去Nginx的配置文件中更改相关配置</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011150259896.png" alt="" /></p>
+<p>打开<code>nginx.conf</code></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011150348982.png" alt="" /></p>
+<p>修改相关配置<strong>设置负载均衡</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">worker_processes  1;</span><br><span class="line"></span><br><span class="line">events &#123;</span><br><span class="line">    worker_connections  1024;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line">    include       mime.types;</span><br><span class="line">    default_type  application/json;</span><br><span class="line"></span><br><span class="line">    sendfile        on;</span><br><span class="line">    </span><br><span class="line">    keepalive_timeout  65;</span><br><span class="line"></span><br><span class="line">    server &#123;</span><br><span class="line">        listen       8080;</span><br><span class="line">        server_name  localhost;</span><br><span class="line">        # 指定前端项目所在的位置</span><br><span class="line">        location / &#123;</span><br><span class="line">            root   html/hmdp;</span><br><span class="line">            index  index.html index.htm;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        error_page   500 502 503 504  /50x.html;</span><br><span class="line">        location = /50x.html &#123;</span><br><span class="line">            root   html;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        location /api &#123;  </span><br><span class="line">            default_type  application/json;</span><br><span class="line">            #internal;  </span><br><span class="line">            keepalive_timeout   30s;  </span><br><span class="line">            keepalive_requests  1000;  </span><br><span class="line">            #支持keep-alive  </span><br><span class="line">            proxy_http_version 1.1;  </span><br><span class="line">            rewrite /api(/.*) $1 break;  </span><br><span class="line">            proxy_pass_request_headers on;</span><br><span class="line">            #more_clear_input_headers Accept-Encoding;  </span><br><span class="line">            proxy_next_upstream error timeout;  </span><br><span class="line">            # proxy_pass http://127.0.0.1:8081;</span><br><span class="line">            proxy_pass http://backend; # 注意这个地方, 需要与下面的对应</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">      # 这里是关键配置</span><br><span class="line">    upstream backend &#123;</span><br><span class="line">        server 127.0.0.1:8081 max_fails=5 fail_timeout=10s weight=1;</span><br><span class="line">        server 127.0.0.1:8082 max_fails=5 fail_timeout=10s weight=1;</span><br><span class="line">        server 127.0.0.1:8083 max_fails=5 fail_timeout=10s weight=1;</span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><code>server 127.0.0.1:8083 max_fails=5 fail_timeout=10s weight=1;</code></p>
+<p>重新加载nginx  <code>nginx.exe -s reload</code></p>
+<p><strong>接下来使用postman进行测试</strong></p>
+<p>编写controller代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TestController</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/test&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> Result <span class="title function_">test</span><span class="params">()</span>&#123;</span><br><span class="line">        log.info(<span class="string">&quot;测试集群&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> Result.ok(<span class="string">&quot;测试成功!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>创建测试</strong></p>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011151240661.png" style="zoom:80%;" />
+<p>设置100个线程发送请求</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011151303798.png" alt="" /></p>
+<p>查看后端日志</p>
+<p>可以发现<strong>三个springboot均已生效</strong></p>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011154848328.png" style="zoom:67%;" />
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011154931879.png" alt="image-20221011154931879" style="zoom:67%;" />
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011154940478.png" style="zoom:67%;" /> 
       <!-- reward -->
       
     </div>
@@ -258,7 +678,7 @@
        
 <h2 itemprop="name">
   <a class="article-title" href="/2022/10/10/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(2)/"
-    >实战篇(2)[Redis]</a> 
+    >实战篇(2):商户查询缓存[Redis]</a> 
 </h2>
  
 
@@ -277,18 +697,13 @@
       
     <div class="article-entry" itemprop="articleBody">
        
-  <h1 id="实战篇redis2"><a class="markdownIt-Anchor" href="#实战篇redis2"></a> 实战篇Redis[2]</h1>
-<p>视频教程地址<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1cr4y1671t?p=26&amp;spm_id_from=pageDriver&amp;vd_source=7d0b8be6716aca670df8e800cab6d54c">实战篇哔哩哔哩_bilibili</a></p>
-<blockquote>
+  <blockquote>
 <p><strong>在原本笔记的基础上作出修改</strong></p>
 </blockquote>
 <h2 id="2-商户查询缓存"><a class="markdownIt-Anchor" href="#2-商户查询缓存"></a> 2、商户查询缓存</h2>
 <h3 id="21-什么是缓存"><a class="markdownIt-Anchor" href="#21-什么是缓存"></a> 2.1 什么是缓存?</h3>
 <p><strong>前言</strong>:<strong>什么是缓存?</strong></p>
-<p>就像自行车,越野车的避震器</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/%E9%81%BF%E9%9C%87%E5%99%A8.gif" alt="避震器" /></p>
-<p>举个例子:越野车,山地自行车,都拥有&quot;避震器&quot;,<strong>防止</strong>车体加速后因惯性,在酷似&quot;U&quot;字母的地形上飞跃,硬着陆导致的<strong>损害</strong>,像个弹簧一样;</p>
-<p>同样,实际开发中,系统也需要&quot;避震器&quot;,防止过高的数据访问猛冲系统,导致其操作线程无法及时处理信息而瘫痪;</p> 
+<p>就像自行车,越野车的避震器</p> 
       <a class="article-more-link" href="/2022/10/10/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(2)/"
         >more...</a
       >
@@ -326,7 +741,7 @@
        
 <h2 itemprop="name">
   <a class="article-title" href="/2022/10/08/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(1)/"
-    >实战篇(1)[Redis]</a> 
+    >实战篇(1):短信登录[Redis]</a> 
 </h2>
  
 
@@ -350,16 +765,19 @@
 <blockquote>
 <p><strong>在原本笔记的基础上作出修改</strong></p>
 </blockquote>
-<h2 id="开篇"><a class="markdownIt-Anchor" href="#开篇"></a> 开篇</h2>
 <p>学习内容</p>
 <ul>
 <li><strong>短信登录</strong></li>
 </ul>
-<p>这一块我们会使用redis共享session来实现</p>
+<p>使用redis共享session来实现</p>
 <ul>
 <li><strong>商户查询缓存</strong></li>
 </ul>
-<p>通过本章节，我们会理解缓存击穿，缓存穿透，缓存雪崩等问题，让小伙伴的对于这些概念的理解不仅仅是停留在概念上，更是能在代码中看到对应的内容</p> 
+<p>通过本章节，我们会理解缓存击穿，缓存穿透，缓存雪崩等问题，让小伙伴的对于这些概念的理解不仅仅是停留在概念上，更是能在代码中看到对应的内容</p>
+<ul>
+<li><strong>优惠卷秒杀</strong></li>
+</ul>
+<p>通过本章节，我们可以学会Redis的计数器功能， 结合Lua完成高性能的redis操作，同时学会Redis分布式锁的原理，包括Redis的三种消息队列</p> 
       <a class="article-more-link" href="/2022/10/08/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(1)/"
         >more...</a
       >
@@ -578,224 +996,6 @@
     <footer class="article-footer">
        
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DFS/" rel="tag">DFS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag">动态规划</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8F%8C%E6%8C%87%E9%92%88/" rel="tag">双指针</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9B%9E%E6%BA%AF/" rel="tag">回溯</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%91/" rel="tag">树</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">算法与数据结构</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%93%BE%E8%A1%A8/" rel="tag">链表</a></li></ul>
-
-    </footer>
-  </div>
-
-    
- 
-    
-</article>
-
-    
-    <article
-  id="post-计算机组成原理/(二)运算法和运算器[计组]"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2022/09/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/(%E4%BA%8C)%E8%BF%90%E7%AE%97%E6%B3%95%E5%92%8C%E8%BF%90%E7%AE%97%E5%99%A8%5B%E8%AE%A1%E7%BB%84%5D/"
-    >(二)计算机的计算方法[计组]</a> 
-</h2>
- 
-
-      
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2022/09/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/(%E4%BA%8C)%E8%BF%90%E7%AE%97%E6%B3%95%E5%92%8C%E8%BF%90%E7%AE%97%E5%99%A8%5B%E8%AE%A1%E7%BB%84%5D/" class="article-date">
-  <time datetime="2022-09-14T07:56:39.000Z" itemprop="datePublished">2022-09-14</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/">计算机组成原理</a> / <a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/">计算机组成原理</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <p>转载自：<a target="_blank" rel="noopener" href="https://fangkaipeng.com/?cat=42">计算机组成原理 – Here_SDUT (fangkaipeng.com)</a></p>
-<blockquote>
-<p><strong>根据实际学习内容有一定的添加以及修改</strong></p>
-</blockquote>
-<h1 id="21-数据与文字的表示方式"><a class="markdownIt-Anchor" href="#21-数据与文字的表示方式"></a> 2.1 数据与文字的表示方式</h1>
-<h2 id="211-实际数的表示方法"><a class="markdownIt-Anchor" href="#211-实际数的表示方法"></a> 2.1.1 实际数的表示方法</h2>
-<h3 id="1定点数表示法"><a class="markdownIt-Anchor" href="#1定点数表示法"></a> 1.定点数表示法</h3>
-<p>将数据分为<strong>纯整数</strong>和<strong>纯小数</strong>两类，用<code>n+1</code>位表示一个定点数，x<sub>n</sub>为符号位，放在最左边，0表示正号，1表示负号。</p>
-<p>故一个数 x 可以表示为 x=x<sub>n</sub>x<sub>n−1</sub>…x<sub>1</sub>x<sub>0</sub></p>
-<p><strong>定点小数</strong> x为纯小数：<code>0≤|x|≤1−2−n</code></p>
-<p><strong>定点整数</strong> x为纯整数：<code>0≤|x|≤2n−1</code></p> 
-      <a class="article-more-link" href="/2022/09/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/(%E4%BA%8C)%E8%BF%90%E7%AE%97%E6%B3%95%E5%92%8C%E8%BF%90%E7%AE%97%E5%99%A8%5B%E8%AE%A1%E7%BB%84%5D/"
-        >more...</a
-      >
-       
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/" rel="tag">位运算</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%91/" rel="tag">树</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">算法与数据结构</a></li></ul>
-
-    </footer>
-  </div>
-
-    
- 
-    
-</article>
-
-    
-    <article
-  id="post-算法与数据结构/leetcode/leetcode题目(2)"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2022/09/13/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/leetcode/leetcode%E9%A2%98%E7%9B%AE(2)/"
-    >leetcode题目(2)</a> 
-</h2>
- 
-
-      
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2022/09/13/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/leetcode/leetcode%E9%A2%98%E7%9B%AE(2)/" class="article-date">
-  <time datetime="2022-09-13T14:36:25.000Z" itemprop="datePublished">2022-09-13</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">算法与数据结构</a> / <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">算法与数据结构</a> / <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/leetcode/">leetcode</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <p>typora编辑的md文件过长会导致卡顿, <strong>因此继续分文件存笔记</strong></p>
-<h2 id="62-不同路径-dp"><a class="markdownIt-Anchor" href="#62-不同路径-dp"></a> 🎈<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/unique-paths/">62. 不同路径: DP</a></h2>
-<p>难度中等1542</p>
-<p>一个机器人位于一个 <code>m x n</code> 网格的左上角 （起始点在下图中标记为 “Start” ）。</p>
-<p>机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为 “Finish” ）。</p>
-<p>问总共有多少条不同的路径？</p>
-<ol>
-<li>
-<p><strong>dp数组定义</strong>: <code>dp[i][j]</code>表示 走到下标为<code>(i,j)</code> 的种数,</p>
-</li>
-<li>
-<p><strong>状态转移</strong>: 由于题目中规定机器人只能向下以及向右走, 那么对于当前的<code>dp[i][j]</code></p>
-<p><code>dp[i][j]=dp[i-1][j]+dp[i][j-1]</code></p>
-<p>走到当前的坐标的路径种数就等于走到当前的坐标的左边以及上边的坐标的路径之和</p>
-</li>
-<li>
-<p><strong>dp数组初始化</strong></p>
-<ul>
-<li>为了方便后续的计算,我们可以直接<strong>初始化 第一行以及第一列的元素为1</strong> , 因为<strong>机器人只能往下往右走</strong></li>
-</ul>
-<p><code>for (int i = 0; i &lt; m; i++) dp[i][0]=1; for (int i = 0; i &lt; n; i++) dp[0][i]=1;</code></p>
-</li>
-<li>
-<p>返回值: 返回<code>dp[m-1][n-1]</code> <strong>表示走到终点的路径总数</strong></p>
-</li>
-</ol> 
-      <a class="article-more-link" href="/2022/09/13/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/leetcode/leetcode%E9%A2%98%E7%9B%AE(2)/"
-        >more...</a
-      >
-       
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag">动态规划</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8F%8C%E6%8C%87%E9%92%88/" rel="tag">双指针</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">算法与数据结构</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%B4%AA%E5%BF%83/" rel="tag">贪心</a></li></ul>
-
-    </footer>
-  </div>
-
-    
- 
-    
-</article>
-
-    
-    <article
-  id="post-计算机组成原理/(一)计算机系统概论[计组]"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2022/09/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/(%E4%B8%80)%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA%5B%E8%AE%A1%E7%BB%84%5D/"
-    >(一)计算机系统概论[计组]</a> 
-</h2>
- 
-
-      
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2022/09/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/(%E4%B8%80)%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA%5B%E8%AE%A1%E7%BB%84%5D/" class="article-date">
-  <time datetime="2022-09-13T09:07:13.000Z" itemprop="datePublished">2022-09-13</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/">计算机组成原理</a> / <a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/">计算机组成原理</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <p><strong>课堂内容</strong>+ 视频教程<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1WW411Q7PF?p=2&amp;vd_source=7d0b8be6716aca670df8e800cab6d54c">1.1 计算机组成原理（唐朔飞）_哔哩哔哩_bilibili</a></p>
-<p>转载自：<a target="_blank" rel="noopener" href="https://fangkaipeng.com/?cat=42">计算机组成原理 – Here_SDUT (fangkaipeng.com)</a></p>
-<blockquote>
-<p><strong>根据实际学习内容有一定的添加以及修改</strong></p>
-</blockquote>
-<h1 id="11-计算机的分类"><a class="markdownIt-Anchor" href="#11-计算机的分类"></a> 1.1 计算机的分类</h1>
-<h2 id="一-两大类"><a class="markdownIt-Anchor" href="#一-两大类"></a> 一、两大类</h2>
-<ul>
-<li>
-<p>电子模拟计算机：数值由连续量表示，运算过程连续，受干扰大。</p>
-</li>
-<li>
-<p>电子数字计算机：按位运算，不连续地跳动计算，抗干扰能力强。</p> 
-      <a class="article-more-link" href="/2022/09/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/(%E4%B8%80)%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA%5B%E8%AE%A1%E7%BB%84%5D/"
-        >more...</a
-      >
-       
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/" rel="tag">位运算</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li></ul>
 
     </footer>
   </div>

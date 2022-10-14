@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+  
+
+    <head>
+      <meta charset="utf-8" />
+       
+      <meta name="keywords" content="DFS,BFS,java, 双指针, 算法与数据结构, hexo, 回溯, 树, 队列, mybatis, javaweb, Spring, cpp, leetcode, 栈, 位运算, 链表, 数据库, springmvc, 动态规划, 贪心" />
+       
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>实战篇(4):分布式锁[Redis] |  dhx_&#39;blog</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220820231738085.png" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      
+<link rel="stylesheet" href="/css/fonts/remixicon.css">
+
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.staticfile.org/pace/1.2.4/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+      </style>
+    </head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-SQL/Redis/[02]实战篇(4)"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  实战篇(4):分布式锁[Redis]
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/10/12/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(4)/" class="article-date">
+  <time datetime="2022-10-12T09:06:50.170Z" itemprop="datePublished">2022-10-12</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/SQL/">SQL</a> / <a class="article-category-link" href="/categories/SQL/SQL/">SQL</a> / <a class="article-category-link" href="/categories/SQL/SQL/Redis/">Redis</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">3.7k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">13 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h2 id="4-分布式锁"><a class="markdownIt-Anchor" href="#4-分布式锁"></a> 4 分布式锁</h2>
+<h3 id="41-基本原理和实现方式对比"><a class="markdownIt-Anchor" href="#41-基本原理和实现方式对比"></a> 4.1  基本原理和实现方式对比</h3>
+<p>分布式锁：满足分布式系统或集群模式下多进程可见并且互斥的锁。</p>
+<p>分布式锁的核心思想就是让大家都使用同一把锁，只要大家使用的是同一把锁，那么我们就能锁住线程，不让线程进行，让程序串行执行，这就是分布式锁的核心思路</p>
+<span id="more"></span>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653374296906.png" style="zoom:80%;" />
+<p><strong>那么分布式锁他应该满足一些什么样的条件呢？</strong></p>
+<p><mark>可见性</mark>：多个线程都能看到相同的结果，注意：这个地方说的可见性并不是并发编程中指的内存可见性，只是说多个进程之间都能感知到变化的意思</p>
+<p><mark>互斥</mark>：<u>互斥是分布式锁的最基本的条件，使得程序串行执行</u></p>
+<p><mark>高可用</mark>：程序不易崩溃，时时刻刻都保证较高的可用性</p>
+<p><mark>高性能</mark>：由于加锁本身就让性能降低，所有对于分布式锁本身需要他就较高的加锁性能和释放锁性能</p>
+<p><mark>安全性</mark>：安全也是程序中必不可少的一环</p>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653381992018.png" style="zoom: 50%;" />
+<p><strong>常见的三种分布式锁</strong></p>
+<p><mark>Mysql</mark>：mysql本身就带有锁机制，但是由于mysql性能本身一般，所以采用分布式锁的情况下，其实使用mysql作为分布式锁比较少见</p>
+<p><mark>Redis</mark>：redis作为分布式锁是非常常见的一种使用方式，现在企业级开发中基本都使用<code>redis</code>或者<code>zookeeper</code>作为分布式锁，</p>
+<p><strong>利用<code>setnx</code>这个方法，如果插入<code>key</code>成功，则表示获得到了锁，如果有人插入成功，其他人插入失败则表示无法获得到锁，利用这套逻辑来实现分布式锁</strong></p>
+<p><mark>Zookeeper</mark>：zookeeper也是企业级开发中较好的一个实现分布式锁的方案，<strong>以后再学</strong></p>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653382219377.png" style="zoom: 67%;" />
+<h3 id="42-redis分布式锁的实现核心思路"><a class="markdownIt-Anchor" href="#42-redis分布式锁的实现核心思路"></a> 4.2 Redis分布式锁的实现核心思路</h3>
+<p>实现分布式锁时需要实现的两个基本方法：</p>
+<ul>
+<li>
+<p>获取锁：</p>
+<ul>
+<li>互斥：确保只能有一个线程获取锁</li>
+</ul>
+<p><code>SET lock thread1 EX 10 NX</code></p>
+<blockquote>
+<p>设置一个string类型的数据,  过期时间为10s, NX表示互斥</p>
+<p>通过这个命令来保持过期以及互斥的原子性</p>
+</blockquote>
+<ul>
+<li>使用非阻塞式锁：<strong>尝试一次，成功返回true，失败返回false</strong>
+<ul>
+<li>阻塞式锁对CPU的浪费较多</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>释放锁：</p>
+<ul>
+<li>手动释放</li>
+<li><strong>超时释放：获取锁时添加一个超时时间</strong>  =&gt; 防止redis出现故障导致死锁</li>
+</ul>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653382669900.png" alt="" /></p>
+</li>
+</ul>
+<p><strong>核心思路</strong>：</p>
+<p>我们利用redis 的<code>setNx</code> 方法</p>
+<p>当有多个线程进入时，我们就利用该方法，第一个线程进入时，redis 中就有这个key 了，返回了1，</p>
+<p>如果结果是1，则表示他抢到了锁，那么他去执行业务，然后再删除锁，退出锁逻辑，</p>
+<p>如果没有抢到锁，等待一定时间后重试即可</p>
+<blockquote>
+<p>需要注意的是, 一旦redis出现故障, 可能会导致锁无法释放, 出现死锁</p>
+<ul>
+<li>这里的解决方式是利用redis中的过期机制,  但是需要设置合适的过期时间</li>
+</ul>
+</blockquote>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653382830810.png" alt="" /></p>
+<h3 id="43-实现分布式锁版本一"><a class="markdownIt-Anchor" href="#43-实现分布式锁版本一"></a> 4.3 实现分布式锁版本一</h3>
+<ul>
+<li>加锁逻辑</li>
+</ul>
+<p><strong>锁的基本接口</strong></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1656079017728.png" alt="" /></p>
+<p><strong>SimpleRedisLock</strong></p>
+<p>利用setnx方法进行加锁，同时增加过期时间，防止死锁，此方法可以保证加锁和增加过期时间具有原子性</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String keyPrefix=<span class="string">&quot;lock:&quot;</span>;</span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">tryLock</span><span class="params">(Long timeOutSec)</span> &#123;</span><br><span class="line">    <span class="comment">//获取当前线程的标识</span></span><br><span class="line">    <span class="type">long</span> <span class="variable">threadId</span> <span class="operator">=</span> Thread.currentThread().getId();</span><br><span class="line">    String key= name +keyPrefix;</span><br><span class="line">    Boolean success=stringRedisTemplate.opsForValue().setIfAbsent(key, threadId+<span class="string">&quot;&quot;</span>,timeOutSec, TimeUnit.SECONDS);</span><br><span class="line">    <span class="comment">//手动拆箱, 防止空指针  isTrue , 如果success 是null ,也会返回false;</span></span><br><span class="line">    <span class="keyword">return</span> BooleanUtil.isTrue(success);d</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>释放锁逻辑</li>
+</ul>
+<p><code>SimpleRedisLock</code></p>
+<p>释放锁，<strong>防止删除别人的锁</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">unLock</span><span class="params">()</span> &#123;</span><br><span class="line">    String key= name +keyPrefix;</span><br><span class="line">    <span class="comment">//释放锁</span></span><br><span class="line">    stringRedisTemplate.delete(key);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>修改业务代码</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> Result <span class="title function_">seckillVoucher</span><span class="params">(Long voucherId)</span> &#123;</span><br><span class="line">    <span class="comment">//1.查询优惠券</span></span><br><span class="line">    <span class="type">SeckillVoucher</span> <span class="variable">voucher</span> <span class="operator">=</span> seckillVoucherService.getById(voucherId);</span><br><span class="line">    <span class="comment">//2.判断秒杀是否开始 or  结束</span></span><br><span class="line">    <span class="keyword">if</span>(voucher.getBeginTime().isAfter(LocalDateTime.now()))&#123;</span><br><span class="line">        <span class="comment">// 不在秒杀的时间段之内</span></span><br><span class="line">        <span class="keyword">return</span> Result.fail(<span class="string">&quot;秒杀未开始!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(voucher.getEndTime().isBefore(LocalDateTime.now()))&#123;</span><br><span class="line">        <span class="comment">// 不在秒杀的时间段之内</span></span><br><span class="line">        <span class="keyword">return</span> Result.fail(<span class="string">&quot;秒杀已结束!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//3.判断库存</span></span><br><span class="line">    <span class="type">Integer</span> <span class="variable">stock</span> <span class="operator">=</span> voucher.getStock();</span><br><span class="line">    <span class="keyword">if</span>(stock&lt;<span class="number">1</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> Result.fail(<span class="string">&quot;库存不足!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    Long userId= UserHolder.getUser().getId();</span><br><span class="line">    <span class="comment">//创建锁对象 ( 新增代码)</span></span><br><span class="line">    <span class="type">SimpleRedisLock</span> <span class="variable">redisLock</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">SimpleRedisLock</span>(stringRedisTemplate, <span class="string">&quot;order:&quot;</span> + userId);</span><br><span class="line">    <span class="type">boolean</span> <span class="variable">isLock</span> <span class="operator">=</span> redisLock.tryLock(<span class="number">1200L</span>);</span><br><span class="line">    <span class="comment">//获取锁</span></span><br><span class="line">    <span class="keyword">if</span>(!isLock)&#123;</span><br><span class="line">        <span class="comment">//获取锁失败</span></span><br><span class="line">        <span class="keyword">return</span> Result.fail(<span class="string">&quot;不允许重复下单&quot;</span>); <span class="comment">// 当前的环境是 单个用户发出多个请求,</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">        <span class="comment">//获取事务有关的代理对象, spring事务是代理这个bean, 然后再去执行事务</span></span><br><span class="line">        <span class="type">IVoucherOrderService</span> <span class="variable">proxy</span> <span class="operator">=</span> (IVoucherOrderService) AopContext.currentProxy();</span><br><span class="line">        <span class="keyword">return</span>  proxy.createVoucherOrder(voucherId);</span><br><span class="line">    &#125;<span class="keyword">finally</span> &#123;</span><br><span class="line">        redisLock.unLock();<span class="comment">//释放锁</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="44-redis分布式锁误删情况说明"><a class="markdownIt-Anchor" href="#44-redis分布式锁误删情况说明"></a> 4.4 Redis分布式锁误删情况说明</h3>
+<p>逻辑说明：</p>
+<p>持有锁的线程在锁的内部出现了阻塞，<strong>导致他的锁自动释放</strong>，</p>
+<p>这时其他线程，线程2来尝试获得锁，就拿到了这把锁，然后线程2在持有锁执行过程中，</p>
+<p>线程1反应过来，继续执行，而线程1执行过程中，<strong>走到了删除锁逻辑，此时就会把本应该属于线程2的锁进行删除，</strong></p>
+<p><mark>解决方案</mark>：解决方案就是在每个线程释放锁的时候，<strong>去判断一下当前这把锁是否属于自己</strong>，如果属于自己，则不进行锁的删除，假设还是上边的情况，</p>
+<p>线程1卡顿，锁自动释放，线程2进入到锁的内部执行逻辑，此时线程1反应过来，然后删除锁，但是线程1，</p>
+<p>一看当前这把锁不是属于自己，于是不进行删除锁逻辑，当线程2走到删除锁逻辑时，如果没有卡过自动释放锁的时间点，</p>
+<p>则判断当前这把锁是属于自己的，于是删除这把锁。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653385920025.png" alt="" /></p>
+<h3 id="45-解决redis分布式锁误删问题"><a class="markdownIt-Anchor" href="#45-解决redis分布式锁误删问题"></a> 4.5 解决Redis分布式锁误删问题</h3>
+<p>需求：修改之前的分布式锁实现，满足：在获取锁时存入线程标示（可以用UUID表示）<br />
+在释放锁时先获取锁中的线程标示，判断是否与当前线程标示一致</p>
+<ul>
+<li><strong>如果一致则释放锁</strong></li>
+<li><strong>如果不一致则不释放锁</strong></li>
+</ul>
+<p><mark>核心逻辑</mark>：在存入锁时，<strong>放入自己线程的标识</strong>，在删除锁时，判断当前这把锁的标识是不是自己存入的，如果是，则进行删除，如果不是，则不进行删除。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653387398820.png" alt="" /></p>
+<p>具体代码如下：加锁</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">ID_PREFIX</span> <span class="operator">=</span> UUID.randomUUID().toString(<span class="literal">true</span>) + <span class="string">&quot;-&quot;</span>;</span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">tryLock</span><span class="params">(<span class="type">long</span> timeoutSec)</span> &#123;</span><br><span class="line">   <span class="comment">// 获取线程标示</span></span><br><span class="line">   <span class="type">String</span> <span class="variable">threadId</span> <span class="operator">=</span> ID_PREFIX + Thread.currentThread().getId();</span><br><span class="line">   <span class="comment">// 获取锁</span></span><br><span class="line">   <span class="type">Boolean</span> <span class="variable">success</span> <span class="operator">=</span> stringRedisTemplate.opsForValue()</span><br><span class="line">                .setIfAbsent(KEY_PREFIX + name, threadId, timeoutSec, TimeUnit.SECONDS);</span><br><span class="line">   <span class="keyword">return</span> Boolean.TRUE.equals(success);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>释放锁</p>
+<blockquote>
+<p>由于之前获取name 的方式是获取线程的ID :  线程ID在jvm内递增</p>
+<p>, 但是在集群下, 多个jvm可能会生成相同ID的线程, 导致锁误删, 因此需要解决id冲突的问题 =&gt; 使用UUID</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">unlock</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// 获取线程标示</span></span><br><span class="line">    <span class="type">String</span> <span class="variable">threadId</span> <span class="operator">=</span> ID_PREFIX + Thread.currentThread().getId();</span><br><span class="line">    <span class="comment">// 获取锁中的标示</span></span><br><span class="line">    <span class="type">String</span> <span class="variable">id</span> <span class="operator">=</span> stringRedisTemplate.opsForValue().get(KEY_PREFIX + name);</span><br><span class="line">    <span class="comment">// 判断标示是否一致</span></span><br><span class="line">    <span class="keyword">if</span>(threadId.equals(id)) &#123;</span><br><span class="line">        <span class="comment">// 释放锁</span></span><br><span class="line">        stringRedisTemplate.delete(KEY_PREFIX + name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>有关代码实操说明：</strong></p>
+<p>在我们修改完此处代码后，我们重启工程，然后启动两个线程，第一个线程持有锁后，手动释放锁，第二个线程 此时进入到锁内部，再放行第一个线程，此时第一个线程由于锁的value值并非是自己，所以不能释放锁，也就无法删除别人的锁，此时第二个线程能够正确释放锁，通过这个案例初步说明我们解决了锁误删的问题。</p>
+<h3 id="46-分布式锁的原子性问题"><a class="markdownIt-Anchor" href="#46-分布式锁的原子性问题"></a> 4.6 分布式锁的原子性问题</h3>
+<p>更为<mark>极端</mark>的误删逻辑说明：</p>
+<p>线程1现在持有锁之后，在执行业务逻辑过程中，他正准备删除锁，而且已经走到了条件判断的过程中，比如他已经拿到了当前这把锁确实是属于他自己的，</p>
+<p>正准备删除锁，但是此时他的锁到期了，那么此时线程2进来，但是线程1他会接着往后执行，当他卡顿结束后，他直接就会执行删除锁那行代码，</p>
+<p>相当于条件判断并没有起到作用，这就是删锁时的原子性问题，之所以有这个问题，</p>
+<p>是因为<u><strong>线程1的拿锁，比锁，删锁，实际上并不是原子性的</strong></u>，我们要防止刚才的情况发生，</p>
+<blockquote>
+<p>说白了就是我们在删除锁的时候需要好几步操作 ,  由于在极端的条件下, jvm 可能会出现线程阻塞, 导致我们当前的线程已经判断锁是自己的锁之后,</p>
+<p>此时可能出现<mark>线程阻塞</mark>, <strong>导致删除锁的操作被延时</strong>  ,  此时锁由于超时自动释放了, 然后导致另一个线程来的时候发现没有锁, <u>又加了一把锁</u>,</p>
+<p><strong>导致前面的线程把这个线程的锁给释放了,</strong>  如果多个这种操作出现可能会引发问题</p>
+<p><mark>因此我们需要保证判断锁 以及 删除锁 操作的原子性(理解为要想办法让这两部操作同时进行)</mark></p>
+<ul>
+<li>此时也就引入了<strong>lua脚本</strong></li>
+</ul>
+</blockquote>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653387764938.png" alt="" /></p>
+<h3 id="47-lua脚本解决多条命令原子性问题"><a class="markdownIt-Anchor" href="#47-lua脚本解决多条命令原子性问题"></a> 4.7 Lua脚本解决多条命令原子性问题</h3>
+<p>Redis提供了Lua脚本功能，在一个脚本中编写多条Redis命令，确保多条命令执行时的原子性。</p>
+<p>Lua是一种编程语言，它的基本语法大家可以参考网站：<a target="_blank" rel="noopener" href="https://www.runoob.com/lua/lua-tutorial.html%EF%BC%8C">https://www.runoob.com/lua/lua-tutorial.html，</a></p>
+<p>这里重点介绍Redis提供的调用函数，我们可以使用<strong>lua去操作redis</strong>，又能保证他的原子性，这样就可以<strong>实现拿锁比锁删锁是一个原子性动作了</strong>，</p>
+<p>作为Java程序员这一块并不作一个简单要求，并不需要大家过于精通，只需要知道他有什么作用即可。</p>
+<p>这里重点介绍Redis提供的调用函数，语法如下：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis.call(<span class="string">&#x27;命令名称&#x27;</span>, <span class="string">&#x27;key&#x27;</span>, <span class="string">&#x27;其它参数&#x27;</span>, ...)</span><br></pre></td></tr></table></figure>
+<p>例如，我们要执行set name jack，则脚本是这样：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 执行 set name jack</span><br><span class="line">redis.call(<span class="string">&#x27;set&#x27;</span>, <span class="string">&#x27;name&#x27;</span>, <span class="string">&#x27;jack&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>例如，我们要先执行set name Rose，再执行get name，则脚本如下：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 先执行 set name jack</span><br><span class="line">redis.call(<span class="string">&#x27;set&#x27;</span>, <span class="string">&#x27;name&#x27;</span>, <span class="string">&#x27;Rose&#x27;</span>)</span><br><span class="line"># 再执行 get name</span><br><span class="line"><span class="keyword">local</span> name = redis.call(<span class="string">&#x27;get&#x27;</span>, <span class="string">&#x27;name&#x27;</span>)</span><br><span class="line"># 返回</span><br><span class="line"><span class="keyword">return</span> name</span><br></pre></td></tr></table></figure>
+<p>写好脚本以后，需要用Redis命令来调用脚本，调用脚本的常见命令如下：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653392181413.png" alt="" /></p>
+<p>例如，我们要执行 redis.call(‘set’, ‘name’, ‘jack’) 这个脚本，语法如下：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653392218531.png" alt="" /></p>
+<p>如果脚本中的key、value不想写死，可以作为参数传递。key类型参数会放入KEYS数组，其它参数会放入ARGV数组，在脚本中可以从KEYS和ARGV数组获取这些参数：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653392438917.png" alt="" /></p>
+<blockquote>
+<p>Lua中 数组的角标从1 开始</p>
+</blockquote>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221012094217042.png" alt="" /></p>
+<p>接下来我们来回一下我们释放锁的逻辑：</p>
+<p>释放锁的业务流程是这样的</p>
+<p>​	1、获取锁中的线程标示</p>
+<p>​	2、判断是否与指定的标示（当前线程标示）一致</p>
+<p>​	3、如果一致则释放锁（删除）</p>
+<p>​	4、如果不一致则什么都不做</p>
+<p>如果用Lua脚本来表示则是这样的：</p>
+<p>最终<strong>我们操作redis的拿锁比锁删锁的lua脚本</strong>就会变成这样</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 锁的key</span></span><br><span class="line"><span class="comment">-- lcoal key= KEYS[1]</span></span><br><span class="line"><span class="comment">-- 这里的 KEYS[1] 就是锁的key，这里的ARGV[1] 就是当前线程标示</span></span><br><span class="line"><span class="comment">-- 当前线程标识</span></span><br><span class="line">lock threadId  = ARGV[<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment">--获取锁中的线程标识</span></span><br><span class="line"><span class="keyword">local</span> id = redis.call(<span class="string">&#x27;get&#x27;</span>,KEYS[<span class="number">1</span>])</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(id == threadId )<span class="keyword">then</span></span><br><span class="line">    <span class="comment">-- 释放锁 del key</span></span><br><span class="line">    <span class="keyword">return</span> redis.call(<span class="string">&#x27;del&#x27;</span>,KEYS[<span class="number">1</span>])</span><br><span class="line"><span class="keyword">end</span>;</span><br><span class="line"><span class="keyword">return</span> <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="48-利用java代码调用lua脚本改造分布式锁"><a class="markdownIt-Anchor" href="#48-利用java代码调用lua脚本改造分布式锁"></a> 4.8 利用Java代码调用Lua脚本改造分布式锁</h3>
+<p>lua脚本本身并不需要大家花费太多时间去研究，只需要知道如何调用，大致是什么意思即可，所以在笔记中并不会详细的去解释这些lua表达式的含义。</p>
+<p>我们的RedisTemplate中，可以利用execute方法去执行lua脚本，参数对应关系就如下图股</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653393304844.png" alt="" /></p>
+<p><strong>Java代码</strong></p>
+<blockquote>
+<p>使用静态代码块, 在类初始化的时候就 执行代码块</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> DefaultRedisScript&lt;Long&gt; UNLOCK_SCRIPT;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        UNLOCK_SCRIPT = <span class="keyword">new</span> <span class="title class_">DefaultRedisScript</span>&lt;&gt;();</span><br><span class="line">        UNLOCK_SCRIPT.setLocation(<span class="keyword">new</span> <span class="title class_">ClassPathResource</span>(<span class="string">&quot;unlock.lua&quot;</span>));</span><br><span class="line">        UNLOCK_SCRIPT.setResultType(Long.class);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">unlock</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// 调用lua脚本</span></span><br><span class="line">    stringRedisTemplate.execute(</span><br><span class="line">            UNLOCK_SCRIPT,</span><br><span class="line">            Collections.singletonList(KEY_PREFIX + name),</span><br><span class="line">            ID_PREFIX + Thread.currentThread().getId());</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//经过以上代码改造后，我们就能够实现 拿锁比锁删锁的原子性动作了~</span></span><br></pre></td></tr></table></figure>
+<p>小总结：</p>
+<p>基于Redis的分布式锁实现思路：</p>
+<ul>
+<li>利用set nx ex获取锁，并设置过期时间，保存线程标示</li>
+<li>释放锁时先判断线程标示是否与自己一致，一致则删除锁
+<ul>
+<li>特性：
+<ul>
+<li>利用set nx满足互斥性</li>
+<li>利用set ex保证故障时锁依然能释放，避免死锁，提高安全性</li>
+<li>利用Redis集群保证高可用和高并发特性</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>笔者总结：我们一路走来，利用添加过期时间，防止死锁问题的发生，但是有了过期时间之后，可能出现误删别人锁的问题，这个问题我们开始是利用删之前 通过拿锁，比锁，删锁这个逻辑来解决的，也就是删之前判断一下当前这把锁是否是属于自己的，但是现在还有原子性问题，也就是我们没法保证拿锁比锁删锁是一个原子性的动作，最后通过lua表达式来解决这个问题</p>
+<p>但是目前还剩下一个问题锁不住，什么是锁不住呢，你想一想，如果当过期时间到了之后，我们可以给他续期一下，比如续个30s，就好像是网吧上网， 网费到了之后，然后说，来，网管，再给我来10块的，是不是后边的问题都不会发生了，那么续期问题怎么解决呢，可以依赖于我们接下来要学习redission啦</p>
+<p><strong>测试逻辑：</strong></p>
+<p>第一个线程进来，得到了锁，手动删除锁，模拟锁超时了，其他线程会执行lua来抢锁，当第一天线程利用lua删除锁时，lua能保证他不能删除他的锁，第二个线程删除锁时，利用lua同样可以保证不会删除别人的锁，同时还能保证原子性。</p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://adorabled4.github.io/2022/10/12/SQL/Redis/[02]%E5%AE%9E%E6%88%98%E7%AF%87(4)/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring/" rel="tag">Spring</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2022/10/12/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(5)/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            实战篇(5):分布式锁优化--redission[Redis]
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2022/10/11/%E7%90%90%E7%A2%8E%E7%9F%A5%E8%AF%86%E7%82%B9/idea%E9%85%8D%E7%BD%AE%E9%9B%86%E7%BE%A4/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">idea配置集群</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.staticfile.org/valine/1.4.16/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "BMxcpVMjh3EMOP7tyImO6aLR-gzGzoHsz",
+    app_key: "HpcPO68bneKDaeq3H1G1xuIN",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+   
+    
+    <script src="https://cdn.staticfile.org/twikoo/1.4.18/twikoo.all.min.js"></script>
+    <div id="twikoo" class="twikoo"></div>
+    <script>
+        twikoo.init({
+            envId: ""
+        })
+    </script>
+ 
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2022
+        <i class="ri-heart-fill heart_icon"></i> dhx_
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/avater.png" alt="dhx_&#39;blog"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.staticfile.org/justifiedGallery/3.8.1/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.staticfile.org/clipboard.js/2.0.10/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+ 
+<script src="/js/dz.js"></script>
+ 
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    <div id="music">
+    
+    
+    
+    <iframe frameborder="no" border="1" marginwidth="0" marginheight="0" width="200" height="52"
+        src="//music.163.com/outchain/player?type=2&id=29480187&auto=1&height=32"></iframe>
+</div>
+
+<style>
+    #music {
+        position: fixed;
+        right: 15px;
+        bottom: 0;
+        z-index: 998;
+    }
+</style>
+    
+    
+
+  </div>
+</body>
+
+</html>

@@ -13,7 +13,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title>实战篇(2)[Redis] |  dhx_&#39;blog</title>
+      <title>实战篇(2):商户查询缓存[Redis] |  dhx_&#39;blog</title>
   <meta name="generator" content="hexo-theme-ayer">
       
       <link rel="shortcut icon" href="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220820231738085.png" />
@@ -66,7 +66,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  实战篇(2)[Redis]
+  实战篇(2):商户查询缓存[Redis]
 </h1>
  
 
@@ -110,19 +110,17 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <h1 id="实战篇redis2"><a class="markdownIt-Anchor" href="#实战篇redis2"></a> 实战篇Redis[2]</h1>
-<p>视频教程地址<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1cr4y1671t?p=26&amp;spm_id_from=pageDriver&amp;vd_source=7d0b8be6716aca670df8e800cab6d54c">实战篇哔哩哔哩_bilibili</a></p>
-<blockquote>
+  <blockquote>
 <p><strong>在原本笔记的基础上作出修改</strong></p>
 </blockquote>
 <h2 id="2-商户查询缓存"><a class="markdownIt-Anchor" href="#2-商户查询缓存"></a> 2、商户查询缓存</h2>
 <h3 id="21-什么是缓存"><a class="markdownIt-Anchor" href="#21-什么是缓存"></a> 2.1 什么是缓存?</h3>
 <p><strong>前言</strong>:<strong>什么是缓存?</strong></p>
 <p>就像自行车,越野车的避震器</p>
+<span id="more"></span>
 <p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/%E9%81%BF%E9%9C%87%E5%99%A8.gif" alt="避震器" /></p>
 <p>举个例子:越野车,山地自行车,都拥有&quot;避震器&quot;,<strong>防止</strong>车体加速后因惯性,在酷似&quot;U&quot;字母的地形上飞跃,硬着陆导致的<strong>损害</strong>,像个弹簧一样;</p>
 <p>同样,实际开发中,系统也需要&quot;避震器&quot;,防止过高的数据访问猛冲系统,导致其操作线程无法及时处理信息而瘫痪;</p>
-<span id="more"></span>
 <p>这在实际开发中对企业讲,对产品口碑,用户评价都是致命的;所以企业非常重视缓存技术;</p>
 <p><strong>缓存(<strong>Cache),就是数据交换的</strong>缓冲区</strong>,俗称的缓存就是<strong>缓冲区内的数据</strong>,一般从数据库中获取,存储于本地代码(例如:</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">例<span class="number">1</span>:Static <span class="keyword">final</span> ConcurrentHashMap&lt;K,V&gt; map = <span class="keyword">new</span> <span class="title class_">ConcurrentHashMap</span>&lt;&gt;(); 本地用于高并发</span><br><span class="line"></span><br><span class="line">例<span class="number">2</span>:<span class="keyword">static</span> <span class="keyword">final</span> Cache&lt;K,V&gt; USER_CACHE = CacheBuilder.newBuilder().build(); 用于redis等缓存</span><br><span class="line"></span><br><span class="line">例<span class="number">3</span>:Static <span class="keyword">final</span> Map&lt;K,V&gt; map =  <span class="keyword">new</span> <span class="title class_">HashMap</span>(); 本地缓存</span><br></pre></td></tr></table></figure>
@@ -531,7 +529,7 @@
         <strong class="article-nav-caption">上一篇</strong>
         <div class="article-nav-title">
           
-            实战篇(3)[Redis]
+            实战篇(3):优惠券秒杀[Redis]
           
         </div>
       </a>
@@ -539,7 +537,7 @@
     
       <a href="/2022/10/08/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(1)/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">实战篇(1)[Redis]</div>
+        <div class="article-nav-title">实战篇(1):短信登录[Redis]</div>
       </a>
     
   </nav>
