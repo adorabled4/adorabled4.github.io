@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+  
+
+    <head>
+      <meta charset="utf-8" />
+       
+      <meta name="keywords" content="DFS,BFS,java, 双指针, 算法与数据结构, hexo, 回溯, 树, 队列, mybatis, javaweb, Spring, cpp, leetcode, 栈, 位运算, 链表, 数据库, springmvc, 动态规划, 贪心" />
+       
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>java上传图片到腾讯云cos |  dhx_&#39;blog</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220820231738085.png" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      
+<link rel="stylesheet" href="/css/fonts/remixicon.css">
+
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.staticfile.org/pace/1.2.4/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+      </style>
+    </head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-琐碎知识点/腾讯云cos对象存储使用"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  java上传图片到腾讯云cos
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/10/26/%E7%90%90%E7%A2%8E%E7%9F%A5%E8%AF%86%E7%82%B9/%E8%85%BE%E8%AE%AF%E4%BA%91cos%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8%E4%BD%BF%E7%94%A8/" class="article-date">
+  <time datetime="2022-10-26T05:47:11.801Z" itemprop="datePublished">2022-10-26</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%90%90%E7%A2%8E%E7%9F%A5%E8%AF%86%E7%82%B9/">琐碎知识点</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">2k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">9 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h3 id="引入相关依赖"><a class="markdownIt-Anchor" href="#引入相关依赖"></a> 引入相关依赖</h3>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--腾讯云cos的依赖jar包--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.qcloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>cos_api<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.6.89<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.tencent.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>cos-sts-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="代码测试"><a class="markdownIt-Anchor" href="#代码测试"></a> 代码测试</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">cosTest</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// 1 初始化用户身份信息（secretId, secretKey）。</span></span><br><span class="line">    <span class="comment">// SECRETID和SECRETKEY请登录访问管理控制台 https://console.cloud.tencent.com/cam/capi 进行查看和管理</span></span><br><span class="line">    <span class="type">String</span> <span class="variable">secretId</span> <span class="operator">=</span> <span class="string">&quot;*************************&quot;</span>;</span><br><span class="line">    <span class="type">String</span> <span class="variable">secretKey</span> <span class="operator">=</span> <span class="string">&quot;************************&quot;</span>;</span><br><span class="line">    <span class="type">COSCredentials</span> <span class="variable">cred</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BasicCOSCredentials</span>(secretId, secretKey);</span><br><span class="line">    <span class="comment">// 2 设置 bucket 的地域, COS 地域的简称请参照 https://cloud.tencent.com/document/product/436/6224</span></span><br><span class="line">    <span class="comment">// clientConfig 中包含了设置 region, https(默认 http), 超时, 代理等 set 方法, 使用可参见源码或者常见问题 Java SDK 部分。</span></span><br><span class="line">    <span class="type">Region</span> <span class="variable">region</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Region</span>(<span class="string">&quot;COS_REGION&quot;</span>);</span><br><span class="line">    <span class="type">ClientConfig</span> <span class="variable">clientConfig</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ClientConfig</span>(region);</span><br><span class="line">    <span class="comment">// 这里建议设置使用 https 协议</span></span><br><span class="line">    <span class="comment">// 从 5.6.54 版本开始，默认使用了 https</span></span><br><span class="line">    clientConfig.setHttpProtocol(HttpProtocol.https);</span><br><span class="line">    <span class="comment">// 3 生成 cos 客户端。</span></span><br><span class="line">    <span class="type">COSClient</span> <span class="variable">cosClient</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">COSClient</span>(cred, clientConfig);</span><br><span class="line"></span><br><span class="line">    List&lt;Bucket&gt; buckets = cosClient.listBuckets();</span><br><span class="line">    <span class="keyword">for</span> (Bucket bucketElement : buckets) &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">bucketName</span> <span class="operator">=</span> bucketElement.getName();</span><br><span class="line">        <span class="type">String</span> <span class="variable">bucketLocation</span> <span class="operator">=</span> bucketElement.getLocation();</span><br><span class="line">        System.out.println(<span class="string">&quot;bucketName : &quot;</span>+bucketName);</span><br><span class="line">        System.out.println(<span class="string">&quot;bucketLocation : &quot;</span>+bucketLocation);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>ClientConfig 类为配置信息类，主要的成员如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">成员名</th>
+<th style="text-align:left">设置方法</th>
+<th style="text-align:left">描述</th>
+<th style="text-align:left">类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">region</td>
+<td style="text-align:left">构造函数或 set 方法</td>
+<td style="text-align:left">存储桶所在的地域，COS 地域的简称请参见 <a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/436/6224">地域和访问域名</a> 文档</td>
+<td style="text-align:left">Region</td>
+</tr>
+<tr>
+<td style="text-align:left">httpProtocol</td>
+<td style="text-align:left">set 方法</td>
+<td style="text-align:left">请求所使用的协议，默认使用 HTTPS 协议与 COS 交互</td>
+<td style="text-align:left">HttpProtocol</td>
+</tr>
+<tr>
+<td style="text-align:left">signExpired</td>
+<td style="text-align:left">set 方法</td>
+<td style="text-align:left">请求签名的有效时间，单位：秒，默认为3600s</td>
+<td style="text-align:left">long</td>
+</tr>
+<tr>
+<td style="text-align:left">connectionTimeout</td>
+<td style="text-align:left">set 方法</td>
+<td style="text-align:left">连接 COS 服务的超时时间，单位：毫秒，默认为30000ms</td>
+<td style="text-align:left">int</td>
+</tr>
+<tr>
+<td style="text-align:left">socketTimeout</td>
+<td style="text-align:left">set 方法</td>
+<td style="text-align:left">客户端读取数据的超时时间，单位：毫秒，默认为30000ms</td>
+<td style="text-align:left">int</td>
+</tr>
+<tr>
+<td style="text-align:left">httpProxyIp</td>
+<td style="text-align:left">set 方法</td>
+<td style="text-align:left">代理服务器的 IP</td>
+<td style="text-align:left">String</td>
+</tr>
+<tr>
+<td style="text-align:left">httpProxyPort</td>
+<td style="text-align:left">set 方法</td>
+<td style="text-align:left">代理服务器的端口</td>
+<td style="text-align:left">int</td>
+</tr>
+</tbody>
+</table>
+<p>启动测试，如果成功打印出相关信息， 说明配置无误。</p>
+<h3 id="创建存储桶"><a class="markdownIt-Anchor" href="#创建存储桶"></a> 创建存储桶</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">bucket</span> <span class="operator">=</span> <span class="string">&quot;****************&quot;</span>; <span class="comment">//存储桶名称，格式：BucketName-APPID</span></span><br><span class="line"><span class="type">CreateBucketRequest</span> <span class="variable">createBucketRequest</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">CreateBucketRequest</span>(bucket);</span><br><span class="line"><span class="comment">// 设置 bucket 的权限为 Private(私有读写)、其他可选有 PublicRead（公有读私有写）、PublicReadWrite（公有读写）</span></span><br><span class="line">createBucketRequest.setCannedAcl(CannedAccessControlList.Private);</span><br><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line">    <span class="type">Bucket</span> <span class="variable">bucketResult</span> <span class="operator">=</span> cosClient.createBucket(createBucketRequest);</span><br><span class="line">&#125; <span class="keyword">catch</span> (CosServiceException serverException) &#123;</span><br><span class="line">    serverException.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (CosClientException clientException) &#123;</span><br><span class="line">    clientException.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="上传文件测试"><a class="markdownIt-Anchor" href="#上传文件测试"></a> 上传文件测试</h3>
+<p>将本地文件或者已知长度的输入流内容上传到 COS，适用于20M以下图片类小文件上传，最大支持上传不超过5GB文件。5GB以上的文件必须使用分块上传或高级 API 接口上传。</p>
+<ul>
+<li>注意前面地区（Region）初始化的时候名称填入存储桶的地区</li>
+<li>下面上传文件的key 需要包含完整的文件名字（<strong>注意后缀</strong>）</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">cosTest</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// 指定要上传的文件</span></span><br><span class="line">    String localFilePath=<span class="string">&quot;C:\\Users\\lenovo\\Pictures\\v2-2eb235a75af128a0374984559350242e_r.jpg&quot;</span>;</span><br><span class="line">    <span class="type">File</span> <span class="variable">localFile</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span>(localFilePath);</span><br><span class="line">    <span class="type">String</span> <span class="variable">fileName</span> <span class="operator">=</span> localFile.getName();</span><br><span class="line">    <span class="type">String</span> <span class="variable">suffix</span> <span class="operator">=</span> fileName.substring(fileName.lastIndexOf(<span class="string">&quot;.&quot;</span>) + <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 指定文件将要存放的存储桶</span></span><br><span class="line">    <span class="type">String</span> <span class="variable">bucketName</span> <span class="operator">=</span> <span class="string">&quot;typora-1308522872&quot;</span>;</span><br><span class="line">    <span class="comment">// 指定文件上传到 COS 上的路径，即对象键。例如对象键为folder/picture.jpg，则表示将文件 picture.jpg 上传到 folder 路径下</span></span><br><span class="line">    <span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> <span class="string">&quot;test/&quot;</span>+ UUID.randomUUID().toString()+<span class="string">&quot;.&quot;</span>+suffix;</span><br><span class="line">    <span class="type">PutObjectRequest</span> <span class="variable">putObjectRequest</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">PutObjectRequest</span>(bucketName, key, localFile);</span><br><span class="line">    <span class="type">PutObjectResult</span> <span class="variable">putObjectResult</span> <span class="operator">=</span> cosClient.putObject(putObjectRequest);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>获取文件后缀的代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">fileName</span> <span class="operator">=</span> localFile.getName();</span><br><span class="line"><span class="type">String</span> <span class="variable">suffix</span> <span class="operator">=</span> fileName.substring(fileName.lastIndexOf(<span class="string">&quot;.&quot;</span>) + <span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="查询对象列表"><a class="markdownIt-Anchor" href="#查询对象列表"></a> 查询对象列表</h3>
+<p>查询存储桶中对象列表，参考示例如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Bucket的命名格式为 BucketName-APPID ，此处填写的存储桶名称必须为此格式</span></span><br><span class="line"><span class="type">String</span> <span class="variable">bucketName</span> <span class="operator">=</span> <span class="string">&quot;examplebucket-1250000000&quot;</span>;</span><br><span class="line"><span class="type">ListObjectsRequest</span> <span class="variable">listObjectsRequest</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ListObjectsRequest</span>();</span><br><span class="line"><span class="comment">// 设置bucket名称</span></span><br><span class="line">listObjectsRequest.setBucketName(bucketName);</span><br><span class="line"><span class="comment">// prefix表示列出的object的key以prefix开始</span></span><br><span class="line">listObjectsRequest.setPrefix(<span class="string">&quot;images/&quot;</span>);</span><br><span class="line"><span class="comment">// deliter表示分隔符, 设置为/表示列出当前目录下的object, 设置为空表示列出所有的object</span></span><br><span class="line">listObjectsRequest.setDelimiter(<span class="string">&quot;/&quot;</span>);</span><br><span class="line"><span class="comment">// 设置最大遍历出多少个对象, 一次listobject最大支持1000</span></span><br><span class="line">listObjectsRequest.setMaxKeys(<span class="number">1000</span>);</span><br><span class="line"><span class="type">ObjectListing</span> <span class="variable">objectListing</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        objectListing = cosClient.listObjects(listObjectsRequest);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (CosServiceException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (CosClientException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// common prefix表示表示被delimiter截断的路径, 如delimter设置为/, common prefix则表示所有子目录的路径</span></span><br><span class="line">    List&lt;String&gt; commonPrefixs = objectListing.getCommonPrefixes();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// object summary表示所有列出的object列表</span></span><br><span class="line">    List&lt;COSObjectSummary&gt; cosObjectSummaries = objectListing.getObjectSummaries();</span><br><span class="line">    <span class="keyword">for</span> (COSObjectSummary cosObjectSummary : cosObjectSummaries) &#123;</span><br><span class="line">        <span class="comment">// 文件的路径key</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> cosObjectSummary.getKey();</span><br><span class="line">        <span class="comment">// 文件的etag</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">etag</span> <span class="operator">=</span> cosObjectSummary.getETag();</span><br><span class="line">        <span class="comment">// 文件的长度</span></span><br><span class="line">        <span class="type">long</span> <span class="variable">fileSize</span> <span class="operator">=</span> cosObjectSummary.getSize();</span><br><span class="line">        <span class="comment">// 文件的存储类型</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">storageClasses</span> <span class="operator">=</span> cosObjectSummary.getStorageClass();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">String</span> <span class="variable">nextMarker</span> <span class="operator">=</span> objectListing.getNextMarker();</span><br><span class="line">    listObjectsRequest.setMarker(nextMarker);</span><br><span class="line">&#125; <span class="keyword">while</span> (objectListing.isTruncated());</span><br></pre></td></tr></table></figure>
+<h3 id="下载对象"><a class="markdownIt-Anchor" href="#下载对象"></a> 下载对象</h3>
+<p>可以用同样的 key，调用 GetObject 接口将对象下载到本地，也可以生成预签名链接</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Bucket的命名格式为 BucketName-APPID ，此处填写的存储桶名称必须为此格式</span></span><br><span class="line"><span class="type">String</span> <span class="variable">bucketName</span> <span class="operator">=</span> <span class="string">&quot;examplebucket-1250000000&quot;</span>;</span><br><span class="line"><span class="comment">// 指定文件在 COS 上的路径，即对象键。例如对象键为folder/picture.jpg，则表示下载的文件 picture.jpg 在 folder 路径下</span></span><br><span class="line"><span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> <span class="string">&quot;exampleobject&quot;</span>;</span><br><span class="line"><span class="comment">// 方法1 获取下载输入流</span></span><br><span class="line"><span class="type">GetObjectRequest</span> <span class="variable">getObjectRequest</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">GetObjectRequest</span>(bucketName, key);</span><br><span class="line"><span class="type">COSObject</span> <span class="variable">cosObject</span> <span class="operator">=</span> cosClient.getObject(getObjectRequest);</span><br><span class="line"><span class="type">COSObjectInputStream</span> <span class="variable">cosObjectInput</span> <span class="operator">=</span> cosObject.getObjectContent();</span><br><span class="line"><span class="comment">// 下载对象的 CRC64</span></span><br><span class="line"><span class="type">String</span> <span class="variable">crc64Ecma</span> <span class="operator">=</span> cosObject.getObjectMetadata().getCrc64Ecma();</span><br><span class="line"><span class="comment">// 关闭输入流</span></span><br><span class="line">cosObjectInput.close();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 方法2 下载文件到本地的路径，例如 D 盘的某个目录</span></span><br><span class="line"><span class="type">String</span> <span class="variable">outputFilePath</span> <span class="operator">=</span> <span class="string">&quot;exampleobject&quot;</span>;</span><br><span class="line"><span class="type">File</span> <span class="variable">downFile</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span>(outputFilePath);</span><br><span class="line">getObjectRequest = <span class="keyword">new</span> <span class="title class_">GetObjectRequest</span>(bucketName, key);</span><br><span class="line"><span class="type">ObjectMetadata</span> <span class="variable">downObjectMeta</span> <span class="operator">=</span> cosClient.getObject(getObjectRequest, downFile);</span><br></pre></td></tr></table></figure>
+<h3 id="关闭客户端"><a class="markdownIt-Anchor" href="#关闭客户端"></a> 关闭客户端</h3>
+<p>关闭 cosClient，并释放 HTTP 连接的后台管理线程，代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 关闭客户端(关闭后台线程)</span></span><br><span class="line">cosClient.shutdown();</span><br></pre></td></tr></table></figure>
+<h3 id="示例代码"><a class="markdownIt-Anchor" href="#示例代码"></a> 示例代码</h3>
+<p>CosClientUtil</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CosClientUtil</span> &#123;</span><br><span class="line">    <span class="meta">@Value(&quot;$&#123;tencent.secretId:#&#123;null&#125;&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> String secretId;</span><br><span class="line">    <span class="meta">@Value(&quot;$&#123;tencent.secretKey:#&#123;null&#125;&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> String secretKey;</span><br><span class="line">    <span class="meta">@Value(&quot;$&#123;tencent.region:#&#123;null&#125;&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> String regionName;</span><br><span class="line">    <span class="meta">@Value(&quot;$&#123;tencent.bucket:#&#123;null&#125;&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> String bucketName;</span><br><span class="line">    <span class="meta">@Value(&quot;$&#123;tencent.baseUrl:#&#123;null&#125;&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> String baseUrl;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 动物图片存储路径</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String ANIMAL_FILE=<span class="string">&quot;animal/&quot;</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String AVATAR_FILE=<span class="string">&quot;avatar/&quot;</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String TOPIC_FILE=<span class="string">&quot;topic/&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testValue</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(testValue);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取实例</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> cosClient 实例</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> COSClient <span class="title function_">getInstance</span><span class="params">()</span>&#123;</span><br><span class="line"><span class="comment">// 1 初始化用户身份信息（secretId, secretKey）。</span></span><br><span class="line"><span class="comment">// SECRETID和SECRETKEY请登录访问管理控制台 https://console.cloud.tencent.com/cam/capi 进行查看和管理</span></span><br><span class="line">        System.out.println(secretId);</span><br><span class="line">        System.out.println(secretKey);</span><br><span class="line">        <span class="type">COSCredentials</span> <span class="variable">cred</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BasicCOSCredentials</span>(secretId, secretKey);</span><br><span class="line"><span class="comment">// 2 设置 bucket 的地域, COS 地域的简称请参照 https://cloud.tencent.com/document/product/436/6224</span></span><br><span class="line"><span class="comment">// clientConfig 中包含了设置 region, https(默认 http), 超时, 代理等 set 方法, 使用可参见源码或者常见问题 Java SDK 部分。</span></span><br><span class="line">        <span class="type">Region</span> <span class="variable">region</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Region</span>(regionName);</span><br><span class="line">        <span class="type">ClientConfig</span> <span class="variable">clientConfig</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ClientConfig</span>(region);</span><br><span class="line"><span class="comment">// 这里建议设置使用 https 协议</span></span><br><span class="line"><span class="comment">// 从 5.6.54 版本开始，默认使用了 https</span></span><br><span class="line">        clientConfig.setHttpProtocol(HttpProtocol.https);</span><br><span class="line"><span class="comment">// 3 生成 cos 客户端。</span></span><br><span class="line">        <span class="type">COSClient</span> <span class="variable">cosClient</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">COSClient</span>(cred, clientConfig);</span><br><span class="line">        <span class="keyword">return</span> cosClient;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 上传文件</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> file 需要上传的文件</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 返回文件的url</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">uploadFile</span><span class="params">(File file,String fileType)</span>&#123;</span><br><span class="line">        <span class="comment">//获取文件后缀</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">fileName</span> <span class="operator">=</span> file.getName();</span><br><span class="line">        <span class="type">String</span> <span class="variable">suffix</span> <span class="operator">=</span> fileName.substring(fileName.lastIndexOf(<span class="string">&quot;.&quot;</span>) + <span class="number">1</span>);</span><br><span class="line">        <span class="type">COSClient</span> <span class="variable">cosClient</span> <span class="operator">=</span> getInstance();</span><br><span class="line"><span class="comment">// 指定文件上传到 COS 上的路径，即对象键。例如对象键为folder/picture.jpg，则表示将文件 picture.jpg 上传到 folder 路径下</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> fileType+ UUID.randomUUID().toString()+<span class="string">&quot;.&quot;</span>+suffix;</span><br><span class="line">        <span class="type">PutObjectRequest</span> <span class="variable">putObjectRequest</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">PutObjectRequest</span>(bucketName, key, file);</span><br><span class="line">        cosClient.putObject(putObjectRequest);</span><br><span class="line">        String url= baseUrl+ key;</span><br><span class="line">        <span class="keyword">return</span> url;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="小插曲"><a class="markdownIt-Anchor" href="#小插曲"></a> 小插曲</h3>
+<h4 id="value用法"><a class="markdownIt-Anchor" href="#value用法"></a> @Value用法</h4>
+<p>为了避免信息泄露使用配置文件赋值时, 总是赋值失败</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Value(&quot;$&#123;tencent.secretId:#&#123;null&#125;&#125;&quot;)</span></span><br><span class="line"><span class="keyword">private</span> String secretId;</span><br><span class="line"><span class="meta">@Value(&quot;$&#123;tencent.secretKey:#&#123;null&#125;&#125;&quot;)</span></span><br><span class="line"><span class="keyword">private</span> String secretKey;</span><br><span class="line"><span class="meta">@Value(&quot;$&#123;tencent.region:#&#123;null&#125;&#125;&quot;)</span></span><br><span class="line"><span class="keyword">private</span> String regionName;</span><br><span class="line"><span class="meta">@Value(&quot;$&#123;tencent.bucket:#&#123;null&#125;&#125;&quot;)</span></span><br><span class="line"><span class="keyword">private</span> String bucketName;</span><br><span class="line"><span class="meta">@Value(&quot;$&#123;tencent.baseUrl:#&#123;null&#125;&#125;&quot;)</span></span><br><span class="line"><span class="keyword">private</span> String baseUrl;</span><br></pre></td></tr></table></figure>
+<p>后来百度才知道<code>@Value</code>的一些使用细节</p>
+<ol>
+<li>不能作用于静态变量（static）；</li>
+<li>不能作用于常量（final）;</li>
+<li>不能在非注册的类中使用
+<ul>
+<li>类需要被注册在spring上下文中，如用@Service,@RestController,@Component等</li>
+</ul>
+</li>
+<li>使用这个类时，只能通过<strong>依赖注入</strong>的方式，用new的方式是不会自动注入这些配置的。</li>
+</ol>
+<blockquote>
+<p>如果yaml文件报错,  不用在意 , 实际执行的时候还是可以读取到的</p>
+<ul>
+<li>语法错误除外</li>
+</ul>
+</blockquote>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://adorabled4.github.io/2022/10/26/%E7%90%90%E7%A2%8E%E7%9F%A5%E8%AF%86%E7%82%B9/%E8%85%BE%E8%AE%AF%E4%BA%91cos%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8%E4%BD%BF%E7%94%A8/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring/" rel="tag">Spring</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+    
+      <a href="/2022/10/22/%E7%90%90%E7%A2%8E%E7%9F%A5%E8%AF%86%E7%82%B9/%E5%B8%B8%E7%94%A8%E6%AD%A3%E5%88%99/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">常用正则总结</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.staticfile.org/valine/1.4.16/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "BMxcpVMjh3EMOP7tyImO6aLR-gzGzoHsz",
+    app_key: "HpcPO68bneKDaeq3H1G1xuIN",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+   
+    
+    <script src="https://cdn.staticfile.org/twikoo/1.4.18/twikoo.all.min.js"></script>
+    <div id="twikoo" class="twikoo"></div>
+    <script>
+        twikoo.init({
+            envId: ""
+        })
+    </script>
+ 
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2022
+        <i class="ri-heart-fill heart_icon"></i> dhx_
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/avater.png" alt="dhx_&#39;blog"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.staticfile.org/justifiedGallery/3.8.1/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.staticfile.org/clipboard.js/2.0.10/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+ 
+<script src="/js/dz.js"></script>
+ 
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    <div id="music">
+    
+    
+    
+    <iframe frameborder="no" border="1" marginwidth="0" marginheight="0" width="200" height="52"
+        src="//music.163.com/outchain/player?type=2&id=29480187&auto=1&height=32"></iframe>
+</div>
+
+<style>
+    #music {
+        position: fixed;
+        right: 15px;
+        bottom: 0;
+        z-index: 998;
+    }
+</style>
+    
+    
+
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+  
+
+    <head>
+      <meta charset="utf-8" />
+       
+      <meta name="keywords" content="DFS,BFS,java, 双指针, 算法与数据结构, hexo, 回溯, 树, 队列, mybatis, javaweb, Spring, cpp, leetcode, 栈, 位运算, 链表, 数据库, springmvc, 动态规划, 贪心" />
+       
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>实战篇(7):探店&amp;好友关注[Redis] |  dhx_&#39;blog</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220820231738085.png" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      
+<link rel="stylesheet" href="/css/fonts/remixicon.css">
+
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.staticfile.org/pace/1.2.4/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+      </style>
+    </head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-SQL/Redis/[02]实战篇(7)"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  实战篇(7):探店&amp;好友关注[Redis]
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/10/14/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(7)/" class="article-date">
+  <time datetime="2022-10-14T08:44:10.000Z" itemprop="datePublished">2022-10-14</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/SQL/">SQL</a> / <a class="article-category-link" href="/categories/SQL/Redis/">Redis</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">6.9k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">31 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h2 id="8-达人探店"><a class="markdownIt-Anchor" href="#8-达人探店"></a> 8、达人探店</h2>
+<h3 id="81-达人探店-发布探店笔记"><a class="markdownIt-Anchor" href="#81-达人探店-发布探店笔记"></a> 8.1、达人探店-发布探店笔记</h3>
+<p>发布探店笔记</p>
+<p>探店笔记类似点评网站的评价，往往是图文结合。对应的表有两个：<br />
+<code>tb_blog</code>：探店笔记表，包含笔记中的标题、文字、图片等<br />
+<code>tb_blog_co mments</code>：其他用户对探店笔记的评价</p>
+<span id="more"></span>
+<p><strong>具体发布流程</strong></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653578992639.png" alt="" /></p>
+<p><strong>上传接口</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;upload&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UploadController</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@PostMapping(&quot;blog&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> Result <span class="title function_">uploadImage</span><span class="params">(<span class="meta">@RequestParam(&quot;file&quot;)</span> MultipartFile image)</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 获取原始文件名称</span></span><br><span class="line">            <span class="type">String</span> <span class="variable">originalFilename</span> <span class="operator">=</span> image.getOriginalFilename();</span><br><span class="line">            <span class="comment">// 生成新文件名</span></span><br><span class="line">            <span class="type">String</span> <span class="variable">fileName</span> <span class="operator">=</span> createNewFileName(originalFilename);</span><br><span class="line">            <span class="comment">// 保存文件</span></span><br><span class="line">            image.transferTo(<span class="keyword">new</span> <span class="title class_">File</span>(SystemConstants.IMAGE_UPLOAD_DIR, fileName));</span><br><span class="line">            <span class="comment">// 返回结果</span></span><br><span class="line">            log.debug(<span class="string">&quot;文件上传成功，&#123;&#125;&quot;</span>, fileName);</span><br><span class="line">            <span class="keyword">return</span> Result.ok(fileName);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(<span class="string">&quot;文件上传失败&quot;</span>, e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意：同学们在操作时，需要修改<code>SystemConstants.IMAGE_UPLOAD_DIR</code> 自己图片所在的地址，在实际开发中图片一般会放在nginx上或者是云存储上。</p>
+<p><strong>BlogController</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/blog&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BlogController</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Resource</span></span><br><span class="line">    <span class="keyword">private</span> IBlogService blogService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@PostMapping</span></span><br><span class="line">    <span class="keyword">public</span> Result <span class="title function_">saveBlog</span><span class="params">(<span class="meta">@RequestBody</span> Blog blog)</span> &#123;</span><br><span class="line">        <span class="comment">//获取登录用户</span></span><br><span class="line">        <span class="type">UserDTO</span> <span class="variable">user</span> <span class="operator">=</span> UserHolder.getUser();</span><br><span class="line">        blog.setUpdateTime(user.getId());</span><br><span class="line">        <span class="comment">//保存探店博文</span></span><br><span class="line">        blogService.saveBlog(blog);</span><br><span class="line">        <span class="comment">//返回id</span></span><br><span class="line">        <span class="keyword">return</span> Result.ok(blog.getId());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="82-达人探店-查看探店笔记"><a class="markdownIt-Anchor" href="#82-达人探店-查看探店笔记"></a> 8.2 达人探店-查看探店笔记</h3>
+<p>实现查看发布探店笔记的接口</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653579931626.png" alt="" /></p>
+<p>实现代码：</p>
+<p>BlogServiceImpl</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> Result <span class="title function_">queryBlogById</span><span class="params">(Long id)</span> &#123;</span><br><span class="line">    <span class="comment">// 1.查询blog</span></span><br><span class="line">    <span class="type">Blog</span> <span class="variable">blog</span> <span class="operator">=</span> getById(id);</span><br><span class="line">    <span class="keyword">if</span> (blog == <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> Result.fail(<span class="string">&quot;笔记不存在！&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 2.查询blog有关的用户</span></span><br><span class="line">    queryBlogUser(blog);</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">return</span> Result.ok(blog);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="83-达人探店-点赞功能"><a class="markdownIt-Anchor" href="#83-达人探店-点赞功能"></a> 8.3 达人探店-点赞功能</h3>
+<p>初始代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;/likes/&#123;id&#125;&quot;)</span></span><br><span class="line"><span class="keyword">public</span> Result <span class="title function_">queryBlogLikes</span><span class="params">(<span class="meta">@PathVariable(&quot;id&quot;)</span> Long id)</span> &#123;</span><br><span class="line">    <span class="comment">//修改点赞数量</span></span><br><span class="line">    blogService.update().setSql(<span class="string">&quot;liked = liked +1 &quot;</span>).eq(<span class="string">&quot;id&quot;</span>,id).update();</span><br><span class="line">    <span class="keyword">return</span> Result.ok();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>问题分析：<strong>这种方式会导致一个用户无限点赞，明显是不合理的</strong></p>
+<p>造成这个问题的原因是，我们现在的逻辑，发起请求只是给数据库+1，所以才会出现这个问题</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653581590453.png" alt="" /></p>
+<p>完善点赞功能</p>
+<p>需求：</p>
+<ul>
+<li>同一个用户只能点赞一次，再次点击则取消点赞</li>
+<li>如果当前用户已经点赞，则点赞按钮高亮显示（前端已实现，判断字段Blog类的isLike属性）</li>
+</ul>
+<p>实现步骤：</p>
+<ul>
+<li>给Blog类中添加一个<code>isLike</code>字段，标示是否被当前用户点赞</li>
+<li>修改点赞功能，利用<code>Redis</code>的<mark>set</mark>集合判断是否点赞过，未点赞过则点赞数+1，已点赞过则点赞数-1</li>
+<li>修改根据id查询Blog的业务，判断当前登录用户是否点赞过，赋值给isLike字段</li>
+<li>修改分页查询Blog业务，判断当前登录用户是否点赞过，赋值给isLike字段</li>
+</ul>
+<p>为什么采用set集合：</p>
+<p>因为我们的数据是不能重复的，当用户操作过之后，无论他怎么操作，都是</p>
+<p>具体步骤：</p>
+<p>1、在Blog 添加一个字段</p>
+<blockquote>
+<p>@TalbeField(exist = false) 表示这个属性不是数据库中的字段</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@TableField(exist = false)</span></span><br><span class="line"><span class="keyword">private</span> Boolean isLike;</span><br></pre></td></tr></table></figure>
+<p>2、修改代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> Result <span class="title function_">likeBlog</span><span class="params">(Long id)</span>&#123;</span><br><span class="line">    <span class="comment">// 1.获取登录用户</span></span><br><span class="line">    <span class="type">Long</span> <span class="variable">userId</span> <span class="operator">=</span> UserHolder.getUser().getId();</span><br><span class="line">    <span class="comment">// 2.判断当前登录用户是否已经点赞</span></span><br><span class="line">    <span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> BLOG_LIKED_KEY + id;</span><br><span class="line">    <span class="type">Boolean</span> <span class="variable">isMember</span> <span class="operator">=</span> stringRedisTemplate.opsForSet().isMember(key, userId.toString());</span><br><span class="line">    <span class="keyword">if</span>(BooleanUtil.isFalse(isMember))&#123;</span><br><span class="line">        <span class="comment">//3.如果未点赞，可以点赞</span></span><br><span class="line">        <span class="comment">//3.1 数据库点赞数+1</span></span><br><span class="line">        <span class="type">boolean</span> <span class="variable">isSuccess</span> <span class="operator">=</span> update().setSql(<span class="string">&quot;liked = liked + 1&quot;</span>).eq(<span class="string">&quot;id&quot;</span>, id).update();</span><br><span class="line">        <span class="comment">//3.2 保存用户到Redis的set集合</span></span><br><span class="line">        <span class="keyword">if</span>(isSuccess)&#123;</span><br><span class="line">            stringRedisTemplate.opsForSet().add(key,userId.toString());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="comment">//4.如果已点赞，取消点赞</span></span><br><span class="line">        <span class="comment">//4.1 数据库点赞数-1</span></span><br><span class="line">        <span class="type">boolean</span> <span class="variable">isSuccess</span> <span class="operator">=</span> update().setSql(<span class="string">&quot;liked = liked - 1&quot;</span>).eq(<span class="string">&quot;id&quot;</span>, id).update();</span><br><span class="line">        <span class="comment">//4.2 把用户从Redis的set集合移除</span></span><br><span class="line">        <span class="keyword">if</span>(isSuccess)&#123;</span><br><span class="line">            stringRedisTemplate.opsForSet().remove(key,userId.toString());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 判断 blog 是否 被当前的用户点赞 =&gt; 就是判断userId 是否存在于 blog 的 set集合中(redis)</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> blog</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> Boolean <span class="title function_">isBlogLiked</span><span class="params">(Blog blog)</span>&#123;</span><br><span class="line">        <span class="type">UserDTO</span> <span class="variable">user</span> <span class="operator">=</span> UserHolder.getUser();</span><br><span class="line">        String key= BLOG_LIKED_KEY + blog.getId(); <span class="comment">// 这个id 是 blog 的 id</span></span><br><span class="line">        <span class="type">Boolean</span> <span class="variable">isMember</span> <span class="operator">=</span> stringRedisTemplate.opsForSet().isMember(key, user.getId().toString());</span><br><span class="line">        <span class="keyword">return</span> isMember;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="84-达人探店-点赞排行榜"><a class="markdownIt-Anchor" href="#84-达人探店-点赞排行榜"></a> 8.4 达人探店-点赞排行榜</h3>
+<p>在探店笔记的详情页面，应该把给该笔记点赞的人显示出来，比如最早点赞的TOP5，形成点赞排行榜：</p>
+<p>之前的点赞是放到set集合，但是set集合是不能排序的，所以这个时候，咱们可以采用一个可以排序的set集合，就是咱们的sortedSet</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653805077118.png" alt="" /></p>
+<p>我们接下来来对比一下这些集合的区别是什么</p>
+<p>所有点赞的人，需要是唯一的，所以我们应当使用set或者是sortedSet</p>
+<p>其次我们需要排序，就可以直接锁定使用sortedSet啦</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653805203758.png" alt="" /></p>
+<blockquote>
+<p>主要的思路是使用<code>ZRANGE</code></p>
+<ul>
+<li>比如我们要<strong>确定前五名</strong></li>
+<li><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221014212115164.png" alt="" /></li>
+<li>只需要每次插入的时候递增赋值 ,  然后就可以得到前五名</li>
+</ul>
+</blockquote>
+<p>不需要重新存储,  只需要在原来<code>set</code> 的基础上, 变成<code>sortedSet</code> ,  然后再赋值的时候加入value即可</p>
+<p>比如</p>
+<blockquote>
+<p>这里我们用系统的当前时间作为value 存入</p>
+<p>在排序的时候, 刚好sortedSet 默认使用的是从小到大排序</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//点赞操作</span></span><br><span class="line">stringRedisTemplate.opsForSet().add(key,user.getId().toString());</span><br><span class="line"><span class="comment">//修改为</span></span><br><span class="line">stringRedisTemplate.opsForZSet().add(key,user.getId().toString(),System.currentTimeMillis());</span><br><span class="line"></span><br><span class="line"><span class="comment">//取消点赞操作</span></span><br><span class="line">stringRedisTemplate.opsForSet().remove(key,user.getId().toString());</span><br><span class="line"><span class="comment">// 修改为</span></span><br><span class="line">stringRedisTemplate.opsForZSet().remove(key,user.getId().toString());</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>修改代码</strong></p>
+<p><strong>BlogServiceImpl</strong></p>
+<p>点赞逻辑代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"> <span class="keyword">public</span> Result <span class="title function_">likeBlog</span><span class="params">(Long id)</span> &#123;</span><br><span class="line">     <span class="comment">// 1.获取登录用户</span></span><br><span class="line">     <span class="type">Long</span> <span class="variable">userId</span> <span class="operator">=</span> UserHolder.getUser().getId();</span><br><span class="line">     <span class="comment">// 2.判断当前登录用户是否已经点赞</span></span><br><span class="line">     <span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> BLOG_LIKED_KEY + id;</span><br><span class="line">     <span class="type">Double</span> <span class="variable">score</span> <span class="operator">=</span> stringRedisTemplate.opsForZSet().score(key, userId.toString());</span><br><span class="line">     <span class="keyword">if</span> (score == <span class="literal">null</span>) &#123;</span><br><span class="line">         <span class="comment">// 3.如果未点赞，可以点赞</span></span><br><span class="line">         <span class="comment">// 3.1.数据库点赞数 + 1</span></span><br><span class="line">         <span class="type">boolean</span> <span class="variable">isSuccess</span> <span class="operator">=</span> update().setSql(<span class="string">&quot;liked = liked + 1&quot;</span>).eq(<span class="string">&quot;id&quot;</span>, id).update();</span><br><span class="line">         <span class="comment">// 3.2.保存用户到Redis的set集合  zadd key value score</span></span><br><span class="line">         <span class="keyword">if</span> (isSuccess) &#123;</span><br><span class="line">             stringRedisTemplate.opsForZSet().add(key, userId.toString(), System.currentTimeMillis());</span><br><span class="line">         &#125;</span><br><span class="line">     &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">         <span class="comment">// 4.如果已点赞，取消点赞</span></span><br><span class="line">         <span class="comment">// 4.1.数据库点赞数 -1</span></span><br><span class="line">         <span class="type">boolean</span> <span class="variable">isSuccess</span> <span class="operator">=</span> update().setSql(<span class="string">&quot;liked = liked - 1&quot;</span>).eq(<span class="string">&quot;id&quot;</span>, id).update();</span><br><span class="line">         <span class="comment">// 4.2.把用户从Redis的set集合移除</span></span><br><span class="line">         <span class="keyword">if</span> (isSuccess) &#123;</span><br><span class="line">             stringRedisTemplate.opsForZSet().remove(key, userId.toString());</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">return</span> Result.ok();</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> <span class="keyword">private</span> <span class="title function_">void</span>  <span class="params">(Blog blog)</span> &#123;</span><br><span class="line">     <span class="comment">// 1.获取登录用户</span></span><br><span class="line">     <span class="type">UserDTO</span> <span class="variable">user</span> <span class="operator">=</span> UserHolder.getUser();</span><br><span class="line">     <span class="keyword">if</span> (user == <span class="literal">null</span>) &#123;</span><br><span class="line">         <span class="comment">// 用户未登录，无需查询是否点赞</span></span><br><span class="line">         <span class="keyword">return</span>;</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="type">Long</span> <span class="variable">userId</span> <span class="operator">=</span> user.getId();</span><br><span class="line">     <span class="comment">// 2.判断当前登录用户是否已经点赞</span></span><br><span class="line">     <span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> <span class="string">&quot;blog:liked:&quot;</span> + blog.getId();</span><br><span class="line">     <span class="type">Double</span> <span class="variable">score</span> <span class="operator">=</span> stringRedisTemplate.opsForZSet().score(key, userId.toString());</span><br><span class="line">     blog.setIsLike(score != <span class="literal">null</span>);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>点赞列表查询列表</p>
+<p>BlogController</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;/likes/&#123;id&#125;&quot;)</span></span><br><span class="line"><span class="keyword">public</span> Result <span class="title function_">queryBlogLikes</span><span class="params">(<span class="meta">@PathVariable(&quot;id&quot;)</span> Long id)</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> blogService.queryBlogLikes(id);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>BlogService</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> Result <span class="title function_">queryBlogLikes</span><span class="params">(Long id)</span> &#123;</span><br><span class="line">    <span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> BLOG_LIKED_KEY + id;</span><br><span class="line">    <span class="comment">// 1.查询top5的点赞用户 zrange key 0 4</span></span><br><span class="line">    Set&lt;String&gt; top5 = stringRedisTemplate.opsForZSet().range(key, <span class="number">0</span>, <span class="number">4</span>);</span><br><span class="line">    <span class="keyword">if</span> (top5 == <span class="literal">null</span> || top5.isEmpty()) &#123;</span><br><span class="line">        <span class="keyword">return</span> Result.ok(Collections.emptyList());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 2.解析出其中的用户id</span></span><br><span class="line">    List&lt;Long&gt; ids = top5.stream().map(Long::valueOf).collect(Collectors.toList());</span><br><span class="line">    <span class="type">String</span> <span class="variable">idStr</span> <span class="operator">=</span> StrUtil.join(<span class="string">&quot;,&quot;</span>, ids);</span><br><span class="line">    <span class="comment">// 3.根据用户id查询用户 WHERE id IN ( 5 , 1 ) ORDER BY FIELD(id, 5, 1)</span></span><br><span class="line">    List&lt;UserDTO&gt; userDTOS = userService.query()</span><br><span class="line">            .in(<span class="string">&quot;id&quot;</span>, ids).last(<span class="string">&quot;ORDER BY FIELD(id,&quot;</span> + idStr + <span class="string">&quot;)&quot;</span>).list()</span><br><span class="line">            .stream()</span><br><span class="line">            .map(user -&gt; BeanUtil.copyProperties(user, UserDTO.class))</span><br><span class="line">            .collect(Collectors.toList());</span><br><span class="line">    <span class="comment">// 4.返回</span></span><br><span class="line">    <span class="keyword">return</span> Result.ok(userDTOS);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里再查询的时候, 由于我们需要实现的功能是按照点赞时间从前到后显示,</p>
+<p>但是由于查询数据库的时候调用<code>getByIds()</code> 方法时间使用的SQL语句是</p>
+<p><code>select * from table_name where ID IN( ? , ?)</code></p>
+<p>我们知道如果查询数据库的时候使用<code>IN</code> , 数据库是不会为我们的结果排序的,</p>
+<p>因此这里需要作出修改,</p>
+<p>修改的方法为 加入 <code>ORDER BY</code></p>
+<p>实际在代码中体现的改变就是</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//3.根据id 查询用户</span></span><br><span class="line">List&lt;UserDTO&gt; users=userService.listByIds(idList)</span><br><span class="line">    .stream().</span><br><span class="line">    map(user-&gt; BeanUtil.copyProperties(user,UserDTO.class))</span><br><span class="line">    .collect(Collectors.toList());</span><br><span class="line"><span class="comment">//更改之后</span></span><br><span class="line"><span class="comment">//3.根据id 查询用户</span></span><br><span class="line">String idStr= String.join(<span class="string">&quot;,&quot;</span>, idList);<span class="comment">// 这个方法会把List中的元素拼接起来</span></span><br><span class="line">List&lt;UserDTO&gt; users=userService.query.in(<span class="string">&quot;id&quot;</span>,idList).last(<span class="string">&quot;ORDER BY FILED (id, &quot;</span>+ idStr + <span class="string">&quot;)&quot;</span>).list()</span><br><span class="line">    .stream().</span><br><span class="line">    map(user-&gt; BeanUtil.copyProperties(user,UserDTO.class))</span><br><span class="line">    .collect(Collectors.toList());</span><br><span class="line"><span class="comment">//last 表示是 最后一条SQL语句的意思, 也就是会在之前的SQL语句的基础上作出拼接</span></span><br></pre></td></tr></table></figure>
+<h2 id="9-好友关注"><a class="markdownIt-Anchor" href="#9-好友关注"></a> 9、好友关注</h2>
+<h3 id="91-好友关注-关注和取消关注"><a class="markdownIt-Anchor" href="#91-好友关注-关注和取消关注"></a> 9.1 好友关注-关注和取消关注</h3>
+<p>针对用户的操作：可以对用户进行关注和取消关注功能。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653806140822.png" alt="" /></p>
+<p>实现思路：</p>
+<p>需求：基于该表数据结构，实现两个接口：</p>
+<ul>
+<li>关注和取关接口</li>
+<li>判断是否关注的接口</li>
+</ul>
+<p>关注是User之间的关系，是博主与粉丝的关系，数据库中有一张tb_follow表来标示：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653806253817.png" alt="" /></p>
+<p>注意: 这里需要把主键修改为自增长，简化开发。</p>
+<p>FollowController</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//关注</span></span><br><span class="line"><span class="meta">@PutMapping(&quot;/&#123;id&#125;/&#123;isFollow&#125;&quot;)</span></span><br><span class="line"><span class="keyword">public</span> Result <span class="title function_">follow</span><span class="params">(<span class="meta">@PathVariable(&quot;id&quot;)</span> Long followUserId, <span class="meta">@PathVariable(&quot;isFollow&quot;)</span> Boolean isFollow)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> followService.follow(followUserId, isFollow);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//取消关注</span></span><br><span class="line"><span class="meta">@GetMapping(&quot;/or/not/&#123;id&#125;&quot;)</span></span><br><span class="line"><span class="keyword">public</span> Result <span class="title function_">isFollow</span><span class="params">(<span class="meta">@PathVariable(&quot;id&quot;)</span> Long followUserId)</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> followService.isFollow(followUserId);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>FollowService</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">取消关注service</span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> Result <span class="title function_">isFollow</span><span class="params">(Long followUserId)</span> &#123;</span><br><span class="line">        <span class="comment">// 1.获取登录用户</span></span><br><span class="line">        <span class="type">Long</span> <span class="variable">userId</span> <span class="operator">=</span> UserHolder.getUser().getId();</span><br><span class="line">        <span class="comment">// 2.查询是否关注 select count(*) from tb_follow where user_id = ? and follow_user_id = ?</span></span><br><span class="line">        <span class="type">Integer</span> <span class="variable">count</span> <span class="operator">=</span> query().eq(<span class="string">&quot;user_id&quot;</span>, userId).eq(<span class="string">&quot;follow_user_id&quot;</span>, followUserId).count();</span><br><span class="line">        <span class="comment">// 3.判断</span></span><br><span class="line">        <span class="keyword">return</span> Result.ok(count &gt; <span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"> 关注service</span><br><span class="line"> <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Result <span class="title function_">follow</span><span class="params">(Long followUserId, Boolean isFollow)</span> &#123;</span><br><span class="line">        <span class="comment">// 1.获取登录用户</span></span><br><span class="line">        <span class="type">Long</span> <span class="variable">userId</span> <span class="operator">=</span> UserHolder.getUser().getId();</span><br><span class="line">        <span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> <span class="string">&quot;follows:&quot;</span> + userId;</span><br><span class="line">        <span class="comment">// 1.判断到底是关注还是取关</span></span><br><span class="line">        <span class="keyword">if</span> (isFollow) &#123;</span><br><span class="line">            <span class="comment">// 2.关注，新增数据</span></span><br><span class="line">            <span class="type">Follow</span> <span class="variable">follow</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Follow</span>();</span><br><span class="line">            follow.setUserId(userId);</span><br><span class="line">            follow.setFollowUserId(followUserId);</span><br><span class="line">            <span class="type">boolean</span> <span class="variable">isSuccess</span> <span class="operator">=</span> save(follow);</span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line"><span class="comment">//3.取关 删除 delete from tb_follow where user_id = ? and follow_user_id = ?</span></span><br><span class="line">            remove(<span class="keyword">new</span> <span class="title class_">QueryWrapper</span>&lt;Follow&gt;()</span><br><span class="line">                    .eq(<span class="string">&quot;user_id&quot;</span>, userId).eq(<span class="string">&quot;follow_user_id&quot;</span>, followUserId));</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> Result.ok();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="92-好友关注-共同关注"><a class="markdownIt-Anchor" href="#92-好友关注-共同关注"></a> 9.2 好友关注-共同关注</h3>
+<p>想要去看共同关注的好友，需要首先进入到这个页面，这个页面会发起两个请求</p>
+<p>1、去查询用户的详情</p>
+<p>2、去查询用户的笔记</p>
+<p>以上两个功能和共同关注没有什么关系，大家可以自行将笔记中的代码拷贝到idea中就可以实现这两个功能了，我们的重点在于共同关注功能。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653806706296.png" alt="" /></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// UserController 根据id查询用户</span></span><br><span class="line"><span class="meta">@GetMapping(&quot;/&#123;id&#125;&quot;)</span></span><br><span class="line"><span class="keyword">public</span> Result <span class="title function_">queryUserById</span><span class="params">(<span class="meta">@PathVariable(&quot;id&quot;)</span> Long userId)</span>&#123;</span><br><span class="line">	<span class="comment">// 查询详情</span></span><br><span class="line">	<span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> userService.getById(userId);</span><br><span class="line">	<span class="keyword">if</span> (user == <span class="literal">null</span>) &#123;</span><br><span class="line">		<span class="keyword">return</span> Result.ok();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="type">UserDTO</span> <span class="variable">userDTO</span> <span class="operator">=</span> BeanUtil.copyProperties(user, UserDTO.class);</span><br><span class="line">	<span class="comment">// 返回</span></span><br><span class="line">	<span class="keyword">return</span> Result.ok(userDTO);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// BlogController  根据id查询博主的探店笔记</span></span><br><span class="line"><span class="meta">@GetMapping(&quot;/of/user&quot;)</span></span><br><span class="line"><span class="keyword">public</span> Result <span class="title function_">queryBlogByUserId</span><span class="params">(</span></span><br><span class="line"><span class="params">		<span class="meta">@RequestParam(value = &quot;current&quot;, defaultValue = &quot;1&quot;)</span> Integer current,</span></span><br><span class="line"><span class="params">		<span class="meta">@RequestParam(&quot;id&quot;)</span> Long id)</span> &#123;</span><br><span class="line">	<span class="comment">// 根据用户查询</span></span><br><span class="line">	Page&lt;Blog&gt; page = blogService.query()</span><br><span class="line">			.eq(<span class="string">&quot;user_id&quot;</span>, id).page(<span class="keyword">new</span> <span class="title class_">Page</span>&lt;&gt;(current, SystemConstants.MAX_PAGE_SIZE));</span><br><span class="line">	<span class="comment">// 获取当前页数据</span></span><br><span class="line">	List&lt;Blog&gt; records = page.getRecords();</span><br><span class="line">	<span class="keyword">return</span> Result.ok(records);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接下来我们来看看共同关注如何实现：</p>
+<p>需求：利用Redis中恰当的数据结构，实现共同关注功能。在博主个人页面展示出当前用户与博主的共同关注。</p>
+<p>毫无疑问此处使用redis的set集合, 在set集合中，有<strong>交集并集补集</strong>的api，</p>
+<p><u>我们可以把两人的关注的人分别放入到一个set集合中，然后再通过api去查看这两个set集合中的交集数据。</u></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/1653806973212.png" alt="" /></p>
+<p>我们先来改造当前的关注列表</p>
+<p>改造原因是因为我们需要在用户关注了某位用户后，需要将数据放入到set集合中，方便后续进行共同关注，同时当取消关注时，也需要从set集合中进行删除</p>
+<p>FollowServiceImpl</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> Result <span class="title function_">follow</span><span class="params">(Long followUserId, Boolean isFollow)</span> &#123;</span><br><span class="line">    <span class="comment">// 1.获取登录用户</span></span><br><span class="line">    <span class="type">Long</span> <span class="variable">userId</span> <span class="operator">=</span> UserHolder.getUser().getId();</span><br><span class="line">    <span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> <span class="string">&quot;follows:&quot;</span> + userId;</span><br><span class="line">    <span class="comment">// 1.判断到底是关注还是取关</span></span><br><span class="line">    <span class="keyword">if</span> (isFollow) &#123;</span><br><span class="line">        <span class="comment">// 2.关注，新增数据</span></span><br><span class="line">        <span class="type">Follow</span> <span class="variable">follow</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Follow</span>();</span><br><span class="line">        follow.setUserId(userId);</span><br><span class="line">        follow.setFollowUserId(followUserId);</span><br><span class="line">        <span class="type">boolean</span> <span class="variable">isSuccess</span> <span class="operator">=</span> save(follow);</span><br><span class="line">        <span class="keyword">if</span> (isSuccess) &#123;</span><br><span class="line">            <span class="comment">// 把关注用户的id，放入redis的set集合 sadd userId followerUserId</span></span><br><span class="line">            stringRedisTemplate.opsForSet().add(key, followUserId.toString());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 3.取关，删除 delete from tb_follow where user_id = ? and follow_user_id = ?</span></span><br><span class="line">        <span class="type">boolean</span> <span class="variable">isSuccess</span> <span class="operator">=</span> remove(<span class="keyword">new</span> <span class="title class_">QueryWrapper</span>&lt;Follow&gt;()</span><br><span class="line">                .eq(<span class="string">&quot;user_id&quot;</span>, userId).eq(<span class="string">&quot;follow_user_id&quot;</span>, followUserId));</span><br><span class="line">        <span class="keyword">if</span> (isSuccess) &#123;</span><br><span class="line">            <span class="comment">// 把关注用户的id从Redis集合中移除</span></span><br><span class="line">            stringRedisTemplate.opsForSet().remove(key, followUserId.toString());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Result.ok();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>具体的关注代码：</strong></p>
+<p>FollowServiceImpl</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> Result <span class="title function_">followCommons</span><span class="params">(Long id)</span> &#123;</span><br><span class="line">    <span class="comment">// 1.获取当前用户</span></span><br><span class="line">    <span class="type">Long</span> <span class="variable">userId</span> <span class="operator">=</span> UserHolder.getUser().getId();</span><br><span class="line">    <span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> <span class="string">&quot;follows:&quot;</span> + userId;</span><br><span class="line">    <span class="comment">// 2.求交集</span></span><br><span class="line">    <span class="type">String</span> <span class="variable">key2</span> <span class="operator">=</span> <span class="string">&quot;follows:&quot;</span> + id;</span><br><span class="line">    Set&lt;String&gt; intersect = stringRedisTemplate.opsForSet().intersect(key, key2);</span><br><span class="line">    <span class="keyword">if</span> (intersect == <span class="literal">null</span> || intersect.isEmpty()) &#123;</span><br><span class="line">        <span class="comment">// 无交集</span></span><br><span class="line">        <span class="keyword">return</span> Result.ok(Collections.emptyList());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 3.解析id集合</span></span><br><span class="line">    List&lt;Long&gt; ids = intersect.stream().map(Long::valueOf).collect(Collectors.toList());</span><br><span class="line">    <span class="comment">// 4.查询用户</span></span><br><span class="line">    List&lt;UserDTO&gt; users = userService.listByIds(ids)</span><br><span class="line">            .stream()</span><br><span class="line">            .map(user -&gt; BeanUtil.copyProperties(user, UserDTO.class))</span><br><span class="line">            .collect(Collectors.toList());</span><br><span class="line">    <span class="keyword">return</span> Result.ok(users);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="93-好友关注-feed流实现方案"><a class="markdownIt-Anchor" href="#93-好友关注-feed流实现方案"></a> 9.3 好友关注-Feed流实现方案</h3>
+<p>当我们关注了用户后，这个用户发了动态，那么我们应该把这些数据推送给用户，这个需求，其实我们又把他叫做Feed流，关注推送也叫做Feed流，直译为投喂。为用户持续的提供“沉浸式”的体验，通过无限下拉刷新获取新的信息。</p>
+<p>对于传统的模式的内容解锁：我们是需要用户去通过搜索引擎或者是其他的方式去解锁想要看的内容</p>
+<p><img src="C:%5CUsers%5Clenovo%5CDesktop%5CRedis%5C%E9%BB%91%E9%A9%AC%E7%A8%8B%E5%BA%8F%E5%91%98redis%5C02-%E5%AE%9E%E6%88%98%E7%AF%87%5C%E8%AE%B2%E4%B9%89%5CRedis%E5%AE%9E%E6%88%98%E7%AF%87.assets%5C1653808641260.png" alt="1653808641260" /></p>
+<p>对于新型的Feed流的的效果：不需要我们用户再去推送信息，而是系统分析用户到底想要什么，然后直接把内容推送给用户，从而使用户能够更加的节约时间，不用主动去寻找。</p>
+<p><img src="C:%5CUsers%5Clenovo%5CDesktop%5CRedis%5C%E9%BB%91%E9%A9%AC%E7%A8%8B%E5%BA%8F%E5%91%98redis%5C02-%E5%AE%9E%E6%88%98%E7%AF%87%5C%E8%AE%B2%E4%B9%89%5CRedis%E5%AE%9E%E6%88%98%E7%AF%87.assets%5C1653808993693.png" alt="1653808993693" /></p>
+<p>Feed流的实现有两种模式：</p>
+<p>Feed流产品有两种常见模式：<br />
+Timeline：不做内容筛选，简单的按照内容发布时间排序，常用于好友或关注。例如朋友圈</p>
+<ul>
+<li>优点：信息全面，不会有缺失。并且实现也相对简单</li>
+<li>缺点：信息噪音较多，用户不一定感兴趣，内容获取效率低</li>
+</ul>
+<p>智能排序：利用智能算法屏蔽掉违规的、用户不感兴趣的内容。推送用户感兴趣信息来吸引用户</p>
+<ul>
+<li>优点：投喂用户感兴趣信息，用户粘度很高，容易沉迷</li>
+<li>缺点：如果算法不精准，可能起到反作用<br />
+本例中的个人页面，是基于关注的好友来做Feed流，因此采用Timeline的模式。该模式的实现方案有三种：</li>
+</ul>
+<p>我们本次针对好友的操作，采用的就是Timeline的方式，只需要拿到我们关注用户的信息，然后按照时间排序即可</p>
+<p>，因此采用Timeline的模式。该模式的实现方案有三种：</p>
+<ul>
+<li>拉模式</li>
+<li>推模式</li>
+<li>推拉结合</li>
+</ul>
+<p><strong>拉模式</strong>：也叫做读扩散</p>
+<p>该模式的核心含义就是：当张三和李四和王五发了消息后，都会保存在自己的邮箱中，假设赵六要读取信息，那么他会从读取他自己的收件箱，此时系统会从他关注的人群中，把他关注人的信息全部都进行拉取，然后在进行排序</p>
+<p>优点：比较节约空间，因为赵六在读信息时，并没有重复读取，而且读取完之后可以把他的收件箱进行清楚。</p>
+<p>缺点：比较延迟，当用户读取数据时才去关注的人里边去读取数据，假设用户关注了大量的用户，那么此时就会拉取海量的内容，对服务器压力巨大。</p>
+<p><img src="C:%5CUsers%5Clenovo%5CDesktop%5CRedis%5C%E9%BB%91%E9%A9%AC%E7%A8%8B%E5%BA%8F%E5%91%98redis%5C02-%E5%AE%9E%E6%88%98%E7%AF%87%5C%E8%AE%B2%E4%B9%89%5CRedis%E5%AE%9E%E6%88%98%E7%AF%87.assets%5C1653809450816.png" alt="1653809450816" /></p>
+<p><strong>推模式</strong>：也叫做写扩散。</p>
+<p>推模式是没有写邮箱的，当张三写了一个内容，此时会主动的把张三写的内容发送到他的粉丝收件箱中去，假设此时李四再来读取，就不用再去临时拉取了</p>
+<p>优点：时效快，不用临时拉取</p>
+<p>缺点：内存压力大，假设一个大V写信息，很多人关注他， 就会写很多分数据到粉丝那边去</p>
+<p><img src="C:%5CUsers%5Clenovo%5CDesktop%5CRedis%5C%E9%BB%91%E9%A9%AC%E7%A8%8B%E5%BA%8F%E5%91%98redis%5C02-%E5%AE%9E%E6%88%98%E7%AF%87%5C%E8%AE%B2%E4%B9%89%5CRedis%E5%AE%9E%E6%88%98%E7%AF%87.assets%5C1653809875208.png" alt="1653809875208" /></p>
+<p><strong>推拉结合模式</strong>：也叫做读写混合，兼具推和拉两种模式的优点。</p>
+<p>推拉模式是一个折中的方案，站在发件人这一段，如果是个普通的人，那么我们采用写扩散的方式，直接把数据写入到他的粉丝中去，因为普通的人他的粉丝关注量比较小，所以这样做没有压力，如果是大V，那么他是直接将数据先写入到一份到发件箱里边去，然后再直接写一份到活跃粉丝收件箱里边去，现在站在收件人这端来看，如果是活跃粉丝，那么大V和普通的人发的都会直接写入到自己收件箱里边来，而如果是普通的粉丝，由于他们上线不是很频繁，所以等他们上线时，再从发件箱里边去拉信息。</p>
+<p><img src="C:%5CUsers%5Clenovo%5CDesktop%5CRedis%5C%E9%BB%91%E9%A9%AC%E7%A8%8B%E5%BA%8F%E5%91%98redis%5C02-%E5%AE%9E%E6%88%98%E7%AF%87%5C%E8%AE%B2%E4%B9%89%5CRedis%E5%AE%9E%E6%88%98%E7%AF%87.assets%5C1653812346852.png" alt="1653812346852" /></p>
+<h3 id="94-好友关注-推送到粉丝收件箱"><a class="markdownIt-Anchor" href="#94-好友关注-推送到粉丝收件箱"></a> 9.4 好友关注-推送到粉丝收件箱</h3>
+<p>需求：</p>
+<ul>
+<li>修改新增探店笔记的业务，在保存blog到数据库的同时，推送到粉丝的收件箱</li>
+<li>收件箱满足可以根据时间戳排序，必须用Redis的数据结构实现</li>
+<li>查询收件箱数据时，可以实现分页查询</li>
+</ul>
+<p>Feed流中的数据会不断更新，所以数据的角标也在变化，因此不能采用传统的分页模式。</p>
+<p>传统了分页在feed流是不适用的，因为我们的数据会随时发生变化</p>
+<p>假设在t1 时刻，我们去读取第一页，此时page = 1 ，size = 5 ，那么我们拿到的就是10~6 这几条记录，假设现在t2时候又发布了一条记录，此时t3 时刻，我们来读取第二页，读取第二页传入的参数是page=2 ，size=5 ，那么此时读取到的第二页实际上是从6 开始，然后是6~2 ，那么我们就读取到了重复的数据，所以feed流的分页，不能采用原始方案来做。</p>
+<p><img src="C:%5CUsers%5Clenovo%5CDesktop%5CRedis%5C%E9%BB%91%E9%A9%AC%E7%A8%8B%E5%BA%8F%E5%91%98redis%5C02-%E5%AE%9E%E6%88%98%E7%AF%87%5C%E8%AE%B2%E4%B9%89%5CRedis%E5%AE%9E%E6%88%98%E7%AF%87.assets%5C1653813047671.png" alt="1653813047671" /></p>
+<p>Feed流的滚动分页</p>
+<p>我们需要记录每次操作的最后一条，然后从这个位置开始去读取数据</p>
+<p>举个例子：我们从t1时刻开始，拿第一页数据，拿到了10~6，然后记录下当前最后一次拿取的记录，就是6，t2时刻发布了新的记录，此时这个11放到最顶上，但是不会影响我们之前记录的6，此时t3时刻来拿第二页，第二页这个时候拿数据，还是从6后一点的5去拿，就拿到了5-1的记录。我们这个地方可以采用sortedSet来做，可以进行范围查询，并且还可以记录当前获取数据时间戳最小值，就可以实现滚动分页了</p>
+<p><img src="C:%5CUsers%5Clenovo%5CDesktop%5CRedis%5C%E9%BB%91%E9%A9%AC%E7%A8%8B%E5%BA%8F%E5%91%98redis%5C02-%E5%AE%9E%E6%88%98%E7%AF%87%5C%E8%AE%B2%E4%B9%89%5CRedis%E5%AE%9E%E6%88%98%E7%AF%87.assets%5C1653813462834.png" alt="1653813462834" /></p>
+<p>核心的意思：就是我们在保存完探店笔记后，获得到当前笔记的粉丝，然后把数据推送到粉丝的redis中去。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> Result <span class="title function_">saveBlog</span><span class="params">(Blog blog)</span> &#123;</span><br><span class="line">    <span class="comment">// 1.获取登录用户</span></span><br><span class="line">    <span class="type">UserDTO</span> <span class="variable">user</span> <span class="operator">=</span> UserHolder.getUser();</span><br><span class="line">    blog.setUserId(user.getId());</span><br><span class="line">    <span class="comment">// 2.保存探店笔记</span></span><br><span class="line">    <span class="type">boolean</span> <span class="variable">isSuccess</span> <span class="operator">=</span> save(blog);</span><br><span class="line">    <span class="keyword">if</span>(!isSuccess)&#123;</span><br><span class="line">        <span class="keyword">return</span> Result.fail(<span class="string">&quot;新增笔记失败!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 3.查询笔记作者的所有粉丝 select * from tb_follow where follow_user_id = ?</span></span><br><span class="line">    List&lt;Follow&gt; follows = followService.query().eq(<span class="string">&quot;follow_user_id&quot;</span>, user.getId()).list();</span><br><span class="line">    <span class="comment">// 4.推送笔记id给所有粉丝</span></span><br><span class="line">    <span class="keyword">for</span> (Follow follow : follows) &#123;</span><br><span class="line">        <span class="comment">// 4.1.获取粉丝id</span></span><br><span class="line">        <span class="type">Long</span> <span class="variable">userId</span> <span class="operator">=</span> follow.getUserId();</span><br><span class="line">        <span class="comment">// 4.2.推送</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> FEED_KEY + userId;</span><br><span class="line">        stringRedisTemplate.opsForZSet().add(key, blog.getId().toString(), System.currentTimeMillis());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 5.返回id</span></span><br><span class="line">    <span class="keyword">return</span> Result.ok(blog.getId());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="95好友关注-实现分页查询收邮箱"><a class="markdownIt-Anchor" href="#95好友关注-实现分页查询收邮箱"></a> 9.5好友关注-实现分页查询收邮箱</h3>
+<p>需求：在个人主页的“关注”卡片中，查询并展示推送的Blog信息：</p>
+<p>具体操作如下：</p>
+<p>1、每次查询完成后，我们要分析出查询出数据的最小时间戳，这个值会作为下一次查询的条件</p>
+<p>2、我们需要找到与上一次查询相同的查询个数作为偏移量，下次查询时，跳过这些查询过的数据，拿到我们需要的数据</p>
+<p>综上：我们的请求参数中就需要携带 lastId：上一次查询的最小时间戳 和偏移量这两个参数。</p>
+<p>这两个参数第一次会由前端来指定，以后的查询就根据后台结果作为条件，再次传递到后台。</p>
+<p><img src="C:%5CUsers%5Clenovo%5CDesktop%5CRedis%5C%E9%BB%91%E9%A9%AC%E7%A8%8B%E5%BA%8F%E5%91%98redis%5C02-%E5%AE%9E%E6%88%98%E7%AF%87%5C%E8%AE%B2%E4%B9%89%5CRedis%E5%AE%9E%E6%88%98%E7%AF%87.assets%5C1653819821591.png" alt="1653819821591" /></p>
+<p>一、定义出来具体的返回值实体类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ScrollResult</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> List&lt;?&gt; list;</span><br><span class="line">    <span class="keyword">private</span> Long minTime;</span><br><span class="line">    <span class="keyword">private</span> Integer offset;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>BlogController</p>
+<p>注意：RequestParam 表示接受url地址栏传参的注解，当方法上参数的名称和url地址栏不相同时，可以通过RequestParam 来进行指定</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;/of/follow&quot;)</span></span><br><span class="line"><span class="keyword">public</span> Result <span class="title function_">queryBlogOfFollow</span><span class="params">(</span></span><br><span class="line"><span class="params">    <span class="meta">@RequestParam(&quot;lastId&quot;)</span> Long max, <span class="meta">@RequestParam(value = &quot;offset&quot;, defaultValue = &quot;0&quot;)</span> Integer offset)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> blogService.queryBlogOfFollow(max, offset);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>BlogServiceImpl</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> Result <span class="title function_">queryBlogOfFollow</span><span class="params">(Long max, Integer offset)</span> &#123;</span><br><span class="line">    <span class="comment">// 1.获取当前用户</span></span><br><span class="line">    <span class="type">Long</span> <span class="variable">userId</span> <span class="operator">=</span> UserHolder.getUser().getId();</span><br><span class="line">    <span class="comment">// 2.查询收件箱 ZREVRANGEBYSCORE key Max Min LIMIT offset count</span></span><br><span class="line">    <span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> FEED_KEY + userId;</span><br><span class="line">    Set&lt;ZSetOperations.TypedTuple&lt;String&gt;&gt; typedTuples = stringRedisTemplate.opsForZSet()</span><br><span class="line">        .reverseRangeByScoreWithScores(key, <span class="number">0</span>, max, offset, <span class="number">2</span>);</span><br><span class="line">    <span class="comment">// 3.非空判断</span></span><br><span class="line">    <span class="keyword">if</span> (typedTuples == <span class="literal">null</span> || typedTuples.isEmpty()) &#123;</span><br><span class="line">        <span class="keyword">return</span> Result.ok();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 4.解析数据：blogId、minTime（时间戳）、offset</span></span><br><span class="line">    List&lt;Long&gt; ids = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;(typedTuples.size());</span><br><span class="line">    <span class="type">long</span> <span class="variable">minTime</span> <span class="operator">=</span> <span class="number">0</span>; <span class="comment">// 2</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">os</span> <span class="operator">=</span> <span class="number">1</span>; <span class="comment">// 2</span></span><br><span class="line">    <span class="keyword">for</span> (ZSetOperations.TypedTuple&lt;String&gt; tuple : typedTuples) &#123; <span class="comment">// 5 4 4 2 2</span></span><br><span class="line">        <span class="comment">// 4.1.获取id</span></span><br><span class="line">        ids.add(Long.valueOf(tuple.getValue()));</span><br><span class="line">        <span class="comment">// 4.2.获取分数(时间戳）</span></span><br><span class="line">        <span class="type">long</span> <span class="variable">time</span> <span class="operator">=</span> tuple.getScore().longValue();</span><br><span class="line">        <span class="keyword">if</span>(time == minTime)&#123;</span><br><span class="line">            os++;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            minTime = time;</span><br><span class="line">            os = <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">	os = minTime == max ? os : os + offset;</span><br><span class="line">    <span class="comment">// 5.根据id查询blog</span></span><br><span class="line">    <span class="type">String</span> <span class="variable">idStr</span> <span class="operator">=</span> StrUtil.join(<span class="string">&quot;,&quot;</span>, ids);</span><br><span class="line">    List&lt;Blog&gt; blogs = query().in(<span class="string">&quot;id&quot;</span>, ids).last(<span class="string">&quot;ORDER BY FIELD(id,&quot;</span> + idStr + <span class="string">&quot;)&quot;</span>).list();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (Blog blog : blogs) &#123;</span><br><span class="line">        <span class="comment">// 5.1.查询blog有关的用户</span></span><br><span class="line">        queryBlogUser(blog);</span><br><span class="line">        <span class="comment">// 5.2.查询blog是否被点赞</span></span><br><span class="line">        isBlogLiked(blog);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 6.封装并返回</span></span><br><span class="line">    <span class="type">ScrollResult</span> <span class="variable">r</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ScrollResult</span>();</span><br><span class="line">    r.setList(blogs);</span><br><span class="line">    r.setOffset(os);</span><br><span class="line">    r.setMinTime(minTime);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> Result.ok(r);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="️postman文件上传测试"><a class="markdownIt-Anchor" href="#️postman文件上传测试"></a> ⭐️postman文件上传测试</h2>
+<p>后端需要上传<code>MultipartFile</code> 文件, 如果直接上传<strong>二进制文件</strong> ,</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221014193634807.png" alt="" /> 会报错,</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">2022-10-14 19:30:29.969 ERROR 18236 --- [nio-8083-exec-6] com.hmdp.config.WebExceptionAdvice       : org.springframework.web.multipart.MultipartException: Current request is not a multipart request</span><br><span class="line"></span><br><span class="line">org.springframework.web.multipart.MultipartException: Current request is not a multipart request</span><br><span class="line">	at org.springframework.web.method.annotation.RequestParamMethodArgumentResolver.handleMissingValue(RequestParamMethodArgumentResolver.java:196) ~[spring-web-5.2.15.RELEASE.jar:5.2.15.RELEASE]</span><br><span class="line">	at org.springframework.web.method.annotation.AbstractNamedValueMethodArgumentResolver.resolveArgument(AbstractNamedValueMethodArgumentResolver.java:114) ~[spring-web-5.2.15.RELEASE.jar:5.2.15.RELEASE]</span><br><span class="line">	at org.springframework.web.method.support.HandlerMethodArgumentResolverComposite.resolveArgument(HandlerMethodArgumentResolverComposite.java:121) ~[spring-web-5.2.15.RELEASE.jar:5.2.15.RELEASE]</span><br><span class="line">	at org.springframework.web.method.support.InvocableHandlerMethod.getMethodArgumentValues(InvocableHandlerMethod.java:167) ~[spring-web-5.2.15.RELEASE.jar:5.2.15.RELEASE]</span><br><span class="line">	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:134) ~[spring-web-5.2.15.RELEASE.jar:5.2.15.RELEASE]</span><br><span class="line">	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:105) ~[spring-webmvc-5.2.15.RELEASE.jar:5.2.15.RELEASE]</span><br><span class="line">	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:878) ~[spring-webmvc-5.2.15.RELEASE.jar:5.2.15.RELEASE]</span><br><span class="line">	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:792) ~[spring-webmvc-5.2.15.RELEASE.jar:5.2.15.RELEASE]</span><br><span class="line">	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-5.2.15.RELEASE.jar:5.2.15.RELEASE]</span><br><span class="line">	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1040) ~[spring-webmvc-5.2.15.RELEASE.jar:5.2.15.RELEASE]</span><br><span class="line">	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:943) ~[spring-webmvc-5.2.15.RELEASE.jar:5.2.15.RELEASE]</span><br><span class="line">	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006) ~[spring-webmvc-5.2.15.RELEASE.jar:5.2.15.RELEASE]</span><br><span class="line">	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:909) ~[spring-webmvc-5.2.15.RELEASE.jar:5.2.15.RELEASE]</span><br><span class="line">	at javax.servlet.http.HttpServlet.service(HttpServlet.java:652) ~[tomcat-embed-core-9.0.46.jar:4.0.FR]</span><br><span class="line">	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883) ~[spring-webmvc-5.2.15.RELEASE.jar:5.2.15.RELEASE]</span><br><span class="line">	at javax.servlet.http.HttpServlet.service(HttpServlet.java:733) ~[tomcat-embed-core-9.0.46.jar:4.0.FR]</span><br><span class="line">	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:227) ~[tomcat-embed-core-9.0.46.jar:9.0.46]</span><br><span class="line">	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.46.jar:9.0.46]</span><br><span class="line">	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53) ~[tomcat-embed-websocket-9.0.46.jar:9.0.46]</span><br><span class="line">	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.46.jar:9.0.46]</span><br><span class="line">	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.46.jar:9.0.46]</span><br><span class="line">	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-5.2.15.RELEASE.jar:5.2.15.RELEASE]</span><br><span class="line">	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.2.15.RELEASE.jar:5.2.15.RELEASE]</span><br><span class="line">	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.46.jar:9.0.46]</span><br><span class="line">	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.46.jar:9.0.46]</span><br><span class="line">	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-5.2.15.RELEASE.jar:5.2.15.RELEASE]</span><br><span class="line">	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.2.15.RELEASE.jar:5.2.15.RELEASE]</span><br><span class="line">	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.46.jar:9.0.46]</span><br><span class="line">	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.46.jar:9.0.46]</span><br><span class="line">	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-5.2.15.RELEASE.jar:5.2.15.RELEASE]</span><br><span class="line">	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.2.15.RELEASE.jar:5.2.15.RELEASE]</span><br><span class="line">	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.46.jar:9.0.46]</span><br><span class="line">	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.46.jar:9.0.46]</span><br><span class="line">	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202) ~[tomcat-embed-core-9.0.46.jar:9.0.46]</span><br><span class="line">	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97) ~[tomcat-embed-core-9.0.46.jar:9.0.46]</span><br><span class="line">	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:542) ~[tomcat-embed-core-9.0.46.jar:9.0.46]</span><br><span class="line">	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:143) ~[tomcat-embed-core-9.0.46.jar:9.0.46]</span><br><span class="line">	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92) ~[tomcat-embed-core-9.0.46.jar:9.0.46]</span><br><span class="line">	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78) ~[tomcat-embed-core-9.0.46.jar:9.0.46]</span><br><span class="line">	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:357) ~[tomcat-embed-core-9.0.46.jar:9.0.46]</span><br><span class="line">	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:374) ~[tomcat-embed-core-9.0.46.jar:9.0.46]</span><br><span class="line">	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65) ~[tomcat-embed-core-9.0.46.jar:9.0.46]</span><br><span class="line">	at org.apache.coyote.AbstractProtocol<span class="variable">$ConnectionHandler</span>.process(AbstractProtocol.java:893) ~[tomcat-embed-core-9.0.46.jar:9.0.46]</span><br><span class="line">	at org.apache.tomcat.util.net.NioEndpoint<span class="variable">$SocketProcessor</span>.doRun(NioEndpoint.java:1707) ~[tomcat-embed-core-9.0.46.jar:9.0.46]</span><br><span class="line">	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49) ~[tomcat-embed-core-9.0.46.jar:9.0.46]</span><br><span class="line">	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128) ~[na:na]</span><br><span class="line">	at java.base/java.util.concurrent.ThreadPoolExecutor<span class="variable">$Worker</span>.run(ThreadPoolExecutor.java:628) ~[na:na]</span><br><span class="line">	at org.apache.tomcat.util.threads.TaskThread<span class="variable">$WrappingRunnable</span>.run(TaskThread.java:61) ~[tomcat-embed-core-9.0.46.jar:9.0.46]</span><br><span class="line">	at java.base/java.lang.Thread.run(Thread.java:829) ~[na:na]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>此时我们需要在postman中选中form-data,  然后选中类型为File , 然后选择需要上传的图片即可</p>
+<blockquote>
+<p>如下图所示</p>
+</blockquote>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221014193700822.png" alt="" /></p>
+<p>后端显示:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2022-10-14 19:32:24.527 DEBUG 18236 --- [nio-8083-exec-7] com.hmdp.controller.UploadController     : 文件上传成功，/blogs/9/12/7a7d8162-0dd4-4bd7-a9e7-6f304f8e2880.jpg</span><br></pre></td></tr></table></figure>
+<p>实际位置与后端返回相同</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221014193929569.png" alt="" /></p>
+<h2 id="关于前端请求超时的问题"><a class="markdownIt-Anchor" href="#关于前端请求超时的问题"></a> 😭关于前端请求超时的问题</h2>
+<p>测试后端代码的时候前端请求总是超时,  甚至会出现执行的好好地,</p>
+<p>突然让重新登录,  感到十分奇怪,  后来通过控制台发现是<strong>请求的响应时间太长</strong></p>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221014230239042.png" style="zoom:67%;" />
+<p>由于不懂前端, 又去使用postman去测试后端代码,  发现全都正确运行了</p>
+<p>耽误半天时间, 最后才知道是axios的设置超时时间设置的太短了,</p>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221014230526303.png" style="zoom: 67%;" />
+<p>可以看到上面的<code>axios.defaults.timeout = 2000</code></p>
+<p>表示axios的全局超时时间为 2s ,  刚刚好跟上面 2秒超时然后取消请求对应</p>
+<p>在这里补充一下<strong>axios设置超时时间</strong></p>
+<h3 id="1️⃣全局设置网络超时"><a class="markdownIt-Anchor" href="#1️⃣全局设置网络超时"></a> 1️⃣全局设置网络超时</h3>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">axios.<span class="property">defaults</span>.<span class="property">timeout</span> = <span class="number">30000</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="2️⃣单独对某个请求设置网络超时"><a class="markdownIt-Anchor" href="#2️⃣单独对某个请求设置网络超时"></a> 2️⃣单独对某个请求设置网络超时</h3>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">axios.<span class="title function_">post</span>(url, postInfo,&#123;<span class="attr">timeout</span>:<span class="number">300000</span>&#125;)</span><br><span class="line">    .<span class="title function_">then</span>(<span class="function">(<span class="params">resp: any</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(resp.<span class="property">data</span>);</span><br><span class="line">    &#125;)</span><br><span class="line">    .<span class="title function_">catch</span>(<span class="function">(<span class="params">error: any</span>) =&gt;</span> &#123;</span><br><span class="line">         <span class="variable language_">console</span>.<span class="title function_">error</span>(error);</span><br><span class="line">     &#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="3️⃣axiospost第三个参数axiosrequestconfig可以配置其他"><a class="markdownIt-Anchor" href="#3️⃣axiospost第三个参数axiosrequestconfig可以配置其他"></a> 3️⃣axios.post第三个参数<code>AxiosRequestConfig</code>可以配置其他</h3>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> interface <span class="title class_">AxiosRequestConfig</span> &#123;</span><br><span class="line">  url?: string;</span><br><span class="line">  method?: <span class="title class_">Method</span>;</span><br><span class="line">  baseURL?: string;</span><br><span class="line">  transformRequest?: <span class="title class_">AxiosTransformer</span> | <span class="title class_">AxiosTransformer</span>[];</span><br><span class="line">  transformResponse?: <span class="title class_">AxiosTransformer</span> | <span class="title class_">AxiosTransformer</span>[];</span><br><span class="line">  headers?: any;</span><br><span class="line">  params?: any;</span><br><span class="line">  paramsSerializer?: <span class="function">(<span class="params">params: any</span>) =&gt;</span> string;</span><br><span class="line">  data?: any;</span><br><span class="line">  timeout?: number;</span><br><span class="line">  withCredentials?: boolean;</span><br><span class="line">  adapter?: <span class="title class_">AxiosAdapter</span>;</span><br><span class="line">  auth?: <span class="title class_">AxiosBasicCredentials</span>;</span><br><span class="line">  responseType?: <span class="title class_">ResponseType</span>;</span><br><span class="line">  xsrfCookieName?: string;</span><br><span class="line">  xsrfHeaderName?: string;</span><br><span class="line">  onUploadProgress?: <span class="function">(<span class="params">progressEvent: any</span>) =&gt;</span> <span class="keyword">void</span>;</span><br><span class="line">  onDownloadProgress?: <span class="function">(<span class="params">progressEvent: any</span>) =&gt;</span> <span class="keyword">void</span>;</span><br><span class="line">  maxContentLength?: number;</span><br><span class="line">  validateStatus?: <span class="function">(<span class="params">status: number</span>) =&gt;</span> boolean;</span><br><span class="line">  maxRedirects?: number;</span><br><span class="line">  socketPath?: string | <span class="literal">null</span>;</span><br><span class="line">  httpAgent?: any;</span><br><span class="line">  httpsAgent?: any;</span><br><span class="line">  proxy?: <span class="title class_">AxiosProxyConfig</span> | <span class="literal">false</span>;</span><br><span class="line">  cancelToken?: <span class="title class_">CancelToken</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后修改了文件中<code>axios.defaults.timeout = 10000;</code></p>
+<p>然后重新启动,  发送请求</p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://adorabled4.github.io/2022/10/14/SQL/Redis/[02]%E5%AE%9E%E6%88%98%E7%AF%87(7)/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring/" rel="tag">Spring</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2022/10/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/(%E4%B8%89)%E5%AD%98%E5%82%A8%E7%B3%BB%E7%BB%9F%5B%E8%AE%A1%E7%BB%84%5D/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            (三)存储系统[计组]
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2022/10/13/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(6)/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">实战篇(6):秒杀优化&amp;引入消息队列[Redis]</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.staticfile.org/valine/1.4.16/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "BMxcpVMjh3EMOP7tyImO6aLR-gzGzoHsz",
+    app_key: "HpcPO68bneKDaeq3H1G1xuIN",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+   
+    
+    <script src="https://cdn.staticfile.org/twikoo/1.4.18/twikoo.all.min.js"></script>
+    <div id="twikoo" class="twikoo"></div>
+    <script>
+        twikoo.init({
+            envId: ""
+        })
+    </script>
+ 
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2022
+        <i class="ri-heart-fill heart_icon"></i> dhx_
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/avater.png" alt="dhx_&#39;blog"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.staticfile.org/justifiedGallery/3.8.1/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.staticfile.org/clipboard.js/2.0.10/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+ 
+<script src="/js/dz.js"></script>
+ 
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    <div id="music">
+    
+    
+    
+    <iframe frameborder="no" border="1" marginwidth="0" marginheight="0" width="200" height="52"
+        src="//music.163.com/outchain/player?type=2&id=29480187&auto=1&height=32"></iframe>
+</div>
+
+<style>
+    #music {
+        position: fixed;
+        right: 15px;
+        bottom: 0;
+        z-index: 998;
+    }
+</style>
+    
+    
+
+  </div>
+</body>
+
+</html>
