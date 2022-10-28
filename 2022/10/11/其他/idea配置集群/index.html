@@ -13,7 +13,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title>java中当给一个对象赋值为null时发生了什么 |  dhx_&#39;blog</title>
+      <title>idea配置集群 |  dhx_&#39;blog</title>
   <meta name="generator" content="hexo-theme-ayer">
       
       <link rel="shortcut icon" href="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220820231738085.png" />
@@ -55,7 +55,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-琐碎知识点/引用赋值为null"
+  id="post-其他/idea配置集群"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -66,7 +66,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  java中当给一个对象赋值为null时发生了什么
+  idea配置集群
 </h1>
  
 
@@ -74,11 +74,11 @@
     </header>
      
     <div class="article-meta">
-      <a href="/2022/07/22/%E7%90%90%E7%A2%8E%E7%9F%A5%E8%AF%86%E7%82%B9/%E5%BC%95%E7%94%A8%E8%B5%8B%E5%80%BC%E4%B8%BAnull/" class="article-date">
-  <time datetime="2022-07-22T05:45:39.000Z" itemprop="datePublished">2022-07-22</time>
+      <a href="/2022/10/11/%E5%85%B6%E4%BB%96/idea%E9%85%8D%E7%BD%AE%E9%9B%86%E7%BE%A4/" class="article-date">
+  <time datetime="2022-10-11T07:55:11.000Z" itemprop="datePublished">2022-10-11</time>
 </a> 
   <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%90%90%E7%A2%8E%E7%9F%A5%E8%AF%86%E7%82%B9/">琐碎知识点</a> / <a class="article-category-link" href="/categories/%E7%90%90%E7%A2%8E%E7%9F%A5%E8%AF%86%E7%82%B9/%E7%90%90%E7%A2%8E%E7%9F%A5%E8%AF%86%E7%82%B9/">琐碎知识点</a>
+    <a class="article-category-link" href="/categories/%E7%90%90%E7%A2%8E%E7%9F%A5%E8%AF%86%E7%82%B9/">琐碎知识点</a> / <a class="article-category-link" href="/categories/%E7%90%90%E7%A2%8E%E7%9F%A5%E8%AF%86%E7%82%B9/%E5%85%B6%E4%BB%96/">其他</a>
   </div>
   
 <div class="word_count">
@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">873</span>
+            <span class="post-count">585</span>
         </span>
     </span>
 
@@ -95,7 +95,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">3 分钟</span>
+            <span class="post-count">2 分钟</span>
         </span>
     </span>
 </div>
@@ -110,37 +110,80 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com//108220190115-14.jpg" alt="img" style="zoom:150%;" />
-<p><strong>例如</strong>：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String[]  arr  =  <span class="keyword">new</span> <span class="title class_">String</span>[<span class="number">10</span>];</span><br><span class="line">arr=<span class="literal">null</span>;</span><br></pre></td></tr></table></figure>
-<p><strong>对于没有被任何引用指向的对象，垃圾回收器可以回收此对象。</strong></p>
-<p><strong>java中对象引用放在栈中，对象的实例放于堆中</strong>，一个对象要是只声明不赋值，则只会在<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E5%86%85%E5%AD%98&amp;spm=1001.2101.3001.7020">内存</a>的栈区创建引用，堆中并无此引用的指向。<br />
-而null对象在堆中会被java的垃圾回收机制回收</p>
-<p>在Java中，null值表示引用不指向任何对象。运行过程中系统发现使用了这样一个引用时，可以立即停止进一步的访问，不会给系统带来任何危险。</p>
+  <blockquote>
+<p>在学习redis分布式锁的时候, 需要用到集群</p>
+<p>下面是相关配置</p>
+<ul>
+<li>单机</li>
+</ul>
+</blockquote>
+<h1 id="idea配置集群"><a class="markdownIt-Anchor" href="#idea配置集群"></a> idea配置集群</h1>
+<h2 id="配置多个springboot"><a class="markdownIt-Anchor" href="#配置多个springboot"></a> 配置多个springboot</h2>
 <span id="more"></span>
-<h3 id="一-null是代表不确定的对象"><a class="markdownIt-Anchor" href="#一-null是代表不确定的对象"></a> 一、null是代表不确定的对象</h3>
-<p>Java中，null是一个关键字，用来标识一个不确定的对象。因此可以将null赋给引用类型变量，但不可以将null赋给基本类型变量。</p>
-<p>比如：int a = null;是错误的。Ojbect o = null是正确的。</p>
-<p>Java中，变量的适用都遵循一个原则，先定义，并且初始化后，才可以使用。我们不能int a后，不给a指定值，就去打印a的值。这条对对于引用类型变量也是适用的。</p>
-<p>有时候，我们定义一个引用类型变量，在刚开始的时候，无法给出一个确定的值，但是不指定值，程序可能会在try语句块中初始化值。这时候，我们下面使用变量的时候就会报错。这时候，可以先给变量指定一个null值，问题就解决了。例如：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Connection</span> <span class="variable">conn</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    conn = DriverManager.getConnection(<span class="string">&quot;url&quot;</span>, <span class="string">&quot;user&quot;</span>, <span class="string">&quot;password&quot;</span>);</span><br><span class="line">&#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">String</span> <span class="variable">catalog</span> <span class="operator">=</span> conn.getCatalog();</span><br></pre></td></tr></table></figure>
-<p>如果刚开始的时候不指定conn = null，则最后一句就会报错。</p>
-<h3 id="二-null本身不是对象也不是objcet的实例"><a class="markdownIt-Anchor" href="#二-null本身不是对象也不是objcet的实例"></a> 二、null本身不是对象，也不是Objcet的实例</h3>
-<p>null本身虽然能代表一个不确定的对象，但就null本身来说，它不是对象，也不知道什么类型，也不是java.lang.Object的实例。<br />
-可以做一个简单的例子：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//null是对象吗? 属于Object类型吗?</span></span><br><span class="line"><span class="keyword">if</span> (<span class="literal">null</span> <span class="keyword">instanceof</span> java.lang.Object) &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;null属于java.lang.Object类型&quot;</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;null不属于java.lang.Object类型&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>结果会输出：null不属于java.lang.Object类型</p>
-<h3 id="三-java默认给变量赋值"><a class="markdownIt-Anchor" href="#三-java默认给变量赋值"></a> 三、Java默认给变量赋值</h3>
-<p>在定义变量的时候，如果定义后没有给变量赋值，则Java在运行时会自动给变量赋值。赋值原则是整数类型int、byte、short、long的自动赋值为0，带小数点的float、double自动赋值为0.0，boolean的自动赋值为false，其他各供引用类型变量自动赋值为null。<br />
-这个具体可以通过调试来看。</p>
-<h3 id="四-容器类型与null"><a class="markdownIt-Anchor" href="#四-容器类型与null"></a> 四、容器类型与null</h3>
-<p>List：允许重复元素，可以加入任意多个null。<br />
-Set：不允许重复元素，最多可以加入一个null。<br />
-Map：Map的key最多可以加入一个null，value字段没有限制。<br />
-数组：基本类型数组，定义后，如果不给定初始值，则java运行时会自动给定值。引用类型数组，不给定初始值，则所有的元素值为null。</p>
-<h3 id="五-null的其他作用"><a class="markdownIt-Anchor" href="#五-null的其他作用"></a> 五、null的其他作用</h3>
-<p>1、判断一个引用类型数据是否null。 用==来判断。<br />
-2、释放内存，让一个非null的引用类型变量指向null。这样这个对象就不再被任何对象应用了。等待JVM垃圾回收机制去回收。</p>
+<p>打开idea , 点击</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011145705811.png" alt="" /></p>
+<p>点击<code>Edit Configurations...</code></p>
+<p>然后点击 右边空白中的 <code>Add new run configuration...</code></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011145735486.png" alt="" /></p>
+<p>然后填写相关的配置信息</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011145803423.png" alt="" /></p>
+<blockquote>
+<p>注意需要修改端口号, 否则会造成</p>
+</blockquote>
+<p>这里设置Name 为 <code>MoreSpringboot</code></p>
+<p><code>Main class</code> 选择springboot的启动类,  这里就是<code>com.hmdp.HmDianPingApplication</code></p>
+<blockquote>
+<p>注意要把类名写全</p>
+</blockquote>
+<p>然脏在 <code>VM options</code> 位置填入 <code>-Dserver.port=8082</code></p>
+<blockquote>
+<p>这个就是运行参数, 设置端口号避免端口冲突,</p>
+<ul>
+<li>如果有其他的需求可以另外设置</li>
+</ul>
+</blockquote>
+<p>然后点击apply</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011150041552.png" alt="" /></p>
+<p>可以看到此时已经多了一个<code>MoreSpringboot</code></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011150103348.png" alt="" /></p>
+<p>右键点击<code>Run</code></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011150127086.png" alt="" /></p>
+<p>可以看到<strong>springboot</strong>启动成功</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011150202656.png" alt="" /></p>
+<h2 id="修改nginx配置"><a class="markdownIt-Anchor" href="#修改nginx配置"></a> 修改nginx配置</h2>
+<p>由于这个工程前端使用<code>Nginx</code>代理,</p>
+<p>因此需要去Nginx的配置文件中更改相关配置</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011150259896.png" alt="" /></p>
+<p>打开<code>nginx.conf</code></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011150348982.png" alt="" /></p>
+<p>修改相关配置<strong>设置负载均衡</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">worker_processes  1;</span><br><span class="line"></span><br><span class="line">events &#123;</span><br><span class="line">    worker_connections  1024;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line">    include       mime.types;</span><br><span class="line">    default_type  application/json;</span><br><span class="line"></span><br><span class="line">    sendfile        on;</span><br><span class="line">    </span><br><span class="line">    keepalive_timeout  65;</span><br><span class="line"></span><br><span class="line">    server &#123;</span><br><span class="line">        listen       8080;</span><br><span class="line">        server_name  localhost;</span><br><span class="line">        # 指定前端项目所在的位置</span><br><span class="line">        location / &#123;</span><br><span class="line">            root   html/hmdp;</span><br><span class="line">            index  index.html index.htm;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        error_page   500 502 503 504  /50x.html;</span><br><span class="line">        location = /50x.html &#123;</span><br><span class="line">            root   html;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        location /api &#123;  </span><br><span class="line">            default_type  application/json;</span><br><span class="line">            #internal;  </span><br><span class="line">            keepalive_timeout   30s;  </span><br><span class="line">            keepalive_requests  1000;  </span><br><span class="line">            #支持keep-alive  </span><br><span class="line">            proxy_http_version 1.1;  </span><br><span class="line">            rewrite /api(/.*) $1 break;  </span><br><span class="line">            proxy_pass_request_headers on;</span><br><span class="line">            #more_clear_input_headers Accept-Encoding;  </span><br><span class="line">            proxy_next_upstream error timeout;  </span><br><span class="line">            # proxy_pass http://127.0.0.1:8081;</span><br><span class="line">            proxy_pass http://backend; # 注意这个地方, 需要与下面的对应</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">      # 这里是关键配置</span><br><span class="line">    upstream backend &#123;</span><br><span class="line">        server 127.0.0.1:8081 max_fails=5 fail_timeout=10s weight=1;</span><br><span class="line">        server 127.0.0.1:8082 max_fails=5 fail_timeout=10s weight=1;</span><br><span class="line">        server 127.0.0.1:8083 max_fails=5 fail_timeout=10s weight=1;</span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>weight表示负载的多少, weight越小负载分配越小</p>
+</blockquote>
+<p><code>server 127.0.0.1:8083 max_fails=5 fail_timeout=10s weight=1;</code></p>
+<p>重新加载nginx  <code>nginx.exe -s reload</code></p>
+<h2 id="测试集群"><a class="markdownIt-Anchor" href="#测试集群"></a> 测试集群</h2>
+<p>编写controller代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TestController</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/test&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> Result <span class="title function_">test</span><span class="params">()</span>&#123;</span><br><span class="line">        log.info(<span class="string">&quot;测试集群&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> Result.ok(<span class="string">&quot;测试成功!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>使用的测试工具是postman</p>
+</blockquote>
+<p><strong>创建测试</strong></p>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011151240661.png" style="zoom:80%;" />
+<p>设置100个线程发送请求</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011151303798.png" alt="" /></p>
+<p>查看后端日志</p>
+<p>可以发现<strong>三个springboot均已生效</strong></p>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011154848328.png" style="zoom:67%;" />
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011154931879.png" alt="image-20221011154931879" style="zoom:67%;" />
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221011154940478.png" style="zoom:67%;" />
+<h2 id="可能遇到的问题"><a class="markdownIt-Anchor" href="#可能遇到的问题"></a> 可能遇到的问题</h2>
+<p><strong>nginx配置没有生效</strong></p>
+<blockquote>
+<p>确认修改配置之后, 注意<code>location</code> 要与下面的多个端口 / url 对应</p>
+</blockquote>
+<p>可以先测试单个端口是否成功, <strong>逐步排查问题</strong></p>
  
       <!-- reward -->
       
@@ -205,12 +248,12 @@ Map：Map的key最多可以加入一个null，value字段没有限制。<br />
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://adorabled4.github.io/2022/07/22/%E7%90%90%E7%A2%8E%E7%9F%A5%E8%AF%86%E7%82%B9/%E5%BC%95%E7%94%A8%E8%B5%8B%E5%80%BC%E4%B8%BAnull/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://adorabled4.github.io/2022/10/11/%E5%85%B6%E4%BB%96/idea%E9%85%8D%E7%BD%AE%E9%9B%86%E7%BE%A4/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>  
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%88/" rel="tag">栈</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring/" rel="tag">Spring</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
 
     </footer>
   </div>
@@ -218,19 +261,19 @@ Map：Map的key最多可以加入一个null，value字段没有限制。<br />
    
   <nav class="article-nav">
     
-      <a href="/2022/07/22/SSM/mybatis/demo03/" class="article-nav-link">
+      <a href="/2022/10/12/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(4)/" class="article-nav-link">
         <strong class="article-nav-caption">上一篇</strong>
         <div class="article-nav-title">
           
-            mybatis(3)特殊SQL的执行&amp;&amp;自定义resultMap
+            实战篇(4):分布式锁[Redis]
           
         </div>
       </a>
     
     
-      <a href="/2022/07/21/SSM/mybatis/demo02/" class="article-nav-link">
+      <a href="/2022/10/11/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(3)/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">mybatis(2)基本操作--CRUD</div>
+        <div class="article-nav-title">实战篇(3):优惠券秒杀[Redis]</div>
       </a>
     
   </nav>
