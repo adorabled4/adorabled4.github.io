@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+  
+
+    <head>
+      <meta charset="utf-8" />
+       
+      <meta name="keywords" content="DFS,BFS,java, 双指针, 算法与数据结构, hexo, 回溯, 树, 队列, mybatis, javaweb, Spring, cpp, leetcode, 栈, 位运算, 链表, 数据库, springmvc, 动态规划, 贪心" />
+       
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>使用swagger生成接口文档 |  dhx_&#39;blog</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220820231738085.png" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      
+<link rel="stylesheet" href="/css/fonts/remixicon.css">
+
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.staticfile.org/pace/1.2.4/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+      </style>
+    </head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-其他/swagger生成接口文档"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  使用swagger生成接口文档
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/11/03/%E5%85%B6%E4%BB%96/swagger%E7%94%9F%E6%88%90%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3/" class="article-date">
+  <time datetime="2022-11-03T15:25:19.242Z" itemprop="datePublished">2022-11-03</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%85%B6%E4%BB%96/">其他</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">3.5k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">18 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h2 id="简介"><a class="markdownIt-Anchor" href="#简介"></a> 简介</h2>
+<p>Swagger 是最流行的 API 开发工具，它遵循 OpenAPI Specification（OpenAPI 规范，也简称 OAS）。 Swagger 可以贯穿于整个 API 生态，如 API 的设计、编写 API 文档、测试和部署。 Swagger 是一种通用的，和编程语言无关的 API 描述规范。</p>
+<p>官网：<a target="_blank" rel="noopener" href="https://swagger.io/">https://swagger.io/</a></p>
+<h2 id="导入swagger依赖"><a class="markdownIt-Anchor" href="#导入swagger依赖"></a> 导入swagger依赖</h2>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> <span class="comment">&lt;!--swagger依赖--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.springfox<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>springfox-swagger2<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.9.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--swagger ui--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.springfox<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>springfox-swagger-ui<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.9.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<h2 id="编写swagger的配置类"><a class="markdownIt-Anchor" href="#编写swagger的配置类"></a> 编写swagger的配置类</h2>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableSwagger2</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Swagger2Config</span> &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 创建API应用</span></span><br><span class="line"><span class="comment">     * apiInfo() 增加API相关信息</span></span><br><span class="line"><span class="comment">     * 通过select()函数返回一个ApiSelectorBuilder实例,用来控制哪些接口暴露给Swagger来展现，</span></span><br><span class="line"><span class="comment">     * 指定扫描的包路径来定义指定要建立API的目录。</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> Docket <span class="title function_">coreApiConfig</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Docket</span>(DocumentationType.SWAGGER_2)</span><br><span class="line">            .apiInfo(adminApiInfo())</span><br><span class="line">            .groupName(<span class="string">&quot;com.zzu_miao&quot;</span>)</span><br><span class="line">            .select()</span><br><span class="line">            .paths(Predicates.and(PathSelectors.regex(<span class="string">&quot;/.*&quot;</span>)))</span><br><span class="line">            .build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> ApiInfo <span class="title function_">adminApiInfo</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">ApiInfoBuilder</span>()</span><br><span class="line">            .title(<span class="string">&quot;zzu_miao--api文档&quot;</span>)</span><br><span class="line">            .description(<span class="string">&quot;zzu_miao接口描述&quot;</span>)</span><br><span class="line">            .version(<span class="string">&quot;1.0&quot;</span>)</span><br><span class="line">            .contact(<span class="keyword">new</span> <span class="title class_">Contact</span>(<span class="string">&quot;dhx&quot;</span>,<span class="string">&quot;https://www.dhx.icu/&quot;</span>,<span class="string">&quot;2648466390@qq.com&quot;</span>))</span><br><span class="line">            .build();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="添加文档内容"><a class="markdownIt-Anchor" href="#添加文档内容"></a> 添加文档内容</h2>
+<p>在完成了上述配置后，其实已经可以生产文档内容，但是这样的文档主要<strong>针对请求本身</strong>，</p>
+<p>描述的主要来源是函数的命名，通常需要自己增加一些说明来丰富文档内容。</p>
+<p><strong>比如下面是没有添加任何内容,  仅仅是配置swagger直接就显示的内容</strong></p>
+<p>启动springboot后,  访问 Swagger UI:  <a target="_blank" rel="noopener" href="http://localhost:8080/swagger-ui.html#/">http://localhost:8080/swagger-ui.html#/</a></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221103152043971.png" alt="" /></p>
+<h2 id="swagger使用的注解及其说明"><a class="markdownIt-Anchor" href="#swagger使用的注解及其说明"></a> Swagger使用的注解及其说明：</h2>
+<p><code>@Api</code>：用在类上，说明该类的作用。<br />
+<code>@ApiOperation</code>：注解来给API增加方法说明。<br />
+<code>@ApiParam</code>：定义在参数上<br />
+<code>@ApiResponses</code>：用于表示一组响应<br />
+<code>@ApiResponse</code>：用在<code>@ApiResponses</code>中，一般用于表达一个错误的响应信息</p>
+<ul>
+<li>code：数字，例如400</li>
+<li>message：信息，例如&quot;请求参数为空&quot;</li>
+<li>response：抛出异常的类</li>
+</ul>
+<p><code>@ApiModel</code>：描述一个Model的信息（一般用在请求参数无法使用<code>@ApiImplicitParam</code>注解进行描述的时候）</p>
+<p><code>@ApiModelProperty</code>：描述一个model的属性</p>
+<p><code>@ApiImplicitParams</code>: 用在方法上包含一组参数说明。</p>
+<p><code>@ApiImplicitParam</code>：用来注解来给方法入参增加说明。</p>
+<p><code>@ApiImplicitParam</code>的参数说明：</p>
+<ul>
+<li>paramType：指定参数放在哪个地方
+<ul>
+<li>header：请求参数放置于Request Header，使用<code>@RequestHeader</code>获取</li>
+<li>query：请求参数放置于请求地址，使用<code>@RequestParam</code>获取</li>
+<li>path：（用于restful接口）–&gt;请求参数的获取：<code>@PathVariable body</code>：（不常用） form（不常用）</li>
+</ul>
+</li>
+<li>name：参数名</li>
+<li>dataType：参数类型</li>
+<li>required：参数是否必须传	true | false</li>
+<li>value：说明参数的意思</li>
+<li>defaultValue：参数的默认值</li>
+</ul>
+<p>通过上面的注解 , 我们可以轻松的添加内容</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221103205453079.png" alt="" /></p>
+<p>代码举例</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Dhx_</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@className</span> UserController</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@description</span> TODO用户控制层</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2022/10/22 16:20</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/user&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserController</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Resource</span></span><br><span class="line">    UserService userService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Resource</span></span><br><span class="line">    StringRedisTemplate stringRedisTemplate;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 发送验证码</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> phone 手机号</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@PostMapping(&quot;/code&quot;)</span></span><br><span class="line">    <span class="meta">@ApiOperation(&quot;发送验证码&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> BaseResponse&lt;String&gt; <span class="title function_">sendCode</span><span class="params">(<span class="meta">@RequestParam(&quot;phone&quot;)</span>String phone)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> userService.sendCode(phone);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 注册功能</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> userRegisterDTO 封装信息到userRegisterDTO</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 返回用户的id</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@PostMapping(&quot;/register&quot;)</span></span><br><span class="line">    <span class="meta">@ApiOperation(&quot;用户注册&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> BaseResponse&lt;Long&gt; <span class="title function_">register</span><span class="params">(UserRegisterDTO userRegisterDTO)</span>&#123;</span><br><span class="line">        String userAccount=userRegisterDTO.getUserAccount();</span><br><span class="line">        <span class="type">String</span> <span class="variable">userPassword</span> <span class="operator">=</span> userRegisterDTO.getUserPassword();</span><br><span class="line">        <span class="type">String</span> <span class="variable">checkPassword</span> <span class="operator">=</span> userRegisterDTO.getCheckPassword();</span><br><span class="line">        <span class="keyword">return</span> userService.register(userAccount,userPassword,checkPassword);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 普通登录 输入用户名以及密码登录</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> userAccount 账户</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> userPassword 密码</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 返回登录用户基本信息</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@PostMapping(&quot;/login&quot;)</span></span><br><span class="line">    <span class="meta">@ApiOperation(&quot;用户登录&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> BaseResponse&lt;UserDTO&gt; <span class="title function_">login</span><span class="params">(<span class="meta">@RequestParam(&quot;account&quot;)</span>String userAccount, <span class="meta">@RequestParam(&quot;password&quot;)</span>String userPassword)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> userService.login(userAccount,userPassword);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取当前的用户并返回</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 返回当前用户基本信息</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/current&quot;)</span></span><br><span class="line">    <span class="meta">@ApiOperation(&quot;获取当前登录的用户的基本信息&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> BaseResponse&lt;UserDTO&gt; <span class="title function_">getCurrent</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> ResultUtil.success(UserHolder.getUser());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 根据id 查询用户信息</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> id  用户id</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> UserDTO 返回用户基本信息</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/&#123;id&#125;&quot;)</span></span><br><span class="line">    <span class="meta">@ApiOperation(&quot;根据用户id获取用户基本信息&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> BaseResponse&lt;UserDTO&gt; <span class="title function_">queryUserById</span><span class="params">(<span class="meta">@PathVariable(&quot;id&quot;)</span>Long id)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> userService.queryUserById(id);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 查询用户详细信息 =&gt; 展示用户资料</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> id</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/info/&#123;id&#125;&quot;)</span></span><br><span class="line">    <span class="meta">@ApiOperation(&quot;根据用户id获取用户详细信息&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> BaseResponse&lt;User&gt; <span class="title function_">queryUserInfoById</span><span class="params">(<span class="meta">@PathVariable(&quot;id&quot;)</span>Long id)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> userService.queryUserInfoById(id);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 根据关键词查询用户</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> userName</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/search&quot;)</span></span><br><span class="line">    <span class="meta">@ApiOperation(&quot;根据关键词查询用户&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> BaseResponse&lt;List&lt;UserDTO&gt;&gt; <span class="title function_">searchUsers</span><span class="params">(<span class="meta">@RequestParam(&quot;username&quot;)</span>String userName)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> userService.searchUsers(userName);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 退出登录</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> request</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@PostMapping(&quot;/logout&quot;)</span></span><br><span class="line">    <span class="meta">@ApiOperation(&quot;退出登录&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> BaseResponse&lt;Long&gt; <span class="title function_">logout</span><span class="params">(HttpServletRequest request)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> userService.logout(request);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 编辑资料, 不允许编辑 account</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> userUpdateDTO  包含了用户编辑信息的参数</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 返回用户的账户</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@PostMapping(&quot;/updateUserInfo&quot;)</span></span><br><span class="line">    <span class="meta">@ApiOperation(&quot;修改用户信息&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> BaseResponse&lt;String&gt; <span class="title function_">updateUserInfo</span><span class="params">(UserUpdateDTO userUpdateDTO)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> userService.updateUserInfo(userUpdateDTO);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>@ApiModel</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@ApiModel(&quot;基本用户信息&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserDTO</span>  <span class="keyword">implements</span> <span class="title class_">Serializable</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">serialVersionUID</span> <span class="operator">=</span> -<span class="number">7089653452966045615L</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ApiModelProperty(value = &quot;用户id&quot;,required = false)</span></span><br><span class="line">    <span class="keyword">private</span> Long userId;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@ApiModelProperty(value = &quot;用户昵称&quot;,required = false)</span></span><br><span class="line">    <span class="keyword">private</span> String userName;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@ApiModelProperty(value = &quot;用户头像url&quot;,required = false)</span></span><br><span class="line">    <span class="keyword">private</span> String avatarUrl;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ApiModelProperty(value = &quot;权限 1为管理员&quot;,required = false)</span></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> isAdmin;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221103232204501.png" alt="" /></p>
+<h2 id="使用swagger对代码进行测试"><a class="markdownIt-Anchor" href="#使用swagger对代码进行测试"></a> 使用swagger对代码进行测试</h2>
+<p>举例</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221103232414057.png" alt="" /></p>
+<h2 id="swagger报错-javalangnumberformatexception-for-input-string"><a class="markdownIt-Anchor" href="#swagger报错-javalangnumberformatexception-for-input-string"></a> swagger报错 java.lang.NumberFormatException: For input string: “”</h2>
+<h3 id="具体报错"><a class="markdownIt-Anchor" href="#具体报错"></a> 具体报错</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line">java.lang.NumberFormatException: For input string: <span class="string">&quot;&quot;</span></span><br><span class="line">	at java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:<span class="number">65</span>) ~[na:na]</span><br><span class="line">	at java.base/java.lang.Long.parseLong(Long.java:<span class="number">702</span>) ~[na:na]</span><br><span class="line">	at java.base/java.lang.Long.valueOf(Long.java:<span class="number">1144</span>) ~[na:na]</span><br><span class="line">	at io.swagger.models.parameters.AbstractSerializableParameter.getExample(AbstractSerializableParameter.java:<span class="number">412</span>) ~[swagger-models-<span class="number">1.5</span><span class="number">.20</span>.jar:<span class="number">1.5</span><span class="number">.20</span>]</span><br><span class="line">	at jdk.internal.reflect.GeneratedMethodAccessor95.invoke(Unknown Source) ~[na:na]</span><br><span class="line">	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:<span class="number">43</span>) ~[na:na]</span><br><span class="line">	at java.base/java.lang.reflect.Method.invoke(Method.java:<span class="number">566</span>) ~[na:na]</span><br><span class="line">	at com.fasterxml.jackson.databind.ser.BeanPropertyWriter.serializeAsField(BeanPropertyWriter.java:<span class="number">689</span>) ~[jackson-databind-<span class="number">2.11</span><span class="number">.3</span>.jar:<span class="number">2.11</span><span class="number">.3</span>]</span><br><span class="line">	at com.fasterxml.jackson.databind.ser.std.BeanSerializerBase.serializeFields(BeanSerializerBase.java:<span class="number">755</span>) ~[jackson-databind-<span class="number">2.11</span><span class="number">.3</span>.jar:<span class="number">2.11</span><span class="number">.3</span>]</span><br><span class="line">	at com.fasterxml.jackson.databind.ser.BeanSerializer.serialize(BeanSerializer.java:<span class="number">178</span>) ~[jackson-databind-<span class="number">2.11</span><span class="number">.3</span>.jar:<span class="number">2.11</span><span class="number">.3</span>]</span><br><span class="line">	at com.fasterxml.jackson.databind.ser.impl.IndexedListSerializer.serializeContents(IndexedListSerializer.java:<span class="number">119</span>) ~[jackson-databind-<span class="number">2.11</span><span class="number">.3</span>.jar:<span class="number">2.11</span><span class="number">.3</span>]</span><br><span class="line">	at com.fasterxml.jackson.databind.ser.impl.IndexedListSerializer.serialize(IndexedListSerializer.java:<span class="number">79</span>) ~[jackson-databind-<span class="number">2.11</span><span class="number">.3</span>.jar:<span class="number">2.11</span><span class="number">.3</span>]</span><br><span class="line">	at com.fasterxml.jackson.databind.ser.impl.IndexedListSerializer.serialize(IndexedListSerializer.java:<span class="number">18</span>) ~[jackson-databind-<span class="number">2.11</span><span class="number">.3</span>.jar:<span class="number">2.11</span><span class="number">.3</span>]</span><br><span class="line">	at com.fasterxml.jackson.databind.ser.BeanPropertyWriter.serializeAsField(BeanPropertyWriter.java:<span class="number">728</span>) ~[jackson-databind-<span class="number">2.11</span><span class="number">.3</span>.jar:<span class="number">2.11</span><span class="number">.3</span>]</span><br><span class="line">	at com.fasterxml.jackson.databind.ser.std.BeanSerializerBase.serializeFields(BeanSerializerBase.java:<span class="number">755</span>) ~[jackson-databind-<span class="number">2.11</span><span class="number">.3</span>.jar:<span class="number">2.11</span><span class="number">.3</span>]</span><br><span class="line">	at com.fasterxml.jackson.databind.ser.BeanSerializer.serialize(BeanSerializer.java:<span class="number">178</span>) ~[jackson-databind-<span class="number">2.11</span><span class="number">.3</span>.jar:<span class="number">2.11</span><span class="number">.3</span>]</span><br><span class="line">	at com.fasterxml.jackson.databind.ser.BeanPropertyWriter.serializeAsField(BeanPropertyWriter.java:<span class="number">728</span>) ~[jackson-databind-<span class="number">2.11</span><span class="number">.3</span>.jar:<span class="number">2.11</span><span class="number">.3</span>]</span><br><span class="line">	at com.fasterxml.jackson.databind.ser.std.BeanSerializerBase.serializeFields(BeanSerializerBase.java:<span class="number">755</span>) ~[jackson-databind-<span class="number">2.11</span><span class="number">.3</span>.jar:<span class="number">2.11</span><span class="number">.3</span>]</span><br><span class="line">	at com.fasterxml.jackson.databind.ser.BeanSerializer.serialize(BeanSerializer.java:<span class="number">178</span>) ~[jackson-databind-<span class="number">2.11</span><span class="number">.3</span>.jar:<span class="number">2.11</span><span class="number">.3</span>]</span><br><span class="line">	at com.fasterxml.jackson.databind.ser.std.MapSerializer.serializeFields(MapSerializer.java:<span class="number">726</span>) ~[jackson-databind-<span class="number">2.11</span><span class="number">.3</span>.jar:<span class="number">2.11</span><span class="number">.3</span>]</span><br><span class="line">	at com.fasterxml.jackson.databind.ser.std.MapSerializer.serializeWithoutTypeInfo(MapSerializer.java:<span class="number">681</span>) ~[jackson-databind-<span class="number">2.11</span><span class="number">.3</span>.jar:<span class="number">2.11</span><span class="number">.3</span>]</span><br><span class="line">	at com.fasterxml.jackson.databind.ser.std.MapSerializer.serialize(MapSerializer.java:<span class="number">637</span>) ~[jackson-databind-<span class="number">2.11</span><span class="number">.3</span>.jar:<span class="number">2.11</span><span class="number">.3</span>]</span><br><span class="line">	at com.fasterxml.jackson.databind.ser.std.MapSerializer.serialize(MapSerializer.java:<span class="number">33</span>) ~[jackson-databind-<span class="number">2.11</span><span class="number">.3</span>.jar:<span class="number">2.11</span><span class="number">.3</span>]</span><br><span class="line">	at com.fasterxml.jackson.databind.ser.BeanPropertyWriter.serializeAsField(BeanPropertyWriter.java:<span class="number">728</span>) ~[jackson-databind-<span class="number">2.11</span><span class="number">.3</span>.jar:<span class="number">2.11</span><span class="number">.3</span>]</span><br><span class="line">	at com.fasterxml.jackson.databind.ser.std.BeanSerializerBase.serializeFields(BeanSerializerBase.java:<span class="number">755</span>) ~[jackson-databind-<span class="number">2.11</span><span class="number">.3</span>.jar:<span class="number">2.11</span><span class="number">.3</span>]</span><br><span class="line">	at com.fasterxml.jackson.databind.ser.BeanSerializer.serialize(BeanSerializer.java:<span class="number">178</span>) ~[jackson-databind-<span class="number">2.11</span><span class="number">.3</span>.jar:<span class="number">2.11</span><span class="number">.3</span>]</span><br><span class="line">	at com.fasterxml.jackson.databind.ser.DefaultSerializerProvider._serialize(DefaultSerializerProvider.java:<span class="number">480</span>) ~[jackson-databind-<span class="number">2.11</span><span class="number">.3</span>.jar:<span class="number">2.11</span><span class="number">.3</span>]</span><br><span class="line">	at com.fasterxml.jackson.databind.ser.DefaultSerializerProvider.serializeValue(DefaultSerializerProvider.java:<span class="number">319</span>) ~[jackson-databind-<span class="number">2.11</span><span class="number">.3</span>.jar:<span class="number">2.11</span><span class="number">.3</span>]</span><br><span class="line">	at com.fasterxml.jackson.databind.ObjectMapper._writeValueAndClose(ObjectMapper.java:<span class="number">4409</span>) ~[jackson-databind-<span class="number">2.11</span><span class="number">.3</span>.jar:<span class="number">2.11</span><span class="number">.3</span>]</span><br><span class="line">	at com.fasterxml.jackson.databind.ObjectMapper.writeValueAsString(ObjectMapper.java:<span class="number">3663</span>) ~[jackson-databind-<span class="number">2.11</span><span class="number">.3</span>.jar:<span class="number">2.11</span><span class="number">.3</span>]</span><br><span class="line">	at springfox.documentation.spring.web.json.JsonSerializer.toJson(JsonSerializer.java:<span class="number">38</span>) ~[springfox-spring-web-<span class="number">2.9</span><span class="number">.2</span>.jar:<span class="literal">null</span>]</span><br><span class="line">	at springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(Swagger2Controller.java:<span class="number">105</span>) ~[springfox-swagger2-<span class="number">2.9</span><span class="number">.2</span>.jar:<span class="literal">null</span>]</span><br><span class="line">	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]</span><br><span class="line">	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:<span class="number">62</span>) ~[na:na]</span><br><span class="line">	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:<span class="number">43</span>) ~[na:na]</span><br><span class="line">	at java.base/java.lang.reflect.Method.invoke(Method.java:<span class="number">566</span>) ~[na:na]</span><br><span class="line">	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:<span class="number">190</span>) ~[spring-web-<span class="number">5.2</span><span class="number">.12</span>.RELEASE.jar:<span class="number">5.2</span><span class="number">.12</span>.RELEASE]</span><br><span class="line">	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:<span class="number">138</span>) ~[spring-web-<span class="number">5.2</span><span class="number">.12</span>.RELEASE.jar:<span class="number">5.2</span><span class="number">.12</span>.RELEASE]</span><br><span class="line">	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:<span class="number">105</span>) ~[spring-webmvc-<span class="number">5.2</span><span class="number">.12</span>.RELEASE.jar:<span class="number">5.2</span><span class="number">.12</span>.RELEASE]</span><br><span class="line">	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:<span class="number">878</span>) ~[spring-webmvc-<span class="number">5.2</span><span class="number">.12</span>.RELEASE.jar:<span class="number">5.2</span><span class="number">.12</span>.RELEASE]</span><br><span class="line">	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:<span class="number">792</span>) ~[spring-webmvc-<span class="number">5.2</span><span class="number">.12</span>.RELEASE.jar:<span class="number">5.2</span><span class="number">.12</span>.RELEASE]</span><br><span class="line">	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:<span class="number">87</span>) ~[spring-webmvc-<span class="number">5.2</span><span class="number">.12</span>.RELEASE.jar:<span class="number">5.2</span><span class="number">.12</span>.RELEASE]</span><br><span class="line">	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:<span class="number">1040</span>) ~[spring-webmvc-<span class="number">5.2</span><span class="number">.12</span>.RELEASE.jar:<span class="number">5.2</span><span class="number">.12</span>.RELEASE]</span><br><span class="line">	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:<span class="number">943</span>) ~[spring-webmvc-<span class="number">5.2</span><span class="number">.12</span>.RELEASE.jar:<span class="number">5.2</span><span class="number">.12</span>.RELEASE]</span><br><span class="line">	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:<span class="number">1006</span>) ~[spring-webmvc-<span class="number">5.2</span><span class="number">.12</span>.RELEASE.jar:<span class="number">5.2</span><span class="number">.12</span>.RELEASE]</span><br><span class="line">	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:<span class="number">898</span>) ~[spring-webmvc-<span class="number">5.2</span><span class="number">.12</span>.RELEASE.jar:<span class="number">5.2</span><span class="number">.12</span>.RELEASE]</span><br><span class="line">	at javax.servlet.http.HttpServlet.service(HttpServlet.java:<span class="number">626</span>) ~[tomcat-embed-core-<span class="number">9.0</span><span class="number">.41</span>.jar:<span class="number">4.0</span>.FR]</span><br><span class="line">	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:<span class="number">883</span>) ~[spring-webmvc-<span class="number">5.2</span><span class="number">.12</span>.RELEASE.jar:<span class="number">5.2</span><span class="number">.12</span>.RELEASE]</span><br><span class="line">	at javax.servlet.http.HttpServlet.service(HttpServlet.java:<span class="number">733</span>) ~[tomcat-embed-core-<span class="number">9.0</span><span class="number">.41</span>.jar:<span class="number">4.0</span>.FR]</span><br><span class="line">	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:<span class="number">231</span>) ~[tomcat-embed-core-<span class="number">9.0</span><span class="number">.41</span>.jar:<span class="number">9.0</span><span class="number">.41</span>]</span><br><span class="line">	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:<span class="number">166</span>) ~[tomcat-embed-core-<span class="number">9.0</span><span class="number">.41</span>.jar:<span class="number">9.0</span><span class="number">.41</span>]</span><br><span class="line">	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:<span class="number">53</span>) ~[tomcat-embed-websocket-<span class="number">9.0</span><span class="number">.41</span>.jar:<span class="number">9.0</span><span class="number">.41</span>]</span><br><span class="line">	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:<span class="number">193</span>) ~[tomcat-embed-core-<span class="number">9.0</span><span class="number">.41</span>.jar:<span class="number">9.0</span><span class="number">.41</span>]</span><br><span class="line">	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:<span class="number">166</span>) ~[tomcat-embed-core-<span class="number">9.0</span><span class="number">.41</span>.jar:<span class="number">9.0</span><span class="number">.41</span>]</span><br><span class="line">	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:<span class="number">100</span>) ~[spring-web-<span class="number">5.2</span><span class="number">.12</span>.RELEASE.jar:<span class="number">5.2</span><span class="number">.12</span>.RELEASE]</span><br><span class="line">	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:<span class="number">119</span>) ~[spring-web-<span class="number">5.2</span><span class="number">.12</span>.RELEASE.jar:<span class="number">5.2</span><span class="number">.12</span>.RELEASE]</span><br><span class="line">	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:<span class="number">193</span>) ~[tomcat-embed-core-<span class="number">9.0</span><span class="number">.41</span>.jar:<span class="number">9.0</span><span class="number">.41</span>]</span><br><span class="line">	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:<span class="number">166</span>) ~[tomcat-embed-core-<span class="number">9.0</span><span class="number">.41</span>.jar:<span class="number">9.0</span><span class="number">.41</span>]</span><br><span class="line">	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:<span class="number">93</span>) ~[spring-web-<span class="number">5.2</span><span class="number">.12</span>.RELEASE.jar:<span class="number">5.2</span><span class="number">.12</span>.RELEASE]</span><br><span class="line">	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:<span class="number">119</span>) ~[spring-web-<span class="number">5.2</span><span class="number">.12</span>.RELEASE.jar:<span class="number">5.2</span><span class="number">.12</span>.RELEASE]</span><br><span class="line">	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:<span class="number">193</span>) ~[tomcat-embed-core-<span class="number">9.0</span><span class="number">.41</span>.jar:<span class="number">9.0</span><span class="number">.41</span>]</span><br><span class="line">	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:<span class="number">166</span>) ~[tomcat-embed-core-<span class="number">9.0</span><span class="number">.41</span>.jar:<span class="number">9.0</span><span class="number">.41</span>]</span><br><span class="line">	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:<span class="number">201</span>) ~[spring-web-<span class="number">5.2</span><span class="number">.12</span>.RELEASE.jar:<span class="number">5.2</span><span class="number">.12</span>.RELEASE]</span><br><span class="line">	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:<span class="number">119</span>) ~[spring-web-<span class="number">5.2</span><span class="number">.12</span>.RELEASE.jar:<span class="number">5.2</span><span class="number">.12</span>.RELEASE]</span><br><span class="line">	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:<span class="number">193</span>) ~[tomcat-embed-core-<span class="number">9.0</span><span class="number">.41</span>.jar:<span class="number">9.0</span><span class="number">.41</span>]</span><br><span class="line">	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:<span class="number">166</span>) ~[tomcat-embed-core-<span class="number">9.0</span><span class="number">.41</span>.jar:<span class="number">9.0</span><span class="number">.41</span>]</span><br><span class="line">	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:<span class="number">202</span>) ~[tomcat-embed-core-<span class="number">9.0</span><span class="number">.41</span>.jar:<span class="number">9.0</span><span class="number">.41</span>]</span><br><span class="line">	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:<span class="number">97</span>) ~[tomcat-embed-core-<span class="number">9.0</span><span class="number">.41</span>.jar:<span class="number">9.0</span><span class="number">.41</span>]</span><br><span class="line">	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:<span class="number">542</span>) ~[tomcat-embed-core-<span class="number">9.0</span><span class="number">.41</span>.jar:<span class="number">9.0</span><span class="number">.41</span>]</span><br><span class="line">	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:<span class="number">143</span>) ~[tomcat-embed-core-<span class="number">9.0</span><span class="number">.41</span>.jar:<span class="number">9.0</span><span class="number">.41</span>]</span><br><span class="line">	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:<span class="number">92</span>) ~[tomcat-embed-core-<span class="number">9.0</span><span class="number">.41</span>.jar:<span class="number">9.0</span><span class="number">.41</span>]</span><br><span class="line">	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:<span class="number">78</span>) ~[tomcat-embed-core-<span class="number">9.0</span><span class="number">.41</span>.jar:<span class="number">9.0</span><span class="number">.41</span>]</span><br><span class="line">	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:<span class="number">343</span>) ~[tomcat-embed-core-<span class="number">9.0</span><span class="number">.41</span>.jar:<span class="number">9.0</span><span class="number">.41</span>]</span><br><span class="line">	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:<span class="number">374</span>) ~[tomcat-embed-core-<span class="number">9.0</span><span class="number">.41</span>.jar:<span class="number">9.0</span><span class="number">.41</span>]</span><br><span class="line">	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:<span class="number">65</span>) ~[tomcat-embed-core-<span class="number">9.0</span><span class="number">.41</span>.jar:<span class="number">9.0</span><span class="number">.41</span>]</span><br><span class="line">	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:<span class="number">888</span>) ~[tomcat-embed-core-<span class="number">9.0</span><span class="number">.41</span>.jar:<span class="number">9.0</span><span class="number">.41</span>]</span><br><span class="line">	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:<span class="number">1597</span>) ~[tomcat-embed-core-<span class="number">9.0</span><span class="number">.41</span>.jar:<span class="number">9.0</span><span class="number">.41</span>]</span><br><span class="line">	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:<span class="number">49</span>) ~[tomcat-embed-core-<span class="number">9.0</span><span class="number">.41</span>.jar:<span class="number">9.0</span><span class="number">.41</span>]</span><br><span class="line">	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:<span class="number">1128</span>) ~[na:na]</span><br><span class="line">	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:<span class="number">628</span>) ~[na:na]</span><br><span class="line">	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:<span class="number">61</span>) ~[tomcat-embed-core-<span class="number">9.0</span><span class="number">.41</span>.jar:<span class="number">9.0</span><span class="number">.41</span>]</span><br><span class="line">	at java.base/java.lang.Thread.run(Thread.java:<span class="number">829</span>) ~[na:na]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>观察发现 , 最后一个与swagger有关的报错的地方是</p>
+<p>第五行</p>
+<p><code>io.swagger.models.parameters.AbstractSerializableParameter.getExample(AbstractSerializableParameter.java:412) ~[swagger-models-1.5.20.jar:1.5.20]</code></p>
+<p>我们点进去这个<code>io.swagger.models.parameters.AbstractSerializableParameter.getExample</code></p>
+<h3 id="源码如下"><a class="markdownIt-Anchor" href="#源码如下"></a> 源码如下</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@JsonProperty(&quot;x-example&quot;)</span></span><br><span class="line"><span class="keyword">public</span> Object <span class="title function_">getExample</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">this</span>.example == <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="string">&quot;integer&quot;</span>.equals(<span class="built_in">this</span>.type)) &#123;</span><br><span class="line">                <span class="keyword">return</span> Long.valueOf(<span class="built_in">this</span>.example);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (<span class="string">&quot;number&quot;</span>.equals(<span class="built_in">this</span>.type)) &#123;</span><br><span class="line">                <span class="keyword">return</span> Double.valueOf(<span class="built_in">this</span>.example);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (<span class="string">&quot;boolean&quot;</span>.equals(<span class="built_in">this</span>.type) &amp;&amp; (<span class="string">&quot;true&quot;</span>.equalsIgnoreCase(<span class="built_in">this</span>.example) || <span class="string">&quot;false&quot;</span>.equalsIgnoreCase(<span class="built_in">this</span>.defaultValue))) &#123;</span><br><span class="line">                <span class="keyword">return</span> Boolean.valueOf(<span class="built_in">this</span>.example);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (NumberFormatException var2) &#123;</span><br><span class="line">            LOGGER.warn(String.format(<span class="string">&quot;Illegal DefaultValue %s for parameter type %s&quot;</span>, <span class="built_in">this</span>.defaultValue, <span class="built_in">this</span>.type), var2);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>.example;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这段代码的意思就是如果我们使用<code>@ApiModelProperty</code>注解的属性的类型是</p>
+<p><code>integer double boolean</code></p>
+<p>swagger就会对属性的值做出转换,  如果我们使用的是包装类 , 并且没有赋值初值,  此时就会报错</p>
+<p>这就非常的扯淡了,  <u>swagger只对类型做出了判断,  但是却没有判断是否是空串</u></p>
+<p>然后查找资料发现是swagger版本的问题，我使用的是  <mark>swagger2.9.2</mark>的版本，而该版本依赖了swagger-models的1.5.20版本</p>
+<p>（会导致报此错），但是后面的1.5.21版本对两者都进行了判断。</p>
+<h3 id="解决方法"><a class="markdownIt-Anchor" href="#解决方法"></a> 解决方法</h3>
+<p><mark>添加依赖</mark></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.swagger<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>swagger-annotations<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.5.21<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.swagger<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>swagger-models<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.5.21<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>加载依赖, 重新启动 , 报错消失</p>
+<h2 id="apimodel注解-不显示问题"><a class="markdownIt-Anchor" href="#apimodel注解-不显示问题"></a> @ApiModel注解 不显示问题</h2>
+<p>使用swagger的 <code>@ApiModel</code>注解的时候有个坑 <u>就是必须在controller 使用 <code>@RequestBody</code> 注解 否则无法显示<code>models</code></u></p>
+<p>而且不报错，此时<code>swagger</code>就和 <code>spring</code> 耦合了，而且问题难以排查,</p>
+<ol>
+<li>
+<p><code>@requestBody</code>注解常用来处理<code>content-type</code>不是默认的<code>application/x-www-form-urlcoded</code>编码的内容，</p>
+<ul>
+<li>比如说：application/json或者是application/xml等。一般情况下来说常用其来处理application/json类型。</li>
+</ul>
+</li>
+<li>
+<p>通过@requestBody可以将请求体中的JSON字符串绑定到相应的bean上，当然，也可以将其分别绑定到对应的字符串上。</p>
+</li>
+<li>
+<p>springBoot 中 使用@requestBody注解的话， 前端传递参数时需要JSON格式的参数，</p>
+<p>而且Content-Type为：application/json;charset=UTF-8 格式</p>
+</li>
+</ol>
+<blockquote>
+<p><code>@RequestBody</code>的使用需要加载MappingJackson2HttpMessageConverter，</p>
+<p>但是SpringBoot的官方文档提到，这个是默认已经加载的了</p>
+</blockquote>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://adorabled4.github.io/2022/11/03/%E5%85%B6%E4%BB%96/swagger%E7%94%9F%E6%88%90%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring/" rel="tag">Spring</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/swagger/" rel="tag">swagger</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+    
+      <a href="/2022/10/28/%E5%85%B6%E4%BB%96/java%E9%9B%86%E6%88%90%E5%AF%8C%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">java集成富文本编辑器</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.staticfile.org/valine/1.4.16/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "BMxcpVMjh3EMOP7tyImO6aLR-gzGzoHsz",
+    app_key: "HpcPO68bneKDaeq3H1G1xuIN",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+   
+    
+    <script src="https://cdn.staticfile.org/twikoo/1.4.18/twikoo.all.min.js"></script>
+    <div id="twikoo" class="twikoo"></div>
+    <script>
+        twikoo.init({
+            envId: ""
+        })
+    </script>
+ 
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2022
+        <i class="ri-heart-fill heart_icon"></i> dhx_
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/avater.png" alt="dhx_&#39;blog"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.staticfile.org/justifiedGallery/3.8.1/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.staticfile.org/clipboard.js/2.0.10/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+ 
+<script src="/js/dz.js"></script>
+ 
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    <div id="music">
+    
+    
+    
+    <iframe frameborder="no" border="1" marginwidth="0" marginheight="0" width="200" height="52"
+        src="//music.163.com/outchain/player?type=2&id=29480187&auto=1&height=32"></iframe>
+</div>
+
+<style>
+    #music {
+        position: fixed;
+        right: 15px;
+        bottom: 0;
+        z-index: 998;
+    }
+</style>
+    
+    
+
+  </div>
+</body>
+
+</html>
