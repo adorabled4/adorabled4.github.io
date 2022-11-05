@@ -109,6 +109,72 @@
     
     
     <article
+  id="post-其他/返回错误码还是抛出异常"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/11/04/%E5%85%B6%E4%BB%96/%E8%BF%94%E5%9B%9E%E9%94%99%E8%AF%AF%E7%A0%81%E8%BF%98%E6%98%AF%E6%8A%9B%E5%87%BA%E5%BC%82%E5%B8%B8/"
+    >返回错误码还是抛出异常?</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/11/04/%E5%85%B6%E4%BB%96/%E8%BF%94%E5%9B%9E%E9%94%99%E8%AF%AF%E7%A0%81%E8%BF%98%E6%98%AF%E6%8A%9B%E5%87%BA%E5%BC%82%E5%B8%B8/" class="article-date">
+  <time datetime="2022-11-04T03:07:28.627Z" itemprop="datePublished">2022-11-04</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%85%B6%E4%BB%96/">其他</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>首先，要明确一点的是，错误码和异常，这两者在程序的表达能力上是等价的。</p>
+<p>它们都可以向调用者传达“与常规情况不一样的状态”。</p>
+<p>考虑使用哪一种，更多地是从API的设计、系统的性能指标、新旧代码的一致性这3个角度来考虑的(本文主要从API设计的角度着手)。</p>
+<blockquote>
+<p>我们返回异常,  比如return ResultUtil.fail( errorCode)  , 如果直接把异常返回到用户使用层面 , 会有下面两点问题</p>
+<ol>
+<li>总不能指望用户看懂java 的Exception</li>
+<li>直接返回异常信息, 可能会造成安全问题</li>
+</ol>
+</blockquote> 
+      <a class="article-more-link" href="/2022/11/04/%E5%85%B6%E4%BB%96/%E8%BF%94%E5%9B%9E%E9%94%99%E8%AF%AF%E7%A0%81%E8%BF%98%E6%98%AF%E6%8A%9B%E5%87%BA%E5%BC%82%E5%B8%B8/"
+        >more...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%88/" rel="tag">栈</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+    
+</article>
+
+    
+    <article
   id="post-其他/swagger生成接口文档"
   class="article article-type-post"
   itemscope
@@ -649,71 +715,6 @@
 <p>分布式锁：满足分布式系统或集群模式下多进程可见并且互斥的锁。</p>
 <p>分布式锁的核心思想就是让大家都使用同一把锁，只要大家使用的是同一把锁，那么我们就能锁住线程，不让线程进行，让程序串行执行，这就是分布式锁的核心思路</p> 
       <a class="article-more-link" href="/2022/10/12/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(4)/"
-        >more...</a
-      >
-       
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring/" rel="tag">Spring</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
-
-    </footer>
-  </div>
-
-    
- 
-    
-</article>
-
-    
-    <article
-  id="post-其他/idea配置集群"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2022/10/11/%E5%85%B6%E4%BB%96/idea%E9%85%8D%E7%BD%AE%E9%9B%86%E7%BE%A4/"
-    >idea配置集群</a> 
-</h2>
- 
-
-      
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2022/10/11/%E5%85%B6%E4%BB%96/idea%E9%85%8D%E7%BD%AE%E9%9B%86%E7%BE%A4/" class="article-date">
-  <time datetime="2022-10-11T07:55:11.000Z" itemprop="datePublished">2022-10-11</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%85%B6%E4%BB%96/">其他</a> / <a class="article-category-link" href="/categories/%E5%85%B6%E4%BB%96/%E5%85%B6%E4%BB%96/">其他</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <blockquote>
-<p>在学习redis分布式锁的时候, 需要用到集群</p>
-<p>下面是相关配置</p>
-<ul>
-<li>单机</li>
-</ul>
-</blockquote>
-<h1 id="idea配置集群"><a class="markdownIt-Anchor" href="#idea配置集群"></a> idea配置集群</h1>
-<h2 id="配置多个springboot"><a class="markdownIt-Anchor" href="#配置多个springboot"></a> 配置多个springboot</h2> 
-      <a class="article-more-link" href="/2022/10/11/%E5%85%B6%E4%BB%96/idea%E9%85%8D%E7%BD%AE%E9%9B%86%E7%BE%A4/"
         >more...</a
       >
        
