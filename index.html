@@ -109,6 +109,66 @@
     
     
     <article
+  id="post-springcloud/单机搭建Nacos集群"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/11/24/springcloud/%E5%8D%95%E6%9C%BA%E6%90%AD%E5%BB%BANacos%E9%9B%86%E7%BE%A4/"
+    >单机搭建Nacos集群</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/11/24/springcloud/%E5%8D%95%E6%9C%BA%E6%90%AD%E5%BB%BANacos%E9%9B%86%E7%BE%A4/" class="article-date">
+  <time datetime="2022-11-24T06:31:20.156Z" itemprop="datePublished">2022-11-24</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/springcloud/">springcloud</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="1集群结构图"><a class="markdownIt-Anchor" href="#1集群结构图"></a> 1.集群结构图</h1>
+<p>官方给出的Nacos集群图：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20210409210621117.png" alt="" /></p>
+<p>其中包含3个nacos节点，然后一个负载均衡器代理3个Nacos。这里负载均衡器可以使用nginx。</p> 
+      <a class="article-more-link" href="/2022/11/24/springcloud/%E5%8D%95%E6%9C%BA%E6%90%AD%E5%BB%BANacos%E9%9B%86%E7%BE%A4/"
+        >more...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring/" rel="tag">Spring</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+    
+</article>
+
+    
+    <article
   id="post-springcloud/SpringCloud01"
   class="article article-type-post"
   itemscope
@@ -194,7 +254,7 @@
   <time datetime="2022-11-07T14:08:45.782Z" itemprop="datePublished">2022-11-07</time>
 </a> 
   <div class="article-category">
-    <a class="article-category-link" href="/categories/SQL/">SQL</a> / <a class="article-category-link" href="/categories/SQL/MySQL/">MySQL</a>
+    <a class="article-category-link" href="/categories/SQL/">SQL</a> / <a class="article-category-link" href="/categories/SQL/SQL/">SQL</a> / <a class="article-category-link" href="/categories/SQL/SQL/MySQL/">MySQL</a>
   </div>
    
     </div>
@@ -670,69 +730,6 @@
     <footer class="article-footer">
        
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring/" rel="tag">Spring</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li></ul>
-
-    </footer>
-  </div>
-
-    
- 
-    
-</article>
-
-    
-    <article
-  id="post-SQL/Redis/[02]实战篇(6)"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2022/10/13/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(6)/"
-    >实战篇(6):秒杀优化&amp;引入消息队列[Redis]</a> 
-</h2>
- 
-
-      
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2022/10/13/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(6)/" class="article-date">
-  <time datetime="2022-10-13T00:05:42.000Z" itemprop="datePublished">2022-10-13</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/SQL/">SQL</a> / <a class="article-category-link" href="/categories/SQL/SQL/">SQL</a> / <a class="article-category-link" href="/categories/SQL/SQL/Redis/">Redis</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <h2 id="6-秒杀优化"><a class="markdownIt-Anchor" href="#6-秒杀优化"></a> 6、秒杀优化</h2>
-<h3 id="60-性能测试"><a class="markdownIt-Anchor" href="#60-性能测试"></a> 6.0 性能测试</h3>
-<h4 id="601生成测试数据"><a class="markdownIt-Anchor" href="#601生成测试数据"></a> 6.0.1生成测试数据</h4>
-<p><strong>生成用户数据</strong></p>
-<p>首先在<code>tb_user</code>生成1000个用户, 如下图所示</p>
-<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221013083539339.png" style="zoom:50%;" />
-<p>生成 user 的代码不在赘述</p> 
-      <a class="article-more-link" href="/2022/10/13/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(6)/"
-        >more...</a
-      >
-       
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring/" rel="tag">Spring</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9B%9E%E6%BA%AF/" rel="tag">回溯</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%93%BE%E8%A1%A8/" rel="tag">链表</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%98%9F%E5%88%97/" rel="tag">队列</a></li></ul>
 
     </footer>
   </div>
