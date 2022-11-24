@@ -109,6 +109,69 @@
     
     
     <article
+  id="post-springcloud/SpringCloud02"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/11/24/springcloud/SpringCloud02/"
+    >02:Nacos配置管理&amp;Feign远程调用&amp;Gateway服务网关[springcloud]</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/11/24/springcloud/SpringCloud02/" class="article-date">
+  <time datetime="2022-11-24T13:42:40.540Z" itemprop="datePublished">2022-11-24</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/springcloud/">springcloud</a> / <a class="article-category-link" href="/categories/springcloud/springcloud/">springcloud</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="1nacos配置管理"><a class="markdownIt-Anchor" href="#1nacos配置管理"></a> 1.Nacos配置管理</h1>
+<p>Nacos除了可以做注册中心，同样可以做配置管理来使用。</p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1LQ4y127n4/?p=25&amp;spm_id_from=333.880.my_history.page.click&amp;vd_source=7d0b8be6716aca670df8e800cab6d54c">Nacos配置管理-Nacos实现配置管理</a></p>
+<h2 id="11统一配置管理"><a class="markdownIt-Anchor" href="#11统一配置管理"></a> 1.1.统一配置管理</h2>
+<p>当微服务部署的实例越来越多，达到数十、数百时，逐个修改微服务配置就会让人抓狂，而且很容易出错。我们需要一种统一配置管理方案，可以集中管理所有实例的配置。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20210714164426792.png" alt="" /></p>
+<p>Nacos一方面可以将配置集中管理，另一方可以在配置变更时，及时通知微服务，实现配置的热更新。</p> 
+      <a class="article-more-link" href="/2022/11/24/springcloud/SpringCloud02/"
+        >more...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring/" rel="tag">Spring</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mybatis/" rel="tag">mybatis</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/springmvc/" rel="tag">springmvc</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+    
+</article>
+
+    
+    <article
   id="post-springcloud/单机搭建Nacos集群"
   class="article article-type-post"
   itemscope
@@ -158,6 +221,67 @@
     <footer class="article-footer">
        
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring/" rel="tag">Spring</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+    
+</article>
+
+    
+    <article
+  id="post-springcloud/SpringCloud01"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/11/17/springcloud/SpringCloud01/"
+    >01:认识微服务&amp;服务注册[springcloud]</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/11/17/springcloud/SpringCloud01/" class="article-date">
+  <time datetime="2022-11-17T07:55:34.075Z" itemprop="datePublished">2022-11-17</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/springcloud/">springcloud</a> / <a class="article-category-link" href="/categories/springcloud/springcloud/">springcloud</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>视频学习地址 : <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1LQ4y127n4/?p=6&amp;spm_id_from=pageDriver&amp;vd_source=7d0b8be6716aca670df8e800cab6d54c">04-认识微服务-SpringCloud_哔哩哔哩_bilibili</a></p>
+<h1 id="1认识微服务"><a class="markdownIt-Anchor" href="#1认识微服务"></a> 1.认识微服务</h1>
+<p>随着互联网行业的发展，对服务的要求也越来越高，服务架构也从单体架构逐渐演变为现在流行的微服务架构。这些架构之间有怎样的差别呢？</p>
+<p>通过整体式架构，所有进程紧密耦合，并可作为单项服务运行。这意味着，如果应用程序的一个进程遇到需求峰值，则必须扩展整个架构。随着代码库的增长，添加或改进整体式应用程序的功能变得更加复杂。这种复杂性限制了试验的可行性，并使实施新概念变得困难。整体式架构增加了应用程序可用性的风险，因为许多依赖且紧密耦合的进程会扩大单个进程故障的影响。</p>
+<p>使用微服务架构，将应用程序构建为独立的组件，并将每个应用程序进程作为一项服务运行。这些服务使用轻量级 API 通过明确定义的接口进行通信。这些服务是围绕业务功能构建的，每项服务执行一项功能。由于它们是独立运行的，因此可以针对各项服务进行更新、部署和扩展，以满足对应用程序特定功能的需求。</p> 
+      <a class="article-more-link" href="/2022/11/17/springcloud/SpringCloud01/"
+        >more...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring/" rel="tag">Spring</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mybatis/" rel="tag">mybatis</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%88/" rel="tag">栈</a></li></ul>
 
     </footer>
   </div>
@@ -608,131 +732,6 @@
     
     <footer class="article-footer">
        
-    </footer>
-  </div>
-
-    
- 
-    
-</article>
-
-    
-    <article
-  id="post-SQL/Redis/[02]实战篇(7)"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2022/10/14/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(7)/"
-    >实战篇(7):探店&amp;好友关注[Redis]</a> 
-</h2>
- 
-
-      
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2022/10/14/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(7)/" class="article-date">
-  <time datetime="2022-10-14T08:44:10.000Z" itemprop="datePublished">2022-10-14</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/SQL/">SQL</a> / <a class="article-category-link" href="/categories/SQL/SQL/">SQL</a> / <a class="article-category-link" href="/categories/SQL/SQL/Redis/">Redis</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <h2 id="8-达人探店"><a class="markdownIt-Anchor" href="#8-达人探店"></a> 8、达人探店</h2>
-<h3 id="81-达人探店-发布探店笔记"><a class="markdownIt-Anchor" href="#81-达人探店-发布探店笔记"></a> 8.1、达人探店-发布探店笔记</h3>
-<p>发布探店笔记</p>
-<p>探店笔记类似点评网站的评价，往往是图文结合。对应的表有两个：<br />
-<code>tb_blog</code>：探店笔记表，包含笔记中的标题、文字、图片等<br />
-<code>tb_blog_co mments</code>：其他用户对探店笔记的评价</p> 
-      <a class="article-more-link" href="/2022/10/14/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(7)/"
-        >more...</a
-      >
-       
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring/" rel="tag">Spring</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li></ul>
-
-    </footer>
-  </div>
-
-    
- 
-    
-</article>
-
-    
-    <article
-  id="post-SQL/Redis/[02]实战篇(6)"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2022/10/13/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(6)/"
-    >实战篇(6):秒杀优化&amp;引入消息队列[Redis]</a> 
-</h2>
- 
-
-      
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2022/10/13/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(6)/" class="article-date">
-  <time datetime="2022-10-13T00:05:42.000Z" itemprop="datePublished">2022-10-13</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/SQL/">SQL</a> / <a class="article-category-link" href="/categories/SQL/SQL/">SQL</a> / <a class="article-category-link" href="/categories/SQL/SQL/Redis/">Redis</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <h2 id="6-秒杀优化"><a class="markdownIt-Anchor" href="#6-秒杀优化"></a> 6、秒杀优化</h2>
-<h3 id="60-性能测试"><a class="markdownIt-Anchor" href="#60-性能测试"></a> 6.0 性能测试</h3>
-<h4 id="601生成测试数据"><a class="markdownIt-Anchor" href="#601生成测试数据"></a> 6.0.1生成测试数据</h4>
-<p><strong>生成用户数据</strong></p>
-<p>首先在<code>tb_user</code>生成1000个用户, 如下图所示</p>
-<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221013083539339.png" style="zoom:50%;" />
-<p>生成 user 的代码不在赘述</p> 
-      <a class="article-more-link" href="/2022/10/13/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(6)/"
-        >more...</a
-      >
-       
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring/" rel="tag">Spring</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9B%9E%E6%BA%AF/" rel="tag">回溯</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%93%BE%E8%A1%A8/" rel="tag">链表</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%98%9F%E5%88%97/" rel="tag">队列</a></li></ul>
-
     </footer>
   </div>
 
