@@ -109,6 +109,145 @@
     
     
     <article
+  id="post-springcloud/Centos7安装Docker"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/11/25/springcloud/Centos7%E5%AE%89%E8%A3%85Docker/"
+    >centos7安装docker</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/11/25/springcloud/Centos7%E5%AE%89%E8%A3%85Docker/" class="article-date">
+  <time datetime="2022-11-25T07:40:35.000Z" itemprop="datePublished">2022-11-25</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/springcloud/">springcloud</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="0安装docker"><a class="markdownIt-Anchor" href="#0安装docker"></a> 0.安装Docker</h1>
+<p>Docker 分为 CE 和 EE 两大版本。CE 即社区版（免费，支持周期 7 个月），EE 即企业版，强调安全，付费使用，支持周期 24 个月。</p>
+<p>Docker CE 分为 <code>stable</code> <code>test</code> 和 <code>nightly</code> 三个更新频道。</p>
+<p>官方网站上有各种环境下的 <a target="_blank" rel="noopener" href="https://docs.docker.com/install/">安装指南</a>，这里主要介绍 Docker CE 在 CentOS上的安装。</p>
+<h1 id="1centos安装docker"><a class="markdownIt-Anchor" href="#1centos安装docker"></a> 1.CentOS安装Docker</h1>
+<p>Docker CE 支持 64 位版本 CentOS 7，并且要求内核版本不低于 3.10， CentOS 7 满足最低内核的要求，所以我们在CentOS 7安装Docker。</p>
+<h2 id="11卸载可选"><a class="markdownIt-Anchor" href="#11卸载可选"></a> 1.1.卸载（可选）</h2>
+<p>如果之前安装过旧版本的Docker，可以使用下面命令卸载：</p>
+<blockquote>
+<p>使用斜杠是因为命令过长  , 多行输入命令</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">yum remove docker \</span><br><span class="line">                  docker-client \</span><br><span class="line">                  docker-client-latest \</span><br><span class="line">                  docker-common \</span><br><span class="line">                  docker-latest \</span><br><span class="line">                  docker-latest-logrotate \</span><br><span class="line">                  docker-logrotate \</span><br><span class="line">                  docker-selinux \</span><br><span class="line">                  docker-engine-selinux \</span><br><span class="line">                  docker-engine \</span><br><span class="line">                  docker-ce</span><br></pre></td></tr></table></figure> 
+      <a class="article-more-link" href="/2022/11/25/springcloud/Centos7%E5%AE%89%E8%A3%85Docker/"
+        >more...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+    </footer>
+  </div>
+
+    
+ 
+    
+</article>
+
+    
+    <article
+  id="post-springcloud/Springcloud03Docker实用篇"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/11/25/springcloud/Springcloud03Docker%E5%AE%9E%E7%94%A8%E7%AF%87/"
+    >03:Docker入门[springcloud]</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/11/25/springcloud/Springcloud03Docker%E5%AE%9E%E7%94%A8%E7%AF%87/" class="article-date">
+  <time datetime="2022-11-25T07:40:09.408Z" itemprop="datePublished">2022-11-25</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/springcloud/">springcloud</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="1认识docker"><a class="markdownIt-Anchor" href="#1认识docker"></a> 1.认识Docker</h1>
+<h2 id="11什么是docker"><a class="markdownIt-Anchor" href="#11什么是docker"></a> 1.1.什么是Docker</h2>
+<p>微服务虽然具备各种各样的优势，但服务的拆分通用给部署带来了很大的麻烦。</p>
+<ul>
+<li>分布式系统中，依赖的组件非常多，不同组件之间部署时往往会产生一些冲突。</li>
+<li>在数百上千台服务中重复部署，环境不一定一致，会遇到各种问题</li>
+</ul>
+<h3 id="111应用部署的环境问题"><a class="markdownIt-Anchor" href="#111应用部署的环境问题"></a> 1.1.1.应用部署的环境问题</h3>
+<p>大型项目组件较多，运行环境也较为复杂，部署时会碰到一些问题：</p>
+<ul>
+<li>
+<p>依赖关系复杂，容易出现兼容性问题</p>
+</li>
+<li>
+<p>开发、测试、生产环境有差异</p>
+</li>
+</ul> 
+      <a class="article-more-link" href="/2022/11/25/springcloud/Springcloud03Docker%E5%AE%9E%E7%94%A8%E7%AF%87/"
+        >more...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring/" rel="tag">Spring</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javaweb/" rel="tag">javaweb</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+    
+</article>
+
+    
+    <article
   id="post-springcloud/SpringCloud02"
   class="article article-type-post"
   itemscope
@@ -612,142 +751,13 @@
 </article>
 
     
-    <article
-  id="post-其他/常用正则"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2022/10/22/%E5%85%B6%E4%BB%96/%E5%B8%B8%E7%94%A8%E6%AD%A3%E5%88%99/"
-    >常用正则总结</a> 
-</h2>
- 
-
-      
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2022/10/22/%E5%85%B6%E4%BB%96/%E5%B8%B8%E7%94%A8%E6%AD%A3%E5%88%99/" class="article-date">
-  <time datetime="2022-10-22T10:26:31.000Z" itemprop="datePublished">2022-10-22</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%85%B6%E4%BB%96/">其他</a> / <a class="article-category-link" href="/categories/%E5%85%B6%E4%BB%96/%E5%85%B6%E4%BB%96/">其他</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <p>参考<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Nt4y1a7YQ/?spm_id_from=333.337.search-card.all.click">耗时一周，我打造了一个正则表达式学习神器！_哔哩哔哩_bilibili</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/fozero/p/7868687.html">史上最全常用正则表达式大全 - fozero - 博客园 (cnblogs.com)</a></p>
-<p>在开发过程中, 经常需要使用校验,  每次搜索正则表达式非常浪费时间并且不靠谱,   从b站up主CodeSheep 处找到了常用正则总结,  在此保存方便以后查找。</p>
-<p>在线测试正则表达式 : <a target="_blank" rel="noopener" href="https://c.runoob.com/front-end/854/">正则表达式在线测试 | 菜鸟工具 (runoob.com)</a></p>
-<h2 id="数字校验"><a class="markdownIt-Anchor" href="#数字校验"></a> 数字校验</h2> 
-      <a class="article-more-link" href="/2022/10/22/%E5%85%B6%E4%BB%96/%E5%B8%B8%E7%94%A8%E6%AD%A3%E5%88%99/"
-        >more...</a
-      >
-       
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
-
-    </footer>
-  </div>
-
-    
- 
-    
-</article>
-
-    
-    <article
-  id="post-计算机组成原理/(三)存储系统[计组]"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2022/10/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/(%E4%B8%89)%E5%AD%98%E5%82%A8%E7%B3%BB%E7%BB%9F%5B%E8%AE%A1%E7%BB%84%5D/"
-    >(三)存储系统[计组]</a> 
-</h2>
- 
-
-      
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2022/10/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/(%E4%B8%89)%E5%AD%98%E5%82%A8%E7%B3%BB%E7%BB%9F%5B%E8%AE%A1%E7%BB%84%5D/" class="article-date">
-  <time datetime="2022-10-18T07:54:02.624Z" itemprop="datePublished">2022-10-18</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/">计算机组成原理</a> / <a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/">计算机组成原理</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <h1 id="31-概述"><a class="markdownIt-Anchor" href="#31-概述"></a> 3.1 概述</h1>
-<h2 id="311-存储器分类"><a class="markdownIt-Anchor" href="#311-存储器分类"></a> 3.1.1 存储器分类</h2>
-<h3 id="1按存储介质分类"><a class="markdownIt-Anchor" href="#1按存储介质分类"></a> 1.按存储介质分类</h3>
-<p>(1) 半导体存储器：TTL 、MOS，易失<br />
-(2) 磁表面存储器：磁头、载磁体<br />
-(3) 磁芯存储器：硬磁材料、环状元件<br />
-(4) 光盘存储器：激光、磁光材料</p>
-<h3 id="2-按存取方式分类"><a class="markdownIt-Anchor" href="#2-按存取方式分类"></a> 2. 按存取方式分类</h3>
-<ol>
-<li>
-<p>存取时间与物理地址无关（随机访问）：随机存取存储器</p>
-</li>
-<li>
-<p>存取时间与物理地址有关（串行访问）：顺序存取存储器</p> 
-      <a class="article-more-link" href="/2022/10/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/(%E4%B8%89)%E5%AD%98%E5%82%A8%E7%B3%BB%E7%BB%9F%5B%E8%AE%A1%E7%BB%84%5D/"
-        >more...</a
-      >
-       
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-    </footer>
-  </div>
-
-    
- 
-    
-</article>
-
-    
   </article>
   
 
   
   <nav class="page-nav">
     
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/2/">下一页</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/2/">下一页</a>
   </nav>
   
 </section>
