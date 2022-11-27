@@ -13,7 +13,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title>韩顺平Linux笔记(转存) |  dhx_&#39;blog</title>
+      <title>Linux学习笔记(1) |  dhx_&#39;blog</title>
   <meta name="generator" content="hexo-theme-ayer">
       
       <link rel="shortcut icon" href="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220820231738085.png" />
@@ -66,7 +66,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  韩顺平Linux笔记(转存)
+  Linux学习笔记(1)
 </h1>
  
 
@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">12.2k</span>
+            <span class="post-count">12.8k</span>
         </span>
     </span>
 
@@ -95,7 +95,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">46 分钟</span>
+            <span class="post-count">48 分钟</span>
         </span>
     </span>
 </div>
@@ -112,6 +112,7 @@
        
   <p>镜像下载地址:</p>
 <p><a target="_blank" rel="noopener" href="https://vault.centos.org/7.6.1810/isos/x86_64/">https://vault.centos.org/7.6.1810/isos/x86_64/</a></p>
+<blockquote>
 <p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Sv411r7vd?spm_id_from=333.337.search-card.all.click&amp;vd_source=7d0b8be6716aca670df8e800cab6d54c">【小白入门 通俗易懂】2021韩顺平 一周学会Linux_哔哩哔哩_bilibili</a></p>
 <p>P3-P85 linux基础篇<br />
 P86-P90 java定制篇<br />
@@ -119,11 +120,11 @@ P91-P107 大数据shell篇<br />
 P108-P115 python定制篇<br />
 P117-P141 linux高级篇<br />
 P142-P153 面试题</p>
-<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Sv411r7vd">老韩学习视频跳转</a></p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Sv411r7vd">学习视频跳转</a></p>
 <h1 id="一-linux概述"><a class="markdownIt-Anchor" href="#一-linux概述"></a> 一、Linux概述</h1>
 <p>unix和LInux的关系</p>
 <img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221008105630327.png" style="zoom: 80%;" />
-<span id="more"></span>
 <p><strong>LInux的应用领域</strong></p>
 <p>服务器领域</p>
 <ul>
@@ -135,41 +136,77 @@ P142-P153 面试题</p>
 <li>linux运行稳定、对网络的良好支持性、低成本，且可以根据需要进行网络裁剪，内核最小可达到几百kb的特点，使近些年来在嵌入式领域的应用得到非常大的提高</li>
 <li>主要应用:机顶盒、数字电视、网络电话、程控交换机、手机、PDA、智能家居、智能硬件等都是其应用领域。以后在物联网中应用会更加广泛。</li>
 </ul>
+<span id="more"></span>
 <p><strong>LInux的吉祥物</strong></p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/20210620104019587.png" alt="" /></p>
-<ul>
-<li>名称：tux</li>
-</ul>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/20210620104019587.png" alt="tux" style="zoom:50%;" />
 <hr />
-<p><strong>Linux主要的发行版本</strong></p>
-<p>Ubuntu（乌班图）、RedHat（红帽）、CentOS</p>
+<h2 id="11linux主要的发行版本"><a class="markdownIt-Anchor" href="#11linux主要的发行版本"></a> 1.1Linux主要的发行版本</h2>
+<p>Ubuntu、RedHat 、CentOS</p>
 <hr />
 <p><strong>vm与Linux的关系</strong><br />
 <img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/20210620104039538.png" alt="" /></p>
-<p><strong>VMware网络连接的三种模式</strong></p>
-<p>桥接模式</p>
+<h2 id="12vmware网络连接的三种模式"><a class="markdownIt-Anchor" href="#12vmware网络连接的三种模式"></a> 1.2VMware网络连接的三种模式</h2>
+<h3 id="桥接模式"><a class="markdownIt-Anchor" href="#桥接模式"></a> 桥接模式</h3>
 <ul>
-<li>VMWare会虚拟一块网卡和真正的物理网卡就行桥接，这样，发到物理网卡的所有数据包就到了VMWare虚拟机，而由VMWare发出的数据包也会通过桥从物理网卡的那端发出。桥接网络是指本地物理网卡和虚拟网卡通过VMnet0虚拟交换机进行桥接。相当于在一个局域网内创立了一个单独的主机，他可以访问这个局域网内的所有的主机</li>
+<li>VMWare会虚拟一块网卡和真正的物理网卡就行桥接，这样，发到物理网卡的所有数据包就到了VMWare虚拟机，而由VMWare发出的数据包也会通过桥从物理网卡的那端发出。<strong>桥接网络是指本地物理网卡和虚拟网卡通过VMnet0虚拟交换机进行桥接。相当于在一个局域网内创立了一个单独的主机，他可以访问这个局域网内的所有的主机</strong></li>
 <li>该模式下主机网卡和虚拟机网卡的IP地址处于同一个网段，子网掩码、网关、DNS等参数都相同</li>
-<li>桥接模式下虚拟机和主机在网络上地位相等，可以理解为一台新的电脑</li>
+<li><strong>桥接模式下虚拟机和主机在网络上地位相等，可以理解为一台新的电脑</strong></li>
 </ul>
+<blockquote>
+<p>容易造成网络地址冲突 (ip 字段不够用了)</p>
+</blockquote>
 <p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/20210620104056936.png" alt="" /></p>
-<p>NAT模式</p>
+<h3 id="nat模式"><a class="markdownIt-Anchor" href="#nat模式"></a> NAT模式</h3>
 <ul>
 <li>虚拟系统会通过真实主机的网络来访问外网，而真实主机相当于有两个网卡：真实网卡和虚拟网卡，真实网卡相当于链接了现实世界的真实路由器，而虚拟网卡相当于链接一个虚拟交换机/路由器（这个虚拟交换机同时链接虚拟机和真实主机）,此时虚拟机想访问外网就必须通过真实主机IP地址，而外面看来也确实是真实主机的IP地址，实则是虚拟机访问的，完全看不到虚拟网络局域的内部形式。</li>
 <li>网络地址转换模式。虚拟机系统可以和外部系统通讯，不早造成IP冲突</li>
 </ul>
 <p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/20210620104114549.png" alt="" /></p>
-<p>主机模式</p>
+<h3 id="主机模式"><a class="markdownIt-Anchor" href="#主机模式"></a> 主机模式</h3>
 <ul>
 <li>他就是一个独立的系统，不和外界发生联系</li>
 </ul>
+<h2 id="13虚拟机克隆"><a class="markdownIt-Anchor" href="#13虚拟机克隆"></a> 1.3虚拟机克隆</h2>
+<p>如果已经安装好了一个Linux虚拟机 , 并且我们恰好需要部署集群,  此时再去创建新的虚拟机然后去设置相关配置就会十分的麻烦 ,  这个时候虚拟机克隆就是很好的选择。</p>
+<blockquote>
+<p>注意克隆的时候需要关闭虚拟机</p>
+</blockquote>
+<h3 id="131-直接copy虚拟机文件"><a class="markdownIt-Anchor" href="#131-直接copy虚拟机文件"></a> 1.3.1 直接copy虚拟机文件</h3>
+<p><strong>Ctrl CV  然后使用Vmware打开即可</strong></p>
+<h3 id="132-使用vmware进行虚拟机克隆"><a class="markdownIt-Anchor" href="#132-使用vmware进行虚拟机克隆"></a> 1.3.2 使用vmware进行虚拟机克隆</h3>
+<p>根据软件一步步操作即可,  不再叙述</p>
+<h2 id="14-虚拟机快照"><a class="markdownIt-Anchor" href="#14-虚拟机快照"></a> 1.4 虚拟机快照</h2>
+<p>如果你在使用虚拟机系统的时候(比如linux)，你想回到原先的某一个状态，也就是说你担心可能有些误操作造成系统异常，</p>
+<p>需要回到原先某个正常运行的状态，vmware也提供了这样的功能，就叫<mark>快照管理</mark>。</p>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221126210750810.png" style="zoom:67%;" />
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221126211040686.png" alt="" /></p>
+<h2 id="15设置共享本机的文件夹"><a class="markdownIt-Anchor" href="#15设置共享本机的文件夹"></a> 1.5设置共享本机的文件夹</h2>
+<img src="https://img.jbzj.com/file_images/article/202105/2021052814331438.jpg" alt="img" style="zoom:67%;" />
+<h3 id="151-虚拟机设置-共享文件夹"><a class="markdownIt-Anchor" href="#151-虚拟机设置-共享文件夹"></a> 1.5.1 虚拟机设置 共享文件夹：</h3>
+<p>1、选择待处理虚拟机，右键设置（或者在点开虚拟机时，选择编辑虚拟机设置）；</p>
+<p>2、在虚拟机设置窗口：选择选项–》点击共享文件夹；文件夹共享选择总是启用</p>
+<p>3、在文件夹 ：添加共享目录；弹出窗口点击下一步–》设置共享文件夹目录 地址、共享文件夹名称 —》启用此共享 --》完成。 虚拟机设置完成。</p>
+<h2 id="152-centos挂载识别-共享文件夹目录"><a class="markdownIt-Anchor" href="#152-centos挂载识别-共享文件夹目录"></a> 1.5.2 Centos挂载/识别 共享文件夹/目录。</h2>
+<p>1、在Centos桌面打开终端（或者使用XShell ：直接连接上就好）</p>
+<p>2、查看共享目录情况 命令： vmware-hgfsclient</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/2021052814331539.jpg" alt="" /></p>
+<p>3、如果这是第一次设置共享目录， centos 7 需要创建文件夹在 /mnt下创建 /hgfs（mkdir /mnt/hgfs）—&gt;查看创建情况 ls -l /mnt ；</p>
+<p>4、（初次）手动挂载共享目录 ----每次关机需要重新挂载处理【刚开始我只是手动挂载，导致第二天无法查看共享目录。】</p>
+<p>挂载命令：　vmhgfs-fuse .host:/vm /mnt/hgfs vm 是设置的共享目录名称，/mnt/hgfs 是挂载位置,位置可以随便定义</p>
+<p>5、加入开机挂载</p>
+<p><a target="_blank" rel="noopener" href="http://1.cd">1.cd</a> /etc/rc.d vim 编辑rc.local</p>
+<p>2.vmhgfs-fuse .host:/vm /home/wwwroot 挂载到 /home/wwwroot</p>
+<p>3.init 6重启虚拟机</p>
+<p>可以看到 虚拟机与主机都可以 读写该<strong>文件夹</strong></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221126212947599.png" alt="" /></p>
 <h1 id="二-linux目录结构️"><a class="markdownIt-Anchor" href="#二-linux目录结构️"></a> 二、Linux目录结构⭐️</h1>
 <h2 id="21基本介绍"><a class="markdownIt-Anchor" href="#21基本介绍"></a> 2.1基本介绍</h2>
+<blockquote>
+<p>深刻理解linux树状文件目录是非常重要</p>
+</blockquote>
 <ul>
 <li>linux的文件系统是采用级层式的树状目录结构，在此结构上的最上层是根目录“/&quot;，然后在此目录下在创建其他的目录。</li>
-<li>深刻理解linux树状文件目录是非常重要的</li>
-<li>记住一句很经典的话：在LInux世界里，一切皆文件</li>
+<li>记住一句很经典的话：<mark>在LInux世界里，一切皆文件</mark></li>
 </ul>
 <h2 id="22具体的目录结构"><a class="markdownIt-Anchor" href="#22具体的目录结构"></a> 2.2具体的目录结构</h2>
 <ul>
