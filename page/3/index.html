@@ -120,6 +120,196 @@
     
     
     <article
+  id="post-SQL/Redis/[02]实战篇(5)"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/10/12/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(5)/"
+    >实战篇(5):分布式锁优化--redission[Redis]</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/10/12/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(5)/" class="article-date">
+  <time datetime="2022-10-12T09:06:50.172Z" itemprop="datePublished">2022-10-12</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/SQL/">SQL</a> / <a class="article-category-link" href="/categories/SQL/SQL/">SQL</a> / <a class="article-category-link" href="/categories/SQL/SQL/Redis/">Redis</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <blockquote>
+<p>之前的分布式锁已经足以面对绝大多数情况了,  下面的只是做拓展</p>
+</blockquote>
+<h2 id="5-分布式锁-redission"><a class="markdownIt-Anchor" href="#5-分布式锁-redission"></a> 5、分布式锁-redission</h2>
+<h3 id="51-分布式锁-redission功能介绍"><a class="markdownIt-Anchor" href="#51-分布式锁-redission功能介绍"></a> 5.1 分布式锁-redission功能介绍</h3>
+<p><u>基于setnx实现的分布式锁存在下面的问题：</u></p>
+<p><strong>重入问题</strong>：重入问题是指 获得锁的线程可以再次进入到相同的锁的代码块中，可重入锁的意义在于防止死锁，比如HashTable这样的代码中，他的方法都是使用synchronized修饰的，假如他在一个方法内，调用另一个方法，那么此时如果是不可重入的，不就死锁了吗？所以可重入锁他的主要意义是防止死锁，我们的synchronized和Lock锁都是可重入的。</p>
+<p><strong>不可重试</strong>：是指目前的分布式只能尝试一次，我们认为合理的情况是：当线程在获得锁失败后，他应该能再次尝试获得锁。</p>
+<p>**超时释放：**我们在加锁时增加了过期时间，这样的我们可以防止死锁，但是如果卡顿的时间超长，虽然我们采用了lua表达式防止删锁的时候，误删别人的锁，但是毕竟没有锁住，有安全隐患</p> 
+      <a class="article-more-link" href="/2022/10/12/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(5)/"
+        >more...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+    
+</article>
+
+    
+    <article
+  id="post-SQL/Redis/[02]实战篇(4)"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/10/12/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(4)/"
+    >实战篇(4):分布式锁[Redis]</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/10/12/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(4)/" class="article-date">
+  <time datetime="2022-10-12T09:06:50.170Z" itemprop="datePublished">2022-10-12</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/SQL/">SQL</a> / <a class="article-category-link" href="/categories/SQL/SQL/">SQL</a> / <a class="article-category-link" href="/categories/SQL/SQL/Redis/">Redis</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h2 id="4-分布式锁"><a class="markdownIt-Anchor" href="#4-分布式锁"></a> 4 分布式锁</h2>
+<h3 id="41-基本原理和实现方式对比"><a class="markdownIt-Anchor" href="#41-基本原理和实现方式对比"></a> 4.1  基本原理和实现方式对比</h3>
+<p>分布式锁：满足分布式系统或集群模式下多进程可见并且互斥的锁。</p>
+<p>分布式锁的核心思想就是让大家都使用同一把锁，只要大家使用的是同一把锁，那么我们就能锁住线程，不让线程进行，让程序串行执行，这就是分布式锁的核心思路</p> 
+      <a class="article-more-link" href="/2022/10/12/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(4)/"
+        >more...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring/" rel="tag">Spring</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+    
+</article>
+
+    
+    <article
+  id="post-springboot/idea配置集群"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/10/11/springboot/idea%E9%85%8D%E7%BD%AE%E9%9B%86%E7%BE%A4/"
+    >idea配置集群</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/10/11/springboot/idea%E9%85%8D%E7%BD%AE%E9%9B%86%E7%BE%A4/" class="article-date">
+  <time datetime="2022-10-11T07:55:11.000Z" itemprop="datePublished">2022-10-11</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/springboot/">springboot</a> / <a class="article-category-link" href="/categories/springboot/springboot/">springboot</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <blockquote>
+<p>在学习redis分布式锁的时候, 需要用到集群</p>
+<p>下面是相关配置</p>
+<ul>
+<li>单机</li>
+</ul>
+</blockquote>
+<h1 id="idea配置集群"><a class="markdownIt-Anchor" href="#idea配置集群"></a> idea配置集群</h1>
+<h2 id="配置多个springboot"><a class="markdownIt-Anchor" href="#配置多个springboot"></a> 配置多个springboot</h2> 
+      <a class="article-more-link" href="/2022/10/11/springboot/idea%E9%85%8D%E7%BD%AE%E9%9B%86%E7%BE%A4/"
+        >more...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/springboot/" rel="tag">springboot</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+    
+</article>
+
+    
+    <article
   id="post-SQL/Redis/[02]实战篇(3)"
   class="article article-type-post"
   itemscope
@@ -586,228 +776,6 @@
     <footer class="article-footer">
        
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/" rel="tag">位运算</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%91/" rel="tag">树</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">算法与数据结构</a></li></ul>
-
-    </footer>
-  </div>
-
-    
- 
-    
-</article>
-
-    
-    <article
-  id="post-算法与数据结构/leetcode/leetcode题目(2)"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2022/09/13/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/leetcode/leetcode%E9%A2%98%E7%9B%AE(2)/"
-    >leetcode题目(2)</a> 
-</h2>
- 
-
-      
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2022/09/13/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/leetcode/leetcode%E9%A2%98%E7%9B%AE(2)/" class="article-date">
-  <time datetime="2022-09-13T14:36:25.000Z" itemprop="datePublished">2022-09-13</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">算法与数据结构</a> / <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">算法与数据结构</a> / <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/leetcode/">leetcode</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <p>typora编辑的md文件过长会导致卡顿, <strong>因此继续分文件存笔记</strong></p>
-<h2 id="62-不同路径-dp"><a class="markdownIt-Anchor" href="#62-不同路径-dp"></a> 🎈<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/unique-paths/">62. 不同路径: DP</a></h2>
-<p>难度中等1542</p>
-<p>一个机器人位于一个 <code>m x n</code> 网格的左上角 （起始点在下图中标记为 “Start” ）。</p>
-<p>机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为 “Finish” ）。</p>
-<p>问总共有多少条不同的路径？</p>
-<ol>
-<li>
-<p><strong>dp数组定义</strong>: <code>dp[i][j]</code>表示 走到下标为<code>(i,j)</code> 的种数,</p>
-</li>
-<li>
-<p><strong>状态转移</strong>: 由于题目中规定机器人只能向下以及向右走, 那么对于当前的<code>dp[i][j]</code></p>
-<p><code>dp[i][j]=dp[i-1][j]+dp[i][j-1]</code></p>
-<p>走到当前的坐标的路径种数就等于走到当前的坐标的左边以及上边的坐标的路径之和</p>
-</li>
-<li>
-<p><strong>dp数组初始化</strong></p>
-<ul>
-<li>为了方便后续的计算,我们可以直接<strong>初始化 第一行以及第一列的元素为1</strong> , 因为<strong>机器人只能往下往右走</strong></li>
-</ul>
-<p><code>for (int i = 0; i &lt; m; i++) dp[i][0]=1; for (int i = 0; i &lt; n; i++) dp[0][i]=1;</code></p>
-</li>
-<li>
-<p>返回值: 返回<code>dp[m-1][n-1]</code> <strong>表示走到终点的路径总数</strong></p>
-</li>
-</ol> 
-      <a class="article-more-link" href="/2022/09/13/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/leetcode/leetcode%E9%A2%98%E7%9B%AE(2)/"
-        >more...</a
-      >
-       
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag">动态规划</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8F%8C%E6%8C%87%E9%92%88/" rel="tag">双指针</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">算法与数据结构</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%B4%AA%E5%BF%83/" rel="tag">贪心</a></li></ul>
-
-    </footer>
-  </div>
-
-    
- 
-    
-</article>
-
-    
-    <article
-  id="post-计算机组成原理/(一)计算机系统概论[计组]"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2022/09/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/(%E4%B8%80)%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA%5B%E8%AE%A1%E7%BB%84%5D/"
-    >(一)计算机系统概论[计组]</a> 
-</h2>
- 
-
-      
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2022/09/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/(%E4%B8%80)%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA%5B%E8%AE%A1%E7%BB%84%5D/" class="article-date">
-  <time datetime="2022-09-13T09:07:13.000Z" itemprop="datePublished">2022-09-13</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/">计算机组成原理</a> / <a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/">计算机组成原理</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <p><strong>课堂内容</strong>+ 视频教程<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1WW411Q7PF?p=2&amp;vd_source=7d0b8be6716aca670df8e800cab6d54c">1.1 计算机组成原理（唐朔飞）_哔哩哔哩_bilibili</a></p>
-<p>转载自：<a target="_blank" rel="noopener" href="https://fangkaipeng.com/?cat=42">计算机组成原理 – Here_SDUT (fangkaipeng.com)</a></p>
-<blockquote>
-<p><strong>根据实际学习内容有一定的添加以及修改</strong></p>
-</blockquote>
-<h1 id="11-计算机的分类"><a class="markdownIt-Anchor" href="#11-计算机的分类"></a> 1.1 计算机的分类</h1>
-<h2 id="一-两大类"><a class="markdownIt-Anchor" href="#一-两大类"></a> 一、两大类</h2>
-<ul>
-<li>
-<p>电子模拟计算机：数值由连续量表示，运算过程连续，受干扰大。</p>
-</li>
-<li>
-<p>电子数字计算机：按位运算，不连续地跳动计算，抗干扰能力强。</p> 
-      <a class="article-more-link" href="/2022/09/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/(%E4%B8%80)%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA%5B%E8%AE%A1%E7%BB%84%5D/"
-        >more...</a
-      >
-       
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/" rel="tag">位运算</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li></ul>
-
-    </footer>
-  </div>
-
-    
- 
-    
-</article>
-
-    
-    <article
-  id="post-计算机组成原理/前置知识[数字电路]"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2022/09/07/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86%5B%E6%95%B0%E5%AD%97%E7%94%B5%E8%B7%AF%5D/"
-    >(零)前置知识--数字电路[计组]</a> 
-</h2>
- 
-
-      
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2022/09/07/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86%5B%E6%95%B0%E5%AD%97%E7%94%B5%E8%B7%AF%5D/" class="article-date">
-  <time datetime="2022-09-07T08:25:45.000Z" itemprop="datePublished">2022-09-07</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/">计算机组成原理</a> / <a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/">计算机组成原理</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <h1 id="前置知识数字电路计组"><a class="markdownIt-Anchor" href="#前置知识数字电路计组"></a> 前置知识–数字电路[计组]</h1>
-<h2 id="一晶体三极管与数字电路"><a class="markdownIt-Anchor" href="#一晶体三极管与数字电路"></a> 一.晶体三极管与数字电路</h2>
-<p><strong>物体按导电性可以分为</strong>:</p>
-<ul>
-<li>
-<p>绝缘体:不导电 (塑料, 橡胶 , 陶瓷)</p>
-</li>
-<li>
-<p>导体: 双向导电(金银铜铁等)</p>
-</li>
-<li>
-<p>半导体:单项导电(硅锗等)</p>
-<blockquote>
-<p>导电性介于绝缘体和导体之间, <strong>加热单向导电,冷却绝缘</strong></p>
-</blockquote> 
-      <a class="article-more-link" href="/2022/09/07/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86%5B%E6%95%B0%E5%AD%97%E7%94%B5%E8%B7%AF%5D/"
-        >more...</a
-      >
-       
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">算法与数据结构</a></li></ul>
 
     </footer>
   </div>

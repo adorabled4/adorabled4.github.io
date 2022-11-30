@@ -120,6 +120,202 @@
     
     
     <article
+  id="post-springcloud/SpringCloud01"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/11/17/springcloud/SpringCloud01/"
+    >01:认识微服务&amp;服务注册[springcloud]</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/11/17/springcloud/SpringCloud01/" class="article-date">
+  <time datetime="2022-11-17T07:55:34.075Z" itemprop="datePublished">2022-11-17</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/springcloud/">springcloud</a> / <a class="article-category-link" href="/categories/springcloud/springcloud/">springcloud</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>视频学习地址 : <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1LQ4y127n4/?p=6&amp;spm_id_from=pageDriver&amp;vd_source=7d0b8be6716aca670df8e800cab6d54c">04-认识微服务-SpringCloud_哔哩哔哩_bilibili</a></p>
+<h1 id="1认识微服务"><a class="markdownIt-Anchor" href="#1认识微服务"></a> 1.认识微服务</h1>
+<p>随着互联网行业的发展，对服务的要求也越来越高，服务架构也从单体架构逐渐演变为现在流行的微服务架构。这些架构之间有怎样的差别呢？</p>
+<p>通过整体式架构，所有进程紧密耦合，并可作为单项服务运行。这意味着，如果应用程序的一个进程遇到需求峰值，则必须扩展整个架构。随着代码库的增长，添加或改进整体式应用程序的功能变得更加复杂。这种复杂性限制了试验的可行性，并使实施新概念变得困难。整体式架构增加了应用程序可用性的风险，因为许多依赖且紧密耦合的进程会扩大单个进程故障的影响。</p>
+<p>使用微服务架构，将应用程序构建为独立的组件，并将每个应用程序进程作为一项服务运行。这些服务使用轻量级 API 通过明确定义的接口进行通信。这些服务是围绕业务功能构建的，每项服务执行一项功能。由于它们是独立运行的，因此可以针对各项服务进行更新、部署和扩展，以满足对应用程序特定功能的需求。</p> 
+      <a class="article-more-link" href="/2022/11/17/springcloud/SpringCloud01/"
+        >more...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring/" rel="tag">Spring</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mybatis/" rel="tag">mybatis</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%88/" rel="tag">栈</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+    
+</article>
+
+    
+    <article
+  id="post-SQL/MySQL/多条件的分页查询"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/11/07/SQL/MySQL/%E5%A4%9A%E6%9D%A1%E4%BB%B6%E7%9A%84%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2/"
+    >多条件的分页查询</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/11/07/SQL/MySQL/%E5%A4%9A%E6%9D%A1%E4%BB%B6%E7%9A%84%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2/" class="article-date">
+  <time datetime="2022-11-07T14:08:45.782Z" itemprop="datePublished">2022-11-07</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/SQL/">SQL</a> / <a class="article-category-link" href="/categories/SQL/SQL/">SQL</a> / <a class="article-category-link" href="/categories/SQL/SQL/MySQL/">MySQL</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>在后台管理中 , 常常需要设置多个条件来筛选数据  ,  也就是多条件查询</p>
+<h2 id="多条件查询"><a class="markdownIt-Anchor" href="#多条件查询"></a> 多条件查询</h2>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/fanminghao/article/details/107544056">Spring Boot+Mybatis多条件模糊查询，动态sql_fanminghao的博客-CSDN博客</a></p>
+<ul>
+<li>使用动态SQL</li>
+</ul>
+<blockquote>
+<p>在此 SQL 语句中， where 1=1 是多条件拼接时的小技巧， 后面的条件查询就可以都用 and 了。</p>
+</blockquote>
+<p>使用 if 标签来处理动态 SQL</p>
+<blockquote>
+<p>注意if标签里面的 test , 对应的应该是实体类的<strong>属性名</strong></p>
+</blockquote> 
+      <a class="article-more-link" href="/2022/11/07/SQL/MySQL/%E5%A4%9A%E6%9D%A1%E4%BB%B6%E7%9A%84%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2/"
+        >more...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring/" rel="tag">Spring</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mybatis/" rel="tag">mybatis</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+    
+</article>
+
+    
+    <article
+  id="post-springboot/返回错误码还是抛出异常"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/11/04/springboot/%E8%BF%94%E5%9B%9E%E9%94%99%E8%AF%AF%E7%A0%81%E8%BF%98%E6%98%AF%E6%8A%9B%E5%87%BA%E5%BC%82%E5%B8%B8/"
+    >返回错误码还是抛出异常?</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/11/04/springboot/%E8%BF%94%E5%9B%9E%E9%94%99%E8%AF%AF%E7%A0%81%E8%BF%98%E6%98%AF%E6%8A%9B%E5%87%BA%E5%BC%82%E5%B8%B8/" class="article-date">
+  <time datetime="2022-11-04T03:07:28.627Z" itemprop="datePublished">2022-11-04</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/springboot/">springboot</a> / <a class="article-category-link" href="/categories/springboot/springboot/">springboot</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>首先，要明确一点的是，错误码和异常，这两者在程序的表达能力上是等价的。</p>
+<p>它们都可以向调用者传达“与常规情况不一样的状态”。</p>
+<p>考虑使用哪一种，更多地是从API的设计、系统的性能指标、新旧代码的一致性这3个角度来考虑的(本文主要从API设计的角度着手)。</p>
+<blockquote>
+<p>我们返回异常,  比如return ResultUtil.fail( errorCode)  , 如果直接把异常返回到用户使用层面 , 会有下面两点问题</p>
+<ol>
+<li>总不能指望用户看懂java 的Exception</li>
+<li>直接返回异常信息, 可能会造成安全问题</li>
+</ol>
+</blockquote> 
+      <a class="article-more-link" href="/2022/11/04/springboot/%E8%BF%94%E5%9B%9E%E9%94%99%E8%AF%AF%E7%A0%81%E8%BF%98%E6%98%AF%E6%8A%9B%E5%87%BA%E5%BC%82%E5%B8%B8/"
+        >more...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/springboot/" rel="tag">springboot</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%88/" rel="tag">栈</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+    
+</article>
+
+    
+    <article
   id="post-springboot/swagger生成接口文档"
   class="article article-type-post"
   itemscope
@@ -548,196 +744,6 @@
     <footer class="article-footer">
        
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring/" rel="tag">Spring</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9B%9E%E6%BA%AF/" rel="tag">回溯</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%93%BE%E8%A1%A8/" rel="tag">链表</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%98%9F%E5%88%97/" rel="tag">队列</a></li></ul>
-
-    </footer>
-  </div>
-
-    
- 
-    
-</article>
-
-    
-    <article
-  id="post-SQL/Redis/[02]实战篇(5)"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2022/10/12/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(5)/"
-    >实战篇(5):分布式锁优化--redission[Redis]</a> 
-</h2>
- 
-
-      
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2022/10/12/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(5)/" class="article-date">
-  <time datetime="2022-10-12T09:06:50.172Z" itemprop="datePublished">2022-10-12</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/SQL/">SQL</a> / <a class="article-category-link" href="/categories/SQL/SQL/">SQL</a> / <a class="article-category-link" href="/categories/SQL/SQL/Redis/">Redis</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <blockquote>
-<p>之前的分布式锁已经足以面对绝大多数情况了,  下面的只是做拓展</p>
-</blockquote>
-<h2 id="5-分布式锁-redission"><a class="markdownIt-Anchor" href="#5-分布式锁-redission"></a> 5、分布式锁-redission</h2>
-<h3 id="51-分布式锁-redission功能介绍"><a class="markdownIt-Anchor" href="#51-分布式锁-redission功能介绍"></a> 5.1 分布式锁-redission功能介绍</h3>
-<p><u>基于setnx实现的分布式锁存在下面的问题：</u></p>
-<p><strong>重入问题</strong>：重入问题是指 获得锁的线程可以再次进入到相同的锁的代码块中，可重入锁的意义在于防止死锁，比如HashTable这样的代码中，他的方法都是使用synchronized修饰的，假如他在一个方法内，调用另一个方法，那么此时如果是不可重入的，不就死锁了吗？所以可重入锁他的主要意义是防止死锁，我们的synchronized和Lock锁都是可重入的。</p>
-<p><strong>不可重试</strong>：是指目前的分布式只能尝试一次，我们认为合理的情况是：当线程在获得锁失败后，他应该能再次尝试获得锁。</p>
-<p>**超时释放：**我们在加锁时增加了过期时间，这样的我们可以防止死锁，但是如果卡顿的时间超长，虽然我们采用了lua表达式防止删锁的时候，误删别人的锁，但是毕竟没有锁住，有安全隐患</p> 
-      <a class="article-more-link" href="/2022/10/12/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(5)/"
-        >more...</a
-      >
-       
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
-
-    </footer>
-  </div>
-
-    
- 
-    
-</article>
-
-    
-    <article
-  id="post-SQL/Redis/[02]实战篇(4)"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2022/10/12/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(4)/"
-    >实战篇(4):分布式锁[Redis]</a> 
-</h2>
- 
-
-      
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2022/10/12/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(4)/" class="article-date">
-  <time datetime="2022-10-12T09:06:50.170Z" itemprop="datePublished">2022-10-12</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/SQL/">SQL</a> / <a class="article-category-link" href="/categories/SQL/SQL/">SQL</a> / <a class="article-category-link" href="/categories/SQL/SQL/Redis/">Redis</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <h2 id="4-分布式锁"><a class="markdownIt-Anchor" href="#4-分布式锁"></a> 4 分布式锁</h2>
-<h3 id="41-基本原理和实现方式对比"><a class="markdownIt-Anchor" href="#41-基本原理和实现方式对比"></a> 4.1  基本原理和实现方式对比</h3>
-<p>分布式锁：满足分布式系统或集群模式下多进程可见并且互斥的锁。</p>
-<p>分布式锁的核心思想就是让大家都使用同一把锁，只要大家使用的是同一把锁，那么我们就能锁住线程，不让线程进行，让程序串行执行，这就是分布式锁的核心思路</p> 
-      <a class="article-more-link" href="/2022/10/12/SQL/Redis/%5B02%5D%E5%AE%9E%E6%88%98%E7%AF%87(4)/"
-        >more...</a
-      >
-       
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring/" rel="tag">Spring</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
-
-    </footer>
-  </div>
-
-    
- 
-    
-</article>
-
-    
-    <article
-  id="post-springboot/idea配置集群"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2022/10/11/springboot/idea%E9%85%8D%E7%BD%AE%E9%9B%86%E7%BE%A4/"
-    >idea配置集群</a> 
-</h2>
- 
-
-      
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2022/10/11/springboot/idea%E9%85%8D%E7%BD%AE%E9%9B%86%E7%BE%A4/" class="article-date">
-  <time datetime="2022-10-11T07:55:11.000Z" itemprop="datePublished">2022-10-11</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/springboot/">springboot</a> / <a class="article-category-link" href="/categories/springboot/springboot/">springboot</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <blockquote>
-<p>在学习redis分布式锁的时候, 需要用到集群</p>
-<p>下面是相关配置</p>
-<ul>
-<li>单机</li>
-</ul>
-</blockquote>
-<h1 id="idea配置集群"><a class="markdownIt-Anchor" href="#idea配置集群"></a> idea配置集群</h1>
-<h2 id="配置多个springboot"><a class="markdownIt-Anchor" href="#配置多个springboot"></a> 配置多个springboot</h2> 
-      <a class="article-more-link" href="/2022/10/11/springboot/idea%E9%85%8D%E7%BD%AE%E9%9B%86%E7%BE%A4/"
-        >more...</a
-      >
-       
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/springboot/" rel="tag">springboot</a></li></ul>
 
     </footer>
   </div>

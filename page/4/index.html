@@ -120,6 +120,228 @@
     
     
     <article
+  id="post-算法与数据结构/leetcode/leetcode题目(2)"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/09/13/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/leetcode/leetcode%E9%A2%98%E7%9B%AE(2)/"
+    >leetcode题目(2)</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/09/13/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/leetcode/leetcode%E9%A2%98%E7%9B%AE(2)/" class="article-date">
+  <time datetime="2022-09-13T14:36:25.000Z" itemprop="datePublished">2022-09-13</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">算法与数据结构</a> / <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">算法与数据结构</a> / <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/leetcode/">leetcode</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>typora编辑的md文件过长会导致卡顿, <strong>因此继续分文件存笔记</strong></p>
+<h2 id="62-不同路径-dp"><a class="markdownIt-Anchor" href="#62-不同路径-dp"></a> 🎈<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/unique-paths/">62. 不同路径: DP</a></h2>
+<p>难度中等1542</p>
+<p>一个机器人位于一个 <code>m x n</code> 网格的左上角 （起始点在下图中标记为 “Start” ）。</p>
+<p>机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为 “Finish” ）。</p>
+<p>问总共有多少条不同的路径？</p>
+<ol>
+<li>
+<p><strong>dp数组定义</strong>: <code>dp[i][j]</code>表示 走到下标为<code>(i,j)</code> 的种数,</p>
+</li>
+<li>
+<p><strong>状态转移</strong>: 由于题目中规定机器人只能向下以及向右走, 那么对于当前的<code>dp[i][j]</code></p>
+<p><code>dp[i][j]=dp[i-1][j]+dp[i][j-1]</code></p>
+<p>走到当前的坐标的路径种数就等于走到当前的坐标的左边以及上边的坐标的路径之和</p>
+</li>
+<li>
+<p><strong>dp数组初始化</strong></p>
+<ul>
+<li>为了方便后续的计算,我们可以直接<strong>初始化 第一行以及第一列的元素为1</strong> , 因为<strong>机器人只能往下往右走</strong></li>
+</ul>
+<p><code>for (int i = 0; i &lt; m; i++) dp[i][0]=1; for (int i = 0; i &lt; n; i++) dp[0][i]=1;</code></p>
+</li>
+<li>
+<p>返回值: 返回<code>dp[m-1][n-1]</code> <strong>表示走到终点的路径总数</strong></p>
+</li>
+</ol> 
+      <a class="article-more-link" href="/2022/09/13/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/leetcode/leetcode%E9%A2%98%E7%9B%AE(2)/"
+        >more...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag">动态规划</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8F%8C%E6%8C%87%E9%92%88/" rel="tag">双指针</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">算法与数据结构</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%B4%AA%E5%BF%83/" rel="tag">贪心</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+    
+</article>
+
+    
+    <article
+  id="post-计算机组成原理/(一)计算机系统概论[计组]"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/09/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/(%E4%B8%80)%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA%5B%E8%AE%A1%E7%BB%84%5D/"
+    >(一)计算机系统概论[计组]</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/09/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/(%E4%B8%80)%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA%5B%E8%AE%A1%E7%BB%84%5D/" class="article-date">
+  <time datetime="2022-09-13T09:07:13.000Z" itemprop="datePublished">2022-09-13</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/">计算机组成原理</a> / <a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/">计算机组成原理</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p><strong>课堂内容</strong>+ 视频教程<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1WW411Q7PF?p=2&amp;vd_source=7d0b8be6716aca670df8e800cab6d54c">1.1 计算机组成原理（唐朔飞）_哔哩哔哩_bilibili</a></p>
+<p>转载自：<a target="_blank" rel="noopener" href="https://fangkaipeng.com/?cat=42">计算机组成原理 – Here_SDUT (fangkaipeng.com)</a></p>
+<blockquote>
+<p><strong>根据实际学习内容有一定的添加以及修改</strong></p>
+</blockquote>
+<h1 id="11-计算机的分类"><a class="markdownIt-Anchor" href="#11-计算机的分类"></a> 1.1 计算机的分类</h1>
+<h2 id="一-两大类"><a class="markdownIt-Anchor" href="#一-两大类"></a> 一、两大类</h2>
+<ul>
+<li>
+<p>电子模拟计算机：数值由连续量表示，运算过程连续，受干扰大。</p>
+</li>
+<li>
+<p>电子数字计算机：按位运算，不连续地跳动计算，抗干扰能力强。</p> 
+      <a class="article-more-link" href="/2022/09/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/(%E4%B8%80)%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA%5B%E8%AE%A1%E7%BB%84%5D/"
+        >more...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/" rel="tag">位运算</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+    
+</article>
+
+    
+    <article
+  id="post-计算机组成原理/前置知识[数字电路]"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/09/07/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86%5B%E6%95%B0%E5%AD%97%E7%94%B5%E8%B7%AF%5D/"
+    >(零)前置知识--数字电路[计组]</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/09/07/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86%5B%E6%95%B0%E5%AD%97%E7%94%B5%E8%B7%AF%5D/" class="article-date">
+  <time datetime="2022-09-07T08:25:45.000Z" itemprop="datePublished">2022-09-07</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/">计算机组成原理</a> / <a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/">计算机组成原理</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="前置知识数字电路计组"><a class="markdownIt-Anchor" href="#前置知识数字电路计组"></a> 前置知识–数字电路[计组]</h1>
+<h2 id="一晶体三极管与数字电路"><a class="markdownIt-Anchor" href="#一晶体三极管与数字电路"></a> 一.晶体三极管与数字电路</h2>
+<p><strong>物体按导电性可以分为</strong>:</p>
+<ul>
+<li>
+<p>绝缘体:不导电 (塑料, 橡胶 , 陶瓷)</p>
+</li>
+<li>
+<p>导体: 双向导电(金银铜铁等)</p>
+</li>
+<li>
+<p>半导体:单项导电(硅锗等)</p>
+<blockquote>
+<p>导电性介于绝缘体和导体之间, <strong>加热单向导电,冷却绝缘</strong></p>
+</blockquote> 
+      <a class="article-more-link" href="/2022/09/07/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86%5B%E6%95%B0%E5%AD%97%E7%94%B5%E8%B7%AF%5D/"
+        >more...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">算法与数据结构</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+    
+</article>
+
+    
+    <article
   id="post-算法与数据结构/leetcode/leetcode题目(1)"
   class="article article-type-post"
   itemscope
@@ -181,88 +403,6 @@
     <footer class="article-footer">
        
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DFS/" rel="tag">DFS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%91/" rel="tag">树</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">算法与数据结构</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%93%BE%E8%A1%A8/" rel="tag">链表</a></li></ul>
-
-    </footer>
-  </div>
-
-    
- 
-    
-</article>
-
-    
-    <article
-  id="post-Linux/韩顺平Linux笔记(转存)"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2022/09/05/Linux/%E9%9F%A9%E9%A1%BA%E5%B9%B3Linux%E7%AC%94%E8%AE%B0(%E8%BD%AC%E5%AD%98)/"
-    >Linux学习笔记(1)</a> 
-</h2>
- 
-
-      
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2022/09/05/Linux/%E9%9F%A9%E9%A1%BA%E5%B9%B3Linux%E7%AC%94%E8%AE%B0(%E8%BD%AC%E5%AD%98)/" class="article-date">
-  <time datetime="2022-09-05T06:42:34.623Z" itemprop="datePublished">2022-09-05</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Linux/">Linux</a> / <a class="article-category-link" href="/categories/Linux/Linux/">Linux</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <p>镜像下载地址:</p>
-<p><a target="_blank" rel="noopener" href="https://vault.centos.org/7.6.1810/isos/x86_64/">https://vault.centos.org/7.6.1810/isos/x86_64/</a></p>
-<blockquote>
-<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Sv411r7vd?spm_id_from=333.337.search-card.all.click&amp;vd_source=7d0b8be6716aca670df8e800cab6d54c">【小白入门 通俗易懂】2021韩顺平 一周学会Linux_哔哩哔哩_bilibili</a></p>
-<p>P3-P85 linux基础篇<br />
-P86-P90 java定制篇<br />
-P91-P107 大数据shell篇<br />
-P108-P115 python定制篇<br />
-P117-P141 linux高级篇<br />
-P142-P153 面试题</p>
-</blockquote>
-<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Sv411r7vd">学习视频跳转</a></p>
-<h1 id="一-linux概述"><a class="markdownIt-Anchor" href="#一-linux概述"></a> 一、Linux概述</h1>
-<p>unix和LInux的关系</p>
-<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221008105630327.png" style="zoom: 80%;" />
-<p><strong>LInux的应用领域</strong></p>
-<p>服务器领域</p>
-<ul>
-<li>Linux在服务器领域的应用是最强的</li>
-<li>LInux免费、稳定、高效等特点在这里得到了很好的体现，尤其是在一些高端领域尤为广泛</li>
-</ul>
-<p>嵌入式领域</p>
-<ul>
-<li>linux运行稳定、对网络的良好支持性、低成本，且可以根据需要进行网络裁剪，内核最小可达到几百kb的特点，使近些年来在嵌入式领域的应用得到非常大的提高</li>
-<li>主要应用:机顶盒、数字电视、网络电话、程控交换机、手机、PDA、智能家居、智能硬件等都是其应用领域。以后在物联网中应用会更加广泛。</li>
-</ul> 
-      <a class="article-more-link" href="/2022/09/05/Linux/%E9%9F%A9%E9%A1%BA%E5%B9%B3Linux%E7%AC%94%E8%AE%B0(%E8%BD%AC%E5%AD%98)/"
-        >more...</a
-      >
-       
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%91/" rel="tag">树</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%98%9F%E5%88%97/" rel="tag">队列</a></li></ul>
 
     </footer>
   </div>
@@ -633,132 +773,6 @@ P142-P153 面试题</p>
     <footer class="article-footer">
        
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/springboot/" rel="tag">springboot</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/springmvc/" rel="tag">springmvc</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%88/" rel="tag">栈</a></li></ul>
-
-    </footer>
-  </div>
-
-    
- 
-    
-</article>
-
-    
-    <article
-  id="post-hexo/git deploy遇到的问题"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2022/08/29/hexo/git%20deploy%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/"
-    >git deploy遇到的问题</a> 
-</h2>
- 
-
-      
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2022/08/29/hexo/git%20deploy%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/" class="article-date">
-  <time datetime="2022-08-29T11:31:49.784Z" itemprop="datePublished">2022-08-29</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/hexo/">hexo</a> / <a class="article-category-link" href="/categories/hexo/hexo/">hexo</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <h1 id="1-correct-access-rights"><a class="markdownIt-Anchor" href="#1-correct-access-rights"></a> 1. correct access rights</h1>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220829193315896.png" alt="image-20220829193315896" /></p>
-<p><code>Please make sure you have the correct access rights and the repository exists.</code></p>
-<h2 id="原因"><a class="markdownIt-Anchor" href="#原因"></a> 原因:</h2>
-<blockquote>
-<p><strong>公钥</strong>出问题了,需要删除.ssh下文件,然后重设置用户名和邮箱再重新生成ssh公钥即可解决</p>
-</blockquote> 
-      <a class="article-more-link" href="/2022/08/29/hexo/git%20deploy%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/"
-        >more...</a
-      >
-       
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li></ul>
-
-    </footer>
-  </div>
-
-    
- 
-    
-</article>
-
-    
-    <article
-  id="post-算法与数据结构/leetcode算法基础勋章/算法基础day 12~15 DP"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2022/08/29/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/leetcode%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80%E5%8B%8B%E7%AB%A0/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80day%2012~15%20DP/"
-    >算法基础day 12~15 DP</a> 
-</h2>
- 
-
-      
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2022/08/29/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/leetcode%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80%E5%8B%8B%E7%AB%A0/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80day%2012~15%20DP/" class="article-date">
-  <time datetime="2022-08-29T00:43:29.845Z" itemprop="datePublished">2022-08-29</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">算法与数据结构</a> / <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">算法与数据结构</a> / <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/leetcode%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80%E5%8B%8B%E7%AB%A0/">leetcode算法基础勋章</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <h1 id="️基础知识"><a class="markdownIt-Anchor" href="#️基础知识"></a> ⭐️基础知识</h1>
-<p><a target="_blank" rel="noopener" href="https://www.programmercarl.com/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%80.html#%E4%BB%80%E4%B9%88%E6%98%AF%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92">代码随想录 (programmercarl.com)</a></p>
-<h2 id="什么是动态规划"><a class="markdownIt-Anchor" href="#什么是动态规划"></a> 什么是动态规划</h2>
-<p>动态规划，英文：Dynamic Programming，简称DP，如果某一问题有很多重叠子问题，使用动态规划是最有效的。</p>
-<ul>
-<li>所以动态规划中每一个状态一定是由上一个状态推导出来的，<strong>这一点就区分于贪心</strong>，贪心没有状态推导，而是从局部直接选最优的，</li>
-</ul> 
-      <a class="article-more-link" href="/2022/08/29/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/leetcode%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80%E5%8B%8B%E7%AB%A0/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80day%2012~15%20DP/"
-        >more...</a
-      >
-       
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag">动态规划</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9B%9E%E6%BA%AF/" rel="tag">回溯</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%91/" rel="tag">树</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">算法与数据结构</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%B4%AA%E5%BF%83/" rel="tag">贪心</a></li></ul>
 
     </footer>
   </div>
