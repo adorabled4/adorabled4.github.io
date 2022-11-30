@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+  
+
+    <head>
+      <meta charset="utf-8" />
+       
+      <meta name="keywords" content="DFS,BFS,java, 双指针, 数据结构, hexo, 回溯, 树, 队列, mybatis, javaweb, spring, cpp, leetcode, linux,栈, 位运算, 链表, 数据库, springmvc, 动态规划, 贪心 , springcloud, 微服务 , 计算机组成原理 ,springboot ,elasticsearch ,docker ,nacos, rabbitmq" />
+       
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>centos7搭建es集群 |  dhx_&#39;blog</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220820231738085.png" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      
+<link rel="stylesheet" href="/css/fonts/remixicon.css">
+
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.staticfile.org/pace/1.2.4/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+      </style>
+    </head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      <canvas class="fireworks"></canvas>
+      <style>
+        .fireworks {
+          position: fixed;
+          left: 0;
+          top: 0;
+          z-index: 99999;
+          pointer-events: none;
+        }
+      </style>
+      
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-springcloud/部署ES集群"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  centos7搭建es集群
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/11/30/springcloud/%E9%83%A8%E7%BD%B2ES%E9%9B%86%E7%BE%A4/" class="article-date">
+  <time datetime="2022-11-30T07:01:45.000Z" itemprop="datePublished">2022-11-30</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/springcloud/">springcloud</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">2.3k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">8 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="1部署es集群"><a class="markdownIt-Anchor" href="#1部署es集群"></a> 1.部署es集群</h1>
+<blockquote>
+<p>部署es集群可以直接使用docker-compose来完成，但这要求你的Linux虚拟机至少有<strong>4G</strong>的内存空间</p>
+<p>我们会在单机上利用docker容器运行多个es实例来模拟es集群。不过生产环境推荐大家每一台服务节点仅部署一个es的实例。</p>
+</blockquote>
+<p>单机的elasticsearch做数据存储，必然面临两个问题：海量数据存储问题、单点故障问题。</p>
+<ul>
+<li>海量数据存储问题：将索引库从逻辑上拆分为N个分片（shard），存储到多个节点</li>
+<li>单点故障问题：将分片数据在不同节点备份（replica ）</li>
+</ul>
+<p><strong>ES集群相关概念</strong>:</p>
+<ul>
+<li>
+<p>集群（cluster）：一组拥有共同的 cluster name 的 节点。</p>
+</li>
+<li>
+<p><font color="red">节点（node)</font>   ：集群中的一个 Elasticearch 实例</p>
+</li>
+<li>
+<p><font color="red">分片（shard）</font>：索引可以被拆分为不同的部分进行存储，称为分片。在集群环境下，一个索引的不同分片可以拆分到不同的节点中</p>
+<p>解决问题：数据量太大，单点存储量有限的问题。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20200104124440086-5602723.png" alt="" /></p>
+<blockquote>
+<p>此处，我们把数据分成3片：shard0、shard1、shard2</p>
+</blockquote>
+</li>
+<li>
+<p>主分片（Primary shard）：相对于副本分片的定义。</p>
+</li>
+<li>
+<p>副本分片（Replica shard）每个主分片可以有一个或者多个副本，数据和主分片一样。</p>
+</li>
+</ul>
+<span id="more"></span>
+<p>数据备份可以保证高可用，但是每个分片备份一份，所需要的节点数量就会翻一倍，成本实在是太高了！</p>
+<p>为了在高可用和成本间寻求平衡，我们可以这样做：</p>
+<ul>
+<li>首先对数据分片，存储到不同节点</li>
+<li>然后对每个分片进行备份，放到对方节点，完成互相备份</li>
+</ul>
+<p>这样可以大大减少所需要的服务节点数量，如图，我们以3分片，每个分片备份一份为例：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20200104124551912.png" alt="" /></p>
+<p>现在，每个分片都有1个备份，存储在3个节点：</p>
+<ul>
+<li>node0：保存了分片0和1</li>
+<li>node1：保存了分片0和2</li>
+<li>node2：保存了分片1和2</li>
+</ul>
+<h2 id="11创建es集群"><a class="markdownIt-Anchor" href="#11创建es集群"></a> 1.1.创建es集群</h2>
+<p>首先编写一个docker-compose文件，内容如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">version: <span class="string">&#x27;2.2&#x27;</span></span><br><span class="line">services:</span><br><span class="line">  es01:</span><br><span class="line">    image: elasticsearch:7.12.1</span><br><span class="line">    container_name: es01</span><br><span class="line">    environment:</span><br><span class="line">      - node.name=es01</span><br><span class="line">      - cluster.name=es-docker-cluster</span><br><span class="line">      - discovery.seed_hosts=es02,es03</span><br><span class="line">      - cluster.initial_master_nodes=es01,es02,es03</span><br><span class="line">      - <span class="string">&quot;ES_JAVA_OPTS=-Xms512m -Xmx512m&quot;</span></span><br><span class="line">    volumes:</span><br><span class="line">      - data01:/usr/share/elasticsearch/data</span><br><span class="line">    ports:</span><br><span class="line">      - 9200:9200</span><br><span class="line">    networks:</span><br><span class="line">      - elastic</span><br><span class="line">  es02:</span><br><span class="line">    image: elasticsearch:7.12.1</span><br><span class="line">    container_name: es02</span><br><span class="line">    environment:</span><br><span class="line">      - node.name=es02</span><br><span class="line">      - cluster.name=es-docker-cluster</span><br><span class="line">      - discovery.seed_hosts=es01,es03</span><br><span class="line">      - cluster.initial_master_nodes=es01,es02,es03</span><br><span class="line">      - <span class="string">&quot;ES_JAVA_OPTS=-Xms512m -Xmx512m&quot;</span></span><br><span class="line">    volumes:</span><br><span class="line">      - data02:/usr/share/elasticsearch/data</span><br><span class="line">    ports:</span><br><span class="line">      - 9201:9200</span><br><span class="line">    networks:</span><br><span class="line">      - elastic</span><br><span class="line">  es03:</span><br><span class="line">    image: elasticsearch:7.12.1</span><br><span class="line">    container_name: es03</span><br><span class="line">    environment:</span><br><span class="line">      - node.name=es03</span><br><span class="line">      - cluster.name=es-docker-cluster</span><br><span class="line">      - discovery.seed_hosts=es01,es02</span><br><span class="line">      - cluster.initial_master_nodes=es01,es02,es03</span><br><span class="line">      - <span class="string">&quot;ES_JAVA_OPTS=-Xms512m -Xmx512m&quot;</span></span><br><span class="line">    volumes:</span><br><span class="line">      - data03:/usr/share/elasticsearch/data</span><br><span class="line">    networks:</span><br><span class="line">      - elastic</span><br><span class="line">    ports:</span><br><span class="line">      - 9202:9200</span><br><span class="line">volumes:</span><br><span class="line">  data01:</span><br><span class="line">    driver: <span class="built_in">local</span></span><br><span class="line">  data02:</span><br><span class="line">    driver: <span class="built_in">local</span></span><br><span class="line">  data03:</span><br><span class="line">    driver: <span class="built_in">local</span></span><br><span class="line"></span><br><span class="line">networks:</span><br><span class="line">  elastic:</span><br><span class="line">    driver: bridge</span><br></pre></td></tr></table></figure>
+<p>es运行需要修改一些linux系统权限，修改<code>/etc/sysctl.conf</code>文件</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/sysctl.conf</span><br></pre></td></tr></table></figure>
+<p>添加下面的内容：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vm.max_map_count=262144</span><br></pre></td></tr></table></figure>
+<p>然后执行命令，让配置生效：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sysctl -p</span><br></pre></td></tr></table></figure>
+<p>通过docker-compose启动集群：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose up -d</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>关于 <mark>max_map_count</mark></p>
+<p>文件包含限制一个进程可以拥有的VMA(<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98&amp;spm=1001.2101.3001.7020">虚拟内存</a>区域)的数量。</p>
+<p>虚拟内存区域是一个连续的虚拟<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E5%9C%B0%E5%9D%80%E7%A9%BA%E9%97%B4&amp;spm=1001.2101.3001.7020">地址空间</a>区域。</p>
+<p>在进程的<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F&amp;spm=1001.2101.3001.7020">生命周期</a>中，每当程序尝试在内存中映射文件，链接到共享内存段，或者分配堆空间的时候，这些区域将被创建。</p>
+<p>调优这个值将限制进程可拥有VMA的数量。</p>
+<p>限制一个进程拥有VMA的总数可能导致应用程序出错，因为当进程达到了VMA上线但又只能释放少量的<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E5%86%85%E5%AD%98&amp;spm=1001.2101.3001.7020">内存</a>给其他的内核进程使用时，操作系统会抛出内存不足的错误。</p>
+<p>如果你的操作系统在NORMAL区域仅占用少量的内存，那么调低这个值可以帮助释放内存给内核用。</p>
+<p>英文说明如下：</p>
+<p>“This file contains the maximum number of memory map areas a process may have. Memory map areas are used as a side-effect of calling malloc, directly by mmap and mprotect, and also when loading shared libraries.</p>
+<p>While most applications need less than a thousand maps, certain programs, particularly malloc debuggers, may consume lots of them, e.g., up to one or two maps per allocation.</p>
+<p>The default value is 65536.”</p>
+</blockquote>
+<h2 id="12集群状态监控"><a class="markdownIt-Anchor" href="#12集群状态监控"></a> 1.2.集群状态监控</h2>
+<blockquote>
+<p>kibana可以监控es集群，不过新版本需要依赖es的x-pack 功能，配置比较复杂。</p>
+</blockquote>
+<p>这里推荐使用<mark>cerebro</mark>来监控es集群状态，官方网址：<a target="_blank" rel="noopener" href="https://github.com/lmenezes/cerebro">https://github.com/lmenezes/cerebro</a></p>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221130163527081.png" alt="image-20221130163527081" style="zoom:80%;" />
+<p>下载好的目录如下：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20210602220824668.png" alt="" /></p>
+<p>进入对应的bin目录：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20210602220846137.png" alt="" /></p>
+<p>双击其中的cerebro.bat文件即可启动服务。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20210602220941101.png" alt="" /></p>
+<p>访问http://localhost:9000 即可进入管理界面：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20210602221115763.png" alt="" /></p>
+<p>输入你的<code>elasticsearch</code>的任意节点的地址和端口，点击<code>connect</code>即可：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20210109181106866.png" alt="" /></p>
+<p>绿色的条，代表集群处于绿色（<strong>健康状态</strong>）。</p>
+<h2 id="13创建索引库"><a class="markdownIt-Anchor" href="#13创建索引库"></a> 1.3.创建索引库</h2>
+<h3 id="1利用kibana的devtools创建索引库"><a class="markdownIt-Anchor" href="#1利用kibana的devtools创建索引库"></a> 1）利用kibana的DevTools创建索引库</h3>
+<p>在DevTools中输入指令：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">PUT /itcast</span><br><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;settings&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;number_of_shards&quot;</span><span class="punctuation">:</span> <span class="number">3</span><span class="punctuation">,</span> <span class="comment">// 分片数量</span></span><br><span class="line">    <span class="attr">&quot;number_of_replicas&quot;</span><span class="punctuation">:</span> <span class="number">1</span> <span class="comment">// 副本数量</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;mappings&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;properties&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="comment">// mapping映射定义 ...</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<h3 id="2利用cerebro创建索引库"><a class="markdownIt-Anchor" href="#2利用cerebro创建索引库"></a> 2）利用cerebro创建索引库</h3>
+<p>利用cerebro还可以创建索引库：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20210602221409524.png" alt="" /></p>
+<p>填写索引库信息：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20210602221520629.png" alt="" /></p>
+<p>点击右下角的create按钮：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20210602221542745.png" alt="" /></p>
+<h2 id="14查看分片效果"><a class="markdownIt-Anchor" href="#14查看分片效果"></a> 1.4.查看分片效果</h2>
+<p>回到首页，即可查看索引库分片效果：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20210602221914483.png" alt="" /></p>
+<h2 id="15集群脑裂问题"><a class="markdownIt-Anchor" href="#15集群脑裂问题"></a> 1.5.集群脑裂问题</h2>
+<h3 id="151集群职责划分"><a class="markdownIt-Anchor" href="#151集群职责划分"></a> 1.5.1.集群职责划分</h3>
+<p>elasticsearch中集群节点有不同的职责划分：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20210723223008967.png" alt="" /></p>
+<p>默认情况下，集群中的任何一个节点都同时具备上述四种角色。</p>
+<p>但是真实的集群一定要将集群职责分离：</p>
+<ul>
+<li>master节点：对CPU要求高，但是内存要求第</li>
+<li>data节点：对CPU和内存要求都高</li>
+<li>coordinating节点：对网络带宽、CPU要求高</li>
+</ul>
+<p>职责分离可以让我们根据不同节点的需求分配不同的硬件去部署。而且避免业务之间的互相干扰。</p>
+<p>一个典型的es集群职责划分如图：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20210723223629142.png" alt="" /></p>
+<h3 id="152脑裂问题"><a class="markdownIt-Anchor" href="#152脑裂问题"></a> 1.5.2.脑裂问题</h3>
+<p>脑裂是因为集群中的节点失联导致的。</p>
+<p>例如一个集群中，主节点与其它节点失联：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20210723223804995.png" alt="" /></p>
+<p>此时，node2和node3认为node1宕机，就会重新选主：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20210723223845754.png" alt="image-20210723223845754" /></p>
+<p>当node3当选后，集群继续对外提供服务，node2和node3自成集群，node1自成集群，两个集群数据不同步，出现数据差异。</p>
+<p>当网络恢复后，因为集群中有两个master节点，集群状态的不一致，出现脑裂的情况：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20210723224000555.png" alt="" /></p>
+<p>解决脑裂的方案是，要求选票超过 ( eligible节点数量 + 1 ）/ 2 才能当选为主，因此eligible节点数量最好是奇数。对应配置项是discovery.zen.minimum_master_nodes，在es7.0以后，已经成为默认配置，因此一般不会发生脑裂问题</p>
+<p>例如：3个节点形成的集群，选票必须超过 （3 + 1） / 2 ，也就是2票。node3得到node2和node3的选票，当选为主。node1只有自己1票，没有当选。集群中依然只有1个主节点，没有出现脑裂。</p>
+<h3 id="153小结"><a class="markdownIt-Anchor" href="#153小结"></a> 1.5.3.小结</h3>
+<p>master eligible节点的作用是什么？</p>
+<ul>
+<li>参与集群选主</li>
+<li>主节点可以管理集群状态、管理分片信息、处理创建和删除索引库的请求</li>
+</ul>
+<p>data节点的作用是什么？</p>
+<ul>
+<li>数据的CRUD</li>
+</ul>
+<p>coordinator节点的作用是什么？</p>
+<ul>
+<li>
+<p>路由请求到其它节点</p>
+</li>
+<li>
+<p>合并查询到的结果，返回给用户</p>
+</li>
+</ul>
+<h2 id="16集群分布式存储"><a class="markdownIt-Anchor" href="#16集群分布式存储"></a> 1.6.集群分布式存储</h2>
+<p>当新增文档时，应该保存到不同分片，保证数据均衡，那么coordinating node如何确定数据该存储到哪个分片呢？</p>
+<h3 id="161分片存储测试"><a class="markdownIt-Anchor" href="#161分片存储测试"></a> 1.6.1.分片存储测试</h3>
+<p>插入三条数据：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20210723225006058.png" alt="" /></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20210723225034637.png" alt="" /></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20210723225112029.png" alt="" /></p>
+<p>测试可以看到，三条数据分别在不同分片：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20210723225227928.png" alt="" /></p>
+<p>结果：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20210723225342120.png" alt="" /></p>
+<h3 id="162分片存储原理"><a class="markdownIt-Anchor" href="#162分片存储原理"></a> 1.6.2.分片存储原理</h3>
+<p>elasticsearch会通过hash算法来计算文档应该存储到哪个分片：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20210723224354904.png" alt="" /></p>
+<p>说明：</p>
+<ul>
+<li>_routing默认是文档的id</li>
+<li>算法与分片数量有关，因此索引库一旦创建，分片数量不能修改！</li>
+</ul>
+<p>新增文档的流程如下：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20210723225436084.png" alt="" /></p>
+<p>解读：</p>
+<ul>
+<li>1）新增一个id=1的文档</li>
+<li>2）对id做hash运算，假如得到的是2，则应该存储到shard-2</li>
+<li>3）shard-2的主分片在node3节点，将数据路由到node3</li>
+<li>4）保存文档</li>
+<li>5）同步给shard-2的副本replica-2，在node2节点</li>
+<li>6）返回结果给coordinating-node节点</li>
+</ul>
+<h2 id="17集群分布式查询"><a class="markdownIt-Anchor" href="#17集群分布式查询"></a> 1.7.集群分布式查询</h2>
+<p>elasticsearch的查询分成两个阶段：</p>
+<ul>
+<li>
+<p>scatter phase：分散阶段，coordinating node会把请求分发到每一个分片</p>
+</li>
+<li>
+<p>gather phase：聚集阶段，coordinating node汇总data node的搜索结果，并处理为最终结果集返回给用户</p>
+</li>
+</ul>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20210723225809848.png" alt="" /></p>
+<h2 id="18集群故障转移"><a class="markdownIt-Anchor" href="#18集群故障转移"></a> 1.8.集群故障转移</h2>
+<p>集群的master节点会监控集群中的节点状态，如果发现有节点宕机，会立即将宕机节点的分片数据迁移到其它节点，确保数据安全，这个叫做故障转移。</p>
+<p>1）例如一个集群结构如图：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20210723225945963.png" alt="" /></p>
+<p>现在，node1是主节点，其它两个节点是从节点。</p>
+<p>2）突然，node1发生了故障：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20210723230020574.png" alt="" /></p>
+<p>宕机后的第一件事，需要重新选主，例如选中了node2：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20210723230055974.png" alt="" /></p>
+<p>node2成为主节点后，会检测集群监控状态，发现：shard-1、shard-0没有副本节点。因此需要将node1上的数据迁移到node2、node3：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20210723230216642.png" alt="" /></p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://adorabled4.github.io/2022/11/30/springcloud/%E9%83%A8%E7%BD%B2ES%E9%9B%86%E7%BE%A4/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/elasticsearch/" rel="tag">elasticsearch</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+    
+      <a href="/2022/11/29/springcloud/Springcloud07-elasticsearch-03/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">07-elasticsearch入门(3)--数据聚合[springcloud]</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.staticfile.org/valine/1.4.16/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "BMxcpVMjh3EMOP7tyImO6aLR-gzGzoHsz",
+    app_key: "HpcPO68bneKDaeq3H1G1xuIN",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+   
+    
+    <script src="https://cdn.staticfile.org/twikoo/1.4.18/twikoo.all.min.js"></script>
+    <div id="twikoo" class="twikoo"></div>
+    <script>
+        twikoo.init({
+            envId: ""
+        })
+    </script>
+ 
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2022
+        <i class="ri-heart-fill heart_icon"></i> dhx_
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/avater.png" alt="dhx_&#39;blog"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.staticfile.org/justifiedGallery/3.8.1/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<script src="https://cdn.staticfile.org/animejs/3.2.1/anime.min.js"></script>
+
+<script src="/js/clickBoom1.js"></script>
+ 
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.staticfile.org/clipboard.js/2.0.10/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+ 
+<script src="/js/dz.js"></script>
+ 
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    <div id="music">
+    
+    
+    
+    <iframe frameborder="no" border="1" marginwidth="0" marginheight="0" width="200" height="52"
+        src="//music.163.com/outchain/player?type=2&id=29480187&auto=1&height=32"></iframe>
+</div>
+
+<style>
+    #music {
+        position: fixed;
+        right: 15px;
+        bottom: 0;
+        z-index: 998;
+    }
+</style>
+    
+    
+
+  </div>
+</body>
+
+</html>
