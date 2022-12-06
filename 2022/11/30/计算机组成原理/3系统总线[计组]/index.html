@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+  
+
+    <head>
+      <meta charset="utf-8" />
+       
+      <meta name="keywords" content="DFS,BFS,java, 双指针, 数据结构, hexo, 回溯, 树, 队列, mybatis, javaweb, spring, cpp, leetcode, linux,栈, 位运算, 链表, 数据库, springmvc, 动态规划, 贪心 , springcloud, 微服务 , 计算机组成原理 ,springboot ,elasticsearch ,docker ,nacos, rabbitmq" />
+       
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>(三)系统总线[计组] |  dhx_&#39;blog</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20220820231738085.png" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      
+<link rel="stylesheet" href="/css/fonts/remixicon.css">
+
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.staticfile.org/pace/1.2.4/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+      </style>
+    </head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      <canvas class="fireworks"></canvas>
+      <style>
+        .fireworks {
+          position: fixed;
+          left: 0;
+          top: 0;
+          z-index: 99999;
+          pointer-events: none;
+        }
+      </style>
+      
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-计算机组成原理/3系统总线[计组]"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  (三)系统总线[计组]
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/11/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/3%E7%B3%BB%E7%BB%9F%E6%80%BB%E7%BA%BF%5B%E8%AE%A1%E7%BB%84%5D/" class="article-date">
+  <time datetime="2022-11-30T11:46:28.173Z" itemprop="datePublished">2022-11-30</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/">计算机组成原理</a> / <a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/">计算机组成原理</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">4.5k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">15 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="31总线的基本概念"><a class="markdownIt-Anchor" href="#31总线的基本概念"></a> 3.1总线的基本概念</h1>
+<p>数字计算机是由若干个系统功能部件构成的，这些系统功能部件在一起工作才能形成一个完整的计算机系统。一种连接方式是将需要通信的部件两两相连。但是现代计算机的CPU可能有很多，I/O设备也各种各样，如果采用两两相连的方式，线路将会非常复杂，这是不现实的，故推出的总线的概念。\</p>
+<blockquote>
+<p>总线是连接各个部件的信息传输线, 是各个部件共享的传输介质</p>
+</blockquote>
+<h2 id="1-定义"><a class="markdownIt-Anchor" href="#1-定义"></a> 1. 定义</h2>
+<p><strong>总线定义：</strong> 连接各个部件的信息传输线，是各个部件共享的传输介质，英文名为BUS，十分形象。</p>
+<p><strong>总线是构成计算机系统的互联机构，是多个系统功能部件之间进行数据传送的公共通路。</strong></p>
+<p>借助于总线连接，计算机在各系统功能部件之间实现地址、数据和控制信息的交换，并在争用资源的基础上进行工作。在总线上传输方式有串行和并行两种，由于线路之间会相互干扰，所以传输距离短。</p>
+<h2 id="2-分类"><a class="markdownIt-Anchor" href="#2-分类"></a> 2. 分类</h2>
+<p>总线可分为以下几类（根据所在位置）：</p>
+<ul>
+<li>
+<p><strong>内部总线</strong>：CPU内部连接各寄存器及运算器部件之间的总线，也叫<strong>片内总线</strong>。</p>
+</li>
+<li>
+<p><strong>系统总线</strong>：外部总线， 计算机各部件之间的信息传输线 ,  CPU和计算机系统中其他高速功能部件如存储器、输入输出接口等相互连接的总线。(根据总线上传输信号的不同)又细分为：</p>
+<ul>
+<li>
+<p>数据总线：双向（读和写），总线条数与机器字长、存储字长有关，但不一定相等  (通常小于机器字长) 。</p>
+</li>
+<li>
+<p>地址总线：单向（只读），条数与存储地址、I/O地址有关</p>
+</li>
+<li>
+<p>控制总线：传输控制信号，单向，但是有输出信号也有输入信号。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221130200341845.png" alt="" /></p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>通信总线</strong>：用于计算机系统之间或者计算机系统与其他系统之间的通信，按照传输方式分为：串行通信和并行通信总线。</p>
+</li>
+</ul>
+<h2 id="3-特性"><a class="markdownIt-Anchor" href="#3-特性"></a> 3. 特性</h2>
+<p>从物理角度来看,总线由许多导线直接印制在电路板 ( 在微型PC 机上,  又叫做<strong>主板/母板</strong>)上,延伸到各个部件。</p>
+<p>下图形象地表示了各个部件与总线之间的物理摆放位置。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221130200435455.png" alt="" /></p>
+<p>总线的特性可分为：物理特性、功能特性、电气特性、时间特性。</p>
+<ul>
+<li>物理特性：总线的物理连接方式（尺寸、形状、管脚数、根数、插头、插座形状，引脚排列方式）</li>
+<li>功能特性：每根线传输的信号以及功能（地址、数据、控制）</li>
+<li>电气特性：每根线上信号的传递方向及有效电平范围 （传输方向以及有效的电平范围【高电平表示1，低电平表示0】）。</li>
+<li>时间特性：规定了每根总线在什么时间有效（时序关系）。</li>
+</ul>
+<h2 id="4-总线的性能指标"><a class="markdownIt-Anchor" href="#4-总线的性能指标"></a> 4. 总线的性能指标</h2>
+<ol>
+<li>总线宽度 ：数据线的根数</li>
+<li>标准传输率 ：每秒传输的最大字节数（MBps）</li>
+<li>时钟同步/异步 ：同步、不同步</li>
+<li><strong>总线复用</strong>： 地址线与数据线复用  =&gt; <a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45590473/article/details/122989124"> 8086/8088系统总线详解（时序解析+总线相关知识)</a></li>
+<li>信号线数：地址线、数据线和控制线的总和</li>
+<li>总线控制方式：突发、自动、仲裁、逻辑、计数</li>
+<li>其他指标：负载能力</li>
+</ol>
+<h2 id="5-标准总线"><a class="markdownIt-Anchor" href="#5-标准总线"></a> 5. 标准总线</h2>
+<p>由于现代的计算机十分复杂, <strong>为了使不同厂家生产的相同功能部件可以互换使用</strong>，就需要进行系统总线的<strong>标准化</strong>工作。目前，已经出现了很多总线标准，如PCI、ISA等PC、STD、EISA。</p>
+<p>采用标准总线的优点：</p>
+<ul>
+<li>简化系统设计</li>
+<li>简化系统结构，提高系统可靠性</li>
+<li>便于系统的扩充和更新</li>
+</ul>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221130201851224.png" style="zoom: 50%;" />
+<blockquote>
+<p>RS-232 : Recommended standards (推荐标准)</p>
+</blockquote>
+<h2 id="6-总线带宽"><a class="markdownIt-Anchor" href="#6-总线带宽"></a> 6. 总线带宽</h2>
+<p><strong>总线带宽</strong>：总线本身所能达到的<strong>最高传输速率</strong>。</p>
+<p>一次操作可以传输的数据位数。如S100为8位，ISA为16位，EISA为32位，PCI-2可达64位。总线宽度不会超过微处理器外部数据总线的宽度。取决于一次操作所花费的时间，时间越短带宽越高。一次可传递的信息量越多，带宽越高。</p>
+<h1 id="32总线结构"><a class="markdownIt-Anchor" href="#32总线结构"></a> 3.2总线结构</h1>
+<h2 id="1单总线结构"><a class="markdownIt-Anchor" href="#1单总线结构"></a> 1.单总线结构</h2>
+<p>把所有的设备都连接到一条总线上</p>
+<blockquote>
+<p>问题:  会严重影响CPU的执行效率 , 总线成为系统的瓶颈</p>
+</blockquote>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221130194837709.png" alt="" /></p>
+<h2 id="2多总线结构"><a class="markdownIt-Anchor" href="#2多总线结构"></a> 2.多总线结构</h2>
+<h3 id="以cpu为中心的双总线结构"><a class="markdownIt-Anchor" href="#以cpu为中心的双总线结构"></a> 以CPU为中心的双总线结构</h3>
+<blockquote>
+<p>在CPU与主存之间多了一条线,  原本的单总线结构会严重影响CPU的执行效率</p>
+<ul>
+<li>这种结构在外部输入的时候还是会打断CPU 的任务执行</li>
+</ul>
+</blockquote>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221130194833592.png" alt="" /></p>
+<h3 id="以存储器为中心的双总线结构"><a class="markdownIt-Anchor" href="#以存储器为中心的双总线结构"></a> 以存储器为中心的双总线结构</h3>
+<blockquote>
+<p>CPU与主存之间有专用 <strong>总线</strong>  ,  相比前两种总线结构进步很多, 但是 <strong>系统总线</strong>与<strong>存储总线</strong>还是不能同时工作</p>
+</blockquote>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221130195330235.png" alt="" /></p>
+<h3 id="三总线结构"><a class="markdownIt-Anchor" href="#三总线结构"></a> 三总线结构</h3>
+<p>CPU为中心,  如果有 外部的高速外设(比如网卡)进行数据的读取和写入, 我们可以通过 DMA 总线 , 而不需要通过I/O 总线来交给CPU来做</p>
+<img src="C:\Users\dhx\AppData\Roaming\Typora\typora-user-images\image-20221130204542448.png"  />
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221130204605476.png" alt="" /></p>
+<h3 id="四总线结构"><a class="markdownIt-Anchor" href="#四总线结构"></a> 四总线结构</h3>
+<p>为了进一步提高I / O设备的性能,使其更快地响应命令,又出现了四总线结构,</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221130204619014.png" alt="" /></p>
+<h2 id="3早期总线的内部结构"><a class="markdownIt-Anchor" href="#3早期总线的内部结构"></a> 3.早期总线的内部结构</h2>
+<p>如图所示，它实际上是处理器芯片引脚的延伸，是处理器与I/O设备适配器的通道。这种简单的总线一般由50～100条线组成，这些线按其功能可分为三类：地址线、数据线和控制线。</p>
+<ul>
+<li>
+<p>数据总线：双向（读和写），总线条数与机器字长、存储字长有关，但不一定相等。</p>
+</li>
+<li>
+<p>地址总线：单向（只读），条数与存储地址、I/O地址有关</p>
+</li>
+<li>
+<p>控制总线：传输控制信号，单向，但是有输出信号也有输入信号。</p>
+</li>
+</ul>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/EC58A310967B0EF6502BE5CA0140B381.png" alt="" /></p>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>
+<p>CPU是总线上惟一的主控者。即使后来增加了具有简单仲裁逻辑的DMA控制器以支持DMA传送，但仍不能满足多CPU环境的要求。</p>
+</li>
+<li>
+<p>总线信号是CPU引脚信号的延伸，故总线结构紧密与CPU相关，通用性较差。</p>
+</li>
+</ul>
+<h2 id="4当代总线的内部结构"><a class="markdownIt-Anchor" href="#4当代总线的内部结构"></a> 4.当代总线的内部结构</h2>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/7B30AEB3CBA0D701E62191229C41B51B.png" alt="" /></p>
+<ul>
+<li>
+<p>数据传送总线：由地址线、数据线、控制线组成。其结构与简单总线相似，但一般是32条地址线，32或64条数据线。为了减少布线，64位数据的低32位数据线常常和地址线采用多路复用方式。</p>
+</li>
+<li>
+<p>仲裁总线：包括总线请求线和总线授权线。</p>
+</li>
+<li>
+<p>中断和同步总线：用于处理带优先级的中断操作，包括中断请求线和中断认可线。</p>
+</li>
+<li>
+<p>公用线：包括时钟信号线、电源线、地线、系统复位线以及加电或断电的时序信号线等。</p>
+</li>
+</ul>
+<h2 id="5总线结构实例"><a class="markdownIt-Anchor" href="#5总线结构实例"></a> 5总线结构实例</h2>
+<p>大多数计算机采用了分层次的多总线结构。下图它是一个三层次的多总线结构：CPU总线、PCI总线和ISA总线。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221130204833127.png" alt="" /></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20210524110332963.png" alt="" /></p>
+<ul>
+<li><strong>CPU总线</strong>：也称CPU-存储器总线，包含64位数据线和32位地址线的同步总线。可以看成是CPU引脚信号的衍生。</li>
+<li><strong>PCI总线</strong>：用于连接高速的I/O设备模块，如图形显示器适配器、网络接口控制器等，通过“桥”与上面更高速的CPU总线相连，与下面更低速的ISA总线相连。PCI总线是一个32（或64）位的同步总线，数据和地址是同一组线，分时复用，采用集中式仲裁方式，有专用的PCI总线仲裁器。</li>
+<li><strong>ISA总线</strong>：与低速的I/O设备连接，支持7个DMA通道和15级可屏蔽硬件中断，并通过片级总线和ROM、键盘鼠标控制器等相连。</li>
+</ul>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221130204908335.png" alt="" /></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221130204939908.png" alt="" /></p>
+<p>由图3.13中可见,PCI总线是通过PCI桥路(包括PCI控制器和PCI加速器)与CPU总线相连。这种结构使CPU总线与PCI 总线互相隔离,具有更高的灵活性,可以支持更多的高速运行设备;而且具有即插即用的特性。当然,挂在PCI总线上的设备都要求数据传输速率高的设备，如多媒体卡,高速局域网适配器、高性能图形卡等,与高速CPU总线是相匹配的。至于低速的FAX、Modem.打印机仍然挂在ISA、 EISA总线上。</p>
+<h1 id="33总线控制️"><a class="markdownIt-Anchor" href="#33总线控制️"></a> 3.3总线控制⭐️</h1>
+<p>由于总线上连接着多个部件，什么时候由哪个部件发送信息，如何给信息传送定时，如何防止信息丢失，如何避免多个部件同时发送，如何规定接收信息的部件等一系列问题都需要由总线控制器统一管理。</p>
+<p>它主要包括<strong>判优控制（或称仲裁逻辑）<strong>和</strong>通信控制</strong>。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221130205849081.png" alt="" /></p>
+<blockquote>
+<ul>
+<li>BR (Bus Request-总线请求线) : 所有设备通过BR 来发送总线请求  requset</li>
+<li>BG (Bus Grant-总线响应线) : 总线控制部件通过BG授予某个设备总线控制权 give</li>
+<li>BS(Bus State-总线状态线) :  该设备通过BS先发出总线被占用的信号</li>
+</ul>
+</blockquote>
+<h2 id="331总线的判优控制"><a class="markdownIt-Anchor" href="#331总线的判优控制"></a> 3.3.1.总线的判优控制</h2>
+<h3 id="1-链式查询方式"><a class="markdownIt-Anchor" href="#1-链式查询方式"></a> 1. 链式查询方式</h3>
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221130210333805.png" style="zoom:50%;" />
+<p>所有设备通过BR发出申请总线的信号，总线控制部件通过BG线授予某个设备总线控制权，该设备通过BS先发出总线被占用的信号。</p>
+<p>当有设备发出总线请求信号后，从仲裁器一端开始查询，从左向右的顺序依次查询每个I/O设备，遇到第一个设备请求总线则授予控制权。</p>
+<p><strong>故离中央仲裁器最近的设备具有最高优先权，离总线控制器越远，优先权越低。</strong></p>
+<ul>
+<li>优点：只用很少几根线就能按照一定优先次序实现总线控制，并且这种链式结构很容易扩充设备。</li>
+<li>缺点：<strong>对询问链的电路故障很敏感</strong>，某个接口电路出现故障，则后面的设备都无法获得总线控制权，优先级固定。</li>
+</ul>
+<h3 id="2计数器定时查询方式"><a class="markdownIt-Anchor" href="#2计数器定时查询方式"></a> 2.计数器定时查询方式</h3>
+<p>总线上的任一设备要求使用总线时，通过<strong>BR线</strong>发出总线请求。中央仲裁器接到请求信号以后，在BS线为“0”的情况下让计数器开始计数，计数值通过一组地址线发向各设备。每个设备接口都有一个设备地址判别电路，当地址线上的计数值与请求总线的设备地址相一致时，该设备置“1”BS线，获得了总线使用权，此时中止计数查询。 <strong>每次计数可以从“0”开始，也可以从中止点开发始</strong>。</p>
+<ul>
+<li>如果从“0”开始，各设备的<strong>优先次序与链式查询法相同</strong>，优先级的顺序是<strong>固定</strong>的。</li>
+<li>如果从中止点开始，则<strong>每个设备使用总线的优先级相等</strong>。（如上次终止点在10，则下次从11开始查询，10的优先级从高变成最低）</li>
+</ul>
+<blockquote>
+<p>Data</p>
+<p>Address</p>
+</blockquote>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20210524114057727.png" alt="" /></p>
+<p>**计数器的初值也可用程序来设置，**这可以方便地改变优先次序，但这种灵活性是	以增加线数为代价的。</p>
+<h3 id="3-独立请求方式"><a class="markdownIt-Anchor" href="#3-独立请求方式"></a> 3. 独立请求方式</h3>
+<p>在独立请求方式中，<strong>每一个共享总线的主设备均有一对总线请求线BRi和总线授权线BGi</strong>。当设备要求使用总线时，便发出该设备的请求信号。总线仲裁器中有一个排队电路，它根据一定的优先次序决定首先响应哪个设备的请求，给设备以授权信号BGi。当代总线标准普遍采用独立请求方式。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20210524114030680.png" alt="" /></p>
+<p><strong>优点</strong></p>
+<ul>
+<li><strong>响应时间快，即确定优先响应的设备所花费的时间少，用不着一个设备接一个设备地查询。</strong></li>
+<li>对优先次序的控制相当灵活。优先级可以预先固定，也可以通过程序来改变优先次序，还可以用屏蔽（禁止）某个请求的办法，不响应来自无效设备的请求。</li>
+</ul>
+<p><strong>缺点</strong></p>
+<ul>
+<li>控制线数量多，总线控制更复杂</li>
+</ul>
+<p><strong>对比</strong></p>
+<blockquote>
+<p>控制灵活（通过程序改变），但控制线数量多，总线控制更复杂。</p>
+<ul>
+<li>链式查询中仅用两根线确定总线使用权属于哪个设备，</li>
+<li>在计数器查询中大致用log2n根线，其中n是允许接纳的最大设备数，</li>
+<li>而独立请求方式需采用.2n根线。</li>
+</ul>
+</blockquote>
+<h2 id="332总线通信控制"><a class="markdownIt-Anchor" href="#332总线通信控制"></a> 3.3.2.总线通信控制</h2>
+<p>众多部件共享总线，在争夺总线使用权时，应按各部件的优先等级来解决。</p>
+<p>在通信时间上，则应按分时方式来处理，即以获得总线使用权的先后顺序分时占用总线，</p>
+<p>即哪一个部件获得使用权，此刻就由它传送，下一部件获得使用权，接着下一时刻传送。这样一个接一个轮流交替传送。</p>
+<p>通常将<strong>完成一次总线操作的时间称为总线周期</strong>，可分为以下4个阶段。</p>
+<ol>
+<li><strong>申请分配阶段</strong>：由需要使用总线的主模块（或主设备）提出申请，经总线仲裁机构决定下<br />
+一传输周期的总线使用权授于某一申请者。</li>
+<li><strong>寻址阶段</strong>：取得了使用权的主模块通过总线发出本次要访问的从模块（或从设备）的地址<br />
+及有关命令，启动参与本次传输的从模块。</li>
+<li><strong>传数阶段</strong>：主模块和从模块进行数据交换，数据由源模块发出，经数据总线流人目的<br />
+模块。</li>
+<li><strong>结束阶段</strong>：主模块的有关信息均从系统总线上撤除，让出总线使用权。</li>
+</ol>
+<p>总线通信控制主要解决通信双方如何获知传输开始和传输结束，以及通信双方如何协调如何配合。</p>
+<p>通常用四种方式：<strong>同步通信、异步通信、半同步通信和分离式通信</strong>。</p>
+<p><strong>同步通信</strong></p>
+<ul>
+<li>由统一时标控制数据传送</li>
+</ul>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20210524115443087.png" alt="" /></p>
+<p><strong>异步通信</strong></p>
+<ul>
+<li>采用应答方式，没有公共时钟标准</li>
+</ul>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20210524115456399.png" alt="" /></p>
+<p><strong>半同步通信</strong></p>
+<ul>
+<li>同步、异步结合</li>
+</ul>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221201172114702.png" alt="" /></p>
+<blockquote>
+<p>上面三种通信方式的共同点</p>
+<ul>
+<li>主模块发送地址, 命令  =&gt; 占用总线</li>
+<li>从模块准备地址, 命令  =&gt; 不占用总线  =&gt; 总线空闲</li>
+<li>从模块向主模块发送数据 =&gt;  占用总线</li>
+</ul>
+</blockquote>
+<p><strong>分离式通信</strong></p>
+<ul>
+<li>充分挖掘系统总线每个瞬间的潜力</li>
+</ul>
+<p><strong>基本思想</strong>是将一个传输周期（或总线周期）分解为两个子周期。</p>
+<ul>
+<li>在第一个子周期中，主模块A在获得总线使用权后将命令、地址以及其他有关信息，包括该主模块编号（当有多个主模块时，此编号尤为重要) 发到系统总线上，经总线传输后，由有关的从模块B接收下来。主模块A向系统总线发布这些信息只占用总线很短的时间，一旦发送完，立即放弃总线使用权，以便其他模块使用。</li>
+<li>在第二个子周期中，当B模块收到A模块发来的有关命令信号后，经选择、译码、读取等一系列内部操作，将A模块所需的数据准备好，便由B模块申请总线使用权，一旦获准，B模块便将A模块的编号、B模块的地址、A模块所需的数据等一系列信息送到总线上，供A模块接收。很明显，上述两个传输子周期都只有单方向的信息流，每个模块都变成了主模块。</li>
+</ul>
+<blockquote>
+<ul>
+<li>各个模块都有权利去申请占用总线</li>
+<li>采用同步方式通信 , 不等对方应答</li>
+<li>各个模块准备数据的时候, 不会占用总线</li>
+<li>总线无空闲</li>
+</ul>
+</blockquote>
+<p>**【例】**某CPU采用集中式仲裁方式，使用独立请求与菊花链查询相结合的二维总线控制结构。每一对请求线BRi和授权线BGi组成一对菊花链查询电路。每一根请求线可以被若干个传输速率接近的设备共享。当这些设备要求传送时通过BRi线向仲裁器发出请求，对应的BGi线则串行查询每个设备，从而确定哪个设备享有总线控制权。请分析说明图6.14所示的总线仲裁时序图。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20210524143853685.png" alt="" /></p>
+<p>解：从时序图看出，该总线采用异步定时协议。</p>
+<p>当某个设备请求使用总线时，在该设备所属的请求线上发出申请信号BRi（1）。</p>
+<p>CPU按优先原则同意后给出授权信号BGi作为回答（2）。</p>
+<p>BGi链式查询各设备，并上升从设备回答SACK信号证实已收到BGi信号（3）。</p>
+<p>CPU接到SACK信号后下降BG作为回答（4）。</p>
+<p>在总线“忙”标志BBSY为“0”情况该设备上升BBSY，表示该设备获得了总线控制权，成为控制总线的主设备（5）。</p>
+<p>在设备用完总线后，下降BBSY和SACK（6）释放总线。</p>
+<p>在上述选择主设备过程中，可能现行的主从设备正在进行传送。此时需等待现行传送结束，即现行主设备下降BBSY信号后（7），新的主设备才能上升BBSY，获得总线控制权。</p>
+<p>需要记笔记 , 怎么搞?</p>
+<p>听课</p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://adorabled4.github.io/2022/11/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/3%E7%B3%BB%E7%BB%9F%E6%80%BB%E7%BA%BF[%E8%AE%A1%E7%BB%84]/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/" rel="tag">计算机组成原理</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2022/12/02/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/4%E5%AD%98%E5%82%A8%E7%B3%BB%E7%BB%9F1%5B%E8%AE%A1%E7%BB%84%5D/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            (四)存储系统1:概述|主存|RAM[计组]
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2022/11/30/springcloud/%E9%83%A8%E7%BD%B2ES%E9%9B%86%E7%BE%A4/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">centos7搭建es集群</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.staticfile.org/valine/1.4.16/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "BMxcpVMjh3EMOP7tyImO6aLR-gzGzoHsz",
+    app_key: "HpcPO68bneKDaeq3H1G1xuIN",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+   
+    
+    <script src="https://cdn.staticfile.org/twikoo/1.4.18/twikoo.all.min.js"></script>
+    <div id="twikoo" class="twikoo"></div>
+    <script>
+        twikoo.init({
+            envId: ""
+        })
+    </script>
+ 
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2022
+        <i class="ri-heart-fill heart_icon"></i> dhx_
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/avater.png" alt="dhx_&#39;blog"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.staticfile.org/justifiedGallery/3.8.1/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<script src="https://cdn.staticfile.org/animejs/3.2.1/anime.min.js"></script>
+
+<script src="/js/clickBoom1.js"></script>
+ 
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.staticfile.org/clipboard.js/2.0.10/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+ 
+<script src="/js/dz.js"></script>
+ 
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    <div id="music">
+    
+    
+    
+    <iframe frameborder="no" border="1" marginwidth="0" marginheight="0" width="200" height="86"
+        src="//music.163.com/outchain/player?type=2&id=29480187&auto=1&height=66"></iframe>
+</div>
+
+<style>
+    #music {
+        position: fixed;
+        right: 15px;
+        bottom: 0;
+        z-index: 998;
+    }
+</style>
+    
+    
+
+  </div>
+</body>
+
+</html>
