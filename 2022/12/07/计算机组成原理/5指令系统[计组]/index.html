@@ -97,7 +97,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">5.8k</span>
+            <span class="post-count">6k</span>
         </span>
     </span>
 
@@ -571,8 +571,29 @@
 <p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221207220237278.png" alt="" /></p>
 <p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221207212126246.png" alt="" /></p>
 <h1 id="54-cisc与risc"><a class="markdownIt-Anchor" href="#54-cisc与risc"></a> 5.4 CISC与RISC</h1>
-<p><strong>CISC:Complex Instruction Set Computer</strong><br />
-<strong>RISC:Reduced Instruction Set Computer</strong></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221208161611186.png" alt="image-20221208161611186" /></p>
+<h2 id="cisc"><a class="markdownIt-Anchor" href="#cisc"></a> CISC</h2>
+<ul>
+<li>Complex Instruction Set Computer</li>
+</ul>
+<p>设计思路：一条指令完成一个复杂的基本功能。<br />
+代表：x86架构，主要用于笔记本、台式机等</p>
+<h2 id="risc"><a class="markdownIt-Anchor" href="#risc"></a> RISC</h2>
+<ul>
+<li>Reduced Instruction Set Computer</li>
+</ul>
+<p>设计思路：一条指令完成一个基本“动作”；多条指令组合完成一个复杂的基本功能。<br />
+代表：ARM架构，主要用于手机、平板等</p>
+<p>比如设计一套能输出单词的指令集：</p>
+<p><strong>CISC的思路</strong>：每个单词的输出由一条指令完成<br />
+一条指令可以由一个专门的电路完成：<br />
+17万个单词=17万个电路<br />
+→采用“存储程序”的设计思想，由一个比较通用的电路配合存储部件完成一条指令</p>
+<p><strong>RISC的思路</strong>：每个字母的输出由一条指令完成，<br />
+多条指令组合完成一个单词<br />
+=&gt; 26个字母=26个电路</p>
+<h2 id="对比"><a class="markdownIt-Anchor" href="#对比"></a> 对比</h2>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221208161833697.png" alt="" /></p>
  
       <!-- reward -->
       
@@ -649,6 +670,15 @@
 
    
   <nav class="article-nav">
+    
+      <a href="/2022/12/08/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/6CPU%5B%E8%AE%A1%E7%BB%84%5D/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            (六)中央处理器1:[计组]
+          
+        </div>
+      </a>
     
     
       <a href="/2022/12/06/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/4%E5%AD%98%E5%82%A8%E7%B3%BB%E7%BB%9F2%5B%E8%AE%A1%E7%BB%84%5D/" class="article-nav-link">
