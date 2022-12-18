@@ -120,6 +120,124 @@
     
     
     <article
+  id="post-springcloud/Springcloud06-elasticsearch-02"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/11/28/springcloud/Springcloud06-elasticsearch-02/"
+    >06-elasticsearch入门(2)--DSL查询文档[springcloud]</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/11/28/springcloud/Springcloud06-elasticsearch-02/" class="article-date">
+  <time datetime="2022-11-28T02:11:56.000Z" itemprop="datePublished">2022-11-28</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/springcloud/">springcloud</a> / <a class="article-category-link" href="/categories/springcloud/springcloud/">springcloud</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">10.6k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">44 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>我们已经导入了大量数据到elasticsearch中，实现了elasticsearch的数据存储功能。但elasticsearch最擅长的还是<strong>搜索和数据分析</strong>。</p>
+<p>所以今天，我们研究下</p>
+<blockquote>
+<p>elasticsearch的数据搜索功能。我们会分别使用<strong>DSL</strong>和<strong>RestClient</strong>实现搜索。</p>
+</blockquote>
+<h1 id="1dsl查询文档"><a class="markdownIt-Anchor" href="#1dsl查询文档"></a> 1.DSL查询文档</h1>
+<p>elasticsearch的查询依然是基于JSON风格的DSL来实现的。</p>
+<h2 id="11dsl查询分类"><a class="markdownIt-Anchor" href="#11dsl查询分类"></a> 1.1.DSL查询分类</h2>
+<p>Elasticsearch提供了基于JSON的DSL（<a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html">Domain Specific Language</a>）来定义查询。常见的查询类型包括：</p>
+<ul>
+<li>
+<p><strong>查询所有</strong>：查询出所有数据，一般测试用。例如：match_all</p>
+</li>
+<li>
+<p><strong>全文检索（full text）查询</strong>：利用分词器对用户输入内容分词，然后去倒排索引库中匹配。例如：</p>
+<ul>
+<li>match_query</li>
+<li>multi_match_query</li>
+</ul>
+</li>
+<li>
+<p><strong>精确查询</strong>：根据精确词条值查找数据，一般是查找keyword、数值、日期、boolean等类型字段。例如：</p>
+<ul>
+<li>ids</li>
+<li>range</li>
+<li>term</li>
+</ul>
+</li>
+<li>
+<p><strong>地理（geo）查询</strong>：根据经纬度查询。例如：</p>
+<ul>
+<li>geo_distance</li>
+<li>geo_bounding_box</li>
+</ul>
+</li>
+<li>
+<p><strong>复合（compound）查询</strong>：复合查询可以将上述各种查询条件组合起来，合并查询条件。例如：</p>
+<ul>
+<li>bool</li>
+<li>function_score</li>
+</ul>
+</li>
+</ul> 
+      <a class="article-more-link" href="/2022/11/28/springcloud/Springcloud06-elasticsearch-02/"
+        >more...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/elasticsearch/" rel="tag">elasticsearch</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/springcloud/" rel="tag">springcloud</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+    
+</article>
+
+    
+    <article
   id="post-Linux/韩顺平Linux笔记(转存)"
   class="article article-type-post"
   itemscope
@@ -651,7 +769,7 @@ P142-P153 面试题</p>
     
     <footer class="article-footer">
        
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring/" rel="tag">Spring</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/springcloud/" rel="tag">springcloud</a></li></ul>
 
     </footer>
   </div>
@@ -905,86 +1023,6 @@ P142-P153 面试题</p>
     <footer class="article-footer">
        
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring/" rel="tag">Spring</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li></ul>
-
-    </footer>
-  </div>
-
-    
- 
-    
-</article>
-
-    
-    <article
-  id="post-springcloud/SpringCloud01"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2022/11/17/springcloud/SpringCloud01/"
-    >01:认识微服务&amp;服务注册[springcloud]</a> 
-</h2>
- 
-
-      
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2022/11/17/springcloud/SpringCloud01/" class="article-date">
-  <time datetime="2022-11-17T07:55:34.075Z" itemprop="datePublished">2022-11-17</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/springcloud/">springcloud</a> / <a class="article-category-link" href="/categories/springcloud/springcloud/">springcloud</a>
-  </div>
-  
-<div class="word_count">
-    <span class="post-time">
-        <span class="post-meta-item-icon">
-            <i class="ri-quill-pen-line"></i>
-            <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">6.7k</span>
-        </span>
-    </span>
-
-    <span class="post-time">
-        &nbsp; | &nbsp;
-        <span class="post-meta-item-icon">
-            <i class="ri-book-open-line"></i>
-            <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">25 分钟</span>
-        </span>
-    </span>
-</div>
- 
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <p>视频学习地址 : <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1LQ4y127n4/?p=6&amp;spm_id_from=pageDriver&amp;vd_source=7d0b8be6716aca670df8e800cab6d54c">04-认识微服务-SpringCloud_哔哩哔哩_bilibili</a></p>
-<h1 id="1认识微服务"><a class="markdownIt-Anchor" href="#1认识微服务"></a> 1.认识微服务</h1>
-<p>随着互联网行业的发展，对服务的要求也越来越高，服务架构也从单体架构逐渐演变为现在流行的微服务架构。这些架构之间有怎样的差别呢？</p>
-<p>通过整体式架构，所有进程紧密耦合，并可作为单项服务运行。这意味着，如果应用程序的一个进程遇到需求峰值，则必须扩展整个架构。随着代码库的增长，添加或改进整体式应用程序的功能变得更加复杂。这种复杂性限制了试验的可行性，并使实施新概念变得困难。整体式架构增加了应用程序可用性的风险，因为许多依赖且紧密耦合的进程会扩大单个进程故障的影响。</p>
-<p>使用微服务架构，将应用程序构建为独立的组件，并将每个应用程序进程作为一项服务运行。这些服务使用轻量级 API 通过明确定义的接口进行通信。这些服务是围绕业务功能构建的，每项服务执行一项功能。由于它们是独立运行的，因此可以针对各项服务进行更新、部署和扩展，以满足对应用程序特定功能的需求。</p> 
-      <a class="article-more-link" href="/2022/11/17/springcloud/SpringCloud01/"
-        >more...</a
-      >
-       
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring/" rel="tag">Spring</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mybatis/" rel="tag">mybatis</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%88/" rel="tag">栈</a></li></ul>
 
     </footer>
   </div>
