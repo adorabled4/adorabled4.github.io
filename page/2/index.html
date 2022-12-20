@@ -120,6 +120,225 @@
     
     
     <article
+  id="post-springcloud/Springcloud07-elasticsearch-03"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/11/29/springcloud/Springcloud07-elasticsearch-03/"
+    >07-elasticsearch入门(3)--数据聚合[springcloud]</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/11/29/springcloud/Springcloud07-elasticsearch-03/" class="article-date">
+  <time datetime="2022-11-29T03:36:18.000Z" itemprop="datePublished">2022-11-29</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/springcloud/">springcloud</a> / <a class="article-category-link" href="/categories/springcloud/springcloud/">springcloud</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">6.9k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">29 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="1数据聚合"><a class="markdownIt-Anchor" href="#1数据聚合"></a> 1.数据聚合</h1>
+<p>**<a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations.html">聚合（</a><a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations.html">aggregations</a><a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations.html">）</a>**可以让我们极其方便的实现对数据的统计、分析、运算。例如：</p>
+<ul>
+<li>什么品牌的手机最受欢迎？</li>
+<li>这些手机的平均价格、最高价格、最低价格？</li>
+<li>这些手机每月的销售情况如何？</li>
+</ul>
+<p>实现这些统计功能的比数据库的sql要方便的多，而且查询速度非常快，可以实现近实时搜索效果。</p>
+<h2 id="11聚合的种类"><a class="markdownIt-Anchor" href="#11聚合的种类"></a> 1.1.聚合的种类</h2>
+<p>聚合常见的有三类：</p>
+<ul>
+<li>
+<p>**桶（Bucket）**聚合：用来对文档做分组</p>
+<ul>
+<li>TermAggregation：按照文档字段值分组，例如按照品牌值分组、按照国家分组</li>
+<li>Date Histogram：按照日期阶梯分组，例如一周为一组，或者一月为一组</li>
+</ul>
+</li>
+<li>
+<p>**度量（Metric）**聚合：用以计算一些值，比如：最大值、最小值、平均值等</p>
+<ul>
+<li>Avg：求平均值</li>
+<li>Max：求最大值</li>
+<li>Min：求最小值</li>
+<li>Stats：同时求max、min、avg、sum等</li>
+</ul>
+</li>
+<li>
+<p>**管道（pipeline）**聚合：其它聚合的结果为基础做聚合</p>
+</li>
+</ul>
+<blockquote>
+<p>**注意：**参加聚合的字段必须是keyword、日期、数值、布尔类型</p>
+</blockquote> 
+      <a class="article-more-link" href="/2022/11/29/springcloud/Springcloud07-elasticsearch-03/"
+        >more...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/elasticsearch/" rel="tag">elasticsearch</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/rabbitmq/" rel="tag">rabbitmq</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/springcloud/" rel="tag">springcloud</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" rel="tag">微服务</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%98%9F%E5%88%97/" rel="tag">队列</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+    
+</article>
+
+    
+    <article
+  id="post-Linux/Linux目录结构&amp;vim"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/11/28/Linux/Linux%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84&vim/"
+    >(2)Linux目录结构&amp;&amp;vim[Linux]</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/11/28/Linux/Linux%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84&vim/" class="article-date">
+  <time datetime="2022-11-28T08:38:31.000Z" itemprop="datePublished">2022-11-28</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Linux/">Linux</a> / <a class="article-category-link" href="/categories/Linux/Linux/">Linux</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">1.2k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">4 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="二-linux目录结构️"><a class="markdownIt-Anchor" href="#二-linux目录结构️"></a> 二、Linux目录结构⭐️</h1>
+<h2 id="21基本介绍"><a class="markdownIt-Anchor" href="#21基本介绍"></a> 2.1基本介绍</h2>
+<blockquote>
+<p>深刻理解linux树状文件目录是非常重要</p>
+</blockquote>
+<ul>
+<li>linux的文件系统是采用级层式的树状目录结构，在此结构上的最上层是根目录“/&quot;，然后在此目录下在创建其他的目录。</li>
+<li>记住一句很经典的话：<mark>在LInux世界里，一切皆文件</mark></li>
+</ul>
+<h2 id="22具体的目录结构"><a class="markdownIt-Anchor" href="#22具体的目录结构"></a> 2.2具体的目录结构</h2>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20221127204919086.png" alt="" /></p>
+<ul>
+<li>
+<p>/bin 【常用】（/usr/bin、/uer/local/bin)</p>
+<p>是Binary的缩写，这个目录存放着最<strong>常使用的命令</strong></p>
+</li>
+<li>
+<p>/sbin （/usr/sbin、/usr/local/sbin）</p>
+<p>s就是Super user的意思，这里存放的是<mark>系统管理员使用的系统管理程序</mark></p>
+</li>
+<li>
+<p>/home 【常用】</p>
+<p>存放普通用户的主目录，在Linux中每个用户都有一个自己的目录，一般该目录是以用户的账号命名</p>
+</li>
+<li>
+<p>/root 【常用】</p>
+<p>该目录为系统管理员，也称作超级权限者的用户主目录</p>
+</li>
+<li>
+<p>/lib <strong>系统开机所需要的最基本的动态链接共享库</strong>，起作用类似于Windows里的DLL文件。几乎所有的应用程序都需要用到这些共享库</p>
+<blockquote>
+<p>删了可就能开不了机</p>
+</blockquote>
+</li>
+</ul> 
+      <a class="article-more-link" href="/2022/11/28/Linux/Linux%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84&vim/"
+        >more...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%91/" rel="tag">树</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+    
+</article>
+
+    
+    <article
   id="post-springcloud/Springcloud06-elasticsearch-02"
   class="article article-type-post"
   itemscope
@@ -862,167 +1081,6 @@ P142-P153 面试题</p>
     <footer class="article-footer">
        
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javaweb/" rel="tag">javaweb</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nacos/" rel="tag">nacos</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/rabbitmq/" rel="tag">rabbitmq</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/springboot/" rel="tag">springboot</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/springcloud/" rel="tag">springcloud</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" rel="tag">微服务</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li></ul>
-
-    </footer>
-  </div>
-
-    
- 
-    
-</article>
-
-    
-    <article
-  id="post-springcloud/SpringCloud02"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2022/11/24/springcloud/SpringCloud02/"
-    >02:Nacos配置管理&amp;Feign远程调用&amp;Gateway服务网关[springcloud]</a> 
-</h2>
- 
-
-      
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2022/11/24/springcloud/SpringCloud02/" class="article-date">
-  <time datetime="2022-11-24T13:42:40.540Z" itemprop="datePublished">2022-11-24</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/springcloud/">springcloud</a> / <a class="article-category-link" href="/categories/springcloud/springcloud/">springcloud</a>
-  </div>
-  
-<div class="word_count">
-    <span class="post-time">
-        <span class="post-meta-item-icon">
-            <i class="ri-quill-pen-line"></i>
-            <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">6.2k</span>
-        </span>
-    </span>
-
-    <span class="post-time">
-        &nbsp; | &nbsp;
-        <span class="post-meta-item-icon">
-            <i class="ri-book-open-line"></i>
-            <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">25 分钟</span>
-        </span>
-    </span>
-</div>
- 
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <h1 id="1nacos配置管理"><a class="markdownIt-Anchor" href="#1nacos配置管理"></a> 1.Nacos配置管理</h1>
-<p>Nacos除了可以做注册中心，同样可以做配置管理来使用。</p>
-<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1LQ4y127n4/?p=25&amp;spm_id_from=333.880.my_history.page.click&amp;vd_source=7d0b8be6716aca670df8e800cab6d54c">Nacos配置管理-Nacos实现配置管理</a></p>
-<h2 id="11统一配置管理"><a class="markdownIt-Anchor" href="#11统一配置管理"></a> 1.1.统一配置管理</h2>
-<p>当微服务部署的实例越来越多，达到数十、数百时，逐个修改微服务配置就会让人抓狂，而且很容易出错。我们需要一种统一配置管理方案，可以集中管理所有实例的配置。</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20210714164426792.png" alt="" /></p>
-<p>Nacos一方面可以将配置集中管理，另一方可以在配置变更时，及时通知微服务，实现配置的热更新。</p> 
-      <a class="article-more-link" href="/2022/11/24/springcloud/SpringCloud02/"
-        >more...</a
-      >
-       
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mybatis/" rel="tag">mybatis</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nacos/" rel="tag">nacos</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/springboot/" rel="tag">springboot</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/springcloud/" rel="tag">springcloud</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/springmvc/" rel="tag">springmvc</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" rel="tag">微服务</a></li></ul>
-
-    </footer>
-  </div>
-
-    
- 
-    
-</article>
-
-    
-    <article
-  id="post-springcloud/单机搭建Nacos集群"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2022/11/24/springcloud/%E5%8D%95%E6%9C%BA%E6%90%AD%E5%BB%BANacos%E9%9B%86%E7%BE%A4/"
-    >单机搭建Nacos集群</a> 
-</h2>
- 
-
-      
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2022/11/24/springcloud/%E5%8D%95%E6%9C%BA%E6%90%AD%E5%BB%BANacos%E9%9B%86%E7%BE%A4/" class="article-date">
-  <time datetime="2022-11-24T06:31:20.156Z" itemprop="datePublished">2022-11-24</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/springcloud/">springcloud</a> / <a class="article-category-link" href="/categories/springcloud/springcloud/">springcloud</a>
-  </div>
-  
-<div class="word_count">
-    <span class="post-time">
-        <span class="post-meta-item-icon">
-            <i class="ri-quill-pen-line"></i>
-            <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">2.2k</span>
-        </span>
-    </span>
-
-    <span class="post-time">
-        &nbsp; | &nbsp;
-        <span class="post-meta-item-icon">
-            <i class="ri-book-open-line"></i>
-            <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">11 分钟</span>
-        </span>
-    </span>
-</div>
- 
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <h1 id="1集群结构图"><a class="markdownIt-Anchor" href="#1集群结构图"></a> 1.集群结构图</h1>
-<p>官方给出的Nacos集群图：</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1082/image-20210409210621117.png" alt="" /></p>
-<p>其中包含3个nacos节点，然后一个负载均衡器代理3个Nacos。这里负载均衡器可以使用nginx。</p> 
-      <a class="article-more-link" href="/2022/11/24/springcloud/%E5%8D%95%E6%9C%BA%E6%90%AD%E5%BB%BANacos%E9%9B%86%E7%BE%A4/"
-        >more...</a
-      >
-       
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nacos/" rel="tag">nacos</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/springcloud/" rel="tag">springcloud</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li></ul>
 
     </footer>
   </div>
